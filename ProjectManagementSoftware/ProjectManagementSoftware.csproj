@@ -10,8 +10,11 @@
 
     <ItemGroup>
       <Folder Include="Model\" />
+      <Folder Include="Resources\Fonts\" />
+      <Folder Include="Resources\Images\" />
       <Folder Include="ViewModel\" />
-      <Folder Include="View\UserControls\" />
+      <Folder Include="Resources\UserControls\" />
+      <Folder Include="View\" />
     </ItemGroup>
 
 </Project>
