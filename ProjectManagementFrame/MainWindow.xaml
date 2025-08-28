@@ -6,23 +6,21 @@
         xmlns:local="clr-namespace:ProjectManagementFrame"
         xmlns:lvc="clr-namespace:LiveChartsCore.SkiaSharpView.WPF;assembly=LiveChartsCore.SkiaSharpView.WPF"
         xmlns:Menu="clr-namespace:Page_Navigation_App.Utilities"
-        xmlns:uc="clr-namespace:ProjectManagementFrame.View.UserControls"
+        xmlns:view="clr-namespace:ProjectManagementFrame.View"
         xmlns:vm="clr-namespace:ProjectManagementFrame.ViewModel"
-        xmlns:slc="clr-namespace:ScrollControlProject;assembly=ScrollControlProject"
+        x:Name="MainView"
         mc:Ignorable="d"
-        d:DataContext="{d:DesignInstance Type=vm:MainVM}"
         Title="MainWindow" 
         Height="700" 
         Width="1300">
     <Window.DataContext>
         <vm:MainVM/>
     </Window.DataContext>
+    
     <Grid Background="#f5f5f5">
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="48"/>
-                <ColumnDefinition Width="147"/>
-                <ColumnDefinition Width="147"/>
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
 
@@ -40,7 +38,8 @@
                         <Border>
                             <Button Style="{StaticResource RoundedButtonStyle}"
                                     Background="Transparent"
-                                    BorderThickness="0.5 0.5 0.5 0">
+                                    BorderThickness="0.5 0.5 0.5 0"
+                                    Command="{Binding ConnectCommand}">
                                 <Button.Content>
                                     <Ellipse Height="30"
                                              Width="30">
@@ -98,160 +97,22 @@
                                     </Grid>
                                 </Menu:Btn>
 
+                                <Menu:Btn Style="{StaticResource BtnStyle}">
+                                    <Grid>
+                                        <Image Source="/Resources/Images/设置.png" 
+                                               Width="25"/>
 
+                                    </Grid>
+                                </Menu:Btn>
                             </StackPanel>
                         </Border>
-
-
-
                     </Grid>
                 </Border>
             </Grid>
 
             <Grid Grid.Column="1">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="99"/>
-                    <RowDefinition/>
-                    <RowDefinition Height="21"/>
-                </Grid.RowDefinitions>
-
-                <Grid Grid.Row="1">
-                    <Grid.RowDefinitions>
-                        <RowDefinition/>
-                        <RowDefinition/>
-                        <RowDefinition/>
-                        <RowDefinition/>
-                        <RowDefinition/>
-                    </Grid.RowDefinitions>
-
-                    <Grid>
-                        <Button Style="{StaticResource HeadPortrait}"
-        Click="Button_Click"/>
-                    </Grid>
-
-                    <Grid Grid.Row="1">
-                        <Button Style="{StaticResource HeadPortrait}"
-        Click="Button_Click"/>
-                    </Grid>
-
-                    <Grid Grid.Row="2">
-                        <Button Style="{StaticResource HeadPortrait}"
-        Click="Button_Click"/>
-                    </Grid>
-
-                    <Grid Grid.Row="3">
-                        <Button Style="{StaticResource HeadPortrait}"
-        Click="Button_Click"/>
-                    </Grid>
-
-                    <Grid Grid.Row="4">
-                        <Button Style="{StaticResource HeadPortrait}"
-        Click="Button_Click"/>
-                    </Grid>
-                </Grid>
+                <view:Overview/>
             </Grid>
-
-            <Border Grid.Column="2"
-                    BorderBrush="#707070"
-                    BorderThickness="0 0 1 0">
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="99"/>
-                        <RowDefinition/>
-                        <RowDefinition Height="21"/>
-                    </Grid.RowDefinitions>
-
-                    <Grid Grid.Row="1">
-                        <Grid.RowDefinitions>
-                            <RowDefinition/>
-                            <RowDefinition/>
-                            <RowDefinition/>
-                            <RowDefinition/>
-                            <RowDefinition/>
-                        </Grid.RowDefinitions>
-
-                        <Grid>
-                            <Button Style="{StaticResource HeadPortrait}"
-                                    Click="Button_Click"/>
-                        </Grid>
-
-                        <Grid Grid.Row="1">
-                            <Button Style="{StaticResource HeadPortrait}"
-                                    Click="Button_Click"/>
-                        </Grid>
-
-                        <Grid Grid.Row="2">
-                            <Button Style="{StaticResource HeadPortrait}"
-                                    Click="Button_Click"/>
-                        </Grid>
-
-                        <Grid Grid.Row="3">
-                            <Button Style="{StaticResource HeadPortrait}"
-                                    Click="Button_Click"/>
-                        </Grid>
-
-                        <Grid Grid.Row="4">
-                            <Button Style="{StaticResource HeadPortrait}"
-                                    Click="Button_Click"/>
-                        </Grid>
-                    </Grid>
-                </Grid>
-            </Border>
-            
-
-            <Grid Grid.Column="3">
-                <Grid.RowDefinitions>
-                    <RowDefinition/>
-                    <RowDefinition/>
-                </Grid.RowDefinitions>
-
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition/>
-                        <ColumnDefinition/>
-                    </Grid.ColumnDefinitions>
-
-                    <Grid>
-                        <StackPanel>
-                            <Label Content="总项目"
-                                   Height="40"
-                                   FontFamily="幼圆"
-                                   HorizontalContentAlignment="Center"
-                                   FontSize="25"
-                                   Margin="0 5 0 0"
-                                   FontWeight="Bold"/>
-                            <uc:PieChart Height="300">
-                                <uc:PieChart.DataContext>
-                                    <vm:AllProjects/>
-                                </uc:PieChart.DataContext>
-                            </uc:PieChart>
-                        </StackPanel>
-                    </Grid>
-
-                    <Grid Grid.Column="1">
-                        <StackPanel>
-                            <Label Content="{Binding CurrentYear ,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
-                                   Height="40"
-                                   FontFamily="幼圆"
-                                   HorizontalContentAlignment="Center"
-                                   FontSize="25"
-                                   Margin="0 5 0 0"
-                                   FontWeight="Bold"/>
-                            <uc:PieChart Height="300">
-                                <uc:PieChart.DataContext>
-                                    <vm:AllProjects/>
-                                </uc:PieChart.DataContext>
-                            </uc:PieChart>
-                        </StackPanel>
-                    </Grid>
-                </Grid>
-
-                <Grid Grid.Row="1">
-                    <slc:SeamlessLoopingScroll />
-                </Grid>
-            </Grid>
-
-
         </Grid>
     </Grid>
 </Window>

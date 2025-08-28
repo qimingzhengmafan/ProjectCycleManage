@@ -5,20 +5,30 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Input;
 
 namespace ProjectManagementFrame.ViewModel
 {
     public class MainVM:ViewModelBase
     {
-        private string _currentyear = "2025";
-        public string CurrentYear
+        public ICommand ConnectCommand { get; set; }
+        private OverviewVM _overview = new OverviewVM();
+        public OverviewVM OverviewVMInfor
         {
-            get => _currentyear;
-            set
-            {
-                _currentyear = value;
-                OnPropertyChanged();
-            }
+            get => _overview; 
+            set => _overview = value;
+        }
+
+        public MainVM()
+        {
+            ConnectCommand = new RelayCommand(ConnectIcommand);
+        }
+
+
+
+        private void ConnectIcommand(object obj)
+        {
+            MessageBox.Show("Connected");
         }
     }
 }
