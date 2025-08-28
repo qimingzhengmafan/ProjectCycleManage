@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.14.36408.4
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProjectManagementSoftware", "ProjectManagementSoftware\ProjectManagementSoftware.csproj", "{5BF11BFB-B87E-4B7E-9B30-8CC802AFCF83}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MiniExcelTest", "MiniExcelTest\MiniExcelTest.csproj", "{B72C03FA-E590-4515-A527-78B92F817725}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Console_Miniexceltest", "Console_Miniexceltest\Console_Miniexceltest.csproj", "{57778A22-8FF1-45B9-BEDC-B8E9E53E19C7}"
@@ -13,16 +11,16 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FramewarkTest", "FramewarkT
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProjectManagementSoftwareFrame", "ProjectManagementSoftwareFrame\ProjectManagementSoftwareFrame.csproj", "{A8770BFB-910A-469E-9797-C344BC7A7F87}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProjectManagementFrame", "ProjectManagementFrame\ProjectManagementFrame.csproj", "{27CB6248-87F2-4E8F-A633-13C7C35A5E4D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScrollControlProject", "ScrollControlProject\ScrollControlProject.csproj", "{D8BBD67F-B6D5-4E28-B413-32A584BC9686}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{5BF11BFB-B87E-4B7E-9B30-8CC802AFCF83}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{5BF11BFB-B87E-4B7E-9B30-8CC802AFCF83}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{5BF11BFB-B87E-4B7E-9B30-8CC802AFCF83}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{5BF11BFB-B87E-4B7E-9B30-8CC802AFCF83}.Release|Any CPU.Build.0 = Release|Any CPU
 		{B72C03FA-E590-4515-A527-78B92F817725}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{B72C03FA-E590-4515-A527-78B92F817725}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B72C03FA-E590-4515-A527-78B92F817725}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -39,6 +37,14 @@ Global
 		{A8770BFB-910A-469E-9797-C344BC7A7F87}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A8770BFB-910A-469E-9797-C344BC7A7F87}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A8770BFB-910A-469E-9797-C344BC7A7F87}.Release|Any CPU.Build.0 = Release|Any CPU
+		{27CB6248-87F2-4E8F-A633-13C7C35A5E4D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{27CB6248-87F2-4E8F-A633-13C7C35A5E4D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{27CB6248-87F2-4E8F-A633-13C7C35A5E4D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{27CB6248-87F2-4E8F-A633-13C7C35A5E4D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D8BBD67F-B6D5-4E28-B413-32A584BC9686}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D8BBD67F-B6D5-4E28-B413-32A584BC9686}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D8BBD67F-B6D5-4E28-B413-32A584BC9686}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D8BBD67F-B6D5-4E28-B413-32A584BC9686}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

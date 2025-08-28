@@ -5,7 +5,11 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ProjectManagementSoftwareFrame"
         mc:Ignorable="d"
-        Title="MainWindow" Height="700" Width="1300">
+        Title="MainWindow" 
+        x:Name="mainwindowdata"
+        Height="700"
+        Width="1300"
+        Loaded="Window_Loaded">
     <Grid>
         <Grid>
             <Grid.RowDefinitions>
@@ -29,22 +33,37 @@
                 </Grid.ColumnDefinitions>
 
                 <Button Margin="30 10 30 10"
-                        Content="连接数据库"/>
+                        Content="连接数据库"
+                        Click="Connect_Click"/>
+
+                <Button Margin="30 10 30 10"
+                        Grid.Column="1"
+                        Content="断开数据库"
+                        Click="DisConnect_Click"/>
 
                 <Button Grid.Column="0"
                         Grid.Row="1"
                         Margin="30 10 30 10"
-                        Content="查询所有"/>
+                        Content="查询所有"
+                        Click="SelectAll_Click"/>
 
-                <Button Grid.Column="0"
+                <Button Grid.Column="2"
                         Margin="30 10 30 10"
-                        Grid.Row="2"
-                        Content="查询2022"/>
+                        Grid.Row="0"
+                        Content="查询2022"
+                        Click="Select2022"/>
 
                 <Button Grid.Column="1"
                         Grid.Row="1"
                         Margin="30 10 30 10"
-                        Content="导入数据"/>
+                        Content="导入数据"
+                        Click="test"/>
+
+                <Button Grid.Column="2"
+                        Grid.Row="1"
+                        Margin="30 10 30 10"
+                        Content="董工"
+                        Click="SelectDong"/>
 
                 <TextBlock Grid.Row="2"
                            Margin="30 10 30 10"
@@ -55,38 +74,15 @@
 
 
             <Grid Grid.Row="1">
-                <DataGrid x:Name="dataGrid" 
-                  AutoGenerateColumns="False"
-                  CanUserAddRows="False"
-                  Margin="10">
+                <DataGrid x:Name="dataGrid"
+                          ItemsSource = "{Binding Projectdata,ElementName=mainwindowdata,Mode=OneWay,UpdateSourceTrigger=PropertyChanged}"
+                          AutoGenerateColumns="False"
+                          CanUserAddRows="False"
+                          Margin="10">
                     <DataGrid.Columns>
-                        <!-- 文本列 -->
-                        <DataGridTextColumn Header="姓名" Binding="{Binding Name}" Width="*"/>
-
-                        <!-- 数字列 -->
-                        <DataGridTextColumn Header="年龄" Binding="{Binding Age}" Width="80"/>
-
-                        <!-- 复选框列 -->
-                        <DataGridCheckBoxColumn Header="已婚" Binding="{Binding IsMarried}" Width="80"/>
-
-                        <!-- 组合框列 -->
-                        <DataGridComboBoxColumn Header="部门" 
-                                      SelectedItemBinding="{Binding Department}"
-                                      Width="120"/>
-
-                        <!-- 模板列 -->
-                        <DataGridTemplateColumn Header="入职日期" Width="120">
-                            <DataGridTemplateColumn.CellTemplate>
-                                <DataTemplate>
-                                    <TextBlock Text="{Binding HireDate, StringFormat=yyyy-MM-dd}"/>
-                                </DataTemplate>
-                            </DataGridTemplateColumn.CellTemplate>
-                            <DataGridTemplateColumn.CellEditingTemplate>
-                                <DataTemplate>
-                                    <DatePicker SelectedDate="{Binding HireDate}"/>
-                                </DataTemplate>
-                            </DataGridTemplateColumn.CellEditingTemplate>
-                        </DataGridTemplateColumn>
+                        <DataGridTextColumn Header="name" Width="100" Binding="{Binding ProjectSorted,Mode=OneWay,UpdateSourceTrigger=PropertyChanged}"/>
+                        <DataGridTextColumn Header="departemt" Width="100" Binding="{Binding ProjectYear}"/>
+                        <DataGridTextColumn Header="age" Width="100" Binding="{Binding ProjectName}"/>
                     </DataGrid.Columns>
                 </DataGrid>
             </Grid>
