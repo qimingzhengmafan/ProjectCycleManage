@@ -12,6 +12,7 @@ namespace ProjectManagementFrame.ViewModel
     public class MainVM:ViewModelBase
     {
         public ICommand ConnectCommand { get; set; }
+
         private OverviewVM _overview = new OverviewVM();
         public OverviewVM OverviewVMInfor
         {

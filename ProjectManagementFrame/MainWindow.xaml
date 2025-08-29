@@ -75,7 +75,7 @@
 
                                 <Menu:Btn Style="{StaticResource BtnStyle}">
                                     <Grid>
-                                        <Image Source="/Resources/Images/表格 (1).png" 
+                                        <Image Source="/Resources/Images/修改.png" 
                                                Width="25"/>
 
                                     </Grid>
@@ -91,7 +91,7 @@
 
                                 <Menu:Btn Style="{StaticResource BtnStyle}">
                                     <Grid>
-                                        <Image Source="/Resources/Images/修改.png" 
+                                        <Image Source="/Resources/Images/表格 (1).png" 
                                                Width="25"/>
 
                                     </Grid>
@@ -110,8 +110,8 @@
                 </Border>
             </Grid>
 
-            <Grid Grid.Column="1">
-                <view:Overview/>
+            <Grid Grid.Column="1" >
+                <view:Overview DataContext="{Binding OverviewVMInfor}"/>
             </Grid>
         </Grid>
     </Grid>

@@ -8,11 +8,10 @@
              xmlns:vm="clr-namespace:ProjectManagementFrame.ViewModel"
              xmlns:slc="clr-namespace:ScrollControlProject;assembly=ScrollControlProject"
              mc:Ignorable="d" 
-             d:DesignHeight="700" d:DesignWidth="1252">
+             d:DataContext="{d:DesignInstance Type=vm:OverviewVM}"
+             d:DesignHeight="700"
+             d:DesignWidth="1252">
 
-    <!--<UserControl.DataContext>
-        <vm:OverviewVM/>
-    </UserControl.DataContext>-->
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="147"/>
@@ -37,7 +36,8 @@
                 </Grid.RowDefinitions>
 
                 <Grid>
-                    <Button Style="{StaticResource HeadPortrait}"/>
+                    <Button Style="{StaticResource HeadPortrait}"
+                            Command="{Binding First}"/>
                 </Grid>
 
                 <Grid Grid.Row="1">
@@ -122,11 +122,11 @@
                                    FontSize="25"
                                    Margin="0 5 0 0"
                                    FontWeight="Bold"/>
-                        <!--<uc:PieChart Height="300">
+                        <uc:PieChart Height="300">
                             <uc:PieChart.DataContext>
                                 <vm:AllProjects/>
                             </uc:PieChart.DataContext>
-                        </uc:PieChart>-->
+                        </uc:PieChart>
 
                     </StackPanel>
                 </Grid>
@@ -140,11 +140,11 @@
                                    FontSize="25"
                                    Margin="0 5 0 0"
                                    FontWeight="Bold"/>
-                        <!--<uc:PieChart Height="300">
+                        <uc:PieChart Height="300">
                             <uc:PieChart.DataContext>
                                 <vm:AllProjects/>
                             </uc:PieChart.DataContext>
-                        </uc:PieChart>-->
+                        </uc:PieChart>
                     </StackPanel>
                 </Grid>
             </Grid>

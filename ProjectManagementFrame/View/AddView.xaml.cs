@@ -13,14 +13,14 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace ProjectManagementFrame
+namespace ProjectManagementFrame.View
 {
     /// <summary>
-    /// MainWindow.xaml 的交互逻辑
+    /// AddView.xaml 的交互逻辑
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class AddView : UserControl
     {
-        public MainWindow()
+        public AddView()
         {
             InitializeComponent();
         }
