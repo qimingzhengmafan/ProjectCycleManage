@@ -8,7 +8,9 @@
              mc:Ignorable="d" 
              d:DesignHeight="400" 
              d:DesignWidth="400">
-    <lvc:PieChart
-        Series="{Binding Series}">
+    <lvc:PieChart Series="{Binding Series}"
+                  LegendPosition="Right"
+                  LegendTextPaint="{Binding LegendTextPaint}"
+                  TooltipTextPaint="{Binding TipTextPaint}">
     </lvc:PieChart>
 </UserControl>

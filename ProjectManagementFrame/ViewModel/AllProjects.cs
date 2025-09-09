@@ -1,8 +1,11 @@
-﻿using LiveChartsCore;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using LiveChartsCore;
 using LiveChartsCore.SkiaSharpView;
 using LiveChartsCore.SkiaSharpView.Extensions;
 using LiveChartsCore.SkiaSharpView.Painting;
+using LiveChartsCore.Drawing;
 using LiveChartsCore.SkiaSharpView.VisualElements;
+using Page_Navigation_App.Utilities;
 using SkiaSharp;
 using System;
 using System.Collections.Generic;
@@ -12,20 +15,19 @@ using System.Threading.Tasks;
 
 namespace ProjectManagementFrame.ViewModel
 {
-    public class AllProjects
+    public class AllProjects:ViewModelBase
     {
-        // you can convert any array, list or IEnumerable<T> to a pie series collection:
-        public IEnumerable<ISeries> Series { get; set; } =
-            new[] { 2, 4, 1, 4, 3 }.AsPieSeries();
 
-        public IEnumerable<ISeries> Series2 { get; set; } = new List<ISeries>
+        private IEnumerable<ISeries> _series;
+        public IEnumerable<ISeries> Series
         {
-            new PieSeries<int> { Values = new List<int> { 2 } },
-            new PieSeries<int> { Values = new List<int> { 4 } },
-            new PieSeries<int> { Values = new List<int> { 1 } },
-            new PieSeries<int> { Values = new List<int> { 4 } },
-            new PieSeries<int> { Values = new List<int> { 3 } },
-        };
+            get => _series;
+            set
+            {
+                _series = value;
+                OnPropertyChanged();
+            }
+        }
 
         public LabelVisual Title { get; set; } =
             new LabelVisual
@@ -34,5 +36,40 @@ namespace ProjectManagementFrame.ViewModel
                 TextSize = 25,
                 Padding = new LiveChartsCore.Drawing.Padding(15)
             };
+
+
+        public AllProjects()
+        {
+            SolidColorPaint TextPaint = new SolidColorPaint()
+            {
+                Color = SKColors.DarkSlateGray,
+                SKTypeface = SKFontManager.Default.MatchCharacter('汉')
+            };
+
+            SolidColorPaint TextPaint2 = new SolidColorPaint()
+            {
+                Color = SKColors.DarkSlateGray,
+                SKTypeface = SKFontManager.Default.MatchCharacter('汉')
+            };
+
+        }
+
+        public SolidColorPaint LegendTextPaint { get; set; } =
+            new SolidColorPaint
+            {
+                Color = new SKColor(25, 26, 27),
+                SKTypeface = SKFontManager.Default.MatchCharacter('汉')
+            };
+
+        /// <summary>
+        /// 提示文本样式
+        /// </summary>
+        public SolidColorPaint TipTextPaint { get; set; }
+         = new SolidColorPaint()
+         {
+             Color = SKColors.DarkSlateGray,
+             SKTypeface = SKFontManager.Default.MatchCharacter('汉')
+         };
+
     }
 }

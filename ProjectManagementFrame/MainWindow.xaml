@@ -9,7 +9,6 @@
         xmlns:view="clr-namespace:ProjectManagementFrame.View"
         xmlns:vm="clr-namespace:ProjectManagementFrame.ViewModel"
         x:Name="MainView"
-        mc:Ignorable="d"
         Title="MainWindow" 
         Height="700" 
         Width="1300">
@@ -34,7 +33,7 @@
                             <RowDefinition Height="59"/>
                             <RowDefinition Height="59"/>-->
                         </Grid.RowDefinitions>
-
+ 
                         <Border>
                             <Button Style="{StaticResource RoundedButtonStyle}"
                                     Background="Transparent"
@@ -73,7 +72,8 @@
                                     </Grid>
                                 </Menu:Btn>
 
-                                <Menu:Btn Style="{StaticResource BtnStyle}">
+                                <Menu:Btn Style="{StaticResource BtnStyle}"
+                                          Command="{Binding SearchCommand}">
                                     <Grid>
                                         <Image Source="/Resources/Images/修改.png" 
                                                Width="25"/>

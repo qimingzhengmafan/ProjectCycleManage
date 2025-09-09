@@ -122,10 +122,12 @@
                                    FontSize="25"
                                    Margin="0 5 0 0"
                                    FontWeight="Bold"/>
-                        <uc:PieChart Height="300">
-                            <uc:PieChart.DataContext>
+                        <uc:PieChart Height="300"
+                                     
+                                     DataContext="{Binding AllProjectsInformation ,UpdateSourceTrigger=PropertyChanged}">
+                            <!--<uc:PieChart.DataContext>
                                 <vm:AllProjects/>
-                            </uc:PieChart.DataContext>
+                            </uc:PieChart.DataContext>-->
                         </uc:PieChart>
 
                     </StackPanel>
@@ -140,10 +142,8 @@
                                    FontSize="25"
                                    Margin="0 5 0 0"
                                    FontWeight="Bold"/>
-                        <uc:PieChart Height="300">
-                            <uc:PieChart.DataContext>
-                                <vm:AllProjects/>
-                            </uc:PieChart.DataContext>
+                        <uc:PieChart Height="300"
+                                     DataContext="{Binding ProjectStage,UpdateSourceTrigger=PropertyChanged}">
                         </uc:PieChart>
                     </StackPanel>
                 </Grid>

@@ -24,6 +24,19 @@ namespace ProjectManagementFrame.ViewModel
             }
         }
 
+        public AllProjects _allprojectsinformation = new AllProjects();
+        public AllProjects AllProjectsInformation
+        {
+            get => _allprojectsinformation;
+            set => _allprojectsinformation = value;
+        }
+
+        public AllProjects _projectstage = new AllProjects();
+        public AllProjects ProjectStage
+        {
+            get => _projectstage;
+            set => _projectstage = value;
+        }
         public OverviewVM()
         {
             First = new RelayCommand(FirstIcommand);
