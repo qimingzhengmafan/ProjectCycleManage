@@ -5,7 +5,9 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ScrollControlProject"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" 
+        Height="450" 
+        Width="1300">
     <Grid Margin="20">
         <!--<local:SeamlessLoopingScroll x:Name="scrollControl"
                                      Width="600"
@@ -13,7 +15,7 @@
                                   IsAutoScrollEnabled="True"/>-->
 
         <local:SeamlessLoopingScroll x:Name="scrollControl"
-                                     Width="600"
+                                     Width="900"
                                      Height="300"
                                      IsAutoScrollEnabled="True"/>
 
