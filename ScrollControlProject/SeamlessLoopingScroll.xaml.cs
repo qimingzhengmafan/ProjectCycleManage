@@ -175,9 +175,9 @@ namespace ScrollControlProject
             if (ItemsSource != null)
             {
                 foreach (var item in ItemsSource)
-            {
-                _projects.Add(item);
-            }
+                {
+                    _projects.Add(item);
+                }
             }
             else
             {
