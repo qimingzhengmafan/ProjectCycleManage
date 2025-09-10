@@ -8,11 +8,31 @@
              d:DesignHeight="300" d:DesignWidth="400">
     <UserControl.Resources>
         <!-- 数据项样式 -->
-        <Style x:Key="DataItemStyle" TargetType="TextBlock">
-            <Setter Property="FontSize" Value="14"/>
-            <Setter Property="Margin" Value="10,5"/>
-            <Setter Property="VerticalAlignment" Value="Center"/>
-        </Style>
+        <DataTemplate x:Key="ProjectItemTemplate">
+            <Grid Margin="10,5" Height="40">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="120"/>
+                    <ColumnDefinition Width="100"/>
+                </Grid.ColumnDefinitions>
+
+                <!-- 状态圆环 -->
+                <Ellipse Grid.Column="0" Width="16" Height="16" Stroke="{Binding StatusColor}" StrokeThickness="2"/>
+                
+                <!-- 项目名称 -->
+                <TextBlock Grid.Column="1" Text="{Binding ProjectName}" VerticalAlignment="Center" FontSize="14"/>
+                
+                <!-- 进度与资料 -->
+                <StackPanel Grid.Column="2" Orientation="Vertical">
+                    <ProgressBar Value="{Binding Progress}" Height="8" Margin="5,0"/>
+                    <TextBlock Text="{Binding Materials}" FontSize="12" Foreground="Gray"/>
+                </StackPanel>
+                
+                <!-- 负责人 -->
+                <TextBlock Grid.Column="3" Text="{Binding Owner}" VerticalAlignment="Center" HorizontalAlignment="Right"/>
+            </Grid>
+        </DataTemplate>
     </UserControl.Resources>
 
     <Grid>
@@ -41,9 +61,9 @@
                 <ScrollViewer x:Name="scroller" VerticalScrollBarVisibility="Hidden" 
                               HorizontalScrollBarVisibility="Disabled" 
                               IsHitTestVisible="False">
-                    <StackPanel x:Name="itemsPanel">
-                        <!-- 数据项将通过代码动态添加 -->
-                    </StackPanel>
+                    <ItemsControl x:Name="itemsControl" ItemTemplate="{StaticResource ProjectItemTemplate}">
+                        <!-- 应用数据模板 -->
+                    </ItemsControl>
                 </ScrollViewer>
             </Grid>
         </Border>

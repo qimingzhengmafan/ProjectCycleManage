@@ -58,7 +58,7 @@ namespace ProjectManagementFrame.ViewModel
                 series.DataLabelsPaint = new SolidColorPaint(new SKColor(30, 30, 30));
                 series.DataLabelsFormatter =
                    point =>
-                       $"{point.Coordinate.PrimaryValue} " +
+                       $"{point.Coordinate.PrimaryValue} " + "/ " +
                        $"{point.StackedValue.Total} ";
                 series.ToolTipLabelFormatter = point => $"{point.StackedValue.Share:P2}";
             });
@@ -80,7 +80,7 @@ namespace ProjectManagementFrame.ViewModel
                 series.DataLabelsPaint = new SolidColorPaint(new SKColor(30, 30, 30));
                 series.DataLabelsFormatter =
                    point =>
-                       $"{point.Coordinate.PrimaryValue} " +
+                       $"{point.Coordinate.PrimaryValue} " + "/ " +
                        $"{point.StackedValue.Total} ";
                 series.ToolTipLabelFormatter = point => $"{point.StackedValue.Share:P2}";
             });
