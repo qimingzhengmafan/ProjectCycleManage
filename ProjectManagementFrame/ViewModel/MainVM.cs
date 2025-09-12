@@ -101,7 +101,7 @@ namespace ProjectManagementFrame.ViewModel
         private void SearchIcommand(object obj)
         {
             int op = 0;
-            int i = DataPool.Search("SELECT COUNT(*) FROM `key_value3` WHERE 年份 = 2023;", op);
+            //int i = DataPool.Search("SELECT COUNT(*) FROM `key_value3` WHERE 年份 = 2023;", op);
         }
         #endregion
     }
