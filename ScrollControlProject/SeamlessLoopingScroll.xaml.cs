@@ -189,7 +189,7 @@ namespace ScrollControlProject
                         ProjectName = $"项目{i}：生产线优化",
                         Progress = new Random().Next(20, 100),
                         Materials = $"图纸{(i%3+1)} 规范{(i%3+1)}",
-                        Owner = $"负责人：{(char)(65 + i%5)}"
+                        Owner = $"{(char)(65 + i%5)}"
                     });
                 }
             }
