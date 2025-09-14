@@ -19,19 +19,118 @@ namespace ProjectManagementFrame.ViewModel
     {
         #region Command
         public ICommand ConnectCommand { get; set; }
-        public ICommand SearchCommand { get; set; }
+        //public ICommand SearchCommand { get; set; }
+
+        #region UIIcommand
+        public ICommand OverViewICommand { get; set; }
+        public ICommand AddViewICommand { get; set; }
+        public ICommand ChangeViewICommand { get; set; }
+        public ICommand SettingViewICommand { get; set; }
+        public ICommand TableViewICommand { get; set; }
+        #endregion
 
         #endregion
+
+        #region UIVisilibity
+        private Visibility _overviewvisibility = Visibility.Visible;
+        public Visibility OverViewVisibility
+        {
+            get => _overviewvisibility;
+            set
+            {
+                _overviewvisibility = value;
+                OnPropertyChanged();
+            }
+        }
+
+
+
+        private Visibility _addviewvisibility = Visibility.Collapsed;
+        public Visibility AddViewVisibility
+        {
+            get => _addviewvisibility;
+            set
+            {
+                _addviewvisibility = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private Visibility _changeviewvisibility = Visibility.Collapsed;
+        public Visibility ChangeViewVisibility
+        {
+            get => _changeviewvisibility;
+            set
+            {
+                _changeviewvisibility = value;
+                OnPropertyChanged();
+            }
+        }
+        private Visibility _settingviewvisibility = Visibility.Collapsed;
+        public Visibility SettingViewVisibility
+        {
+            get => _settingviewvisibility;
+            set
+            {
+                _settingviewvisibility = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private Visibility _tableviewvisibility = Visibility.Collapsed;
+        public Visibility TableViewVisibility
+        {
+            get => _tableviewvisibility;
+            set
+            {
+                _tableviewvisibility = value;
+                OnPropertyChanged();
+            }
+        }
+        #endregion
+
         private SQLSentence SQLSentence1 = new SQLSentence();
 
         private MySQLOperationClass DataPool = new MySQLOperationClass();
 
+        #region ViewInformation
         private OverviewVM _overview = new OverviewVM();
         public OverviewVM OverviewVMInfor
         {
-            get => _overview; 
+            get => _overview;
             set => _overview = value;
         }
+
+        private AddVM _addviewvm = new AddVM();
+        public AddVM AddViewVMInfor
+        {
+            get => _addviewvm;
+            set => _addviewvm = value;
+        }
+
+        private ChangeVM _changeviewvm = new ChangeVM();
+        public ChangeVM ChangeViewVMInfor
+        {
+            get => _changeviewvm;
+            set => _changeviewvm= value;
+        }
+
+        private SettingVM settingviewvm = new SettingVM();
+        public SettingVM SettingVMInfor
+        {
+            get => settingviewvm;
+            set => settingviewvm = value;
+        }
+
+        private TableVM tableviewvm = new TableVM();
+        public TableVM TableVMInfor
+        {
+            get => tableviewvm;
+            set => tableviewvm = value;
+        }
+
+        #endregion
+
 
         public MainVM()
         {
@@ -87,7 +186,12 @@ namespace ProjectManagementFrame.ViewModel
 
 
             ConnectCommand = new RelayCommand(ConnectIcommand);
-            SearchCommand = new RelayCommand(SearchIcommand);
+            OverViewICommand = new RelayCommand(OverViewICommandFun);
+            AddViewICommand = new RelayCommand(AddViewICommandFun);
+            ChangeViewICommand = new RelayCommand(ChangeViewICommandFun);
+            SettingViewICommand = new RelayCommand(SettingViewICommandFun);
+            TableViewICommand = new RelayCommand(TableViewICommandFun);
+
         }
 
         //ProjectInfor
@@ -98,11 +202,57 @@ namespace ProjectManagementFrame.ViewModel
             DataPool.Connect();
         }
 
-        private void SearchIcommand(object obj)
+        #region UIIcommandFun
+        private void OverViewICommandFun(object obj)
         {
-            int op = 0;
-            //int i = DataPool.Search("SELECT COUNT(*) FROM `key_value3` WHERE 年份 = 2023;", op);
+            OverViewVisibility = Visibility.Visible;
+
+            AddViewVisibility = Visibility.Collapsed;
+            ChangeViewVisibility = Visibility.Collapsed;
+            SettingViewVisibility = Visibility.Collapsed;
+            TableViewVisibility = Visibility.Collapsed;
         }
+
+        private void AddViewICommandFun(object obj)
+        {
+            AddViewVisibility = Visibility.Visible;
+
+            OverViewVisibility = Visibility.Collapsed;
+            ChangeViewVisibility = Visibility.Collapsed;
+            SettingViewVisibility = Visibility.Collapsed;
+            TableViewVisibility = Visibility.Collapsed;
+        }
+
+        private void ChangeViewICommandFun(object obj)
+        {
+            ChangeViewVisibility = Visibility.Visible;
+
+            SettingViewVisibility = Visibility.Collapsed;
+            TableViewVisibility = Visibility.Collapsed;
+            AddViewVisibility = Visibility.Collapsed;
+            OverViewVisibility = Visibility.Collapsed;
+        }
+
+        private void SettingViewICommandFun(object obj)
+        {
+            SettingViewVisibility = Visibility.Visible;
+
+            TableViewVisibility = Visibility.Collapsed;
+            AddViewVisibility = Visibility.Collapsed;
+            OverViewVisibility = Visibility.Collapsed;
+            ChangeViewVisibility = Visibility.Collapsed;
+        }
+
+        private void TableViewICommandFun(object obj)
+        {
+            TableViewVisibility = Visibility.Visible;
+
+            SettingViewVisibility = Visibility.Collapsed;
+            AddViewVisibility = Visibility.Collapsed;
+            OverViewVisibility = Visibility.Collapsed;
+            ChangeViewVisibility = Visibility.Collapsed;
+        }
+        #endregion
         #endregion
     }
 }

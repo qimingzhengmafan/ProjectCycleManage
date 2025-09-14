@@ -7,6 +7,7 @@
              xmlns:uc="clr-namespace:ProjectManagementFrame.View.UserControls"
              xmlns:vm="clr-namespace:ProjectManagementFrame.ViewModel"
              xmlns:slc="clr-namespace:ScrollControlProject;assembly=ScrollControlProject"
+             xmlns:view="clr-namespace:ProjectManagementFrame.View"
              mc:Ignorable="d" 
              d:DataContext="{d:DesignInstance Type=vm:OverviewVM}"
              d:DesignHeight="700"
@@ -19,12 +20,28 @@
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
 
+        <Grid Grid.Column="0"
+              Grid.ColumnSpan="2"
+              VerticalAlignment="Top"
+              Height="110"
+              HorizontalAlignment="Center">
+            <Button Style="{StaticResource HeadPortrait}"
+                    Command="{Binding}"
+                    Margin="0 10 0 0"
+                    VerticalAlignment="Top"/>
+            
+            <Label Content="工程设备部"
+                   HorizontalAlignment="Center"
+                   VerticalAlignment="Bottom"/>
+        </Grid>
+
         <Grid Grid.Column="0">
             <Grid.RowDefinitions>
                 <RowDefinition Height="99"/>
                 <RowDefinition/>
                 <RowDefinition Height="21"/>
             </Grid.RowDefinitions>
+
 
             <Grid Grid.Row="1">
                 <Grid.RowDefinitions>
@@ -37,23 +54,38 @@
 
                 <Grid>
                     <Button Style="{StaticResource HeadPortrait}"
-                            Command="{Binding First}"/>
+                            Command="{Binding}"/>
+                    <Label Content="朱成旭"
+                           HorizontalAlignment="Center"
+                           VerticalAlignment="Bottom"/>
                 </Grid>
 
                 <Grid Grid.Row="1">
                     <Button Style="{StaticResource HeadPortrait}"/>
+                    <Label Content="裴涛"
+                           HorizontalAlignment="Center"
+                           VerticalAlignment="Bottom"/>
                 </Grid>
 
                 <Grid Grid.Row="2">
                     <Button Style="{StaticResource HeadPortrait}"/>
+                    <Label Content="王嘉豪"
+                           HorizontalAlignment="Center"
+                           VerticalAlignment="Bottom"/>
                 </Grid>
 
                 <Grid Grid.Row="3">
                     <Button Style="{StaticResource HeadPortrait}"/>
+                    <Label Content="严鑫"
+                           HorizontalAlignment="Center"
+                           VerticalAlignment="Bottom"/>
                 </Grid>
 
                 <Grid Grid.Row="4">
                     <Button Style="{StaticResource HeadPortrait}"/>
+                    <Label Content=""
+                           HorizontalAlignment="Center"
+                           VerticalAlignment="Bottom"/>
                 </Grid>
             </Grid>
         </Grid>
@@ -79,79 +111,100 @@
 
                     <Grid>
                         <Button Style="{StaticResource HeadPortrait}"/>
+                        <Label Content="董鑫"
+                               HorizontalAlignment="Center"
+                               VerticalAlignment="Bottom"/>
                     </Grid>
 
                     <Grid Grid.Row="1">
                         <Button Style="{StaticResource HeadPortrait}"/>
+                        <Label Content="江琛"
+                               HorizontalAlignment="Center"
+                               VerticalAlignment="Bottom"/>
                     </Grid>
 
                     <Grid Grid.Row="2">
                         <Button Style="{StaticResource HeadPortrait}"/>
+                        <Label Content="张园园"
+                               HorizontalAlignment="Center"
+                               VerticalAlignment="Bottom"/>
                     </Grid>
 
                     <Grid Grid.Row="3">
                         <Button Style="{StaticResource HeadPortrait}"/>
+                        <Label Content=""
+                               HorizontalAlignment="Center"
+                               VerticalAlignment="Bottom"/>
                     </Grid>
 
                     <Grid Grid.Row="4">
                         <Button Style="{StaticResource HeadPortrait}"/>
+                        <Label Content=""
+                               HorizontalAlignment="Center"
+                               VerticalAlignment="Bottom"/>
                     </Grid>
                 </Grid>
             </Grid>
         </Border>
 
-
         <Grid Grid.Column="2">
-            <Grid.RowDefinitions>
-                <RowDefinition/>
-                <RowDefinition/>
-            </Grid.RowDefinitions>
-
             <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition/>
-                    <ColumnDefinition/>
-                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
 
                 <Grid>
-                    <StackPanel>
-                        <Label Content="总项目"
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+
+                    <Grid>
+                        <StackPanel>
+                            <Label Content="总项目"
                                    Height="40"
                                    FontFamily="幼圆"
                                    HorizontalContentAlignment="Center"
                                    FontSize="25"
                                    Margin="0 5 0 0"
                                    FontWeight="Bold"/>
-                        <uc:PieChart Height="300"
-                                     
-                                     DataContext="{Binding AllProjectsInformation ,UpdateSourceTrigger=PropertyChanged}">
-                            <!--<uc:PieChart.DataContext>
-                                <vm:AllProjects/>
-                            </uc:PieChart.DataContext>-->
-                        </uc:PieChart>
+                            <uc:PieChart Height="300"
+                                         DataContext="{Binding AllProjectsInformation ,UpdateSourceTrigger=PropertyChanged}">
+                                <!--<uc:PieChart.DataContext>
+                        <vm:AllProjects/>
+                    </uc:PieChart.DataContext>-->
+                            </uc:PieChart>
 
-                    </StackPanel>
+                        </StackPanel>
+                    </Grid>
+
+                    <Grid Grid.Column="1">
+                        <StackPanel>
+                            <Label Content="{Binding CurrentYear ,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                                   Height="40"
+                                   FontFamily="幼圆"
+                                   HorizontalContentAlignment="Center"
+                                   FontSize="25"
+                                   Margin="0 5 0 0"
+                                   FontWeight="Bold"/>
+                            <uc:PieChart Height="300"
+                                         DataContext="{Binding ProjectStage,UpdateSourceTrigger=PropertyChanged}">
+                            </uc:PieChart>
+                        </StackPanel>
+                    </Grid>
                 </Grid>
 
-                <Grid Grid.Column="1">
-                    <StackPanel>
-                        <Label Content="{Binding CurrentYear ,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
-                                   Height="40"
-                                   FontFamily="幼圆"
-                                   HorizontalContentAlignment="Center"
-                                   FontSize="25"
-                                   Margin="0 5 0 0"
-                                   FontWeight="Bold"/>
-                        <uc:PieChart Height="300"
-                                     DataContext="{Binding ProjectStage,UpdateSourceTrigger=PropertyChanged}">
-                        </uc:PieChart>
-                    </StackPanel>
+                <Grid Grid.Row="1">
+                    <slc:SeamlessLoopingScroll />
                 </Grid>
             </Grid>
 
-            <Grid Grid.Row="1">
-                <slc:SeamlessLoopingScroll />
+            <Grid>
+                <view:PersonalDataView/>
             </Grid>
         </Grid>
+
+        
     </Grid>
 </UserControl>

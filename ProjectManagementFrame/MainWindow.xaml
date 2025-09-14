@@ -64,7 +64,8 @@
                                 <Menu:Btn Style="{StaticResource BtnStyle}"
                                           IsChecked="True"
                                           BorderThickness="1"
-                                          BorderBrush="Black">
+                                          BorderBrush="Black"
+                                          Command="{Binding OverViewICommand}">
                                     <Grid>
                                         <Image Source="/Resources/Images/总览1.png" 
                                                Width="25"
@@ -73,7 +74,7 @@
                                 </Menu:Btn>
 
                                 <Menu:Btn Style="{StaticResource BtnStyle}"
-                                          Command="{Binding SearchCommand}">
+                                          Command="{Binding ChangeViewICommand}">
                                     <Grid>
                                         <Image Source="/Resources/Images/修改.png" 
                                                Width="25"/>
@@ -81,7 +82,8 @@
                                     </Grid>
                                 </Menu:Btn>
 
-                                <Menu:Btn Style="{StaticResource BtnStyle}">
+                                <Menu:Btn Style="{StaticResource BtnStyle}"
+                                          Command="{Binding AddViewICommand}">
                                     <Grid>
                                         <Image Source="/Resources/Images/新增项目_新增新建操作_jurassic.png"
                                                Width="25"/>
@@ -89,7 +91,8 @@
                                     </Grid>
                                 </Menu:Btn>
 
-                                <Menu:Btn Style="{StaticResource BtnStyle}">
+                                <Menu:Btn Style="{StaticResource BtnStyle}"
+                                          Command="{Binding TableViewICommand}">
                                     <Grid>
                                         <Image Source="/Resources/Images/表格 (1).png" 
                                                Width="25"/>
@@ -97,7 +100,8 @@
                                     </Grid>
                                 </Menu:Btn>
 
-                                <Menu:Btn Style="{StaticResource BtnStyle}">
+                                <Menu:Btn Style="{StaticResource BtnStyle}"
+                                          Command="{Binding SettingViewICommand}">
                                     <Grid>
                                         <Image Source="/Resources/Images/设置.png" 
                                                Width="25"/>
@@ -111,7 +115,25 @@
             </Grid>
 
             <Grid Grid.Column="1" >
-                <view:Overview DataContext="{Binding OverviewVMInfor}"/>
+                <Grid Visibility="{Binding OverViewVisibility}">
+                    <view:Overview DataContext="{Binding OverviewVMInfor}"/>
+                </Grid>
+
+                <Grid Visibility="{Binding ChangeViewVisibility}">
+                    <view:ChangeView/>
+                </Grid>
+
+                <Grid Visibility="{Binding AddViewVisibility}">
+                    <view:AddView/>
+                </Grid>
+
+                <Grid Visibility="{Binding TableViewVisibility}">
+                    <view:TableView/>
+                </Grid>
+
+                <Grid Visibility="{Binding SettingViewVisibility}">
+                    <view:SettingView/>
+                </Grid>
             </Grid>
         </Grid>
     </Grid>

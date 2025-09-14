@@ -8,7 +8,21 @@ namespace ProjectManagementFrame.ViewModel
 {
     public class PersonalDataVM
     {
-        public PersonalDataVM() { }
+        public AllProjects _personalprojectsinformation = new AllProjects();
+        public AllProjects PersonalProjectsInformation
+        {
+            get => _personalprojectsinformation;
+            set => _personalprojectsinformation = value;
+        }
+
+
+
+        public PersonalDataVM()
+        {
+
+        }
+
+
 
     }
 }

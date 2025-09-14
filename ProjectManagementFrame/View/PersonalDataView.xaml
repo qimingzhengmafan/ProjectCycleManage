@@ -21,8 +21,7 @@
         </Grid.RowDefinitions>
 
         <Grid>
-            
-            <uc:PieChart/>
+            <uc:PieChart DataContext="{Binding PersonalProjectsInformation}"/>
         </Grid>
 
         <Grid Grid.Column="1">

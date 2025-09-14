@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ProjectManagementFrame.ViewModel
 {
-    internal class ChangeVM
+    public class ChangeVM
     {
     }
 }
