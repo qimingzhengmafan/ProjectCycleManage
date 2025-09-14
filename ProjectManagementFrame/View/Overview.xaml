@@ -26,7 +26,7 @@
               Height="110"
               HorizontalAlignment="Center">
             <Button Style="{StaticResource HeadPortrait}"
-                    Command="{Binding}"
+                    Command="{Binding VisibilityICommand_OverView}"
                     Margin="0 10 0 0"
                     VerticalAlignment="Top"/>
             
@@ -54,35 +54,39 @@
 
                 <Grid>
                     <Button Style="{StaticResource HeadPortrait}"
-                            Command="{Binding}"/>
+                            Command="{Binding VisibilityICommand_ZhuChengXu}"/>
                     <Label Content="朱成旭"
                            HorizontalAlignment="Center"
                            VerticalAlignment="Bottom"/>
                 </Grid>
 
                 <Grid Grid.Row="1">
-                    <Button Style="{StaticResource HeadPortrait}"/>
+                    <Button Style="{StaticResource HeadPortrait}"
+                            Command="{Binding VisibilityICommand_PeiTao}"/>
                     <Label Content="裴涛"
                            HorizontalAlignment="Center"
                            VerticalAlignment="Bottom"/>
                 </Grid>
 
                 <Grid Grid.Row="2">
-                    <Button Style="{StaticResource HeadPortrait}"/>
+                    <Button Style="{StaticResource HeadPortrait}"
+                            Command="{Binding VisibilityICommand_WangJiaHao}"/>
                     <Label Content="王嘉豪"
                            HorizontalAlignment="Center"
                            VerticalAlignment="Bottom"/>
                 </Grid>
 
                 <Grid Grid.Row="3">
-                    <Button Style="{StaticResource HeadPortrait}"/>
+                    <Button Style="{StaticResource HeadPortrait}"
+                            Command="{Binding VisibilityICommand_Yanxin}"/>
                     <Label Content="严鑫"
                            HorizontalAlignment="Center"
                            VerticalAlignment="Bottom"/>
                 </Grid>
 
                 <Grid Grid.Row="4">
-                    <Button Style="{StaticResource HeadPortrait}"/>
+                    <Button Style="{StaticResource HeadPortrait}"
+                            Command="{Binding}"/>
                     <Label Content=""
                            HorizontalAlignment="Center"
                            VerticalAlignment="Bottom"/>
@@ -110,35 +114,40 @@
                     </Grid.RowDefinitions>
 
                     <Grid>
-                        <Button Style="{StaticResource HeadPortrait}"/>
+                        <Button Style="{StaticResource HeadPortrait}"
+                                Command="{Binding VisibilityICommand_DongXin}"/>
                         <Label Content="董鑫"
                                HorizontalAlignment="Center"
                                VerticalAlignment="Bottom"/>
                     </Grid>
 
                     <Grid Grid.Row="1">
-                        <Button Style="{StaticResource HeadPortrait}"/>
+                        <Button Style="{StaticResource HeadPortrait}"
+                                Command="{Binding VisibilityICommand_JiangChen}"/>
                         <Label Content="江琛"
                                HorizontalAlignment="Center"
                                VerticalAlignment="Bottom"/>
                     </Grid>
 
                     <Grid Grid.Row="2">
-                        <Button Style="{StaticResource HeadPortrait}"/>
+                        <Button Style="{StaticResource HeadPortrait}"
+                                Command="{Binding VisibilityICommand_ZhangYuanYuan}"/>
                         <Label Content="张园园"
                                HorizontalAlignment="Center"
                                VerticalAlignment="Bottom"/>
                     </Grid>
 
                     <Grid Grid.Row="3">
-                        <Button Style="{StaticResource HeadPortrait}"/>
+                        <Button Style="{StaticResource HeadPortrait}"
+                                Command="{Binding}"/>
                         <Label Content=""
                                HorizontalAlignment="Center"
                                VerticalAlignment="Bottom"/>
                     </Grid>
 
                     <Grid Grid.Row="4">
-                        <Button Style="{StaticResource HeadPortrait}"/>
+                        <Button Style="{StaticResource HeadPortrait}"
+                                Command="{Binding}"/>
                         <Label Content=""
                                HorizontalAlignment="Center"
                                VerticalAlignment="Bottom"/>
@@ -148,7 +157,7 @@
         </Border>
 
         <Grid Grid.Column="2">
-            <Grid>
+            <Grid Visibility="{Binding PersonalVisibilityVM_OverView}">
                 <Grid.RowDefinitions>
                     <RowDefinition/>
                     <RowDefinition/>
@@ -195,13 +204,37 @@
                     </Grid>
                 </Grid>
 
-                <Grid Grid.Row="1">
-                    <slc:SeamlessLoopingScroll />
+                <Grid Grid.Row="1" >
+                    <slc:SeamlessLoopingScroll ItemsSource="{Binding PersonalProjectsList}"/>
                 </Grid>
             </Grid>
 
-            <Grid>
-                <view:PersonalDataView/>
+            <Grid Visibility="{Binding PersonalVisibilityVM_ChengXuZhu}">
+                <view:PersonalDataView DataContext="{Binding PersonalDataVM_ChengXuZhu}"/>
+            </Grid>
+
+            <Grid Visibility="{Binding PersonalVisibilityVM_DongXin}">
+                <view:PersonalDataView DataContext="{Binding PersonalDataVM_DongXin}"/>
+            </Grid>
+
+            <Grid Visibility="{Binding PersonalVisibilityVM_PeiTao}">
+                <view:PersonalDataView DataContext="{Binding PersonalDataVM_PeiTao}"/>
+            </Grid>
+
+            <Grid Visibility="{Binding PersonalVisibilityVM_JiangChen}">
+                <view:PersonalDataView DataContext="{Binding PersonalDataVM_JiangChen}"/>
+            </Grid>
+
+            <Grid Visibility="{Binding PersonalVisibilityVM_WangJiaHao}">
+                <view:PersonalDataView DataContext="{Binding PersonalDataVM_WangJiaHao}"/>
+            </Grid>
+
+            <Grid Visibility="{Binding PersonalVisibilityVM_ZhangYuanYuan}">
+                <view:PersonalDataView DataContext="{Binding PersonalDataVM_ZhangYuanYuan}"/>
+            </Grid>
+
+            <Grid Visibility="{Binding PersonalVisibilityVM_YanXin}">
+                <view:PersonalDataView DataContext="{Binding PersonalDataVM_YanXin}"/>
             </Grid>
         </Grid>
 

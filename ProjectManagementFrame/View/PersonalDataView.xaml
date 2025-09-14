@@ -5,8 +5,10 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:ProjectManagementFrame.View"
              xmlns:uc="clr-namespace:ProjectManagementFrame.View.UserControls"
+             xmlns:vm="clr-namespace:ProjectManagementFrame.ViewModel"
+             xmlns:slc="clr-namespace:ScrollControlProject;assembly=ScrollControlProject"
              mc:Ignorable="d" 
-             d:DataContext="{}"
+             d:DataContext="{d:DesignInstance Type=vm:PersonalDataVM}"
              d:DesignHeight="700" 
              d:DesignWidth="958">
     <Grid>
@@ -21,17 +23,50 @@
         </Grid.RowDefinitions>
 
         <Grid>
-            <uc:PieChart DataContext="{Binding PersonalProjectsInformation}"/>
+            <Label Content="个人项目"
+                   Foreground="#707070"
+                   Height="40"
+                   HorizontalAlignment="Center"
+                   VerticalAlignment="Top"
+                   Margin="0 44 0 0"
+                   FontSize="26"/>
+            <Grid Margin="0 97 0 0">
+                <uc:PieChart DataContext="{Binding PersonalProjectsInformation}"/>
+            </Grid>
         </Grid>
 
         <Grid Grid.Column="1">
-            <uc:ScrollControl/>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="79"/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+
+            <Border BorderThickness="0 0 0 1"
+                    BorderBrush="#707070">
+                <Label Content="KPI"
+                       FontSize="50"
+                       VerticalAlignment="Bottom"
+                       VerticalContentAlignment="Bottom"
+                       Foreground="#707070" 
+                       FontStyle="Italic" 
+                       FontWeight="Bold"/>
+            </Border>
+
+            <Border Grid.Row="1">
+                <TextBlock Text="{Binding KPIData}"
+                           Foreground="#707070"
+                           FontSize="180"
+                           VerticalAlignment="Center"
+                           HorizontalAlignment="Center" 
+                           FontWeight="Bold" 
+                           FontStyle="Italic"/>
+            </Border>
         </Grid>
 
         <Grid Grid.Row="1"
               Grid.Column="0"
               Grid.ColumnSpan="2">
-            <uc:ScrollControl/>
+            <slc:SeamlessLoopingScroll ItemsSource="{Binding PersonalProjectsList}"/>
         </Grid>
         
     </Grid>

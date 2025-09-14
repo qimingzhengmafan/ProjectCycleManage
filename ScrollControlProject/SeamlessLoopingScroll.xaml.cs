@@ -51,17 +51,17 @@ namespace ScrollControlProject
         public class ProjectItem : INotifyPropertyChanged
         {
             private Brush _statusColor = Brushes.LimeGreen;
-        private bool _isTimeout;
-        public bool IsTimeout
-        {
-            get => _isTimeout;
-            set
+            private bool _isTimeout;
+            public bool IsTimeout
             {
-                _isTimeout = value;
-                OnPropertyChanged(nameof(IsTimeout));
-                StatusColor = value ? Brushes.Red : Brushes.LimeGreen;
+                get => _isTimeout;
+                set
+                {
+                    _isTimeout = value;
+                    OnPropertyChanged(nameof(IsTimeout));
+                    StatusColor = value ? Brushes.Red : Brushes.LimeGreen;
+                }
             }
-        }
             private string _projectName;
             private int _progress;
             private string _materials;
