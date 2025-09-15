@@ -55,5 +55,11 @@ namespace ProjectManagementFrame.Model
         /// </summary>
         public string ProjectStage_Completed { get; set; } =
             "SELECT COUNT(*) FROM `key_value3` WHERE 年份 = 2025 AND 项目阶段 = '完成'";
+
+        /// <summary>
+        /// 朱成绪——2025项目数
+        /// </summary>
+        public string zhuchengxu_2025 { get; set; } =
+            "SELECT COUNT(*) FROM `key_value3` WHERE 年份 = 2025 AND 项目负责人 = '朱成绪'";
     }
 }
