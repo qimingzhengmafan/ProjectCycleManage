@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 17
-VisualStudioVersion = 17.14.36408.4
+# Visual Studio Version 18
+VisualStudioVersion = 18.0.11012.119 d18.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MiniExcelTest", "MiniExcelTest\MiniExcelTest.csproj", "{B72C03FA-E590-4515-A527-78B92F817725}"
 EndProject
@@ -9,11 +9,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Console_Miniexceltest", "Co
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FramewarkTest", "FramewarkTest\FramewarkTest.csproj", "{8ECECCC1-EED2-4779-B049-D9D470767827}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProjectManagementSoftwareFrame", "ProjectManagementSoftwareFrame\ProjectManagementSoftwareFrame.csproj", "{A8770BFB-910A-469E-9797-C344BC7A7F87}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProjectManagementFrame", "ProjectManagementFrame\ProjectManagementFrame.csproj", "{27CB6248-87F2-4E8F-A633-13C7C35A5E4D}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScrollControlProject", "ScrollControlProject\ScrollControlProject.csproj", "{D8BBD67F-B6D5-4E28-B413-32A584BC9686}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataGrid", "DataGrid\DataGrid.csproj", "{23ECD298-E437-449A-B927-B19BD004238D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,10 +33,6 @@ Global
 		{8ECECCC1-EED2-4779-B049-D9D470767827}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8ECECCC1-EED2-4779-B049-D9D470767827}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8ECECCC1-EED2-4779-B049-D9D470767827}.Release|Any CPU.Build.0 = Release|Any CPU
-		{A8770BFB-910A-469E-9797-C344BC7A7F87}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A8770BFB-910A-469E-9797-C344BC7A7F87}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A8770BFB-910A-469E-9797-C344BC7A7F87}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A8770BFB-910A-469E-9797-C344BC7A7F87}.Release|Any CPU.Build.0 = Release|Any CPU
 		{27CB6248-87F2-4E8F-A633-13C7C35A5E4D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{27CB6248-87F2-4E8F-A633-13C7C35A5E4D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{27CB6248-87F2-4E8F-A633-13C7C35A5E4D}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -45,6 +41,10 @@ Global
 		{D8BBD67F-B6D5-4E28-B413-32A584BC9686}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D8BBD67F-B6D5-4E28-B413-32A584BC9686}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D8BBD67F-B6D5-4E28-B413-32A584BC9686}.Release|Any CPU.Build.0 = Release|Any CPU
+		{23ECD298-E437-449A-B927-B19BD004238D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{23ECD298-E437-449A-B927-B19BD004238D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{23ECD298-E437-449A-B927-B19BD004238D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{23ECD298-E437-449A-B927-B19BD004238D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

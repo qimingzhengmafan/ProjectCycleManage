@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace ProjectManagementSoftwareFrame.Properties
+namespace DataGrid.Properties
 {
 
 

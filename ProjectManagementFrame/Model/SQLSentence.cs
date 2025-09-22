@@ -60,6 +60,15 @@ namespace ProjectManagementFrame.Model
         /// 朱成绪——2025项目数
         /// </summary>
         public string zhuchengxu_2025 { get; set; } =
-            "SELECT COUNT(*) FROM `key_value3` WHERE 年份 = 2025 AND 项目负责人 = '朱成绪'";
+            "SELECT COUNT(*) FROM `key_value3` WHERE 年份 = 2025 AND 项目负责人 = '朱成绪' AND 项目负责人 = '朱成绪'";
+
+        /// <summary>
+        /// 董鑫——2025项目数
+        /// </summary>
+        public string dongxin_2025 { get; set; } =
+            "SELECT COUNT(*) FROM `key_value3` WHERE 年份 = 2025 AND 项目负责人 = '董鑫'";
+
+
+
     }
 }

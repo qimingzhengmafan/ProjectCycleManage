@@ -9,7 +9,6 @@
              xmlns:slc="clr-namespace:ScrollControlProject;assembly=ScrollControlProject"
              xmlns:view="clr-namespace:ProjectManagementFrame.View"
              mc:Ignorable="d" 
-             d:DataContext="{d:DesignInstance Type=vm:OverviewVM}"
              d:DesignHeight="700"
              d:DesignWidth="1252">
 

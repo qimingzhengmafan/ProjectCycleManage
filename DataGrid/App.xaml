@@ -1,7 +1,7 @@
-﻿<Application x:Class="ProjectManagementSoftwareFrame.App"
+﻿<Application x:Class="DataGrid.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:local="clr-namespace:ProjectManagementSoftwareFrame"
+             xmlns:local="clr-namespace:DataGrid"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
          
