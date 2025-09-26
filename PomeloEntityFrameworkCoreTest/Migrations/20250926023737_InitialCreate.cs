@@ -111,27 +111,27 @@ namespace PomeloEntityFrameworkCoreTest.Migrations
                 {
                     ProjectsId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    Year = table.Column<int>(type: "int", nullable: false),
-                    ProcurementMonth = table.Column<DateTime>(type: "datetime(6)", nullable: false),
+                    Year = table.Column<int>(type: "int", nullable: true),
+                    ProcurementMonth = table.Column<DateTime>(type: "datetime(6)", nullable: true),
                     ProjectName = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    ProjectIdentifyingNumber = table.Column<string>(type: "longtext", nullable: false)
+                    ProjectIdentifyingNumber = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    equipmenttypeId = table.Column<int>(type: "int", nullable: false),
-                    typeId = table.Column<int>(type: "int", nullable: false),
+                    equipmenttypeId = table.Column<int>(type: "int", nullable: true),
+                    typeId = table.Column<int>(type: "int", nullable: true),
                     ProjectStageId = table.Column<int>(type: "int", nullable: false),
-                    FinishTime = table.Column<DateTime>(type: "datetime(6)", nullable: false),
-                    Budget = table.Column<string>(type: "longtext", nullable: false)
+                    FinishTime = table.Column<DateTime>(type: "datetime(6)", nullable: true),
+                    Budget = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    ActualExpenditure = table.Column<string>(type: "longtext", nullable: false)
+                    ActualExpenditure = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     ProjectProgress = table.Column<int>(type: "int", nullable: false),
-                    ProjectPhaseStatusId = table.Column<int>(type: "int", nullable: false),
+                    ProjectPhaseStatusId = table.Column<int>(type: "int", nullable: true),
                     ProjectLeaderId = table.Column<int>(type: "int", nullable: false),
-                    projectfollowuppersonId = table.Column<int>(type: "int", nullable: false),
-                    AssetNumber = table.Column<string>(type: "longtext", nullable: false)
+                    projectfollowuppersonId = table.Column<int>(type: "int", nullable: true),
+                    AssetNumber = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    remarks = table.Column<string>(type: "longtext", nullable: false)
+                    remarks = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4")
                 },
                 constraints: table =>
@@ -141,8 +141,7 @@ namespace PomeloEntityFrameworkCoreTest.Migrations
                         name: "FK_Projects_EquipmentType_equipmenttypeId",
                         column: x => x.equipmenttypeId,
                         principalTable: "EquipmentType",
-                        principalColumn: "EquipmentTypeId",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "EquipmentTypeId");
                     table.ForeignKey(
                         name: "FK_Projects_PeopleTable_ProjectLeaderId",
                         column: x => x.ProjectLeaderId,
@@ -153,14 +152,12 @@ namespace PomeloEntityFrameworkCoreTest.Migrations
                         name: "FK_Projects_PeopleTable_projectfollowuppersonId",
                         column: x => x.projectfollowuppersonId,
                         principalTable: "PeopleTable",
-                        principalColumn: "PeopleId",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "PeopleId");
                     table.ForeignKey(
                         name: "FK_Projects_ProjectPhaseStatus_ProjectPhaseStatusId",
                         column: x => x.ProjectPhaseStatusId,
                         principalTable: "ProjectPhaseStatus",
-                        principalColumn: "ProjectPhaseStatusId",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "ProjectPhaseStatusId");
                     table.ForeignKey(
                         name: "FK_Projects_ProjectStage_ProjectStageId",
                         column: x => x.ProjectStageId,
@@ -183,11 +180,11 @@ namespace PomeloEntityFrameworkCoreTest.Migrations
                     InspectionRecordId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     ProjectsId = table.Column<int>(type: "int", nullable: false),
-                    CheckPeopleId = table.Column<int>(type: "int", nullable: false),
-                    CheckTime = table.Column<DateTime>(type: "datetime(6)", nullable: false),
-                    CheckResult = table.Column<string>(type: "longtext", nullable: false)
+                    CheckPeopleId = table.Column<int>(type: "int", nullable: true),
+                    CheckTime = table.Column<DateTime>(type: "datetime(6)", nullable: true),
+                    CheckResult = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    CheckOpinion = table.Column<string>(type: "longtext", nullable: false)
+                    CheckOpinion = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4")
                 },
                 constraints: table =>
@@ -216,10 +213,10 @@ namespace PomeloEntityFrameworkCoreTest.Migrations
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     ProjectsId = table.Column<int>(type: "int", nullable: false),
                     DocumentTypeId = table.Column<int>(type: "int", nullable: false),
-                    IsHasDocument = table.Column<bool>(type: "tinyint(1)", nullable: false),
-                    TheLastUpDateTime = table.Column<DateTime>(type: "datetime(6)", nullable: false),
-                    UpdatePeopleId = table.Column<int>(type: "int", nullable: false),
-                    Remarks = table.Column<string>(type: "longtext", nullable: false)
+                    IsHasDocument = table.Column<bool>(type: "tinyint(1)", nullable: true),
+                    TheLastUpDateTime = table.Column<DateTime>(type: "datetime(6)", nullable: true),
+                    UpdatePeopleId = table.Column<int>(type: "int", nullable: true),
+                    Remarks = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4")
                 },
                 constraints: table =>

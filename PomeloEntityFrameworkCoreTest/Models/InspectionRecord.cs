@@ -14,10 +14,10 @@ namespace PomeloEntityFrameworkCoreTest.Models
         public int InspectionRecordId { get; set; }
         public int ProjectsId { get; set; }
         public Projects Projects { get; set; }
-        public int CheckPeopleId{ get; set; }
-        public PeopleTable CheckPeople {  get; set; }
-        public DateTime CheckTime { get; set; }
-        public string CheckResult { get; set; }
-        public string CheckOpinion { get; set; }
+        public int? CheckPeopleId { get; set; }
+        public PeopleTable? CheckPeople {  get; set; }
+        public DateTime? CheckTime { get; set; }
+        public string? CheckResult { get; set; }
+        public string? CheckOpinion { get; set; }
     }
 }

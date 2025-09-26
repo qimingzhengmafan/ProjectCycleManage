@@ -1,5 +1,7 @@
-﻿using PomeloEntityFrameworkCoreTest.Data;
+﻿using Microsoft.EntityFrameworkCore;
+using PomeloEntityFrameworkCoreTest.Data;
 using PomeloEntityFrameworkCoreTest.Models;
+using System;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
@@ -20,6 +22,7 @@ namespace PomeloEntityFrameworkCoreTest
     {
         //using var db = new MyBlogContext();
         //MyBlogContext db = new MyBlogContext();
+        ProjectContext projectdb = new ProjectContext();
 
         public MainWindow()
         {
@@ -31,6 +34,26 @@ namespace PomeloEntityFrameworkCoreTest
             //Console.WriteLine("插入一条新的博客记录");
             //db.Add(new Blogs { Url = "http://blogs.packtpub.com/dotnet" });
             //db.SaveChanges(); // 必须调用 SaveChanges 才会真正执行数据库操作
+
+            Console.WriteLine("插入一条新数据");
+            var project = projectdb.Projects
+                .Include(o => o.ProjectLeader)
+                .FirstOrDefault(p => p.ProjectsId == 1);
+
+            //int totalCount = context.Customers.Count();
+            //var TT = project.ProjectLeader;
+            var countdata = projectdb.Projects.Count();
+            MessageBox.Show(countdata.ToString());
+
+
+            //var data = project.;
+            //foreach (var item in project)
+            //{
+            //    var data = item.ProjectLeader;
+
+            //    MessageBox.Show(data.PeopleName);
+            //}
+
         }
 
         private void Search_Click(object sender, RoutedEventArgs e)

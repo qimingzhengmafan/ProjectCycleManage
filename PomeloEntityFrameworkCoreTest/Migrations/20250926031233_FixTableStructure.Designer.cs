@@ -12,8 +12,8 @@ using PomeloEntityFrameworkCoreTest.Data;
 namespace PomeloEntityFrameworkCoreTest.Migrations
 {
     [DbContext(typeof(ProjectContext))]
-    [Migration("20250926003805_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20250926031233_FixTableStructure")]
+    partial class FixTableStructure
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -68,17 +68,15 @@ namespace PomeloEntityFrameworkCoreTest.Migrations
                     MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("InspectionRecordId"));
 
                     b.Property<string>("CheckOpinion")
-                        .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<int>("CheckPeopleId")
+                    b.Property<int?>("CheckPeopleId")
                         .HasColumnType("int");
 
                     b.Property<string>("CheckResult")
-                        .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<DateTime>("CheckTime")
+                    b.Property<DateTime?>("CheckTime")
                         .HasColumnType("datetime(6)");
 
                     b.Property<int>("ProjectsId")
@@ -121,20 +119,19 @@ namespace PomeloEntityFrameworkCoreTest.Migrations
                     b.Property<int>("DocumentTypeId")
                         .HasColumnType("int");
 
-                    b.Property<bool>("IsHasDocument")
+                    b.Property<bool?>("IsHasDocument")
                         .HasColumnType("tinyint(1)");
 
                     b.Property<int>("ProjectsId")
                         .HasColumnType("int");
 
                     b.Property<string>("Remarks")
-                        .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<DateTime>("TheLastUpDateTime")
+                    b.Property<DateTime?>("TheLastUpDateTime")
                         .HasColumnType("datetime(6)");
 
-                    b.Property<int>("UpdatePeopleId")
+                    b.Property<int?>("UpdatePeopleId")
                         .HasColumnType("int");
 
                     b.HasKey("ProjectDocumentStatusId");
@@ -182,6 +179,35 @@ namespace PomeloEntityFrameworkCoreTest.Migrations
                     b.ToTable("ProjectStage");
                 });
 
+            modelBuilder.Entity("PomeloEntityFrameworkCoreTest.Models.ProjectTypeDocumentAssociationTable", b =>
+                {
+                    b.Property<int>("ProjectTypeDocumentAssociationId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("ProjectTypeDocumentAssociationId"));
+
+                    b.Property<int?>("DisplaySequence")
+                        .HasColumnType("int");
+
+                    b.Property<int>("DocumentTypeId")
+                        .HasColumnType("int");
+
+                    b.Property<bool?>("IsNecessary")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<int>("ProjectsId")
+                        .HasColumnType("int");
+
+                    b.HasKey("ProjectTypeDocumentAssociationId");
+
+                    b.HasIndex("DocumentTypeId");
+
+                    b.HasIndex("ProjectsId");
+
+                    b.ToTable("ProjectTypeDocumentAssociationTables");
+                });
+
             modelBuilder.Entity("PomeloEntityFrameworkCoreTest.Models.Projects", b =>
                 {
                     b.Property<int>("ProjectsId")
@@ -191,25 +217,21 @@ namespace PomeloEntityFrameworkCoreTest.Migrations
                     MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("ProjectsId"));
 
                     b.Property<string>("ActualExpenditure")
-                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<string>("AssetNumber")
-                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<string>("Budget")
-                        .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<DateTime>("FinishTime")
+                    b.Property<DateTime?>("FinishTime")
                         .HasColumnType("datetime(6)");
 
-                    b.Property<DateTime>("ProcurementMonth")
+                    b.Property<DateTime?>("ProcurementMonth")
                         .HasColumnType("datetime(6)");
 
                     b.Property<string>("ProjectIdentifyingNumber")
-                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<int>("ProjectLeaderId")
@@ -219,29 +241,28 @@ namespace PomeloEntityFrameworkCoreTest.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<int>("ProjectPhaseStatusId")
+                    b.Property<int?>("ProjectPhaseStatusId")
                         .HasColumnType("int");
 
-                    b.Property<int>("ProjectProgress")
+                    b.Property<int?>("ProjectProgress")
                         .HasColumnType("int");
 
                     b.Property<int>("ProjectStageId")
                         .HasColumnType("int");
 
-                    b.Property<int>("Year")
+                    b.Property<int?>("Year")
                         .HasColumnType("int");
 
-                    b.Property<int>("equipmenttypeId")
+                    b.Property<int?>("equipmenttypeId")
                         .HasColumnType("int");
 
-                    b.Property<int>("projectfollowuppersonId")
+                    b.Property<int?>("projectfollowuppersonId")
                         .HasColumnType("int");
 
                     b.Property<string>("remarks")
-                        .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<int>("typeId")
+                    b.Property<int?>("typeId")
                         .HasColumnType("int");
 
                     b.HasKey("ProjectsId");
@@ -283,8 +304,7 @@ namespace PomeloEntityFrameworkCoreTest.Migrations
                     b.HasOne("PomeloEntityFrameworkCoreTest.Models.PeopleTable", "CheckPeople")
                         .WithMany()
                         .HasForeignKey("CheckPeopleId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("PomeloEntityFrameworkCoreTest.Models.Projects", "Projects")
                         .WithMany()
@@ -314,14 +334,32 @@ namespace PomeloEntityFrameworkCoreTest.Migrations
                     b.HasOne("PomeloEntityFrameworkCoreTest.Models.PeopleTable", "UpdatePeople")
                         .WithMany()
                         .HasForeignKey("UpdatePeopleId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.Navigation("DocumentType");
 
                     b.Navigation("Projects");
 
                     b.Navigation("UpdatePeople");
+                });
+
+            modelBuilder.Entity("PomeloEntityFrameworkCoreTest.Models.ProjectTypeDocumentAssociationTable", b =>
+                {
+                    b.HasOne("PomeloEntityFrameworkCoreTest.Models.DocumentType", "DocumentType")
+                        .WithMany()
+                        .HasForeignKey("DocumentTypeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("PomeloEntityFrameworkCoreTest.Models.Projects", "Projects")
+                        .WithMany()
+                        .HasForeignKey("ProjectsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("DocumentType");
+
+                    b.Navigation("Projects");
                 });
 
             modelBuilder.Entity("PomeloEntityFrameworkCoreTest.Models.Projects", b =>
@@ -334,9 +372,7 @@ namespace PomeloEntityFrameworkCoreTest.Migrations
 
                     b.HasOne("PomeloEntityFrameworkCoreTest.Models.ProjectPhaseStatus", "ProjectPhaseStatus")
                         .WithMany()
-                        .HasForeignKey("ProjectPhaseStatusId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("ProjectPhaseStatusId");
 
                     b.HasOne("PomeloEntityFrameworkCoreTest.Models.ProjectStage", "ProjectStage")
                         .WithMany()
@@ -346,21 +382,16 @@ namespace PomeloEntityFrameworkCoreTest.Migrations
 
                     b.HasOne("PomeloEntityFrameworkCoreTest.Models.EquipmentType", "equipmenttype")
                         .WithMany()
-                        .HasForeignKey("equipmenttypeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("equipmenttypeId");
 
                     b.HasOne("PomeloEntityFrameworkCoreTest.Models.PeopleTable", "projectfollowupperson")
                         .WithMany()
-                        .HasForeignKey("projectfollowuppersonId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("projectfollowuppersonId");
 
                     b.HasOne("PomeloEntityFrameworkCoreTest.Models.TypeTable", "type")
                         .WithMany()
                         .HasForeignKey("typeId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.Navigation("ProjectLeader");
 

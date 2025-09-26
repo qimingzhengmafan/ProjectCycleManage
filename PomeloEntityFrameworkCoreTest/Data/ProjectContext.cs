@@ -12,11 +12,22 @@ namespace PomeloEntityFrameworkCoreTest.Data
 {
     public class ProjectContext: DbContext
     {
+        public DbSet<Projects> Projects { get; set; }
+        public DbSet<DocumentType> DocumentType { get; set; }
+        public DbSet<EquipmentType> EquipmentType { get; set; }
+        public DbSet<InspectionRecord> InspectionRecord { get; set; }
+        public DbSet<PeopleTable> PeopleTable { get; set; }
+        public DbSet<ProjectDocumentStatus> ProjectDocumentStatus { get; set; }
+        public DbSet<ProjectPhaseStatus> ProjectPhaseStatus { get; set; }
+        public DbSet<ProjectStage> ProjectStage { get; set; }
+        public DbSet<ProjectTypeDocumentAssociationTable> ProjectTypeDocumentAssociationTables { get; set; }
+        public DbSet<TypeTable> TypeTable { get; set; }
+
         // 配置数据库连接
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             string connectionString = "server=rm-uf694p49ucaz7035xvo.mysql.rds.aliyuncs.com;" +
-                                       "database=book;" +
+                                       "database=huadatest1;" +
                                        "port=3306;" +
                                        "user=MyPublicAccount;" +
                                        "password=MyPublic789W";

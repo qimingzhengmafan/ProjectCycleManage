@@ -21,11 +21,11 @@ namespace PomeloEntityFrameworkCoreTest.Models
         public Projects Projects { get; set; }
         public int DocumentTypeId { get; set; }
         public DocumentType DocumentType { get; set; } 
-        public bool IsHasDocument { get; set; }
-        public DateTime TheLastUpDateTime { get; set; }
-        public int UpdatePeopleId { get; set; }
-        public PeopleTable UpdatePeople { get; set; }
-        public string Remarks { get; set; }
+        public bool? IsHasDocument { get; set; }
+        public DateTime? TheLastUpDateTime { get; set; }
+        public int? UpdatePeopleId { get; set; }
+        public PeopleTable? UpdatePeople { get; set; }
+        public string? Remarks { get; set; }
 
     }
 }

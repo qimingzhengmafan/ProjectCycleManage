@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PomeloEntityFrameworkCoreTest.Data;
 
@@ -11,9 +12,11 @@ using PomeloEntityFrameworkCoreTest.Data;
 namespace PomeloEntityFrameworkCoreTest.Migrations
 {
     [DbContext(typeof(ProjectContext))]
-    partial class ProjectContextModelSnapshot : ModelSnapshot
+    [Migration("20250926023737_InitialCreate")]
+    partial class InitialCreate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -176,35 +179,6 @@ namespace PomeloEntityFrameworkCoreTest.Migrations
                     b.ToTable("ProjectStage");
                 });
 
-            modelBuilder.Entity("PomeloEntityFrameworkCoreTest.Models.ProjectTypeDocumentAssociationTable", b =>
-                {
-                    b.Property<int>("ProjectTypeDocumentAssociationId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("ProjectTypeDocumentAssociationId"));
-
-                    b.Property<int?>("DisplaySequence")
-                        .HasColumnType("int");
-
-                    b.Property<int>("DocumentTypeId")
-                        .HasColumnType("int");
-
-                    b.Property<bool?>("IsNecessary")
-                        .HasColumnType("tinyint(1)");
-
-                    b.Property<int>("ProjectsId")
-                        .HasColumnType("int");
-
-                    b.HasKey("ProjectTypeDocumentAssociationId");
-
-                    b.HasIndex("DocumentTypeId");
-
-                    b.HasIndex("ProjectsId");
-
-                    b.ToTable("ProjectTypeDocumentAssociationTables");
-                });
-
             modelBuilder.Entity("PomeloEntityFrameworkCoreTest.Models.Projects", b =>
                 {
                     b.Property<int>("ProjectsId")
@@ -241,7 +215,7 @@ namespace PomeloEntityFrameworkCoreTest.Migrations
                     b.Property<int?>("ProjectPhaseStatusId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("ProjectProgress")
+                    b.Property<int>("ProjectProgress")
                         .HasColumnType("int");
 
                     b.Property<int>("ProjectStageId")
@@ -338,25 +312,6 @@ namespace PomeloEntityFrameworkCoreTest.Migrations
                     b.Navigation("Projects");
 
                     b.Navigation("UpdatePeople");
-                });
-
-            modelBuilder.Entity("PomeloEntityFrameworkCoreTest.Models.ProjectTypeDocumentAssociationTable", b =>
-                {
-                    b.HasOne("PomeloEntityFrameworkCoreTest.Models.DocumentType", "DocumentType")
-                        .WithMany()
-                        .HasForeignKey("DocumentTypeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("PomeloEntityFrameworkCoreTest.Models.Projects", "Projects")
-                        .WithMany()
-                        .HasForeignKey("ProjectsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("DocumentType");
-
-                    b.Navigation("Projects");
                 });
 
             modelBuilder.Entity("PomeloEntityFrameworkCoreTest.Models.Projects", b =>
