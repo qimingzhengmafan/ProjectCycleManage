@@ -42,4 +42,8 @@ namespace ScrollControlProject.Converters
             return false;
         }
     }
+
+
+    // BooleanToVisibilityConverter
+    
 }
