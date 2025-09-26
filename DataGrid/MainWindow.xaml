@@ -5,8 +5,38 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:DataGrid"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid>
-        
+        Title="智能数据表格" Height="650" Width="1000">
+    <Grid Margin="15">
+        <DataGrid x:Name="SmartDataGrid"
+                  AutoGenerateColumns="False"
+                  CanUserAddRows="False"
+                  CanUserDeleteRows="True"
+                  SelectionUnit="Cell"
+                  SelectionMode="Single"
+                  ItemsSource="{Binding DataItems}"
+                  CellEditEnding="DataGrid_CellEditEnding"
+                  LoadingRow="DataGrid_LoadingRow">
+            <DataGrid.Columns>
+                <DataGridTemplateColumn Header="行号" Width="Auto" IsReadOnly="True">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding RowNumber}" Margin="5"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
+            
+            <DataGrid.CellStyle>
+                <Style TargetType="DataGridCell">
+                    <Style.Triggers>
+                        <Trigger Property="IsEditing" Value="True">
+                            <Setter Property="Background" Value="#FFF0F8FF"/>
+                            <Setter Property="BorderBrush" Value="DodgerBlue"/>
+                            <Setter Property="BorderThickness" Value="2"/>
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </DataGrid.CellStyle>
+        </DataGrid>
     </Grid>
 </Window>

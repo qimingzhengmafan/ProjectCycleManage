@@ -127,6 +127,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Model\DataBaseOperation.cs" />
     <Compile Include="Model\MySQLOperationClass.cs" />
     <Compile Include="Model\ProjectClass.cs" />
     <Compile Include="Model\Projectinformations.cs" />
