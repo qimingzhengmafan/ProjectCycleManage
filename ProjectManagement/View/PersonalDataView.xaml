@@ -35,7 +35,7 @@
             </Grid>
         </Grid>
 
-        <Grid Grid.Column="1">
+        <!--<Grid Grid.Column="1">
             <Grid.RowDefinitions>
                 <RowDefinition Height="79"/>
                 <RowDefinition/>
@@ -61,6 +61,49 @@
                            FontWeight="Bold" 
                            FontStyle="Italic"/>
             </Border>
+        </Grid>-->
+
+        <Grid Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+
+            <Border Background="#f2f2f2">
+                <StackPanel Orientation="Horizontal">
+                    <Label Content="总项目数"
+                           VerticalAlignment="Center"
+                           FontSize="20"
+                           Margin="50 0 0 0"/>
+                    <TextBlock Text="18"
+                               VerticalAlignment="Center"
+                               Margin="50 0 0 0"
+                               FontSize="25"
+                               FontWeight="Bold"/>
+                    <Label Content="个"
+                           VerticalAlignment="Center"
+                           FontSize="20"
+                           Margin="50 0 0 0"/>
+                </StackPanel>
+            </Border>
+
+            <Border Grid.Row="1"
+                    Background="White">
+
+            </Border>
+
+            <Border Grid.Row="2"
+                    Background="#f2f2f2">
+
+            </Border>
+
+            <Border Grid.Row="3"
+                    Background="White">
+
+            </Border>
+
         </Grid>
 
         <Grid Grid.Row="1"
