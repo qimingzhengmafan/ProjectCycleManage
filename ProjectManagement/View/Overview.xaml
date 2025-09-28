@@ -9,6 +9,7 @@
              xmlns:slc="clr-namespace:ScrollControlProject;assembly=ScrollControlProject"
              xmlns:view="clr-namespace:ProjectManagement.View"
              mc:Ignorable="d" 
+             d:DataContext="{d:DesignInstance Type=vm:OverviewVM}"
              d:DesignHeight="700"
              d:DesignWidth="1252">
 
@@ -29,7 +30,7 @@
                     Margin="0 10 0 0"
                     VerticalAlignment="Top"/>
             
-            <Label Content="工程设备部"
+            <Label Content="{Binding Department}"
                    HorizontalAlignment="Center"
                    VerticalAlignment="Bottom"/>
         </Grid>
@@ -54,7 +55,7 @@
                 <Grid>
                     <Button Style="{StaticResource HeadPortrait}"
                             Command="{Binding VisibilityICommand_ZhuChengXu}"/>
-                    <Label Content="朱成旭"
+                    <Label Content="{Binding People1}"
                            HorizontalAlignment="Center"
                            VerticalAlignment="Bottom"/>
                 </Grid>
@@ -62,7 +63,7 @@
                 <Grid Grid.Row="1">
                     <Button Style="{StaticResource HeadPortrait}"
                             Command="{Binding VisibilityICommand_PeiTao}"/>
-                    <Label Content="裴涛"
+                    <Label Content="{Binding People3}"
                            HorizontalAlignment="Center"
                            VerticalAlignment="Bottom"/>
                 </Grid>
@@ -70,7 +71,7 @@
                 <Grid Grid.Row="2">
                     <Button Style="{StaticResource HeadPortrait}"
                             Command="{Binding VisibilityICommand_WangJiaHao}"/>
-                    <Label Content="王嘉豪"
+                    <Label Content="{Binding People5}"
                            HorizontalAlignment="Center"
                            VerticalAlignment="Bottom"/>
                 </Grid>
@@ -78,7 +79,7 @@
                 <Grid Grid.Row="3">
                     <Button Style="{StaticResource HeadPortrait}"
                             Command="{Binding VisibilityICommand_Yanxin}"/>
-                    <Label Content="严鑫"
+                    <Label Content="{Binding People7}"
                            HorizontalAlignment="Center"
                            VerticalAlignment="Bottom"/>
                 </Grid>
@@ -115,7 +116,7 @@
                     <Grid>
                         <Button Style="{StaticResource HeadPortrait}"
                                 Command="{Binding VisibilityICommand_DongXin}"/>
-                        <Label Content="董鑫"
+                        <Label Content="{Binding People2}"
                                HorizontalAlignment="Center"
                                VerticalAlignment="Bottom"/>
                     </Grid>
@@ -123,7 +124,7 @@
                     <Grid Grid.Row="1">
                         <Button Style="{StaticResource HeadPortrait}"
                                 Command="{Binding VisibilityICommand_JiangChen}"/>
-                        <Label Content="江琛"
+                        <Label Content="{Binding People4}"
                                HorizontalAlignment="Center"
                                VerticalAlignment="Bottom"/>
                     </Grid>
@@ -131,7 +132,7 @@
                     <Grid Grid.Row="2">
                         <Button Style="{StaticResource HeadPortrait}"
                                 Command="{Binding VisibilityICommand_ZhangYuanYuan}"/>
-                        <Label Content="张园园"
+                        <Label Content="{Binding People6}"
                                HorizontalAlignment="Center"
                                VerticalAlignment="Bottom"/>
                     </Grid>

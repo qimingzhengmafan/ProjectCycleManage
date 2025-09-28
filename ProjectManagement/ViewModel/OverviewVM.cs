@@ -26,12 +26,20 @@ namespace ProjectManagement.ViewModel
         public ICommand VisibilityICommand_WangJiaHao { get; set; }
         public ICommand VisibilityICommand_ZhangYuanYuan { get; set; }
         public ICommand VisibilityICommand_Yanxin { get; set; }
-        
+
         #endregion
-        
+
         //public ICommand First { get; set; }
         #endregion
-        
+        public string Department { get; set; }
+        public string People1 {  get; set; }
+        public string People2 { get; set; }
+        public string People3 { get; set; }
+        public string People4 { get; set; }
+        public string People5 { get; set; }
+        public string People6 { get; set; }
+        public string People7 { get; set; }
+        public string People8 { get; set; }
 
         private string _currentyear = "2025";
         public string CurrentYear

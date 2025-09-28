@@ -21,7 +21,8 @@ namespace ProjectManagement.ViewModel
         //public ICommand SearchCommand { get; set; }
 
         #region UIIcommand
-        public ICommand OverViewICommand { get; set; }
+        public ICommand EngineeringOverViewICommand { get; set; }
+        public ICommand MaintenanceOverViewICommand { get; set; }
         public ICommand AddViewICommand { get; set; }
         public ICommand ChangeViewICommand { get; set; }
         public ICommand SettingViewICommand { get; set; }
@@ -31,13 +32,24 @@ namespace ProjectManagement.ViewModel
         #endregion
 
         #region UIVisilibity
-        private Visibility _overviewvisibility = Visibility.Visible;
-        public Visibility OverViewVisibility
+        private Visibility _engineeringoverviewvisibility = Visibility.Visible;
+        public Visibility EngineeringOverViewVisibility
         {
-            get => _overviewvisibility;
+            get => _engineeringoverviewvisibility;
             set
             {
-                _overviewvisibility = value;
+                _engineeringoverviewvisibility = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private Visibility _maintenanceoverviewvisibility = Visibility.Collapsed;
+        public Visibility MaintenanceOverViewVisibility
+        {
+            get => _maintenanceoverviewvisibility;
+            set
+            {
+                _maintenanceoverviewvisibility = value;
                 OnPropertyChanged();
             }
         }
@@ -93,11 +105,35 @@ namespace ProjectManagement.ViewModel
         //private MySQLOperationClass DataPool = new MySQLOperationClass();
 
         #region ViewInformation
-        private OverviewVM _overview = new OverviewVM();
-        public OverviewVM OverviewVMInfor
+        private OverviewVM _engineeringoverviewvm = new OverviewVM()
         {
-            get => _overview;
-            set => _overview = value;
+            Department = "设备",
+            People1 = "朱成绪",
+            People2 = "董鑫",
+            People3 = "裴涛",
+            People4 = "江琛",
+            People5 = "王嘉豪",
+            People6 = "张园园",
+            People7 = "严鑫"
+
+        };
+        public OverviewVM EngineeringOverviewVMInfor
+        {
+            get => _engineeringoverviewvm;
+            set => _engineeringoverviewvm = value;
+        }
+
+        private OverviewVM _maintenanceoverviewvm = new OverviewVM()
+        {
+            Department = "维修",
+            People1 = "余洋",
+            People2 = "胡本立",
+            People3 = "姜健康"
+        };
+        public OverviewVM MaintenanceOverviewvmVMInfor
+        {
+            get => _maintenanceoverviewvm;
+            set => _maintenanceoverviewvm = value;
         }
 
         private AddVM _addviewvm = new AddVM();
@@ -185,7 +221,8 @@ namespace ProjectManagement.ViewModel
 
 
             ConnectCommand = new RelayCommand(ConnectIcommand);
-            OverViewICommand = new RelayCommand(OverViewICommandFun);
+            EngineeringOverViewICommand = new RelayCommand(EngineeringOverViewICommandFun);
+            MaintenanceOverViewICommand = new RelayCommand(MaintenanceOverViewICommandFun);
             AddViewICommand = new RelayCommand(AddViewICommandFun);
             ChangeViewICommand = new RelayCommand(ChangeViewICommandFun);
             SettingViewICommand = new RelayCommand(SettingViewICommandFun);
@@ -202,10 +239,30 @@ namespace ProjectManagement.ViewModel
         }
 
         #region UIIcommandFun
+        private void EngineeringOverViewICommandFun(object obj)
+        {
+            EngineeringOverViewVisibility = Visibility.Visible;
+            MaintenanceOverViewVisibility = Visibility.Collapsed;
+            AddViewVisibility = Visibility.Collapsed;
+            ChangeViewVisibility = Visibility.Collapsed;
+            SettingViewVisibility = Visibility.Collapsed;
+            TableViewVisibility = Visibility.Collapsed;
+        }
+
+        private void MaintenanceOverViewICommandFun(object obj)
+        {
+            MaintenanceOverViewVisibility = Visibility.Visible;
+            EngineeringOverViewVisibility = Visibility.Collapsed;
+            AddViewVisibility = Visibility.Collapsed;
+            ChangeViewVisibility = Visibility.Collapsed;
+            SettingViewVisibility = Visibility.Collapsed;
+            TableViewVisibility = Visibility.Collapsed;
+        }
+
         private void OverViewICommandFun(object obj)
         {
-            OverViewVisibility = Visibility.Visible;
-
+            EngineeringOverViewVisibility = Visibility.Visible;
+            MaintenanceOverViewVisibility = Visibility.Collapsed;
             AddViewVisibility = Visibility.Collapsed;
             ChangeViewVisibility = Visibility.Collapsed;
             SettingViewVisibility = Visibility.Collapsed;
@@ -215,8 +272,8 @@ namespace ProjectManagement.ViewModel
         private void AddViewICommandFun(object obj)
         {
             AddViewVisibility = Visibility.Visible;
-
-            OverViewVisibility = Visibility.Collapsed;
+            MaintenanceOverViewVisibility = Visibility.Collapsed;
+            EngineeringOverViewVisibility = Visibility.Collapsed;
             ChangeViewVisibility = Visibility.Collapsed;
             SettingViewVisibility = Visibility.Collapsed;
             TableViewVisibility = Visibility.Collapsed;
@@ -225,33 +282,34 @@ namespace ProjectManagement.ViewModel
         private void ChangeViewICommandFun(object obj)
         {
             ChangeViewVisibility = Visibility.Visible;
-
+            MaintenanceOverViewVisibility = Visibility.Collapsed;
             SettingViewVisibility = Visibility.Collapsed;
             TableViewVisibility = Visibility.Collapsed;
             AddViewVisibility = Visibility.Collapsed;
-            OverViewVisibility = Visibility.Collapsed;
+            EngineeringOverViewVisibility = Visibility.Collapsed;
         }
 
         private void SettingViewICommandFun(object obj)
         {
             SettingViewVisibility = Visibility.Visible;
-
+            MaintenanceOverViewVisibility = Visibility.Collapsed;
             TableViewVisibility = Visibility.Collapsed;
             AddViewVisibility = Visibility.Collapsed;
-            OverViewVisibility = Visibility.Collapsed;
+            EngineeringOverViewVisibility = Visibility.Collapsed;
             ChangeViewVisibility = Visibility.Collapsed;
         }
 
         private void TableViewICommandFun(object obj)
         {
             TableViewVisibility = Visibility.Visible;
-
+            MaintenanceOverViewVisibility = Visibility.Collapsed;
             SettingViewVisibility = Visibility.Collapsed;
             AddViewVisibility = Visibility.Collapsed;
-            OverViewVisibility = Visibility.Collapsed;
+            EngineeringOverViewVisibility = Visibility.Collapsed;
             ChangeViewVisibility = Visibility.Collapsed;
         }
         #endregion
+
         #endregion
     }
 }
