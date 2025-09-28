@@ -12,7 +12,6 @@
              d:DataContext="{d:DesignInstance Type=vm:OverviewVM}"
              d:DesignHeight="700"
              d:DesignWidth="1252">
-
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="147"/>

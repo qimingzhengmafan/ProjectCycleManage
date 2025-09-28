@@ -11,7 +11,7 @@
         x:Name="MainView"
         Title="MainWindow" 
         Height="700" 
-        Width="1300">
+        Width="1350">
     <Window.DataContext>
         <!--<vm:MainVM/>-->
         <vm:MainVM/>
@@ -132,10 +132,6 @@
 
                 <Grid Visibility="{Binding MaintenanceOverViewVisibility}">
                     <view:Overview DataContext="{Binding MaintenanceOverviewvmVMInfor}"/>
-                </Grid>
-
-                <Grid Visibility="{Binding ChangeViewVisibility}">
-                    <view:ChangeView/>
                 </Grid>
 
                 <Grid Visibility="{Binding AddViewVisibility}">

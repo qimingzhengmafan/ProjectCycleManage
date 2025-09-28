@@ -143,12 +143,6 @@ namespace ProjectManagement.ViewModel
             set => _addviewvm = value;
         }
 
-        private ChangeVM _changeviewvm = new ChangeVM();
-        public ChangeVM ChangeViewVMInfor
-        {
-            get => _changeviewvm;
-            set => _changeviewvm= value;
-        }
 
         private SettingVM settingviewvm = new SettingVM();
         public SettingVM SettingVMInfor

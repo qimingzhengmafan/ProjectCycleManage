@@ -11,16 +11,20 @@
   <ItemGroup>
     <None Remove="Resources\Images\人像.png" />
     <None Remove="Resources\Images\修改.png" />
+    <None Remove="Resources\Images\图标 1%401x.png" />
     <None Remove="Resources\Images\头像.png" />
     <None Remove="Resources\Images\好友-copy.png" />
     <None Remove="Resources\Images\总览1.png" />
     <None Remove="Resources\Images\总览w.png" />
     <None Remove="Resources\Images\新增项目_新增新建操作_jurassic.png" />
+    <None Remove="Resources\Images\时间安排.png" />
     <None Remove="Resources\Images\机器人.png" />
     <None Remove="Resources\Images\维修.png" />
     <None Remove="Resources\Images\表格 %281%29.png" />
     <None Remove="Resources\Images\表格 w.png" />
     <None Remove="Resources\Images\设置.png" />
+    <None Remove="Resources\Images\详情.png" />
+    <None Remove="Resources\Images\费用.png" />
   </ItemGroup>
 
   <ItemGroup>
@@ -56,6 +60,9 @@
     <Resource Include="Resources\Images\修改.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
+    <Resource Include="Resources\Images\图标 1@1x.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="Resources\Images\头像.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
@@ -71,6 +78,9 @@
     <Resource Include="Resources\Images\新增项目_新增新建操作_jurassic.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
+    <Resource Include="Resources\Images\时间安排.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="Resources\Images\机器人.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
@@ -85,6 +95,12 @@
     </Resource>
     <Resource Include="Resources\Images\设置.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\详情.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\费用.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
   </ItemGroup>
 
