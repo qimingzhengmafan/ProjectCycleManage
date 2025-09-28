@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:FolderExplorer"
         mc:Ignorable="d"
         Title="FolderExplorer" Height="450" Width="800">
-    <!--<Window.Resources>
+    <Window.Resources>
         <ResourceDictionary>
             <local:IconConverter x:Key="IconConverter"/>
             
@@ -25,7 +25,7 @@
     
     <Grid>
         <TreeView ItemsSource="{Binding RootFolders}"/>
-    </Grid>-->
+    </Grid>
     
     
     
