@@ -8,7 +8,20 @@ namespace ProjectManagement.ViewModel
 {
     public class TableVM
     {
-        public TreeViewModel treeViewModel = new TreeViewModel();
+        private TreeViewModel _treeViewModel = new TreeViewModel();
+        public TreeViewModel TreeViewModel
+        {
+            get => _treeViewModel;
+            set => _treeViewModel = value;
+        }
+
+
+        public DetailedInformation detailedInformation = new DetailedInformation();
+
+        public TableVM()
+        {
+
+        }
 
     }
 }

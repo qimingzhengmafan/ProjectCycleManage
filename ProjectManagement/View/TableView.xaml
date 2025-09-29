@@ -10,6 +10,9 @@
              mc:Ignorable="d" 
              d:DesignHeight="700" 
              d:DesignWidth="1252">
+    <UserControl.DataContext>
+        <viewmodel:TableVM/>
+    </UserControl.DataContext>
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="233"/>
@@ -17,11 +20,20 @@
         </Grid.ColumnDefinitions>
 
         <Grid>
-            <Grid.DataContext>
-                <viewmodel:TreeViewModel/>
-            </Grid.DataContext>
-            <TreeView ItemsSource="{Binding TreeModel1.LevelTwo}">
-
+            <TreeView ItemsSource="{Binding TreeViewModel.TreeModel1.LevelTwo}"
+                      FontSize="20"
+                      BorderThickness=" 0 0 0.5 0"
+                      FontFamily="Microsoft YaHei" 
+                      FontWeight="Bold" >
+                <TreeView.ItemContainerStyle>
+                    <Style TargetType="TreeViewItem">
+                        <Setter Property="Margin" 
+                                Value="0,15,0,5"/>
+                        <!-- 上下间距2，左右间距0 -->
+                    </Style>
+                </TreeView.ItemContainerStyle>
+                
+                
                 <TreeView.ItemTemplate>
                     <HierarchicalDataTemplate ItemsSource="{Binding LevelTwo}">
                         <TextBlock Text="{Binding LevelOne}"/>
@@ -38,6 +50,9 @@
                 </draw:DrawerUI>
             </ScrollViewer>-->
             <ScrollViewer>
+                <ScrollViewer.DataContext>
+                    <viewmodel:DetailedInformation/>
+                </ScrollViewer.DataContext>
                 <ItemsControl ItemsSource="{Binding YourDataCollection}">
                     <ItemsControl.ItemsPanel>
                         <ItemsPanelTemplate>
@@ -48,7 +63,7 @@
 
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
-                            <draw:DrawerUI />
+                            <draw:DrawerUI/>
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>
                 </ItemsControl>

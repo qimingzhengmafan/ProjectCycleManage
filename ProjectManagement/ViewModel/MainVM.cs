@@ -176,11 +176,6 @@ namespace ProjectManagement.ViewModel
             //_ , TableVMInfor.treeViewModel.People
             //int _index2 = 0;
             //List<string> strings = new List<string>();
-
-            Task.Run(async() => {
-                var (_index2, strings) = await getdata();
-                TableVMInfor.treeViewModel.People = strings;
-            });
             
             //DataPool.Connect();
 

@@ -3,6 +3,7 @@ using ProjectManagement.Data;
 using ProjectManagement.Model;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -15,7 +16,11 @@ namespace ProjectManagement.ViewModel
         public TreeModel TreeModel1
         {
             get { return _treeModel; }
-            set { _treeModel = value; }
+            set
+            {
+                _treeModel = value;
+            }
+
         }
 
         private List<string> _people = new List<string>();
@@ -35,14 +40,14 @@ namespace ProjectManagement.ViewModel
 
             TreeModel First = new TreeModel();
             TreeModel Second = new TreeModel();
-            First.LevelOne = "工程";
+            First.LevelOne = "📁  工程项目";
 
-            Second.LevelOne = "设备";
+            Second.LevelOne = "📁  工程维修";
 
             TreeModel FirstYearIList = new TreeModel();
             TreeModel SecondYearList = new TreeModel();
-            FirstYearIList.LevelOne = "年份";
-            SecondYearList.LevelOne = "年份";
+            FirstYearIList.LevelOne = "📅  年份";
+            SecondYearList.LevelOne = "📅  年份";
 
 
             //Task.Run(async () => {
@@ -55,7 +60,7 @@ namespace ProjectManagement.ViewModel
             for (int i = 2022; i <= year; i++)
             {
                 TreeModel FirstYear = new TreeModel();
-                FirstYear.LevelOne = i.ToString();
+                FirstYear.LevelOne = "📆  " + i.ToString();
                 FirstYearIList.LevelTwo.Add(FirstYear);
             }
             First.LevelTwo.Add(FirstYearIList);
@@ -64,7 +69,7 @@ namespace ProjectManagement.ViewModel
             for (int i = 2022; i <= year; i++)
             {
                 TreeModel SecondYear = new TreeModel();
-                SecondYear.LevelOne = i.ToString();
+                SecondYear.LevelOne = "📆  " + i.ToString();
                 SecondYearList.LevelTwo.Add(SecondYear);
             }
             Second.LevelTwo.Add(SecondYearList);
@@ -73,13 +78,13 @@ namespace ProjectManagement.ViewModel
 
             TreeModel FirstPeopleList = new TreeModel();
             TreeModel SecondPeopleList = new TreeModel();
-            FirstPeopleList.LevelOne = "人员";
-            SecondPeopleList.LevelOne = "人员";
+            FirstPeopleList.LevelOne = "👥  人员";
+            SecondPeopleList.LevelOne = "👥  人员";
 
             foreach (var item in People)
             {
                 TreeModel peoplelist1 = new TreeModel();
-                peoplelist1.LevelOne = item.ToString();
+                peoplelist1.LevelOne = "👤  " + item.ToString();
                 FirstPeopleList.LevelTwo.Add(peoplelist1);
             }
             First.LevelTwo.Add(FirstPeopleList);
@@ -96,17 +101,16 @@ namespace ProjectManagement.ViewModel
         {
             using (var context = new ProjectContext())
             {
-                // 获取总数据条数
                 int totalCount = context.PeopleTable.Count();
-                Console.WriteLine($"总共有 {totalCount} 条数据");
 
-                // 获取所有人的名字
                 List<string> allNames =context.PeopleTable
                     .Select(p => p.PeopleName)
                     .ToList();
                 return (totalCount, allNames);
             }
         }
+
+
     }
 }
 
