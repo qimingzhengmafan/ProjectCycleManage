@@ -32,10 +32,26 @@
         </Grid>
 
         <Grid Grid.Column="1">
-            <ScrollViewer>
+            <!--<ScrollViewer>
                 <draw:DrawerUI>
 
                 </draw:DrawerUI>
+            </ScrollViewer>-->
+            <ScrollViewer>
+                <ItemsControl ItemsSource="{Binding YourDataCollection}">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <StackPanel Orientation="Vertical"/>
+                            <!-- 或者 WrapPanel, Grid 等 -->
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <draw:DrawerUI />
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
             </ScrollViewer>
             
         </Grid>
