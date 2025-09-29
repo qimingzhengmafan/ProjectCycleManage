@@ -89,24 +89,6 @@ namespace ProjectManagement.ViewModel
             TreeModel1.LevelTwo.Add(First);
             TreeModel1.LevelTwo.Add(Second);
 
-
-
-
-
-
-            //for (int i = 0; i < 5; i++)
-            //{
-            //    TreeModel treeViewModel = new TreeModel();
-            //    treeViewModel.LevelOne = $"第{i + 1}级";
-            //    for (int j = 0; j < 5; j++)
-            //    {
-            //        TreeModel treeViewModel1 = new TreeModel();
-            //        treeViewModel1.LevelOne = $"第{i + 1}----{j + 1}级";
-            //        treeViewModel.LevelTwo.Add(treeViewModel1);
-            //    }
-            //    TreeModel1.LevelTwo.Add(treeViewModel);
-            //}
-
         }
 
 
