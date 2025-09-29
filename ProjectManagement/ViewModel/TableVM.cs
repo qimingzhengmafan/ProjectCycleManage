@@ -8,6 +8,7 @@ namespace ProjectManagement.ViewModel
 {
     public class TableVM
     {
+        public TreeViewModel treeViewModel = new TreeViewModel();
 
     }
 }

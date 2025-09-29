@@ -1,6 +1,8 @@
 ﻿using LiveChartsCore.SkiaSharpView.Extensions;
 using LiveChartsCore.SkiaSharpView.Painting;
+using Microsoft.EntityFrameworkCore;
 using Page_Navigation_App.Utilities;
+using ProjectManagement.Data;
 using SkiaSharp;
 using System;
 using System.Collections.Generic;
@@ -9,6 +11,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Documents;
 using System.Windows.Input;
 using System.Xml.Linq;
 
@@ -163,13 +166,22 @@ namespace ProjectManagement.ViewModel
 
         public MainVM()
         {
+            
             int _index = 0;
             string[] _names = new string[4] { "2022", "2023", "2024", "2025" };
 
             int _index1 = 0;
             string[] _names1 = new string[7] { "项目需求", "立项评审", "方案评审", "设备采购",
                                                 "预验收/组装调试", "设备验收", "完成" };
+            //_ , TableVMInfor.treeViewModel.People
+            //int _index2 = 0;
+            //List<string> strings = new List<string>();
 
+            Task.Run(async() => {
+                var (_index2, strings) = await getdata();
+                TableVMInfor.treeViewModel.People = strings;
+            });
+            
             //DataPool.Connect();
 
             //List<int> lista = new List<int>();
@@ -305,5 +317,25 @@ namespace ProjectManagement.ViewModel
         #endregion
 
         #endregion
+
+        /// <summary>
+        /// 获取总人数和名字
+        /// </summary>
+        /// <returns></returns>
+        private async Task<(int count, List<string>)> getdata()
+        {
+            using (var context = new ProjectContext())
+            {
+                // 获取总数据条数
+                int totalCount = await context.PeopleTable.CountAsync();
+                Console.WriteLine($"总共有 {totalCount} 条数据");
+
+                // 获取所有人的名字
+                List<string> allNames = await context.PeopleTable
+                    .Select(p => p.PeopleName)
+                    .ToListAsync();
+                return (totalCount , allNames);
+            }
+        }
     }
 }
