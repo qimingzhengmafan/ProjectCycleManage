@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:ProjectManagement.View"
              xmlns:uc="clr-namespace:ProjectManagement.View.UserControls"
              xmlns:vm="clr-namespace:ProjectManagement.ViewModel"
-             xmlns:slc="clr-namespace:ScrollControlProject;assembly=ScrollControlProject"
+             xmlns:slc="clr-namespace:ScrollControlProjectnetcore;assembly=ScrollControlProjectnetcore"
              xmlns:view="clr-namespace:ProjectManagement.View"
              mc:Ignorable="d" 
              d:DataContext="{d:DesignInstance Type=vm:OverviewVM}"

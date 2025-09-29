@@ -50,7 +50,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\DrawerTest\DrawerTest.csproj" />
-    <ProjectReference Include="..\ScrollControlProject\ScrollControlProject.csproj" />
+    <ProjectReference Include="..\ScrollControlProjectnetcore\ScrollControlProjectnetcore.csproj" />
   </ItemGroup>
 
   <ItemGroup>

@@ -1,7 +1,9 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -10,15 +12,12 @@ using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using System.ComponentModel;
-using System.Runtime.CompilerServices;
 using System.Windows.Threading;
 
-namespace ScrollControlProject
+namespace ScrollControlProjectnetcore
 {
     /// <summary>
     /// SeamlessLoopingScroll.xaml 的交互逻辑
@@ -41,7 +40,7 @@ namespace ScrollControlProject
             _timer = new DispatcherTimer();
             _timer.Interval = TimeSpan.FromMilliseconds(20);
             _timer.Tick += Timer_Tick;
-            Loaded += (s, e) => 
+            Loaded += (s, e) =>
             {
                 InitializeItemsControl();
                 _timer.Start();
@@ -106,7 +105,7 @@ namespace ScrollControlProject
         }
 
         public static readonly DependencyProperty ItemsSourceProperty = DependencyProperty.Register(
-            "ItemsSource", 
+            "ItemsSource",
             typeof(IEnumerable<ProjectItem>), // 使用具体泛型类型 
             typeof(SeamlessLoopingScroll),
             new PropertyMetadata(null, OnItemsSourceChanged));
@@ -167,7 +166,8 @@ namespace ScrollControlProject
             _projects.Clear();
 
             // 初始化ItemsControl
-            if(Resources.Contains("ProjectItemTemplate")){
+            if (Resources.Contains("ProjectItemTemplate"))
+            {
                 itemsControl.ItemTemplate = (DataTemplate)FindResource("ProjectItemTemplate");
             }
 
@@ -188,8 +188,8 @@ namespace ScrollControlProject
                     {
                         ProjectName = $"项目{i}：生产线优化",
                         Progress = new Random().Next(20, 100),
-                        Materials = $"图纸{(i%3+1)} 规范{(i%3+1)}",
-                        Owner = $"{(char)(65 + i%5)}"
+                        Materials = $"图纸{(i % 3 + 1)} 规范{(i % 3 + 1)}",
+                        Owner = $"{(char)(65 + i % 5)}"
                     });
                 }
             }
@@ -221,5 +221,4 @@ namespace ScrollControlProject
             scroller.ScrollToVerticalOffset(_scrollOffset);
         }
     }
-
 }

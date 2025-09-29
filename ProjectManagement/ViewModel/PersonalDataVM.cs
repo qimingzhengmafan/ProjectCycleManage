@@ -1,5 +1,5 @@
 ﻿using Page_Navigation_App.Utilities;
-using ScrollControlProject;
+using ScrollControlProjectnetcore;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -34,7 +34,7 @@ namespace ProjectManagement.ViewModel
 
         }
 
-        private ObservableCollection<SeamlessLoopingScroll.ProjectItem> _personalprojectslist = new ObservableCollection<SeamlessLoopingScroll.ProjectItem>() 
+        private ObservableCollection<SeamlessLoopingScroll.ProjectItem> _personalprojectslist = new ObservableCollection<SeamlessLoopingScroll.ProjectItem>()
         {
             new SeamlessLoopingScroll.ProjectItem
             {

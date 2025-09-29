@@ -1,5 +1,5 @@
 ﻿using Page_Navigation_App.Utilities;
-using ScrollControlProject;
+using ScrollControlProjectnetcore;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;

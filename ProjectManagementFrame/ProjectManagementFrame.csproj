@@ -275,12 +275,6 @@
     <Resource Include="Resources\Images\头像.png" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ScrollControlProject\ScrollControlProject.csproj">
-      <Project>{d8bbd67f-b6d5-4e28-b413-32a584bc9686}</Project>
-      <Name>ScrollControlProject</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Resources\Images\设置.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

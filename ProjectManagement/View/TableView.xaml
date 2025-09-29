@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:ProjectManagement.View"
              xmlns:viewmodel="clr-namespace:ProjectManagement.ViewModel"
-             xmlns:slc="clr-namespace:ScrollControlProject;assembly=ScrollControlProject"
+             xmlns:slc="clr-namespace:ScrollControlProjectnetcore;assembly=ScrollControlProjectnetcore"
              xmlns:draw="clr-namespace:DrawerTest;assembly=DrawerTest"
              mc:Ignorable="d" 
              d:DesignHeight="700" 
