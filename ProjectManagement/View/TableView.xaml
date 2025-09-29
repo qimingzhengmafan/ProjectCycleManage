@@ -4,6 +4,9 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:ProjectManagement.View"
+             xmlns:viewmodel="clr-namespace:ProjectManagement.ViewModel"
+             xmlns:slc="clr-namespace:ScrollControlProject;assembly=ScrollControlProject"
+             xmlns:draw="clr-namespace:DrawerTest;assembly=DrawerTest"
              mc:Ignorable="d" 
              d:DesignHeight="700" 
              d:DesignWidth="1252">
@@ -14,15 +17,27 @@
         </Grid.ColumnDefinitions>
 
         <Grid>
-            <TreeView>
-                
+            <Grid.DataContext>
+                <viewmodel:TreeViewModel/>
+            </Grid.DataContext>
+            <TreeView ItemsSource="{Binding TreeModel1.LevelTwo}">
+
+                <TreeView.ItemTemplate>
+                    <HierarchicalDataTemplate ItemsSource="{Binding LevelTwo}">
+                        <TextBlock Text="{Binding LevelOne}"/>
+                    </HierarchicalDataTemplate>
+                </TreeView.ItemTemplate>
+
             </TreeView>
         </Grid>
 
         <Grid Grid.Column="1">
             <ScrollViewer>
-                
+                <draw:DrawerUI>
+
+                </draw:DrawerUI>
             </ScrollViewer>
+            
         </Grid>
     </Grid>
 </UserControl>

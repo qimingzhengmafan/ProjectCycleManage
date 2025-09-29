@@ -28,7 +28,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Model\" />
     <Folder Include="Resources\Config\" />
     <Folder Include="Resources\Fonts\" />
   </ItemGroup>
@@ -50,6 +49,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\DrawerTest\DrawerTest.csproj" />
     <ProjectReference Include="..\ScrollControlProject\ScrollControlProject.csproj" />
   </ItemGroup>
 
