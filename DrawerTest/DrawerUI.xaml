@@ -99,7 +99,8 @@
                               Height="60">
                         <Button BorderThickness="0"
                                 Background="Transparent"
-                                HorizontalContentAlignment="Left">
+                                HorizontalContentAlignment="Left"
+                                Command="{Binding DetailedInformationCommand}">
                             <Button.Content>
                                 <StackPanel Orientation="Horizontal">
                                     <TextBlock x:Name="ProjectName"

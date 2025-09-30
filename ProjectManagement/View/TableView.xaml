@@ -53,11 +53,11 @@
                 <ScrollViewer.DataContext>
                     <viewmodel:DetailedInformation/>
                 </ScrollViewer.DataContext>
+                
                 <ItemsControl ItemsSource="{Binding YourDataCollection}">
                     <ItemsControl.ItemsPanel>
                         <ItemsPanelTemplate>
                             <StackPanel Orientation="Vertical"/>
-                            <!-- 或者 WrapPanel, Grid 等 -->
                         </ItemsPanelTemplate>
                     </ItemsControl.ItemsPanel>
 
@@ -70,5 +70,16 @@
             </ScrollViewer>
             
         </Grid>
+
+        <Grid Grid.Column="1"
+              Width="0"
+              HorizontalAlignment="Right"
+              Background="White">
+            <ScrollViewer>
+                <local:ProjectDetails/>
+            </ScrollViewer>
+        </Grid>
+        
+        
     </Grid>
 </UserControl>

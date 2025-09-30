@@ -1,4 +1,5 @@
-﻿using ProjectManagement.Data;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using ProjectManagement.Data;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace ProjectManagement.ViewModel
 {
-    public class TableVM
+    public class TableVM: ObservableObject
     {
         public ProjectContext Context { get; set; }
         private TreeViewModel _treeViewModel = new TreeViewModel();
@@ -16,7 +17,10 @@ namespace ProjectManagement.ViewModel
             get => _treeViewModel;
             set => _treeViewModel = value;
         }
+        private bool IsShow { get; set; }
 
+        [ObservableProperty]
+        private int _showwidth = 0;
 
         public DetailedInformation detailedInformation = new DetailedInformation();
 

@@ -6,6 +6,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace DrawerTest
 {
@@ -13,17 +14,26 @@ namespace DrawerTest
     {
         [ObservableProperty] private double _currentPressurex;
 
+        [ObservableProperty] private Action _detailedinformationfun;
+
         [ObservableProperty] 
         private int _uiheight;
 
         [ObservableProperty]
-        private int _allprojectsNum = 0;
+        private int _allprojectsNum = 10;
 
         [ObservableProperty]
         private int _completeProjects;
 
         //[ObservableProperty]
         private bool IsShow { get; set; } = false;
+
+        public DrawerUIVM()
+        {
+            _detailedinformationfun = tt;
+        }
+
+
 
         [RelayCommand]
         private void ShowICommand()
@@ -39,6 +49,20 @@ namespace DrawerTest
             }
         }
 
-        
+        private void tt()
+        {
+            MessageBox.Show("test");
+        }
+
+        [RelayCommand]
+        private void DetailedInformation()
+        {
+            DetailedInformationACT(_detailedinformationfun);
+        }
+        private void DetailedInformationACT(Action action)
+        {
+            action();
+        }
+
     }
 }

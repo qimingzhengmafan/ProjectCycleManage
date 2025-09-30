@@ -6,7 +6,6 @@ namespace ProjectManagement.ViewModel;
 
 public class DetailedInformation:INotifyPropertyChanged
 {
-
     private ObservableCollection<DrawerUIVM> _yourDataCollection;
     public ObservableCollection<DrawerUIVM> YourDataCollection
     {
@@ -18,10 +17,13 @@ public class DetailedInformation:INotifyPropertyChanged
         }
     }
 
+
+
     public DetailedInformation()
     {
         // 初始化数据
         YourDataCollection = new ObservableCollection<DrawerUIVM>();
+        YourDataCollection[0].Detailedinformationfun = 
 
         // 添加示例数据
         for (int i = 0; i < 5; i++)
