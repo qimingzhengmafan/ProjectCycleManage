@@ -8,25 +8,45 @@ using System.Threading.Tasks;
 
 namespace ProjectManagement.ViewModel
 {
-    public class TableVM: ObservableObject
+    public partial class TableVM: ObservableObject
     {
         public ProjectContext Context { get; set; }
         private TreeViewModel _treeViewModel = new TreeViewModel();
-        public TreeViewModel TreeViewModel
-        {
-            get => _treeViewModel;
-            set => _treeViewModel = value;
-        }
         private bool IsShow { get; set; }
 
         [ObservableProperty]
         private int _showwidth = 0;
 
-        public DetailedInformation detailedInformation = new DetailedInformation();
+        [ObservableProperty]
+        private DetailedInformation _detailedInformationvm = new DetailedInformation();
+
+
+        public TreeViewModel TreeViewModel
+        {
+            get => _treeViewModel;
+            set => _treeViewModel = value;
+        }
+        
+
+        private void ShowingCtrl()
+        {
+            IsShow = !IsShow;
+            if (IsShow)
+            {
+                Showwidth = 900;
+            }
+            else
+            {
+                Showwidth = 0;
+            }
+        }
+
+
+        //public DetailedInformation detailedInformation = new DetailedInformation();
 
         public TableVM()
         {
-
+            DetailedInformationvm.YourDataCollection[0].Detailedinformationfun = ShowingCtrl;
         }
 
     }

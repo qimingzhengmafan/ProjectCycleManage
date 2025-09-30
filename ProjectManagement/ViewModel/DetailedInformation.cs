@@ -23,7 +23,6 @@ public class DetailedInformation:INotifyPropertyChanged
     {
         // 初始化数据
         YourDataCollection = new ObservableCollection<DrawerUIVM>();
-        YourDataCollection[0].Detailedinformationfun = 
 
         // 添加示例数据
         for (int i = 0; i < 5; i++)
