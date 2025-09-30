@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ProjectManagement.Data;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,6 +9,7 @@ namespace ProjectManagement.ViewModel
 {
     public class TableVM
     {
+        public ProjectContext Context { get; set; }
         private TreeViewModel _treeViewModel = new TreeViewModel();
         public TreeViewModel TreeViewModel
         {

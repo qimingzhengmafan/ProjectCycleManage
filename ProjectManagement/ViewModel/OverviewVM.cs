@@ -1,4 +1,5 @@
 ﻿using Page_Navigation_App.Utilities;
+using ProjectManagement.Data;
 using ScrollControlProjectnetcore;
 using System;
 using System.Collections.Generic;
@@ -14,10 +15,11 @@ namespace ProjectManagement.ViewModel
 {
     public class OverviewVM:ViewModelBase
     {
+        public ProjectContext Context { get; set; }
         #region ICommand
 
         #region VisibilityICommand
-        
+
         public ICommand VisibilityICommand_OverView { get; set; }
         public ICommand VisibilityICommand_ZhuChengXu { get; set; }
         public ICommand VisibilityICommand_DongXin { get; set; }

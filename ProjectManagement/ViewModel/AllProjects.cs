@@ -1,11 +1,12 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using LiveChartsCore;
+using LiveChartsCore.Drawing;
 using LiveChartsCore.SkiaSharpView;
 using LiveChartsCore.SkiaSharpView.Extensions;
 using LiveChartsCore.SkiaSharpView.Painting;
-using LiveChartsCore.Drawing;
 using LiveChartsCore.SkiaSharpView.VisualElements;
 using Page_Navigation_App.Utilities;
+using ProjectManagement.Data;
 using SkiaSharp;
 using System;
 using System.Collections.Generic;
@@ -17,6 +18,7 @@ namespace ProjectManagement.ViewModel
 {
     public class AllProjects:ViewModelBase
     {
+        public ProjectContext Context { get; set; }
 
         private IEnumerable<ISeries> _series;
         public IEnumerable<ISeries> Series

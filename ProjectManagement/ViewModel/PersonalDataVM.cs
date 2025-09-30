@@ -1,4 +1,5 @@
 ﻿using Page_Navigation_App.Utilities;
+using ProjectManagement.Data;
 using ScrollControlProjectnetcore;
 using System;
 using System.Collections.Generic;
@@ -11,6 +12,7 @@ namespace ProjectManagement.ViewModel
 {
     public class PersonalDataVM :ViewModelBase
     {
+        public ProjectContext Context { get; set; }
         private AllProjects _personalprojectsinformation = new AllProjects();
         public AllProjects PersonalProjectsInformation
         {
