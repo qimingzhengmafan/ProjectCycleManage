@@ -17,10 +17,13 @@ namespace ProjectManagement.ViewModel
     {
         public ProjectContext Context { get; set; }
         private ContextModel _contextModel { get; set; }
+        DateTime currenttime = DateTime.Now;
+        //int year = currenttime.Year;
         public AddVM()
         {
             _contextModel = new ContextModel(Context);
-            Projectsid = 1;
+            Year = currenttime.Year;
+            ProcurementMonth = currenttime;
 
 
             LoadEmployees();
@@ -99,7 +102,8 @@ namespace ProjectManagement.ViewModel
         {
             if (SelectedEmployee != null)
             {
-                StatusMessage = $"选中: {SelectedEmployee.PeopleName} ({SelectedEmployee.PeopleId})";
+                //StatusMessage = $"选中: {SelectedEmployee.PeopleName} ({SelectedEmployee.PeopleId})";
+                ProjectsLeaderID = SelectedEmployee.PeopleId;
             }
         }
 
@@ -125,7 +129,7 @@ namespace ProjectManagement.ViewModel
         // 更新状态信息
         private void UpdateFollowStatusMessage()
         {
-
+            ProjectsfollowuppersonId = SelectedFollowEmployee.PeopleId;
         }
 
 
@@ -190,6 +194,7 @@ namespace ProjectManagement.ViewModel
             //    StatusMessage = $"选中: {SelectedEmployee.PeopleName} ({SelectedEmployee.PeopleId})";
             //    MessageBox.Show(StatusMessage);
             //}
+            EquipmenttypeId = SelectedEquipmentType.EquipmentTypeId;
         }
 
 
@@ -249,7 +254,7 @@ namespace ProjectManagement.ViewModel
         // 更新状态信息
         private void UpdateTypeStatus()
         {
-
+            TypeId = SelectedType.TypeId;
         }
 
 

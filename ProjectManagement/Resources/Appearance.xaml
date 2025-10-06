@@ -127,11 +127,11 @@
                              Height="{TemplateBinding Height}"
                              Text="{Binding SelectedDate, RelativeSource={RelativeSource TemplatedParent}, StringFormat='yyyy-MM-dd'}" />
                         <Button x:Name="PART_Button"
-                            Grid.Column="1"
-                            Content="📅"
-                            FontSize="{TemplateBinding FontSize}"
-                            Height="{TemplateBinding Height}"
-                            Width="{TemplateBinding Height}"/>
+                                Grid.Column="1"
+                                Content="📅"
+                                FontSize="{TemplateBinding FontSize}"
+                                Height="{TemplateBinding Height}"
+                                Width="{TemplateBinding Height}"/>
                     </Grid>
                 </ControlTemplate>
             </Setter.Value>
