@@ -1,4 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using Microsoft.EntityFrameworkCore;
 using ProjectManagement.Data;
 using ProjectManagement.Model;
@@ -15,20 +16,37 @@ namespace ProjectManagement.ViewModel
 {
     public partial class AddVM: ObservableObject
     {
-        public ProjectContext Context { get; set; }
-        private ContextModel _contextModel { get; set; }
+        //public ProjectContext Context { get; set; }
+        //private ContextModel _contextModel { get; set; }
         DateTime currenttime = DateTime.Now;
         //int year = currenttime.Year;
         public AddVM()
         {
-            _contextModel = new ContextModel(Context);
+            //_contextModel = new ContextModel(Context);
             Year = currenttime.Year;
             ProcurementMonth = currenttime;
-
+            //Projectsid = _contextModel.GetTotalProjectsNum() + 1;
 
             LoadEmployees();
             LoadType();
             LoadEquipmentType();
+            Loadprojectstage();
+
+            using (var context = new ProjectContext())
+            {
+                Projectsid = context.Projects.Count() + 1;
+                //var employees = context.PeopleTable
+                //    .OrderBy(e => e.PeopleName)
+                //    .ToList();
+
+                //Employees = new ObservableCollection<PeopleTable>(employees);
+
+                //if (Employees.Count > 0)
+                //{
+                //    //SelectedFollowEmployee = Employees[0];
+                //    SelectedEmployee = Employees[0];
+                //}
+            }
         }
 
         #region 责任人下拉框
@@ -259,6 +277,86 @@ namespace ProjectManagement.ViewModel
 
 
         #endregion
+        #region 阶段下拉框
+
+        private ObservableCollection<ProjectStage> _projectstage;
+        private ProjectStage _selectedprojectstage;
+
+        // 列表 - 用于下拉框
+        public ObservableCollection<ProjectStage> Projectstage
+        {
+            get => _projectstage;
+            set
+            {
+                _projectstage = value;
+                OnPropertyChanged();
+            }
+        }
+
+        // 选中
+        public ProjectStage Selectedprojectstage
+        {
+            get => _selectedprojectstage;
+            set
+            {
+                _selectedprojectstage = value;
+                OnPropertyChanged();
+                UpdateProjectStage();
+            }
+        }
+
+        // 加载数据
+        private void Loadprojectstage()
+        {
+            try
+            {
+                using (var context = new ProjectContext())
+                {
+                    var projectstage = context.ProjectStage
+                        .OrderBy(e => e.ProjectStageName)
+                        .ToList();
+
+                    Projectstage = new ObservableCollection<ProjectStage>(projectstage);
+
+                    if (Types.Count > 0)
+                        SelectedType = Types[0];
+
+                }
+            }
+            catch (Exception ex)
+            {
+
+            }
+        }
+
+        // 更新状态信息
+        private void UpdateProjectStage()
+        {
+            TypeId = SelectedType.TypeId;
+        }
+
+
+        #endregion
+
+        private int DifferenceInDays(DateTime? startDate, DateTime? endDate)
+        {
+            int differenceInDays = 0;
+            try
+            {
+                TimeSpan ts = (DateTime)endDate - (DateTime)startDate;
+                differenceInDays = ts.Days;
+            }
+            catch (Exception)
+            {
+
+                //throw;
+            }
+            
+
+            // Difference in days.
+            
+            return differenceInDays;
+        }
 
 
 
@@ -298,7 +396,8 @@ namespace ProjectManagement.ViewModel
         /// </summary>
         [ObservableProperty]
         private string _projectIdentifyingNumber;
-        
+
+
         /// <summary>
         /// 设备类型ID
         /// </summary>
@@ -322,7 +421,24 @@ namespace ProjectManagement.ViewModel
         /// </summary>
         [ObservableProperty]
         private DateTime? _finishTime;
-        
+        partial void OnFinishTimeChanged(DateTime? value)
+        {
+            ProjectCycle = DifferenceInDays(StartTime, value);
+        }
+
+        /// <summary>
+        /// 开始时间
+        /// </summary>
+        [ObservableProperty]
+        private DateTime? _startTime;
+        partial void OnStartTimeChanged(DateTime? value)
+        {
+            ProjectCycle = DifferenceInDays(value, FinishTime);
+        }
+
+        [ObservableProperty]
+        private int? _projectCycle;
+
         /// <summary>
         /// 项目预算
         /// </summary>
@@ -364,6 +480,34 @@ namespace ProjectManagement.ViewModel
         /// </summary>
         [ObservableProperty] 
         private string? _remarkks;
+
+        #endregion
+
+        #region Command
+
+        [RelayCommand]
+        private void Save()
+        {
+            try
+            {
+                if (Projectsid != null && ProjectName != null &&
+                    TypeId != null && EquipmentTypes != null &&
+                    StartTime != null && FinishTime != null)
+                {
+
+                }
+                else
+                {
+                    MessageBox.Show("必填项缺失");
+                }
+
+            }
+            catch (Exception)
+            {
+
+                //throw;
+            }
+        }
 
         #endregion
 

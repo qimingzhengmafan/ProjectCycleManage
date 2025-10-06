@@ -358,6 +358,7 @@
                                         </StackPanel>
                                         <TextBox Height="50"
                                                  FontSize="20"
+                                                 Text="{Binding Equipmentname}"
                                                  VerticalContentAlignment="Center"
                                                  HorizontalAlignment="Left"
                                                  Width="350"
@@ -400,6 +401,7 @@
                                         </StackPanel>
                                         <TextBox Height="50"
                                                  FontSize="20"
+                                                 Text="{Binding Remarkks}"
                                                  VerticalContentAlignment="Center"
                                                  HorizontalAlignment="Left"
                                                  Width="350"
@@ -454,6 +456,7 @@
                                         </StackPanel>
                                         <DatePicker Style="{StaticResource LargeDatePickerStyle}"
                                                     HorizontalAlignment="Left"
+                                                    SelectedDate="{Binding StartTime}"
                                                     Width="350"
                                                     Margin="30 0 0 0"
                                                     FontSize="20"
@@ -475,6 +478,7 @@
                                         </StackPanel>
                                         <DatePicker Style="{StaticResource LargeDatePickerStyle}"
                                                     HorizontalAlignment="Left"
+                                                    SelectedDate="{Binding FinishTime}"
                                                     Width="350"
                                                     Margin="30 0 0 0"
                                                     FontSize="20"
@@ -495,11 +499,16 @@
                                                         HorizontalAlignment="Left"
                                                         Width="350"
                                                         Margin="30 0 0 0"/>-->
-                                        <ComboBox HorizontalAlignment="Left"
-                                                  Width="350"
-                                                  Margin="30 0 0 0"
+                                        <ComboBox Height="50"
                                                   FontSize="20"
-                                                  Height="50"/>
+                                                  ItemsSource="{Binding Projectstage}"
+                                                  DisplayMemberPath="ProjectStageName"
+                                                  SelectedValuePath="ProjectStageId"
+                                                  SelectedItem="{Binding Selectedprojectstage, Mode=TwoWay}"
+                                                  VerticalContentAlignment="Center"
+                                                  HorizontalAlignment="Left"
+                                                  Width="350"
+                                                  Margin="30 0 0 0"/>
 
                                     </StackPanel>
                                 </Grid>
@@ -529,6 +538,7 @@
                                                  FontSize="20"
                                                  IsEnabled="False"
                                                  IsReadOnly="True"
+                                                 Text="{Binding ProjectCycle}"
                                                  VerticalContentAlignment="Center"
                                                  HorizontalAlignment="Left"
                                                  Width="350"
@@ -578,6 +588,7 @@
                                         </StackPanel>
                                         <TextBox Height="50"
                                                  FontSize="20"
+                                                 Text="{Binding Budget}"
                                                  VerticalContentAlignment="Center"
                                                  HorizontalAlignment="Left"
                                                  Width="350"
@@ -594,6 +605,7 @@
                                         </StackPanel>
                                         <TextBox Height="50"
                                                  FontSize="20"
+                                                 Text="{Binding ActualExpenditure}"
                                                  VerticalContentAlignment="Center"
                                                  HorizontalAlignment="Left"
                                                  Width="350"
@@ -626,7 +638,8 @@
                                     FontSize="20"
                                     Foreground="White"
                                     Height="61" 
-                                    Margin="1066,37,46,52"/>
+                                    Margin="1066,37,46,52"
+                                    Command="{Binding SaveCommand}"/>
                         </Grid>
                     </Border>
 

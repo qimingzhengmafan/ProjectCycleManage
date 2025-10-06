@@ -109,7 +109,7 @@
                 Value="30 0 0 0"/>
     </Style>
 
-    <Style x:Key="LargeDatePickerStyle" TargetType="DatePicker">
+    <!--<Style x:Key="LargeDatePickerStyle" TargetType="DatePicker">
         <Setter Property="FontSize" Value="18"/>
         <Setter Property="Height" Value="40"/>
         <Setter Property="Width" Value="200"/>
@@ -132,6 +132,80 @@
                                 FontSize="{TemplateBinding FontSize}"
                                 Height="{TemplateBinding Height}"
                                 Width="{TemplateBinding Height}"/>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>-->
+
+
+    <Style x:Key="LargeDatePickerStyle" TargetType="DatePicker">
+        <Setter Property="FontSize" 
+                Value="18"/>
+        <Setter Property="Height" 
+                Value="40"/>
+        <Setter Property="Width" 
+                Value="200"/>
+
+        <Setter Property="HorizontalContentAlignment"
+                Value="Left"/>
+        <Setter Property="VerticalContentAlignment"
+                Value="Center"/>
+        <Setter Property="VerticalAlignment"
+                Value="Center"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="DatePicker">
+                    <Grid x:Name="Root">
+                        <Grid.Resources>
+                            <Style x:Key="CalendarButtonStyle" TargetType="Button">
+                                <Setter Property="FontSize" Value="18"/>
+                                <Setter Property="MinWidth" Value="30"/>
+                                <Setter Property="MinHeight" Value="30"/>
+                            </Style>
+                        </Grid.Resources>
+
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+
+                        <!-- 使用原始的DatePickerTextBox -->
+                        <DatePickerTextBox x:Name="PART_TextBox"
+                                       Grid.Column="0"
+                                       FontSize="{TemplateBinding FontSize}"
+                                       Height="{TemplateBinding Height}"
+                                       HorizontalContentAlignment="Left"/>
+
+                        <!-- 使用原始的ToggleButton -->
+                        <ToggleButton x:Name="PART_Button"
+                                  Grid.Column="1"
+                                  Content="📅"
+                                  FontSize="{TemplateBinding FontSize}"
+                                  Height="{TemplateBinding Height}"
+                                  Width="{TemplateBinding Height}"
+                                  Focusable="False"
+                                  ClickMode="Press"
+                                  IsChecked="{Binding IsDropDownOpen, RelativeSource={RelativeSource TemplatedParent}}"/>
+
+                        <!-- 弹出框 -->
+                        <Popup x:Name="PART_Popup"
+                           IsOpen="{Binding IsDropDownOpen, RelativeSource={RelativeSource TemplatedParent}}"
+                           Placement="Bottom"
+                           PlacementTarget="{Binding ElementName=PART_TextBox}"
+                           StaysOpen="False">
+                            <Border Background="White"
+                                BorderBrush="#FFABADB3"
+                                BorderThickness="1"
+                                Padding="3">
+                                <Calendar x:Name="PART_Calendar"
+                                      FontSize="16"
+                                      DisplayDate="{Binding SelectedDate, RelativeSource={RelativeSource TemplatedParent}}"
+                                      SelectedDate="{Binding SelectedDate, RelativeSource={RelativeSource TemplatedParent}}"
+                                      DisplayDateStart="{Binding DisplayDateStart, RelativeSource={RelativeSource TemplatedParent}}"
+                                      DisplayDateEnd="{Binding DisplayDateEnd, RelativeSource={RelativeSource TemplatedParent}}"/>
+                            </Border>
+                        </Popup>
                     </Grid>
                 </ControlTemplate>
             </Setter.Value>

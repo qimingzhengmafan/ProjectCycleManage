@@ -182,7 +182,7 @@ namespace ProjectManagement.ViewModel
             
             var totaoprojects = _contextmodel.GetTotalProjectsNum();
             var PerYearProjects = _contextmodel.GetProjectsForYears();
-
+            
             //List<int> lista = new List<int>();
             //lista.Add(DataPool.Search(SQLSentence1.Search2022 , 2));
             //lista.Add(DataPool.Search(SQLSentence1.Search2023, 2));
