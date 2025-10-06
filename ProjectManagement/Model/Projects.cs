@@ -75,7 +75,15 @@ namespace ProjectManagement.Models
         /// </summary>
         public string? remarks {  get; set; }
 
+        /// <summary>
+        /// 开始时间
+        /// </summary>
+        public DateTime StartTime { get; set; }
 
+        /// <summary>
+        /// 项目周期
+        /// </summary>
+        public int ProjectCycle {  get; set; }
 
     }
 }
