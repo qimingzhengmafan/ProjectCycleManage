@@ -27,7 +27,7 @@ namespace ProjectManagement.Data
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             string connectionString = "server=rm-uf694p49ucaz7035xvo.mysql.rds.aliyuncs.com;" +
-                                       "database=huadatest1;" +
+                                       "database=huadatest3;" +
                                        "port=3306;" +
                                        "user=MyPublicAccount;" +
                                        "password=MyPublic789W";

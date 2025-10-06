@@ -228,6 +228,9 @@ namespace ProjectManagement.Migrations
                     b.Property<DateTime?>("ProcurementMonth")
                         .HasColumnType("datetime(6)");
 
+                    b.Property<int?>("ProjectCycle")
+                        .HasColumnType("int");
+
                     b.Property<string>("ProjectIdentifyingNumber")
                         .HasColumnType("longtext");
 
@@ -246,6 +249,9 @@ namespace ProjectManagement.Migrations
 
                     b.Property<int>("ProjectStageId")
                         .HasColumnType("int");
+
+                    b.Property<DateTime?>("StartTime")
+                        .HasColumnType("datetime(6)");
 
                     b.Property<int?>("Year")
                         .HasColumnType("int");

@@ -132,7 +132,9 @@ namespace ProjectManagement.Migrations
                     AssetNumber = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     remarks = table.Column<string>(type: "longtext", nullable: true)
-                        .Annotation("MySql:CharSet", "utf8mb4")
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    StartTime = table.Column<DateTime>(type: "datetime(6)", nullable: true),
+                    ProjectCycle = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {

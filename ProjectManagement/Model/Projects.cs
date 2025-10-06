@@ -78,12 +78,12 @@ namespace ProjectManagement.Models
         /// <summary>
         /// 开始时间
         /// </summary>
-        public DateTime StartTime { get; set; }
+        public DateTime? StartTime { get; set; }
 
         /// <summary>
         /// 项目周期
         /// </summary>
-        public int ProjectCycle {  get; set; }
+        public int? ProjectCycle {  get; set; }
 
     }
 }
