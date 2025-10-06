@@ -35,17 +35,6 @@ namespace ProjectManagement.ViewModel
             using (var context = new ProjectContext())
             {
                 Projectsid = context.Projects.Count() + 1;
-                //var employees = context.PeopleTable
-                //    .OrderBy(e => e.PeopleName)
-                //    .ToList();
-
-                //Employees = new ObservableCollection<PeopleTable>(employees);
-
-                //if (Employees.Count > 0)
-                //{
-                //    //SelectedFollowEmployee = Employees[0];
-                //    SelectedEmployee = Employees[0];
-                //}
             }
         }
 
@@ -187,11 +176,11 @@ namespace ProjectManagement.ViewModel
             {
                 using (var context = new ProjectContext())
                 {
-                    var employees = context.EquipmentType
+                    var equipmenttypes = context.EquipmentType
                         .OrderBy(e => e.EquipmentName)
                         .ToList();
 
-                    EquipmentTypes = new ObservableCollection<EquipmentType>(employees);
+                    EquipmentTypes = new ObservableCollection<EquipmentType>(equipmenttypes);
 
                     if (EquipmentTypes.Count > 0)
                         SelectedEquipmentType = EquipmentTypes[0];
@@ -318,8 +307,8 @@ namespace ProjectManagement.ViewModel
 
                     Projectstage = new ObservableCollection<ProjectStage>(projectstage);
 
-                    if (Types.Count > 0)
-                        SelectedType = Types[0];
+                    if (Projectstage.Count > 0)
+                        Selectedprojectstage = Projectstage[0];
 
                 }
             }
@@ -332,31 +321,13 @@ namespace ProjectManagement.ViewModel
         // 更新状态信息
         private void UpdateProjectStage()
         {
-            TypeId = SelectedType.TypeId;
+            ProjectStageId = Selectedprojectstage.ProjectStageId;
         }
 
 
         #endregion
 
-        private int DifferenceInDays(DateTime? startDate, DateTime? endDate)
-        {
-            int differenceInDays = 0;
-            try
-            {
-                TimeSpan ts = (DateTime)endDate - (DateTime)startDate;
-                differenceInDays = ts.Days;
-            }
-            catch (Exception)
-            {
-
-                //throw;
-            }
-            
-
-            // Difference in days.
-            
-            return differenceInDays;
-        }
+        
 
 
 
@@ -494,6 +465,41 @@ namespace ProjectManagement.ViewModel
                     TypeId != null && EquipmentTypes != null &&
                     StartTime != null && FinishTime != null)
                 {
+                    var newproject = NewProjectFun();
+                    int result = 0;
+                    try
+                    {
+                        using (var context = new ProjectContext())
+                        {
+                            context.Projects.Add(newproject);
+                            result = context.SaveChanges();
+                            //if (result > 0)
+                            //{
+                            //    MessageBox.Show
+                            //}
+                        }
+                    }
+                    catch (Exception)
+                    {
+
+                        //throw;
+                        MessageBox.Show("数据库故障");
+                    }
+                    finally
+                    {
+                        if (result > 0)
+                        {
+                            MessageBox.Show("保存成功");
+                            using (var context = new ProjectContext())
+                            {
+                                Projectsid = context.Projects.Count() + 1;
+                            }
+                        }
+                        else
+                        {
+                            MessageBox.Show("保存失败");
+                        }
+                    }
 
                 }
                 else
@@ -509,6 +515,94 @@ namespace ProjectManagement.ViewModel
             }
         }
 
+        #endregion
+
+        #region OtherFun
+
+        private int DifferenceInDays(DateTime? startDate, DateTime? endDate)
+        {
+            int differenceInDays = 0;
+            try
+            {
+                TimeSpan ts = (DateTime)endDate - (DateTime)startDate;
+                differenceInDays = ts.Days;
+            }
+            catch (Exception)
+            {
+
+                //throw;
+            }
+
+
+            // Difference in days.
+
+            return differenceInDays;
+        }
+
+        private Projects NewProjectFun()
+        {
+            var project = new Projects()
+            {
+                //_projectsid
+                ProjectsId = Projectsid,
+
+                //_year
+                Year = Year,
+
+                //_procurementMonth
+                ProcurementMonth = ProcurementMonth,
+
+                //_projectName
+                ProjectName = ProjectName,
+
+                //_equipmentname
+                EquipmentName = Equipmentname,
+
+                //_equipmenttypeId
+                equipmenttypeId = EquipmenttypeId,
+
+                //_projectIdentifyingNumber
+                ProjectIdentifyingNumber = ProjectIdentifyingNumber,
+
+                //_typeId
+                typeId = TypeId,
+
+                //_projectStageId
+                ProjectStageId = ProjectStageId,
+
+                //_finishTime
+                FinishTime = FinishTime,
+
+                //_startTime
+                StartTime = StartTime,
+
+                //_projectCycle
+                ProjectCycle = ProjectCycle,
+
+                //_budget
+                Budget = Budget,
+
+                //_actualExpenditure
+                ActualExpenditure = ActualExpenditure,
+
+                //_projectPhaseStatusId
+                //ProjectPhaseStatusId = ProjectPhaseStatusId,
+
+                //_projectsLeaderID
+                ProjectLeaderId = ProjectsLeaderID,
+
+                //_projectsfollowuppersonId
+                projectfollowuppersonId = _projectsfollowuppersonId,
+
+                //_assetnumber
+                AssetNumber = Assetnumber,
+
+                //_remarkks
+                remarks = Remarkks
+
+            };
+            return project;
+        }
         #endregion
 
     }

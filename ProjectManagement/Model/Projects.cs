@@ -23,6 +23,7 @@ namespace ProjectManagement.Models
         /// </summary>
         public DateTime? ProcurementMonth { get; set; }
         public string ProjectName { get; set; }
+        public string? EquipmentName { get; set; }
 
         /// <summary>
         /// 项目编号
@@ -59,7 +60,7 @@ namespace ProjectManagement.Models
         /// <summary>
         /// 项目负责人
         /// </summary>
-        public int ProjectLeaderId { get; set; }
+        public int? ProjectLeaderId { get; set; }
         public PeopleTable ProjectLeader { get; set; }
         /// <summary>
         /// 项目跟进人

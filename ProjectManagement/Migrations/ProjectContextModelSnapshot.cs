@@ -222,6 +222,9 @@ namespace ProjectManagement.Migrations
                     b.Property<string>("Budget")
                         .HasColumnType("longtext");
 
+                    b.Property<string>("EquipmentName")
+                        .HasColumnType("longtext");
+
                     b.Property<DateTime?>("FinishTime")
                         .HasColumnType("datetime(6)");
 
@@ -234,7 +237,7 @@ namespace ProjectManagement.Migrations
                     b.Property<string>("ProjectIdentifyingNumber")
                         .HasColumnType("longtext");
 
-                    b.Property<int>("ProjectLeaderId")
+                    b.Property<int?>("ProjectLeaderId")
                         .HasColumnType("int");
 
                     b.Property<string>("ProjectName")
@@ -370,8 +373,7 @@ namespace ProjectManagement.Migrations
                     b.HasOne("ProjectManagement.Models.PeopleTable", "ProjectLeader")
                         .WithMany()
                         .HasForeignKey("ProjectLeaderId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("ProjectManagement.Models.ProjectPhaseStatus", "ProjectPhaseStatus")
                         .WithMany()
