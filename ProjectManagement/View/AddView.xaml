@@ -4,9 +4,12 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:ProjectManagement.View"
+             xmlns:vm="clr-namespace:ProjectManagement.ViewModel"
              mc:Ignorable="d" 
+             d:DataContext="{d:DesignInstance Type=vm:AddVM}"
              d:DesignHeight="700" 
-             d:DesignWidth="1252">
+             d:DesignWidth="1252"
+             DataContext="{Binding AddViewVMInfor}">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="56"/>
@@ -102,6 +105,7 @@
                                                  VerticalContentAlignment="Center"
                                                  HorizontalAlignment="Left"
                                                  Width="350"
+                                                 Text="{Binding ProjectName,UpdateSourceTrigger=PropertyChanged}"
                                                  Margin="30 0 0 0"/>
 
                                     </StackPanel>
@@ -122,7 +126,9 @@
                                                  FontSize="20"
                                                  VerticalContentAlignment="Center"
                                                  HorizontalAlignment="Left"
+                                                 IsReadOnly="True"
                                                  Width="350"
+                                                 Text="{Binding Projectsid,UpdateSourceTrigger=PropertyChanged}"
                                                  Margin="30 0 0 0"/>
 
                                     </StackPanel>
@@ -135,17 +141,13 @@
                                             <Label Content="年份"
                                                    Style="{StaticResource OptionsStyle}"/>
                                         </StackPanel>
-                                        <!--<DatePicker Height="71"
-                            FontSize="30"
-                            HorizontalAlignment="Left"
-                            Width="350"
-                            Margin="30 0 0 0"/>-->
-                                        <DatePicker Style="{StaticResource LargeDatePickerStyle}"
-                                                    HorizontalAlignment="Left"
-                                                    Width="350"
-                                                    Margin="30 0 0 0"
-                                                    FontSize="20"
-                                                    Height="50"/>
+                                        <TextBox HorizontalAlignment="Left"
+                                                 Width="350"
+                                                 Margin="30 0 0 0"
+                                                 FontSize="20"
+                                                 IsReadOnly="True"
+                                                 Text="{Binding Year,UpdateSourceTrigger=PropertyChanged}"
+                                                 Height="50"/>
 
                                     </StackPanel>
                                 </Grid>
@@ -173,6 +175,8 @@
                                         </StackPanel>
                                         <TextBox Height="50"
                                                  FontSize="20"
+                                                 IsReadOnly="True"
+                                                 Text="{Binding ProcurementMonth,UpdateSourceTrigger=PropertyChanged}"
                                                  VerticalContentAlignment="Center"
                                                  HorizontalAlignment="Left"
                                                  Width="350"
@@ -197,7 +201,8 @@
                                                  VerticalContentAlignment="Center"
                                                  HorizontalAlignment="Left"
                                                  Width="350"
-                                                 Margin="30 0 0 0"/>
+                                                 Margin="30 0 0 0"
+                                                 Text="{Binding ProjectIdentifyingNumber,UpdateSourceTrigger=PropertyChanged}"/>
 
                                     </StackPanel>
                                 </Grid>
@@ -209,16 +214,12 @@
                                             <Label Content="资产编号"
                                                    Style="{StaticResource OptionsStyle}"/>
                                         </StackPanel>
-                                        <!--<DatePicker Height="71"
-                                                        FontSize="30"
-                                                        HorizontalAlignment="Left"
-                                                        Width="350"
-                                                        Margin="30 0 0 0"/>-->
                                         <TextBox Height="50"
                                                  FontSize="20"
                                                  VerticalContentAlignment="Center"
                                                  HorizontalAlignment="Left"
                                                  Width="350"
+                                                 Text="{Binding Assetnumber,UpdateSourceTrigger=PropertyChanged}"
                                                  Margin="30 0 0 0"/>
 
                                     </StackPanel>
@@ -268,12 +269,16 @@
                                                    FontWeight="Bold"
                                                    Margin="0"/>
                                         </StackPanel>
-                                        <TextBox Height="50"
-                                                 FontSize="20"
-                                                 VerticalContentAlignment="Center"
-                                                 HorizontalAlignment="Left"
-                                                 Width="350"
-                                                 Margin="30 0 0 0"/>
+                                        <ComboBox Height="50"
+                                                  FontSize="20"
+                                                 
+                                                  VerticalContentAlignment="Center"
+                                                  HorizontalAlignment="Left"
+                                                  Width="350"
+                                                  Margin="30 0 0 0">
+                                            
+                                        </ComboBox>
+                                        
 
                                     </StackPanel>
                                 </Grid>

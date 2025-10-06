@@ -3,6 +3,7 @@ using LiveChartsCore.SkiaSharpView.Painting;
 using Microsoft.EntityFrameworkCore;
 using Page_Navigation_App.Utilities;
 using ProjectManagement.Data;
+using ProjectManagement.Model;
 using SkiaSharp;
 using System;
 using System.Collections.Generic;
@@ -163,41 +164,44 @@ namespace ProjectManagement.ViewModel
 
         #endregion
 
+        private ProjectContext _projectContext = new ProjectContext();
+        private ContextModel _contextmodel;
 
         public MainVM()
         {
-            
+            _contextmodel = new ContextModel(_projectContext);
+
+
             int _index = 0;
             string[] _names = new string[4] { "2022", "2023", "2024", "2025" };
 
             int _index1 = 0;
             string[] _names1 = new string[7] { "项目需求", "立项评审", "方案评审", "设备采购",
                                                 "预验收/组装调试", "设备验收", "完成" };
-            //_ , TableVMInfor.treeViewModel.People
-            //int _index2 = 0;
-            //List<string> strings = new List<string>();
+
             
-            //DataPool.Connect();
+            var totaoprojects = _contextmodel.GetTotalProjectsNum();
+            var PerYearProjects = _contextmodel.GetProjectsForYears();
 
             //List<int> lista = new List<int>();
             //lista.Add(DataPool.Search(SQLSentence1.Search2022 , 2));
             //lista.Add(DataPool.Search(SQLSentence1.Search2023, 2));
             //lista.Add(DataPool.Search(SQLSentence1.Search2024, 2));
             //lista.Add(DataPool.Search(SQLSentence1.Search2025, 2));
-            //OverviewVMInfor.AllProjectsInformation.Series = lista.AsPieSeries((value, series) =>
-            //{
+            EngineeringOverviewVMInfor.AllProjectsInformation.Series = PerYearProjects.AsPieSeries((value, series) =>
+            {
 
-            //    series.Name = _names[_index++ % _names.Length];
-            //    series.DataLabelsPosition = LiveChartsCore.Measure.PolarLabelsPosition.Middle;
-            //    series.DataLabelsSize = 15;
-            //    series.DataLabelsPaint = new SolidColorPaint(new SKColor(30, 30, 30));
-            //    series.DataLabelsFormatter =
-            //       point =>
-            //           $"{point.Coordinate.PrimaryValue} " + "/ " +
-            //           $"{point.StackedValue.Total} ";
-            //    series.ToolTipLabelFormatter = point => $"{point.StackedValue.Share:P2}";
-            //});
-
+                series.Name = _names[_index++ % _names.Length];
+                series.DataLabelsPosition = LiveChartsCore.Measure.PolarLabelsPosition.Middle;
+                series.DataLabelsSize = 15;
+                series.DataLabelsPaint = new SolidColorPaint(new SKColor(30, 30, 30));
+                series.DataLabelsFormatter =
+                   point =>
+                       $"{point.Coordinate.PrimaryValue} " + "/ " +
+                       $"{point.StackedValue.Total} ";
+                series.ToolTipLabelFormatter = point => $"{point.StackedValue.Share:P2}";
+            });
+            _contextmodel.GetProjectsStatues(2022);
             //List<int> listb = new List<int>();
             //listb.Add(DataPool.Search(SQLSentence1.ProjectStage_ProjectRequirements, 2));
             //listb.Add(DataPool.Search(SQLSentence1.ProjectStage_ProjectInitiationReview, 2));
@@ -312,25 +316,5 @@ namespace ProjectManagement.ViewModel
         #endregion
 
         #endregion
-
-        /// <summary>
-        /// 获取总人数和名字
-        /// </summary>
-        /// <returns></returns>
-        private async Task<(int count, List<string>)> getdata()
-        {
-            using (var context = new ProjectContext())
-            {
-                // 获取总数据条数
-                int totalCount = await context.PeopleTable.CountAsync();
-                Console.WriteLine($"总共有 {totalCount} 条数据");
-
-                // 获取所有人的名字
-                List<string> allNames = await context.PeopleTable
-                    .Select(p => p.PeopleName)
-                    .ToListAsync();
-                return (totalCount , allNames);
-            }
-        }
     }
 }

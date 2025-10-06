@@ -18,6 +18,9 @@ namespace ProjectManagement.Models
         [Key]
         public int ProjectsId { get; set; }
         public int? Year { get; set; }
+        /// <summary>
+        /// 采购月份
+        /// </summary>
         public DateTime? ProcurementMonth { get; set; }
         public string ProjectName { get; set; }
 
@@ -26,6 +29,9 @@ namespace ProjectManagement.Models
         /// </summary>
         public string? ProjectIdentifyingNumber { get; set; }
 
+        /// <summary>
+        /// 设备类型
+        /// </summary>
         public int? equipmenttypeId { get; set; }
         public  EquipmentType? equipmenttype { get; set; }
         public int? typeId { get; set; }
