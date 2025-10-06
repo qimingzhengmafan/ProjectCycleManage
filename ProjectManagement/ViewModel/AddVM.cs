@@ -1,11 +1,15 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
+using Microsoft.EntityFrameworkCore;
 using ProjectManagement.Data;
 using ProjectManagement.Model;
+using ProjectManagement.Models;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace ProjectManagement.ViewModel
 {
@@ -17,7 +21,88 @@ namespace ProjectManagement.ViewModel
         {
             _contextModel = new ContextModel(Context);
             Projectsid = 1;
+
+
+            LoadEmployees();
         }
+
+        #region 下拉框
+
+        private ObservableCollection<PeopleTable> _employees;
+        private PeopleTable _selectedEmployee;
+        private string _statusMessage;
+
+        // 员工列表 - 用于下拉框
+        public ObservableCollection<PeopleTable> Employees
+        {
+            get => _employees;
+            set
+            {
+                _employees = value;
+                OnPropertyChanged();
+            }
+        }
+
+        // 选中的员工
+        public PeopleTable SelectedEmployee
+        {
+            get => _selectedEmployee;
+            set
+            {
+                _selectedEmployee = value;
+                OnPropertyChanged();
+                UpdateStatusMessage();
+            }
+        }
+
+        // 状态信息
+        public string StatusMessage
+        {
+            get => _statusMessage;
+            set
+            {
+                _statusMessage = value;
+                OnPropertyChanged();
+            }
+        }
+
+        // 加载员工数据
+        private void LoadEmployees()
+        {
+            try
+            {
+                using (var context = new ProjectContext())
+                {
+                    var employees = context.PeopleTable
+                        .OrderBy(e => e.PeopleName)
+                        .ToList();
+
+                    Employees = new ObservableCollection<PeopleTable>(employees);
+
+                    if (Employees.Count > 0)
+                        SelectedEmployee = Employees[0];
+
+                    StatusMessage = $"加载了 {Employees.Count} 名员工";
+                }
+            }
+            catch (Exception ex)
+            {
+                StatusMessage = $"加载失败: {ex.Message}";
+            }
+        }
+
+        // 更新状态信息
+        private void UpdateStatusMessage()
+        {
+            if (SelectedEmployee != null)
+            {
+                StatusMessage = $"选中: {SelectedEmployee.PeopleName} ({SelectedEmployee.PeopleId})";
+                MessageBox.Show(StatusMessage);
+            }
+        }
+
+
+        #endregion
 
         #region Binding字段
         /// <summary>
@@ -125,4 +210,5 @@ namespace ProjectManagement.ViewModel
         #endregion
 
     }
+
 }

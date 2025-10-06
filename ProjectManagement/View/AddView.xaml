@@ -127,6 +127,7 @@
                                                  VerticalContentAlignment="Center"
                                                  HorizontalAlignment="Left"
                                                  IsReadOnly="True"
+                                                 IsEnabled="False"
                                                  Width="350"
                                                  Text="{Binding Projectsid,UpdateSourceTrigger=PropertyChanged}"
                                                  Margin="30 0 0 0"/>
@@ -271,7 +272,10 @@
                                         </StackPanel>
                                         <ComboBox Height="50"
                                                   FontSize="20"
-                                                 
+                                                  ItemsSource="{Binding Employees}"
+                                                  DisplayMemberPath="PeopleName"
+                                                  SelectedValuePath="PeopleId"
+                                                  SelectedItem="{Binding SelectedEmployee, Mode=TwoWay}"
                                                   VerticalContentAlignment="Center"
                                                   HorizontalAlignment="Left"
                                                   Width="350"
