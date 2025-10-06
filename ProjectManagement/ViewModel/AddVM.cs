@@ -24,9 +24,11 @@ namespace ProjectManagement.ViewModel
 
 
             LoadEmployees();
+            LoadType();
+            LoadEquipmentType();
         }
 
-        #region 下拉框
+        #region 责任人下拉框
 
         private ObservableCollection<PeopleTable> _employees;
         private PeopleTable _selectedEmployee;
@@ -80,14 +82,15 @@ namespace ProjectManagement.ViewModel
                     Employees = new ObservableCollection<PeopleTable>(employees);
 
                     if (Employees.Count > 0)
+                    {
+                        //SelectedFollowEmployee = Employees[0];
                         SelectedEmployee = Employees[0];
-
-                    StatusMessage = $"加载了 {Employees.Count} 名员工";
+                    }
                 }
             }
             catch (Exception ex)
             {
-                StatusMessage = $"加载失败: {ex.Message}";
+
             }
         }
 
@@ -97,12 +100,162 @@ namespace ProjectManagement.ViewModel
             if (SelectedEmployee != null)
             {
                 StatusMessage = $"选中: {SelectedEmployee.PeopleName} ({SelectedEmployee.PeopleId})";
-                MessageBox.Show(StatusMessage);
             }
         }
 
 
         #endregion
+        #region 跟进人下拉框
+
+        private PeopleTable _selectedFollowEmployee;
+
+
+        // 选中
+        public PeopleTable SelectedFollowEmployee
+        {
+            get => _selectedFollowEmployee;
+            set
+            {
+                _selectedFollowEmployee = value;
+                OnPropertyChanged();
+                UpdateFollowStatusMessage();
+            }
+        }
+
+        // 更新状态信息
+        private void UpdateFollowStatusMessage()
+        {
+
+        }
+
+
+        #endregion
+        #region 设备类型下拉框
+
+        private ObservableCollection<EquipmentType> _equipmentTypes;
+        private EquipmentType _selectedEquipmentType;
+
+        // 列表 - 用于下拉框
+        public ObservableCollection<EquipmentType> EquipmentTypes
+        {
+            get => _equipmentTypes;
+            set
+            {
+                _equipmentTypes = value;
+                OnPropertyChanged();
+            }
+        }
+
+        // 选中
+        public EquipmentType SelectedEquipmentType
+        {
+            get => _selectedEquipmentType;
+            set
+            {
+                _selectedEquipmentType = value;
+                OnPropertyChanged();
+                UpdateEquipmentTypeStatus();
+            }
+        }
+
+        // 加载数据
+        private void LoadEquipmentType()
+        {
+            try
+            {
+                using (var context = new ProjectContext())
+                {
+                    var employees = context.EquipmentType
+                        .OrderBy(e => e.EquipmentName)
+                        .ToList();
+
+                    EquipmentTypes = new ObservableCollection<EquipmentType>(employees);
+
+                    if (EquipmentTypes.Count > 0)
+                        SelectedEquipmentType = EquipmentTypes[0];
+
+                }
+            }
+            catch (Exception ex)
+            {
+                //StatusMessage = $"加载失败: {ex.Message}";
+            }
+        }
+
+        // 更新状态信息
+        private void UpdateEquipmentTypeStatus()
+        {
+            //if (SelectedEmployee != null)
+            //{
+            //    StatusMessage = $"选中: {SelectedEmployee.PeopleName} ({SelectedEmployee.PeopleId})";
+            //    MessageBox.Show(StatusMessage);
+            //}
+        }
+
+
+        #endregion
+        #region 项目类型下拉框
+
+        private ObservableCollection<TypeTable> _types;
+        private TypeTable _selectedType;
+
+        // 员工列表 - 用于下拉框
+        public ObservableCollection<TypeTable> Types
+        {
+            get => _types;
+            set
+            {
+                _types = value;
+                OnPropertyChanged();
+            }
+        }
+
+        // 选中
+        public TypeTable SelectedType
+        {
+            get => _selectedType;
+            set
+            {
+                _selectedType = value;
+                OnPropertyChanged();
+                UpdateTypeStatus();
+            }
+        }
+
+        // 加载数据
+        private void LoadType()
+        {
+            try
+            {
+                using (var context = new ProjectContext())
+                {
+                    var types = context.TypeTable
+                        .OrderBy(e => e.TypeName)
+                        .ToList();
+
+                    Types = new ObservableCollection<TypeTable>(types);
+
+                    if (Types.Count > 0)
+                        SelectedType = Types[0];
+
+                }
+            }
+            catch (Exception ex)
+            {
+
+            }
+        }
+
+        // 更新状态信息
+        private void UpdateTypeStatus()
+        {
+
+        }
+
+
+        #endregion
+
+
 
         #region Binding字段
         /// <summary>

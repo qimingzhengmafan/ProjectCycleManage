@@ -7,7 +7,7 @@
              xmlns:vm="clr-namespace:ProjectManagement.ViewModel"
              mc:Ignorable="d" 
              d:DataContext="{d:DesignInstance Type=vm:AddVM}"
-             d:DesignHeight="700" 
+             d:DesignHeight="1800" 
              d:DesignWidth="1252"
              DataContext="{Binding AddViewVMInfor}">
     <Grid>
@@ -143,6 +143,7 @@
                                                    Style="{StaticResource OptionsStyle}"/>
                                         </StackPanel>
                                         <TextBox HorizontalAlignment="Left"
+                                                 IsEnabled="False"
                                                  Width="350"
                                                  Margin="30 0 0 0"
                                                  FontSize="20"
@@ -177,6 +178,7 @@
                                         <TextBox Height="50"
                                                  FontSize="20"
                                                  IsReadOnly="True"
+                                                 IsEnabled="False"
                                                  Text="{Binding ProcurementMonth,UpdateSourceTrigger=PropertyChanged}"
                                                  VerticalContentAlignment="Center"
                                                  HorizontalAlignment="Left"
@@ -272,10 +274,10 @@
                                         </StackPanel>
                                         <ComboBox Height="50"
                                                   FontSize="20"
-                                                  ItemsSource="{Binding Employees}"
-                                                  DisplayMemberPath="PeopleName"
-                                                  SelectedValuePath="PeopleId"
-                                                  SelectedItem="{Binding SelectedEmployee, Mode=TwoWay}"
+                                                  ItemsSource="{Binding Types}"
+                                                  DisplayMemberPath="TypeName"
+                                                  SelectedValuePath="TypeId"
+                                                  SelectedItem="{Binding SelectedType, Mode=TwoWay}"
                                                   VerticalContentAlignment="Center"
                                                   HorizontalAlignment="Left"
                                                   Width="350"
@@ -298,12 +300,16 @@
                                                    FontWeight="Bold"
                                                    Margin="0"/>
                                         </StackPanel>
-                                        <TextBox Height="50"
-                                                 FontSize="20"
-                                                 VerticalContentAlignment="Center"
-                                                 HorizontalAlignment="Left"
-                                                 Width="350"
-                                                 Margin="30 0 0 0"/>
+                                        <ComboBox Height="50"
+                                                  FontSize="20"
+                                                  ItemsSource="{Binding EquipmentTypes}"
+                                                  DisplayMemberPath="EquipmentName"
+                                                  SelectedValuePath="EquipmentTypeId"
+                                                  SelectedItem="{Binding SelectedEquipmentType, Mode=TwoWay}"
+                                                  VerticalContentAlignment="Center"
+                                                  HorizontalAlignment="Left"
+                                                  Width="350"
+                                                  Margin="30 0 0 0"/>
 
                                     </StackPanel>
                                 </Grid>
@@ -315,17 +321,16 @@
                                             <Label Content="责任人"
                                                    Style="{StaticResource OptionsStyle}"/>
                                         </StackPanel>
-                                        <!--<DatePicker Height="71"
-                                                        FontSize="30"
-                                                        HorizontalAlignment="Left"
-                                                        Width="350"
-                                                        Margin="30 0 0 0"/>-->
-                                        <TextBox Height="50"
-                                                 FontSize="20"
-                                                 VerticalContentAlignment="Center"
-                                                 HorizontalAlignment="Left"
-                                                 Width="350"
-                                                 Margin="30 0 0 0"/>
+                                        <ComboBox Height="50"
+                                                  FontSize="20"
+                                                  ItemsSource="{Binding Employees}"
+                                                  DisplayMemberPath="PeopleName"
+                                                  SelectedValuePath="PeopleId"
+                                                  SelectedItem="{Binding SelectedEmployee, Mode=TwoWay}"
+                                                  VerticalContentAlignment="Center"
+                                                  HorizontalAlignment="Left"
+                                                  Width="350"
+                                                  Margin="30 0 0 0"/>
 
                                     </StackPanel>
                                 </Grid>
@@ -372,12 +377,16 @@
                                                    FontWeight="Bold"
                                                    Margin="0"/>
                                         </StackPanel>
-                                        <TextBox Height="50"
-                                                 FontSize="20"
-                                                 VerticalContentAlignment="Center"
-                                                 HorizontalAlignment="Left"
-                                                 Width="350"
-                                                 Margin="30 0 0 0"/>
+                                        <ComboBox Height="50"
+                                                  FontSize="20"
+                                                  ItemsSource="{Binding Employees}"
+                                                  DisplayMemberPath="PeopleName"
+                                                  SelectedValuePath="PeopleId"
+                                                  SelectedItem="{Binding SelectedFollowEmployee, Mode=TwoWay}"
+                                                  VerticalContentAlignment="Center"
+                                                  HorizontalAlignment="Left"
+                                                  Width="350"
+                                                  Margin="30 0 0 0"/>
 
                                     </StackPanel>
                                 </Grid>
@@ -443,12 +452,12 @@
                                                    FontWeight="Bold"
                                                    Margin="0"/>
                                         </StackPanel>
-                                        <TextBox Height="50"
-                                                 FontSize="20"
-                                                 VerticalContentAlignment="Center"
-                                                 HorizontalAlignment="Left"
-                                                 Width="350"
-                                                 Margin="30 0 0 0"/>
+                                        <DatePicker Style="{StaticResource LargeDatePickerStyle}"
+                                                    HorizontalAlignment="Left"
+                                                    Width="350"
+                                                    Margin="30 0 0 0"
+                                                    FontSize="20"
+                                                    Height="50"/>
 
                                     </StackPanel>
                                 </Grid>
@@ -464,12 +473,12 @@
                                                    FontWeight="Bold"
                                                    Margin="0"/>
                                         </StackPanel>
-                                        <TextBox Height="50"
-                                                 FontSize="20"
-                                                 VerticalContentAlignment="Center"
-                                                 HorizontalAlignment="Left"
-                                                 Width="350"
-                                                 Margin="30 0 0 0"/>
+                                        <DatePicker Style="{StaticResource LargeDatePickerStyle}"
+                                                    HorizontalAlignment="Left"
+                                                    Width="350"
+                                                    Margin="30 0 0 0"
+                                                    FontSize="20"
+                                                    Height="50"/>
 
                                     </StackPanel>
                                 </Grid>
@@ -486,12 +495,11 @@
                                                         HorizontalAlignment="Left"
                                                         Width="350"
                                                         Margin="30 0 0 0"/>-->
-                                        <DatePicker Style="{StaticResource LargeDatePickerStyle}"
-                                                    HorizontalAlignment="Left"
-                                                    Width="350"
-                                                    Margin="30 0 0 0"
-                                                    FontSize="20"
-                                                    Height="50"/>
+                                        <ComboBox HorizontalAlignment="Left"
+                                                  Width="350"
+                                                  Margin="30 0 0 0"
+                                                  FontSize="20"
+                                                  Height="50"/>
 
                                     </StackPanel>
                                 </Grid>
@@ -519,6 +527,8 @@
                                         </StackPanel>
                                         <TextBox Height="50"
                                                  FontSize="20"
+                                                 IsEnabled="False"
+                                                 IsReadOnly="True"
                                                  VerticalContentAlignment="Center"
                                                  HorizontalAlignment="Left"
                                                  Width="350"
@@ -565,11 +575,6 @@
                                         <StackPanel Orientation="Horizontal">
                                             <Label Content="项目预算"
                                                    Style="{StaticResource OptionsStyle}"/>
-                                            <Label Content="*"
-                                                   Style="{StaticResource OptionsStyle}"
-                                                   Foreground="Red"
-                                                   FontWeight="Bold"
-                                                   Margin="0"/>
                                         </StackPanel>
                                         <TextBox Height="50"
                                                  FontSize="20"
@@ -586,11 +591,6 @@
                                         <StackPanel Orientation="Horizontal">
                                             <Label Content="实际花费"
                                                    Style="{StaticResource OptionsStyle}"/>
-                                            <Label Content="*"
-                                                   Style="{StaticResource OptionsStyle}"
-                                                   Foreground="Red"
-                                                   FontWeight="Bold"
-                                                   Margin="0"/>
                                         </StackPanel>
                                         <TextBox Height="50"
                                                  FontSize="20"
