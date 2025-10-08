@@ -183,14 +183,8 @@ namespace ProjectManagement.ViewModel
             var totaoprojects = _contextmodel.GetTotalProjectsNum();
             var PerYearProjects = _contextmodel.GetProjectsForYears();
             
-            //List<int> lista = new List<int>();
-            //lista.Add(DataPool.Search(SQLSentence1.Search2022 , 2));
-            //lista.Add(DataPool.Search(SQLSentence1.Search2023, 2));
-            //lista.Add(DataPool.Search(SQLSentence1.Search2024, 2));
-            //lista.Add(DataPool.Search(SQLSentence1.Search2025, 2));
             EngineeringOverviewVMInfor.AllProjectsInformation.Series = PerYearProjects.AsPieSeries((value, series) =>
             {
-
                 series.Name = _names[_index++ % _names.Length];
                 series.DataLabelsPosition = LiveChartsCore.Measure.PolarLabelsPosition.Middle;
                 series.DataLabelsSize = 15;
@@ -211,7 +205,7 @@ namespace ProjectManagement.ViewModel
             //listb.Add(DataPool.Search(SQLSentence1.ProjectStage_PreAcceptanceassemblyAndCommissioning, 2));
             //listb.Add(DataPool.Search(SQLSentence1.ProjectStage_EquipmentAcceptance, 2));
             //listb.Add(DataPool.Search(SQLSentence1.ProjectStage_Completed, 2));
-            //OverviewVMInfor.ProjectStage.Series = listb.AsPieSeries((value, series) =>
+            //EngineeringOverviewVMInfor.ProjectStage.Series = listb.AsPieSeries((value, series) =>
             //{
             //    series.Name = _names1[_index1++ % _names1.Length];
             //    series.DataLabelsPosition = LiveChartsCore.Measure.PolarLabelsPosition.Middle;

@@ -62,8 +62,9 @@ namespace ScrollControlProjectnetcore
                 }
             }
             private string _projectName;
-            private int _progress;
-            private string _materials;
+            private int _fileprogress;
+            private int _countdown;
+            //private string _materials;
             private string _owner;
 
             public event PropertyChangedEventHandler PropertyChanged;
@@ -80,17 +81,23 @@ namespace ScrollControlProjectnetcore
                 set { _projectName = value; OnPropertyChanged(); }
             }
 
-            public int Progress
+            public int FileProgress
             {
-                get => _progress;
-                set { _progress = value; OnPropertyChanged(); }
+                get => _fileprogress;
+                set { _fileprogress = value; OnPropertyChanged(); }
             }
 
-            public string Materials
+            public int CountDown
             {
-                get => _materials;
-                set { _materials = value; OnPropertyChanged(); }
+                get => _countdown;
+                set { _countdown = value;OnPropertyChanged(); }
             }
+
+            //public string Materials
+            //{
+            //    get => _materials;
+            //    set { _materials = value; OnPropertyChanged(); }
+            //}
 
             public string Owner
             {
@@ -187,8 +194,8 @@ namespace ScrollControlProjectnetcore
                     _projects.Add(new ProjectItem
                     {
                         ProjectName = $"项目{i}：生产线优化",
-                        Progress = new Random().Next(20, 100),
-                        Materials = $"图纸{(i % 3 + 1)} 规范{(i % 3 + 1)}",
+                        FileProgress = new Random().Next(20, 100),
+                        CountDown = new Random().Next(20, 100),
                         Owner = $"{(char)(65 + i % 5)}"
                     });
                 }

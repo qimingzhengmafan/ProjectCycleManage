@@ -5,7 +5,9 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ScrollControlProjectnetcore"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" 
+        Height="450" 
+        Width="1000">
     <Grid Margin="20">
         <!--<local:SeamlessLoopingScroll x:Name="scrollControl"
                                  Width="600"
@@ -13,23 +15,12 @@
                               IsAutoScrollEnabled="True"/>-->
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
-            <ColumnDefinition/>
         </Grid.ColumnDefinitions>
         <local:SeamlessLoopingScroll x:Name="scrollControl"
                                  Width="900"
                                  Height="300"
                                  IsAutoScrollEnabled="True"/>
 
-        <Grid Grid.Column="1">
-            <TreeView x:Name="FolderTreeView" ItemsSource="{Binding RootFolders}">
-                <TreeView.ItemContainerStyle>
-                    <Style TargetType="{x:Type TreeViewItem}">
-                        <Setter Property="IsExpanded" Value="{Binding IsExpanded, Mode=TwoWay}"/>
-                        <Setter Property="FontSize" Value="12"/>
-                    </Style>
-                </TreeView.ItemContainerStyle>
-            </TreeView>
-        </Grid>
 
     </Grid>
 </Window>

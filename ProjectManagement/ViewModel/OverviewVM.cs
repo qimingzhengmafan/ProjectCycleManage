@@ -259,87 +259,87 @@ namespace ProjectManagement.ViewModel
             new SeamlessLoopingScroll.ProjectItem
             {
                 ProjectName = "紧急：产线升级",
-                Progress = 30,
-                Materials = "图纸001",
+                CountDown = 50,
+                FileProgress = 30,
                 Owner = "负责人：A"
             },
             new SeamlessLoopingScroll.ProjectItem
             {
                 ProjectName = "常规：设备维护",
-                Progress = 65,
-                Materials = "手册002",
+                FileProgress = 65,
+                CountDown = 50,
                 Owner = "负责人：B"
             },
             new SeamlessLoopingScroll.ProjectItem()
             {
                 IsTimeout = true,
                 ProjectName = "紧急：产线升级",
-                Progress = 30,
-                Materials = "图纸1 规范2",
+                FileProgress = 30,
+                CountDown = 50,
                 Owner = "负责人：C"
             },
             new SeamlessLoopingScroll.ProjectItem
             {
                 IsTimeout = true,
                 ProjectName = "紧急：产线升级",
-                Progress = 30,
-                Materials = "图纸1 规范2",
+                FileProgress = 30,
+                CountDown = 50,
                 Owner = "负责人：D"
             },
             new SeamlessLoopingScroll.ProjectItem
             {
                 IsTimeout = true,
                 ProjectName = "紧急：产线升级",
-                Progress = 30,
-                Materials = "图纸1 规范2",
+                FileProgress = 30,
+                CountDown = 50,
                 Owner = "负责人：E"
             },
             new SeamlessLoopingScroll.ProjectItem
             {
                 IsTimeout = true,
                 ProjectName = "紧急：产线升级",
-                Progress = 30,
-                Materials = "图纸1 规范2",
+                FileProgress = 30,
+                CountDown = 50,
                 Owner = "负责人：F"
             },
             new SeamlessLoopingScroll.ProjectItem
             {
                 IsTimeout = true,
                 ProjectName = "紧急：产线升级",
-                Progress = 30,
-                Materials = "图纸1 规范2",
+                FileProgress = 30,
+                CountDown = 50,
                 Owner = "负责人：G"
             },
             new SeamlessLoopingScroll.ProjectItem
             {
                 IsTimeout = true,
                 ProjectName = "紧急：产线升级",
-                Progress = 30,
-                Materials = "图纸1 规范2",
+                FileProgress = 30,
+                CountDown = 50,
                 Owner = "负责人：H"
             },
             new SeamlessLoopingScroll.ProjectItem
             {
                 IsTimeout = true,
                 ProjectName = "紧急：产线升级",
-                Progress = 30,
-                Materials = "图纸1 规范2",
+                FileProgress = 30,
+                CountDown = 50,
                 Owner = "负责人：I"
             },
             new SeamlessLoopingScroll.ProjectItem
             {
                 IsTimeout = true,
                 ProjectName = "紧急：产线升级",
-                Progress = 30,
-                Materials = "图纸1 规范2",
+                FileProgress = 30,
+                CountDown = 50,
                 Owner = "负责人：J"
             },
             new SeamlessLoopingScroll.ProjectItem
             {
                 IsTimeout = true,
                 ProjectName = "紧急：产线升级",
-                Progress = 30,
-                Materials = "图纸1 规范2",
+                FileProgress = 30,
+                CountDown = 50,
                 Owner = "负责人：K"
             }
         };

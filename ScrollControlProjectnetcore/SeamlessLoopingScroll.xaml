@@ -16,7 +16,7 @@
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto"/>
                         <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="300"/>
+                        <ColumnDefinition Width="350"/>
                         <ColumnDefinition Width="100"/>
                     </Grid.ColumnDefinitions>
 
@@ -39,16 +39,21 @@
                     <!-- 进度与资料 -->
                     <StackPanel Grid.Column="2" 
                                 Orientation="Horizontal">
-                        <ProgressBar Value="{Binding Progress}"
+                        <ProgressBar Value="{Binding CountDown}"
                                      VerticalAlignment="Bottom"
                                      Height="8" 
                                      Width="100"
                                      Margin="5 0 0 15"/>
-                        <TextBlock Text="{Binding Materials}"
+                        <!--<TextBlock Text="{Binding Materials}"
                                    Margin="50 0 0 0"
                                    FontSize="25" 
                                    Foreground="Gray"
-                                   VerticalAlignment="Bottom"/>
+                                   VerticalAlignment="Bottom"/>-->
+                        <ProgressBar Value="{Binding FileProgress}"
+                                     VerticalAlignment="Bottom"
+                                     Height="8" 
+                                     Width="100"
+                                     Margin="50 0 0 15"/>
                     </StackPanel>
 
                     <!-- 负责人 -->
