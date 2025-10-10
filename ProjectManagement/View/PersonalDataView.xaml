@@ -109,7 +109,7 @@
         <Grid Grid.Row="1"
               Grid.Column="0"
               Grid.ColumnSpan="2">
-            <!--<slc:SeamlessLoopingScroll ItemsSource="{Binding PersonalProjectsList}"/>-->
+            <slc:SeamlessLoopingScroll ItemsSource="{Binding PersonalProjectsList}"/>
         </Grid>
         
     </Grid>

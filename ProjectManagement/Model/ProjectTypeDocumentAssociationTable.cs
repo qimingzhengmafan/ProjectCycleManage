@@ -14,8 +14,8 @@ namespace ProjectManagement.Models
     {
         [Key]
         public int ProjectTypeDocumentAssociationId { get; set; }
-        public int ProjectsId { get; set; }
-        public Projects Projects { get; set; }
+        public int EquipmentTypeId { get; set; }
+        public EquipmentType EquipmentType { get; set; }
         public int DocumentTypeId { get; set; }
         public DocumentType DocumentType { get; set; }
         public bool? IsNecessary { get; set; }

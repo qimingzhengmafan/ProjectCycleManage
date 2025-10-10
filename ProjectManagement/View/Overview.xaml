@@ -156,6 +156,7 @@
         </Border>
 
         <Grid Grid.Column="2">
+            <!--<Grid Visibility="{Binding PersonalVisibilityVM_OverView}">-->
             <Grid Visibility="{Binding PersonalVisibilityVM_OverView}">
                 <Grid.RowDefinitions>
                     <RowDefinition/>
@@ -179,9 +180,6 @@
                                    FontWeight="Bold"/>
                             <uc:PieChart Height="300"
                                          DataContext="{Binding AllProjectsInformation ,UpdateSourceTrigger=PropertyChanged}">
-                                <!--<uc:PieChart.DataContext>
-                        <vm:AllProjects/>
-                    </uc:PieChart.DataContext>-->
                             </uc:PieChart>
 
                         </StackPanel>

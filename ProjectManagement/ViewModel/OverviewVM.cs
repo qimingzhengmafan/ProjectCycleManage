@@ -1,4 +1,5 @@
-﻿using Page_Navigation_App.Utilities;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using Page_Navigation_App.Utilities;
 using ProjectManagement.Data;
 using ScrollControlProjectnetcore;
 using System;
@@ -13,7 +14,7 @@ using System.Windows.Input;
 
 namespace ProjectManagement.ViewModel
 {
-    public class OverviewVM:ViewModelBase
+    public class OverviewVM: ObservableObject
     {
         public ProjectContext Context { get; set; }
         #region ICommand
