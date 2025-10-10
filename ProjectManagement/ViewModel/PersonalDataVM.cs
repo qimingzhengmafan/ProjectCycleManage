@@ -118,6 +118,8 @@ namespace ProjectManagement.ViewModel
             }
         };
 
+        //private ObservableCollection<SeamlessLoopingScroll.ProjectItem> _personalprojectslist = new ObservableCollection<SeamlessLoopingScroll.ProjectItem>();
+
         public ObservableCollection<SeamlessLoopingScroll.ProjectItem> PersonalProjectsList
         {
             get => _personalprojectslist;
