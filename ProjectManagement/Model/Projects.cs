@@ -85,6 +85,10 @@ namespace ProjectManagement.Models
         /// 项目周期
         /// </summary>
         public int? ProjectCycle {  get; set; }
+        /// <summary>
+        /// 文件进度
+        /// </summary>
+        public int? FileProgress { get; set; }
 
     }
 }
