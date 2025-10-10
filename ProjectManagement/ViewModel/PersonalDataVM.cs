@@ -1,4 +1,5 @@
-﻿using Page_Navigation_App.Utilities;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using Page_Navigation_App.Utilities;
 using ProjectManagement.Data;
 using ScrollControlProjectnetcore;
 using System;
@@ -10,25 +11,16 @@ using System.Threading.Tasks;
 
 namespace ProjectManagement.ViewModel
 {
-    public class PersonalDataVM :ViewModelBase
+    public class PersonalDataVM : ObservableObject
     {
         public ProjectContext Context { get; set; }
+
         private AllProjects _personalprojectsinformation = new AllProjects();
+
         public AllProjects PersonalProjectsInformation
         {
             get => _personalprojectsinformation;
             set => _personalprojectsinformation = value;
-        }
-
-        private string _kpidata = "96";
-        public string KPIData
-        {
-            get => _kpidata;
-            set
-            {
-                _kpidata = value;
-                OnPropertyChanged();
-            }
         }
 
         public PersonalDataVM()

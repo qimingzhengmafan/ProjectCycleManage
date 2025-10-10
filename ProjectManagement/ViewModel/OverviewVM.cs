@@ -1,4 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
+using Microsoft.EntityFrameworkCore;
 using Page_Navigation_App.Utilities;
 using ProjectManagement.Data;
 using ScrollControlProjectnetcore;
@@ -44,7 +45,7 @@ namespace ProjectManagement.ViewModel
         public string People7 { get; set; }
         public string People8 { get; set; }
 
-        private string _currentyear = "2025";
+        private string _currentyear;
         public string CurrentYear
         {
             get => _currentyear;
@@ -232,6 +233,7 @@ namespace ProjectManagement.ViewModel
             get => _personaldatavm_yanxin;
             set => _personaldatavm_yanxin = value;
         }
+
         #endregion
 
 
@@ -365,6 +367,38 @@ namespace ProjectManagement.ViewModel
             VisibilityICommand_ZhangYuanYuan = new RelayCommand(ZhangYuanYuanICommandFun);
             VisibilityICommand_Yanxin = new RelayCommand(YanxinICommandFun);
 
+            CurrentYear = DateTime.Now.Year.ToString();
+            //var _allprojectgrid = GetProjectGrid1(2022);
+            //List<(string Project, int DaysDiff, int FileProgress, string ProjectLeader)> All = _allprojectgrid as List<(string Project, int DaysDiff, int FileProgress, string ProjectLeader)>;
+            //PersonalDataVM_YanXin.PersonalProjectsList = new ObservableCollection<SeamlessLoopingScroll.ProjectItem>
+            //{
+            //    new SeamlessLoopingScroll.ProjectItem
+            //    {
+            //        ProjectName = "紧急：",
+            //        CountDown = 50,
+            //        FileProgress = 30,
+            //        Owner = "负责人：A"
+            //    },
+            //};
+            PersonalDataVM_YanXin.PersonalProjectsList = new ObservableCollection<SeamlessLoopingScroll.ProjectItem>();
+
+            Task.Run(() =>
+            {
+                var data = GetProjectGrid1(2022);
+                foreach (var item in data)
+                {
+                    PersonalDataVM_YanXin.PersonalProjectsList.Add(new SeamlessLoopingScroll.ProjectItem()
+                    {
+                        ProjectName = item.Project,
+                        CountDown = item.DaysDiff,
+                        FileProgress = item.FileProgress,
+                        Owner = item.ProjectLeader
+                    });
+                }
+            });
+            //_ = GetProjectGrid(2022);
+
+
         }
 
         private void FirstIcommand(object obj)
@@ -478,6 +512,103 @@ namespace ProjectManagement.ViewModel
             PersonalVisibilityVM_OverView = Visibility.Collapsed;
         }
 
+        #endregion
+
+
+        #region OtherFun
+        //private async Task<List<(string Project, int DaysDiff, int FileProgress, string ProjectLeader)>> GetProjectGrid(int year)
+        //{
+        //    using (var context = new ProjectContext())
+        //    {
+        //        var projects = await context.Projects
+        //            .Where(p => p.Year == year)
+        //            .Include(p => p.ProjectLeader) // 加载负责人导航属性
+        //            .Select(p => new
+        //            {
+        //                p.ProjectName,
+        //                p.DaysDiff,
+        //                p.FileProgress,
+        //                LeaderName = p.ProjectLeader.PeopleName // 获取负责人姓名
+        //            })
+        //            .OrderBy(p => p.ProjectName) // 按项目名称排序
+        //            .ToListAsync();
+
+        //        List<(string Project, int DaysDiff, int FileProgress, string ProjectLeader)> values =
+        //            new List<(string Project, int DaysDiff, int FileProgress, string ProjectLeader)>();
+
+        //        foreach (var project in projects)
+        //        {
+        //            (string Project, int DaysDiff, int FileProgress, string ProjectLeader) projectvaule;
+        //            projectvaule.Project = project.ProjectName;
+        //            projectvaule.FileProgress = project.FileProgress.GetValueOrDefault();
+        //            projectvaule.DaysDiff = project.DaysDiff.GetValueOrDefault();
+        //            projectvaule.ProjectLeader = project.LeaderName;
+        //            values.Add(projectvaule);
+                    
+        //        }
+                
+        //        foreach (var item in values)
+        //        {
+        //            PersonalDataVM_YanXin.PersonalProjectsList.Add(new SeamlessLoopingScroll.ProjectItem() 
+        //            {
+        //                ProjectName = item.Project,
+        //                CountDown = item.DaysDiff,
+        //                FileProgress = item.FileProgress,
+        //                Owner = item.ProjectLeader
+        //            });
+        //        }
+
+
+        //        return values;
+
+        //    }
+        //}
+
+        private List<(string Project, int DaysDiff, int FileProgress, string ProjectLeader)> GetProjectGrid1(int year)
+        {
+            using (var context = new ProjectContext())
+            {
+                var projects = context.Projects
+                    .Where(p => p.Year == year)
+                    .Include(p => p.ProjectLeader) // 加载负责人导航属性
+                    .Select(p => new
+                    {
+                        p.ProjectName,
+                        p.DaysDiff,
+                        p.FileProgress,
+                        LeaderName = p.ProjectLeader.PeopleName // 获取负责人姓名
+                    })
+                    .OrderBy(p => p.ProjectName) // 按项目名称排序
+                    .ToList();
+
+                List<(string Project, int DaysDiff, int FileProgress, string ProjectLeader)> values =
+                    new List<(string Project, int DaysDiff, int FileProgress, string ProjectLeader)>();
+
+                foreach (var project in projects)
+                {
+                    (string Project, int DaysDiff, int FileProgress, string ProjectLeader) projectvaule;
+                    projectvaule.Project = project.ProjectName;
+                    projectvaule.FileProgress = (int)project.FileProgress.GetValueOrDefault();
+                    projectvaule.DaysDiff = project.DaysDiff.GetValueOrDefault();
+                    projectvaule.ProjectLeader = project.LeaderName;
+                    values.Add(projectvaule);
+                }
+
+                //foreach (var item in values)
+                //{
+                //    PersonalDataVM_YanXin.PersonalProjectsList.Add(new SeamlessLoopingScroll.ProjectItem()
+                //    {
+                //        ProjectName = item.Project,
+                //        CountDown = item.DaysDiff,
+                //        FileProgress = item.FileProgress,
+                //        Owner = item.ProjectLeader
+                //    });
+                //}
+
+                return values;
+
+            }
+        }
         #endregion
     }
 }

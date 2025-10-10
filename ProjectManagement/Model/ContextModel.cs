@@ -75,25 +75,39 @@ public class ContextModel
         return totalProjects;
     }
 
-    public void GetProjectsStatues(int year)
+    public List<(int a, string b)> GetProjectsStatues(int year)
     {
+        // 获取所有可能的状态名称
+        var allStatusNames = _projectcontext.ProjectStage
+            .Select(ps => ps.ProjectStageName)
+            .Distinct()
+            .ToList();
+
+        // 获取有项目的状态数量统计
         var statusCounts = _projectcontext.Projects
-            .Where(p => p.Year == year) // 过滤2025年的项目
-            .GroupBy(p => p.ProjectStage.ProjectStageName) // 按状态名称分组:cite[6]
+            .Where(p => p.Year == year) // 过滤指定年份的项目
+            .GroupBy(p => p.ProjectStage.ProjectStageName) // 按状态名称分组
             .Select(g => new
             {
                 StatusName = g.Key,
-                Count = g.Count() // 统计每组项目数量:cite[6]
+                Count = g.Count() // 统计每组项目数量
             })
+            .ToList();
+
+        // 使用左连接确保所有状态都显示，包括数量为0的状态
+        var result = allStatusNames
+            .GroupJoin(statusCounts,
+                statusName => statusName,
+                statusCount => statusCount.StatusName,
+                (statusName, counts) => new
+                {
+                    StatusName = statusName,
+                    Count = counts.FirstOrDefault()?.Count ?? 0
+                })
             .OrderBy(result => result.StatusName) // 按状态名排序
             .ToList();
 
-        //// 输出结果
-        //foreach (var item in statusCounts)
-        //{
-        //    //Console.WriteLine($"Status: {item.StatusName}, Count: {item.Count}");
-        //    MessageBox.Show($"Status: {item.StatusName}, Count: {item.Count}");
-        //}
+        return result.Select(item => (item.Count, item.StatusName)).ToList();
     }
     
     

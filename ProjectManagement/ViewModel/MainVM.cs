@@ -8,6 +8,7 @@ using SkiaSharp;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Printing;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
@@ -176,13 +177,11 @@ namespace ProjectManagement.ViewModel
             string[] _names = new string[4] { "2022", "2023", "2024", "2025" };
 
             int _index1 = 0;
-            string[] _names1 = new string[7] { "项目需求", "立项评审", "方案评审", "设备采购",
-                                                "预验收/组装调试", "设备验收", "完成" };
 
-            
             var totaoprojects = _contextmodel.GetTotalProjectsNum();
             var PerYearProjects = _contextmodel.GetProjectsForYears();
-            
+
+
             EngineeringOverviewVMInfor.AllProjectsInformation.Series = PerYearProjects.AsPieSeries((value, series) =>
             {
                 series.Name = _names[_index++ % _names.Length];
@@ -195,28 +194,27 @@ namespace ProjectManagement.ViewModel
                        $"{point.StackedValue.Total} ";
                 series.ToolTipLabelFormatter = point => $"{point.StackedValue.Share:P2}";
             });
-            _contextmodel.GetProjectsStatues(2022);
-            //List<int> listb = new List<int>();
-            //listb.Add(DataPool.Search(SQLSentence1.ProjectStage_ProjectRequirements, 2));
-            //listb.Add(DataPool.Search(SQLSentence1.ProjectStage_ProjectInitiationReview, 2));
-            //listb.Add(DataPool.Search(SQLSentence1.ProjectStage_SchemeReview, 2));
-            //listb.Add(DataPool.Search(SQLSentence1.ProjectStage_EquipmentProcurement, 2));
 
-            //listb.Add(DataPool.Search(SQLSentence1.ProjectStage_PreAcceptanceassemblyAndCommissioning, 2));
-            //listb.Add(DataPool.Search(SQLSentence1.ProjectStage_EquipmentAcceptance, 2));
-            //listb.Add(DataPool.Search(SQLSentence1.ProjectStage_Completed, 2));
-            //EngineeringOverviewVMInfor.ProjectStage.Series = listb.AsPieSeries((value, series) =>
-            //{
-            //    series.Name = _names1[_index1++ % _names1.Length];
-            //    series.DataLabelsPosition = LiveChartsCore.Measure.PolarLabelsPosition.Middle;
-            //    series.DataLabelsSize = 15;
-            //    series.DataLabelsPaint = new SolidColorPaint(new SKColor(30, 30, 30));
-            //    series.DataLabelsFormatter =
-            //       point =>
-            //           $"{point.Coordinate.PrimaryValue} " + "/ " +
-            //           $"{point.StackedValue.Total} ";
-            //    series.ToolTipLabelFormatter = point => $"{point.StackedValue.Share:P2}";
-            //});
+            var data =  _contextmodel.GetProjectsStatues(DateTime.Now.Year);
+            List<string> names = new List<string>();
+            List<int> num = new List<int>();
+            foreach ( var item in data)
+            {
+                names.Add(item.b);
+                num.Add(item.a);
+            }
+            EngineeringOverviewVMInfor.ProjectStage.Series = num.AsPieSeries((value, series) =>
+            {
+                series.Name = names[_index1++ % names.Count];
+                series.DataLabelsPosition = LiveChartsCore.Measure.PolarLabelsPosition.Middle;
+                series.DataLabelsSize = 15;
+                series.DataLabelsPaint = new SolidColorPaint(new SKColor(30, 30, 30));
+                series.DataLabelsFormatter =
+                   point =>
+                       $"{point.Coordinate.PrimaryValue} " + "/ " +
+                       $"{point.StackedValue.Total} ";
+                series.ToolTipLabelFormatter = point => $"{point.StackedValue.Share:P2}";
+            });
 
 
             ConnectCommand = new RelayCommand(ConnectIcommand);
