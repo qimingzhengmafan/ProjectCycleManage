@@ -90,5 +90,10 @@ namespace ProjectManagement.Models
         /// </summary>
         public int? FileProgress { get; set; }
 
+        /// <summary>
+        /// 倒计时
+        /// </summary>
+        public int? DaysDiff { get; set; }
+
     }
 }
