@@ -96,9 +96,6 @@ namespace ProjectManagement.ViewModel
                 });
             }
 
-
-            //DetailedInformationvm.DataCollection[0].Detailedinformationfun = ShowingCtrl;
-
         }
 
 

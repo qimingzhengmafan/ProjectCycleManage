@@ -4,8 +4,10 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:ProjectManagement.View"
+             xmlns:vm="clr-namespace:ProjectManagement.ViewModel"
              xmlns:draw="clr-namespace:DrawerTest;assembly=DrawerTest"
              mc:Ignorable="d" 
+             d:DataContext="{d:DesignInstance Type=vm:ProjectDetailsVM}"
              d:DesignHeight="1800" d:DesignWidth="900">
     <Grid>
         <ScrollViewer>
@@ -96,6 +98,7 @@
                                                 </StackPanel>
                                                 <TextBox Height="50"
                                                          FontSize="20"
+                                                         Text="{Binding ProjectName}"
                                                          VerticalContentAlignment="Center"
                                                          HorizontalAlignment="Left"
                                                          Width="350"
@@ -108,19 +111,20 @@
                                             <StackPanel VerticalAlignment="Top">
                                                 <StackPanel Orientation="Horizontal">
                                                     <Label Content="序号"
-                                               Style="{StaticResource OptionsStyle}"/>
+                                                           Style="{StaticResource OptionsStyle}"/>
                                                     <Label Content="*"
-                                               Style="{StaticResource OptionsStyle}"
-                                               Foreground="Red"
-                                               FontWeight="Bold"
-                                               Margin="0"/>
+                                                           Style="{StaticResource OptionsStyle}"
+                                                           Foreground="Red"
+                                                           FontWeight="Bold"
+                                                           Margin="0"/>
                                                 </StackPanel>
                                                 <TextBox Height="50"
-                                             FontSize="20"
-                                             VerticalContentAlignment="Center"
-                                             HorizontalAlignment="Left"
-                                             Width="350"
-                                             Margin="30 0 0 0"/>
+                                                         Text="{Binding Projectsid}"
+                                                         FontSize="20"
+                                                         VerticalContentAlignment="Center"
+                                                         HorizontalAlignment="Left"
+                                                         Width="350"
+                                                         Margin="30 0 0 0"/>
 
                                             </StackPanel>
                                         </Grid>
@@ -184,8 +188,8 @@
 
                                         <Grid>
                                             <StackPanel Height="125"
-                                                         HorizontalAlignment="Left"
-                                                         VerticalAlignment="Top">
+                                                        HorizontalAlignment="Left"
+                                                        VerticalAlignment="Top">
                                                 <StackPanel Orientation="Horizontal">
                                                     <Label Content="采购月份"
                                                            Style="{StaticResource OptionsStyle}"/>
@@ -238,15 +242,15 @@
                                         <RowDefinition/>
                                     </Grid.RowDefinitions>
                                     <StackPanel Orientation="Horizontal"
-                                    VerticalAlignment="Center">
+                                                VerticalAlignment="Center">
                                         <Image Source="/Resources/Images/详情.png"
                                                Height="35"
                                                Width="35"
                                                Margin="30 0 0 0"/>
                                         <Label Content="项目详情"
-                                   VerticalContentAlignment="Bottom"
-                                   FontSize="30"
-                                   FontWeight="Bold"/>
+                                               VerticalContentAlignment="Bottom"
+                                               FontSize="30"
+                                               FontWeight="Bold"/>
                                     </StackPanel>
 
                                     <Grid Grid.Row="1">
@@ -257,23 +261,29 @@
 
                                         <Grid>
                                             <StackPanel Height="125"
-                                            HorizontalAlignment="Left"
-                                            VerticalAlignment="Top">
+                                                        HorizontalAlignment="Left"
+                                                        VerticalAlignment="Top">
                                                 <StackPanel Orientation="Horizontal">
                                                     <Label Content="项目类型"
-                                               Style="{StaticResource OptionsStyle}"/>
+                                                           Style="{StaticResource OptionsStyle}"/>
                                                     <Label Content="*"
-                                               Style="{StaticResource OptionsStyle}"
-                                               Foreground="Red"
-                                               FontWeight="Bold"
-                                               Margin="0"/>
+                                                           Style="{StaticResource OptionsStyle}"
+                                                           Foreground="Red"
+                                                           FontWeight="Bold"
+                                                           Margin="0"/>
                                                 </StackPanel>
-                                                <TextBox Height="50"
-                                             FontSize="20"
-                                             VerticalContentAlignment="Center"
-                                             HorizontalAlignment="Left"
-                                             Width="350"
-                                             Margin="30 0 0 0"/>
+                                                <ComboBox Height="50"
+                                                          FontSize="20"
+                                                          ItemsSource="{Binding Types}"
+                                                          DisplayMemberPath="TypeName"
+                                                          SelectedValuePath="TypeId"
+                                                          SelectedItem="{Binding SelectedType, Mode=TwoWay}"
+                                                          VerticalContentAlignment="Center"
+                                                          HorizontalAlignment="Left"
+                                                          Width="350"
+                                                          Margin="30 0 0 0">
+                                            
+                                                </ComboBox>
 
                                             </StackPanel>
                                         </Grid>
@@ -282,19 +292,23 @@
                                             <StackPanel VerticalAlignment="Top">
                                                 <StackPanel Orientation="Horizontal">
                                                     <Label Content="设备类型"
-                                               Style="{StaticResource OptionsStyle}"/>
+                                                           Style="{StaticResource OptionsStyle}"/>
                                                     <Label Content="*"
-                                               Style="{StaticResource OptionsStyle}"
-                                               Foreground="Red"
-                                               FontWeight="Bold"
-                                               Margin="0"/>
+                                                           Style="{StaticResource OptionsStyle}"
+                                                           Foreground="Red"
+                                                           FontWeight="Bold"
+                                                           Margin="0"/>
                                                 </StackPanel>
-                                                <TextBox Height="50"
-                                             FontSize="20"
-                                             VerticalContentAlignment="Center"
-                                             HorizontalAlignment="Left"
-                                             Width="350"
-                                             Margin="30 0 0 0"/>
+                                                <ComboBox Height="50"
+                                                          FontSize="20"
+                                                          ItemsSource="{Binding EquipmentTypes}"
+                                                          DisplayMemberPath="EquipmentName"
+                                                          SelectedValuePath="EquipmentTypeId"
+                                                          SelectedItem="{Binding SelectedEquipmentType, Mode=TwoWay}"
+                                                          VerticalContentAlignment="Center"
+                                                          HorizontalAlignment="Left"
+                                                          Width="350"
+                                                          Margin="30 0 0 0"/>
 
                                             </StackPanel>
                                         </Grid>
@@ -315,12 +329,16 @@
                                                     <Label Content="责任人"
                                                            Style="{StaticResource OptionsStyle}"/>
                                                 </StackPanel>
-                                                <TextBox Height="50"
-                                                         FontSize="20"
-                                                         VerticalContentAlignment="Center"
-                                                         HorizontalAlignment="Left"
-                                                         Width="350"
-                                                         Margin="30 0 0 0"/>
+                                                <ComboBox Height="50"
+                                                          FontSize="20"
+                                                          ItemsSource="{Binding Employees}"
+                                                          DisplayMemberPath="PeopleName"
+                                                          SelectedValuePath="PeopleId"
+                                                          SelectedItem="{Binding SelectedEmployee, Mode=TwoWay}"
+                                                          VerticalContentAlignment="Center"
+                                                          HorizontalAlignment="Left"
+                                                          Width="350"
+                                                          Margin="30 0 0 0"/>
 
                                             </StackPanel>
                                         </Grid>
@@ -336,12 +354,16 @@
                                                            FontWeight="Bold"
                                                            Margin="0"/>
                                                 </StackPanel>
-                                                <TextBox Height="50"
-                                                         FontSize="20"
-                                                         VerticalContentAlignment="Center"
-                                                         HorizontalAlignment="Left"
-                                                         Width="350"
-                                                         Margin="30 0 0 0"/>
+                                                <ComboBox Height="50"
+                                                          FontSize="20"
+                                                          ItemsSource="{Binding Employees}"
+                                                          DisplayMemberPath="PeopleName"
+                                                          SelectedValuePath="PeopleId"
+                                                          SelectedItem="{Binding SelectedFollowEmployee, Mode=TwoWay}"
+                                                          VerticalContentAlignment="Center"
+                                                          HorizontalAlignment="Left"
+                                                          Width="350"
+                                                          Margin="30 0 0 0"/>
 
                                             </StackPanel>
                                         </Grid>
@@ -428,23 +450,23 @@
 
                                         <Grid>
                                             <StackPanel Height="125"
-                                            HorizontalAlignment="Left"
-                                            VerticalAlignment="Top">
+                                                        HorizontalAlignment="Left"
+                                                        VerticalAlignment="Top">
                                                 <StackPanel Orientation="Horizontal">
                                                     <Label Content="开始时间"
-                                               Style="{StaticResource OptionsStyle}"/>
+                                                           Style="{StaticResource OptionsStyle}"/>
                                                     <Label Content="*"
-                                               Style="{StaticResource OptionsStyle}"
-                                               Foreground="Red"
-                                               FontWeight="Bold"
-                                               Margin="0"/>
+                                                           Style="{StaticResource OptionsStyle}"
+                                                           Foreground="Red"
+                                                           FontWeight="Bold"
+                                                           Margin="0"/>
                                                 </StackPanel>
                                                 <TextBox Height="50"
-                                             FontSize="20"
-                                             VerticalContentAlignment="Center"
-                                             HorizontalAlignment="Left"
-                                             Width="350"
-                                             Margin="30 0 0 0"/>
+                                                         FontSize="20"
+                                                         VerticalContentAlignment="Center"
+                                                         HorizontalAlignment="Left"
+                                                         Width="350"
+                                                         Margin="30 0 0 0"/>
 
                                             </StackPanel>
                                         </Grid>
@@ -453,19 +475,19 @@
                                             <StackPanel VerticalAlignment="Top">
                                                 <StackPanel Orientation="Horizontal">
                                                     <Label Content="预计完成时间"
-                                               Style="{StaticResource OptionsStyle}"/>
+                                                           Style="{StaticResource OptionsStyle}"/>
                                                     <Label Content="*"
-                                               Style="{StaticResource OptionsStyle}"
-                                               Foreground="Red"
-                                               FontWeight="Bold"
-                                               Margin="0"/>
+                                                           Style="{StaticResource OptionsStyle}"
+                                                           Foreground="Red"
+                                                           FontWeight="Bold"
+                                                           Margin="0"/>
                                                 </StackPanel>
                                                 <TextBox Height="50"
-                                             FontSize="20"
-                                             VerticalContentAlignment="Center"
-                                             HorizontalAlignment="Left"
-                                             Width="350"
-                                             Margin="30 0 0 0"/>
+                                                         FontSize="20"
+                                                         VerticalContentAlignment="Center"
+                                                         HorizontalAlignment="Left"
+                                                         Width="350"
+                                                         Margin="30 0 0 0"/>
 
                                             </StackPanel>
                                         </Grid>
@@ -481,40 +503,44 @@
 
                                         <Grid>
                                             <StackPanel Height="125"
-                                            HorizontalAlignment="Left"
-                                            VerticalAlignment="Top">
+                                                        HorizontalAlignment="Left"
+                                                        VerticalAlignment="Top">
                                                 <StackPanel Orientation="Horizontal">
                                                     <Label Content="项目周期"
-                                               Style="{StaticResource OptionsStyle}"/>
+                                                           Style="{StaticResource OptionsStyle}"/>
                                                     <Label Content=""
-                                               Style="{StaticResource OptionsStyle}"
-                                               Foreground="Red"
-                                               FontWeight="Bold"
-                                               Margin="0"/>
+                                                           Style="{StaticResource OptionsStyle}"
+                                                           Foreground="Red"
+                                                           FontWeight="Bold"
+                                                           Margin="0"/>
                                                 </StackPanel>
                                                 <TextBox Height="50"
-                                             FontSize="20"
-                                             VerticalContentAlignment="Center"
-                                             HorizontalAlignment="Left"
-                                             Width="350"
-                                             Margin="30 0 0 0"/>
+                                                         FontSize="20"
+                                                         VerticalContentAlignment="Center"
+                                                         HorizontalAlignment="Left"
+                                                         Width="350"
+                                                         Margin="30 0 0 0"/>
 
                                             </StackPanel>
                                         </Grid>
 
                                         <Grid Grid.Column="1">
                                             <StackPanel Margin="0 0 30 0"
-    VerticalAlignment="Top">
+                                                        VerticalAlignment="Top">
                                                 <StackPanel Orientation="Horizontal">
                                                     <Label Content="阶段"
-       Style="{StaticResource OptionsStyle}"/>
+                                                           Style="{StaticResource OptionsStyle}"/>
                                                 </StackPanel>
-                                                <DatePicker Style="{StaticResource LargeDatePickerStyle}"
-        HorizontalAlignment="Left"
-        Width="350"
-        Margin="30 0 0 0"
-        FontSize="20"
-        Height="50"/>
+                                                <ComboBox Height="50"
+                                                          FontSize="20"
+                                                          ItemsSource="{Binding Projectstage}"
+                                                          DisplayMemberPath="ProjectStageName"
+                                                          SelectedValuePath="ProjectStageId"
+                                                          SelectedItem="{Binding Selectedprojectstage, Mode=TwoWay}"
+                                                          VerticalContentAlignment="Center"
+                                                          HorizontalAlignment="Left"
+                                                          Width="350"
+                                                          Margin="30 0 0 0"/>
 
                                             </StackPanel>
                                         </Grid>
@@ -524,8 +550,8 @@
                             </Border>
 
                             <Border Grid.Row="3"
-                        BorderBrush="#BBBBBB"
-                        BorderThickness=" 0 0 0 0.5">
+                                         BorderBrush="#BBBBBB"
+                                         BorderThickness=" 0 0 0 0.5">
                                 <Grid>
                                     <Grid.RowDefinitions>
                                         <RowDefinition Height="100"/>
@@ -533,15 +559,15 @@
                                         <RowDefinition/>
                                     </Grid.RowDefinitions>
                                     <StackPanel Orientation="Horizontal"
-                                    VerticalAlignment="Center">
+                                                 VerticalAlignment="Center">
                                         <Image Source="/Resources/Images/费用.png"
-                                   Height="35"
-                                   Width="35"
-                                   Margin="30 0 0 0"/>
+                                               Height="35"
+                                               Width="35"
+                                               Margin="30 0 0 0"/>
                                         <Label Content="费用"
-                                   VerticalContentAlignment="Bottom"
-                                   FontSize="30"
-                                   FontWeight="Bold"/>
+                                               VerticalContentAlignment="Bottom"
+                                               FontSize="30"
+                                               FontWeight="Bold"/>
                                     </StackPanel>
 
                                     <Grid Grid.Row="1">
@@ -553,23 +579,23 @@
 
                                         <Grid>
                                             <StackPanel Height="125"
-                                            HorizontalAlignment="Left"
-                                            VerticalAlignment="Top">
+                                                        HorizontalAlignment="Left"
+                                                        VerticalAlignment="Top">
                                                 <StackPanel Orientation="Horizontal">
                                                     <Label Content="项目预算"
-                                               Style="{StaticResource OptionsStyle}"/>
+                                                           Style="{StaticResource OptionsStyle}"/>
                                                     <Label Content="*"
-                                               Style="{StaticResource OptionsStyle}"
-                                               Foreground="Red"
-                                               FontWeight="Bold"
-                                               Margin="0"/>
+                                                           Style="{StaticResource OptionsStyle}"
+                                                           Foreground="Red"
+                                                           FontWeight="Bold"
+                                                           Margin="0"/>
                                                 </StackPanel>
                                                 <TextBox Height="50"
-                                             FontSize="20"
-                                             VerticalContentAlignment="Center"
-                                             HorizontalAlignment="Left"
-                                             Width="350"
-                                             Margin="30 0 0 0"/>
+                                                         FontSize="20"
+                                                         VerticalContentAlignment="Center"
+                                                         HorizontalAlignment="Left"
+                                                         Width="350"
+                                                         Margin="30 0 0 0"/>
 
                                             </StackPanel>
                                         </Grid>
@@ -578,19 +604,19 @@
                                             <StackPanel VerticalAlignment="Top">
                                                 <StackPanel Orientation="Horizontal">
                                                     <Label Content="实际花费"
-                                               Style="{StaticResource OptionsStyle}"/>
+                                                           Style="{StaticResource OptionsStyle}"/>
                                                     <Label Content="*"
-                                               Style="{StaticResource OptionsStyle}"
-                                               Foreground="Red"
-                                               FontWeight="Bold"
-                                               Margin="0"/>
+                                                           Style="{StaticResource OptionsStyle}"
+                                                           Foreground="Red"
+                                                           FontWeight="Bold"
+                                                           Margin="0"/>
                                                 </StackPanel>
                                                 <TextBox Height="50"
-                                             FontSize="20"
-                                             VerticalContentAlignment="Center"
-                                             HorizontalAlignment="Left"
-                                             Width="350"
-                                             Margin="30 0 0 0"/>
+                                                         FontSize="20"
+                                                         VerticalContentAlignment="Center"
+                                                         HorizontalAlignment="Left"
+                                                         Width="350"
+                                                         Margin="30 0 0 0"/>
 
                                             </StackPanel>
                                         </Grid>
