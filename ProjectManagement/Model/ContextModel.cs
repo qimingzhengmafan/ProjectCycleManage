@@ -110,7 +110,7 @@ public class ContextModel
         return result.Select(item => (item.Count, item.StatusName)).ToList();
     }
 
-    public List<(int a, string b)> GetPersonalProjectsStatues(int year , string? name = null)
+    public List<(int count, string Status)> GetPersonalProjectsStatues(int year , string? name = null)
     {
         // 获取所有可能的状态名称
         var allStatusNames = _projectcontext.ProjectStage

@@ -37,7 +37,7 @@ namespace DrawerTest
             this.Height = FIXED_HEIGHT;
 
             // 正确的数据上下文设置
-            this.DataContext = this;
+            //this.DataContext = this;
             this.Loaded += ProjectProgressInfo_Loaded;
         }
 

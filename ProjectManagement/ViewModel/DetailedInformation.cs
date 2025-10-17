@@ -6,14 +6,14 @@ namespace ProjectManagement.ViewModel;
 
 public class DetailedInformation:INotifyPropertyChanged
 {
-    private ObservableCollection<DrawerUIVM> _yourDataCollection;
-    public ObservableCollection<DrawerUIVM> YourDataCollection
+    private ObservableCollection<DrawerUIVM> _dataCollection;
+    public ObservableCollection<DrawerUIVM> DataCollection
     {
-        get => _yourDataCollection;
+        get => _dataCollection;
         set
         {
-            _yourDataCollection = value;
-            OnPropChanged("YourDataCollection");
+            _dataCollection = value;
+            OnPropChanged("DataCollection");
         }
     }
 
@@ -21,19 +21,7 @@ public class DetailedInformation:INotifyPropertyChanged
 
     public DetailedInformation()
     {
-        // 初始化数据
-        YourDataCollection = new ObservableCollection<DrawerUIVM>();
 
-        // 添加示例数据
-        for (int i = 0; i < 5; i++)
-        {
-            YourDataCollection.Add(new DrawerUIVM()
-            {
-
-
-            });
-
-        }
     }
 
 

@@ -51,7 +51,7 @@
             </ScrollViewer>-->
             <ScrollViewer DataContext="{Binding DetailedInformationvm}">
 
-                <ItemsControl ItemsSource="{Binding YourDataCollection}">
+                <ItemsControl ItemsSource="{Binding DataCollection}">
                     <ItemsControl.ItemsPanel>
                         <ItemsPanelTemplate>
                             <StackPanel Orientation="Vertical"/>

@@ -2,6 +2,7 @@
 using CommunityToolkit.Mvvm.Input;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
@@ -27,17 +28,54 @@ namespace DrawerTest
         private int _uiheight;
 
         [ObservableProperty]
+        private string _unit;
+
+        /// <summary>
+        /// 所有项目
+        /// </summary>
         private int _allprojectsNum = 10;
+        public int AllprojectsNum
+        {
+            get => _allprojectsNum;
+            set
+            {
+                _allprojectsNum = value;
+                if (value == 0)
+                    Percent = 0;
+                else
+                    Percent = CompleteProjects / _allprojectsNum * 100;
+                OnPropertyChanged();
+            }
+        }
+
+        /// <summary>
+        /// 已完成
+        /// </summary>
+        private int _completeProjects;
+        public int CompleteProjects
+        {
+            get => _completeProjects;
+            set
+            {
+                _completeProjects = value;
+                if (AllprojectsNum == 0)
+                    Percent = 0;
+                else
+                    Percent = _completeProjects / AllprojectsNum * 100;
+
+                OnPropertyChanged();
+            }
+        }
 
         [ObservableProperty]
-        private int _completeProjects;
+        private ObservableCollection<ProjectsInformationGrid> _briefinformation = new ObservableCollection<ProjectsInformationGrid>();
 
-        //[ObservableProperty]
         private bool IsShow { get; set; } = false;
 
         public DrawerUIVM()
         {
             _detailedinformationfun = tt;
+            
         }
 
 
@@ -73,5 +111,23 @@ namespace DrawerTest
             action();
         }
 
+    }
+
+    public partial class ProjectsInformationGrid : ObservableObject
+    {
+        [ObservableProperty]
+        private string _projectname;
+
+        [ObservableProperty]
+        private string _projectleadername;
+
+        [ObservableProperty]
+        private string _projectstage = "ghjk";
+
+        [ObservableProperty]
+        private string _beltcolor;
+
+        [ObservableProperty]
+        private string _textcolor;
     }
 }

@@ -335,8 +335,8 @@ namespace ProjectManagement.ViewModel
                 int _index1 = 0;
                 foreach (var item in data_zhuchengxu)
                 {
-                    names.Add(item.b);
-                    num.Add(item.a);
+                    names.Add(item.Status);
+                    num.Add(item.count);
                 }
                 PersonalDataVM_ChengXuZhu.Personalprojectsinformation.Series = num.AsPieSeries((value, series) =>
                 {
@@ -497,17 +497,6 @@ namespace ProjectManagement.ViewModel
                     projectvaule.ProjectLeader = project.LeaderName;
                     values.Add(projectvaule);
                 }
-
-                //foreach (var item in values)
-                //{
-                //    PersonalDataVM_YanXin.PersonalProjectsList.Add(new SeamlessLoopingScroll.ProjectItem()
-                //    {
-                //        ProjectName = item.Project,
-                //        CountDown = item.DaysDiff,
-                //        FileProgress = item.FileProgress,
-                //        Owner = item.ProjectLeader
-                //    });
-                //}
                 return values;
 
             }

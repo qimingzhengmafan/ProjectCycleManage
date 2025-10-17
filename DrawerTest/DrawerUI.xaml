@@ -94,7 +94,7 @@
                 </Grid>
             </Border>
             <Grid Height="{Binding Uiheight}">
-                <StackPanel>
+                <!--<StackPanel>
                     
                     <Grid Background="#F2F2F2"
                               Height="60">
@@ -698,7 +698,52 @@ HorizontalContentAlignment="Left">
                     </Grid>
                     
 
-                </StackPanel>
+                </StackPanel>-->
+
+                <ItemsControl ItemsSource="{Binding Briefinformation}">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <StackPanel Orientation="Vertical"/>
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Grid Background="#F2F2F2"
+                                  Height="60">
+                                <Button BorderThickness="0"
+                                        Background="Transparent"
+                                        HorizontalContentAlignment="Left"
+                                        Command="{Binding DetailedInformationCommand}">
+                                    <Button.Content>
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock x:Name="ProjectName"
+                                                       Width="290"
+                                                       Text="{Binding Projectname}"
+                                                       FontSize="20"
+                                                       Margin="70 0 0 0"/>
+                                            <TextBlock x:Name="ProjectLeader"
+                                                       Width="80"
+                                                       Text="{Binding Projectleadername}"
+                                                       FontSize="20"
+                                                       Margin="10 0 0 0"/>
+                                            <local:ProjectProgressInfo Width="300"
+                                                                       Height="20"
+                                                                       HorizontalContentAlignment="Right"
+                                                                       ContentText="{Binding Projectstage}"
+                                                                       BeltColor="{Binding Beltcolor}"
+                                                                       TextColor="{Binding Textcolor}"
+                                                                       Margin="0 0 100 0"/>
+                                        </StackPanel>
+                                    </Button.Content>
+
+                                </Button>
+                            </Grid>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+                
+                
             </Grid>
         </StackPanel>
     </Grid>
