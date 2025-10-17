@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace ProjectManagement.ViewModel
 {
@@ -31,7 +32,7 @@ namespace ProjectManagement.ViewModel
         }
         
 
-        private void ShowingCtrl()
+        public void ShowingCtrl(string data)
         {
             IsShow = !IsShow;
             if (IsShow)
@@ -42,6 +43,9 @@ namespace ProjectManagement.ViewModel
             {
                 Showwidth = 0;
             }
+
+
+
         }
 
 
@@ -64,6 +68,7 @@ namespace ProjectManagement.ViewModel
                     Briefinformationdata.Projectname = project.Project;
                     Briefinformationdata.Projectstage = project.CompletionStatus;
                     Briefinformationdata.Projectleadername = project.ProjectLeader;
+                    Briefinformationdata.Detailedinformationfun = ShowingCtrl;
                     if (project.IsCompleted)
                     {
                         Briefinformationdata.Beltcolor = StatusColor.CompletedColors.BeltColor;
@@ -205,6 +210,7 @@ namespace ProjectManagement.ViewModel
                 return values;
             }
         }
+
 
         #endregion
 

@@ -16,10 +16,7 @@ namespace ProjectManagement.ViewModel
 {
     public partial class AddVM: ObservableObject
     {
-        //public ProjectContext Context { get; set; }
-        //private ContextModel _contextModel { get; set; }
         DateTime currenttime = DateTime.Now;
-        //int year = currenttime.Year;
         public AddVM()
         {
             //_contextModel = new ContextModel(Context);

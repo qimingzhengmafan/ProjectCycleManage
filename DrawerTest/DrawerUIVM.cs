@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Xml.Linq;
 
 namespace DrawerTest
 {
@@ -20,9 +21,6 @@ namespace DrawerTest
 
         [ObservableProperty]
         private int _percent;
-
-        [ObservableProperty] 
-        private Action _detailedinformationfun;
 
         [ObservableProperty] 
         private int _uiheight;
@@ -74,7 +72,6 @@ namespace DrawerTest
 
         public DrawerUIVM()
         {
-            _detailedinformationfun = tt;
             
         }
 
@@ -94,22 +91,6 @@ namespace DrawerTest
             }
         }
 
-        private void tt()
-        {
-            MessageBox.Show("test");
-        }
-
-        [RelayCommand]
-        private void DetailedInformation()
-        {
-            DetailedInformationACT(_detailedinformationfun);
-        }
-
-
-        private void DetailedInformationACT(Action action)
-        {
-            action();
-        }
 
     }
 
@@ -118,16 +99,35 @@ namespace DrawerTest
         [ObservableProperty]
         private string _projectname;
 
+        public Action<string> Detailedinformationfun;
+
         [ObservableProperty]
         private string _projectleadername;
 
         [ObservableProperty]
-        private string _projectstage = "ghjk";
+        private string _projectstage;
 
         [ObservableProperty]
         private string _beltcolor;
 
         [ObservableProperty]
         private string _textcolor;
+
+        public ProjectsInformationGrid()
+        {
+
+        }
+
+        [RelayCommand]
+        private void DetailedInformation()
+        {
+            //MessageBox.Show($"You clicked: {Projectname} (Index: {Projectleadername})");
+            DetailedInformationACT(Detailedinformationfun);
+        }
+
+        private void DetailedInformationACT(Action<string> action)
+        {
+            action(Projectname);
+        }
     }
 }
