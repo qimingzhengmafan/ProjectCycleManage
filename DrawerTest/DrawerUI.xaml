@@ -22,7 +22,7 @@
 
                     <Grid Grid.Row="0"
                           Grid.RowSpan="2">
-                        <TextBlock Text="67%"
+                        <TextBlock Text="{Binding Percent}"
                                    FontSize="35"
                                    FontWeight="Bold"
                                    HorizontalAlignment="Left"
@@ -30,12 +30,12 @@
                                    Margin="600 0 0 0"/>
                     </Grid>
                     <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="2024"
+                        <TextBlock Text="{Binding Year}"
                                        FontSize="20"
                                        FontWeight="Bold"
                                        VerticalAlignment="Center"
                                        Margin="70 0 0 0"/>
-                        <Label Content="年"
+                        <Label Content="{Binding Unit}"
                                    FontSize="20"
                                    FontWeight="Bold"
                                    VerticalContentAlignment="Center"
@@ -50,7 +50,7 @@
                                    FontWeight="Bold"
                                    Margin="66 0 0 0"
                                    VerticalContentAlignment="Center"/>
-                        <TextBlock Text="18"
+                        <TextBlock Text="{Binding AllprojectsNum}"
                                        FontSize="15"
                                        FontWeight="Bold"
                                        Margin="30 0 0 0"
@@ -72,7 +72,7 @@
                                FontWeight="Bold"
                                Margin="50 0 0 0"
                                VerticalContentAlignment="Center"/>
-                        <TextBlock Text="12"
+                        <TextBlock Text="{Binding CompleteProjects}"
                                    FontSize="15"
                                    FontWeight="Bold"
                                    Foreground="#16A34A"
@@ -95,6 +95,7 @@
             </Border>
             <Grid Height="{Binding Uiheight}">
                 <StackPanel>
+                    
                     <Grid Background="#F2F2F2"
                               Height="60">
                         <Button BorderThickness="0"

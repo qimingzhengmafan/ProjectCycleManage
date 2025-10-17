@@ -11,11 +11,55 @@ using System.Threading.Tasks;
 
 namespace ProjectManagement.ViewModel
 {
-    public class PersonalDataVM : ObservableObject
+    public partial class PersonalDataVM : ObservableObject
     {
         public ProjectContext Context { get; set; }
 
+        [ObservableProperty]
         private AllProjects _personalprojectsinformation = new AllProjects();
+
+        private int _allprojectsnum = 0;
+        public int Allprojectsnum
+        {
+            get => _allprojectsnum;
+            set
+            {
+                _allprojectsnum = value;
+                Unfinished = _allprojectsnum - CompleteProjectsNum;
+                Projectcompletionrate = CompleteProjectsNum / _allprojectsnum * 100;
+                OnPropertyChanged();
+            }
+        }
+
+        private int _completeProjectsNum = 0;
+        public int CompleteProjectsNum
+        {
+            get => _completeProjectsNum;
+            set
+            {
+                _completeProjectsNum = value;
+                Unfinished = Allprojectsnum - _completeProjectsNum;
+                Projectcompletionrate = _completeProjectsNum / Allprojectsnum * 100;
+                OnPropertyChanged();
+            }
+        }
+
+
+
+        /// <summary>
+        /// 项目完成率
+        /// </summary>
+        [ObservableProperty]
+        private int _projectcompletionrate = 0;
+
+        /// <summary>
+        /// 未完成
+        /// </summary>
+        [ObservableProperty]
+        private int _unfinished = 0;
+
+
+
 
         public AllProjects PersonalProjectsInformation
         {
@@ -117,8 +161,6 @@ namespace ProjectManagement.ViewModel
                 Owner = "负责人：K"
             }
         };
-
-        //private ObservableCollection<SeamlessLoopingScroll.ProjectItem> _personalprojectslist = new ObservableCollection<SeamlessLoopingScroll.ProjectItem>();
 
         public ObservableCollection<SeamlessLoopingScroll.ProjectItem> PersonalProjectsList
         {

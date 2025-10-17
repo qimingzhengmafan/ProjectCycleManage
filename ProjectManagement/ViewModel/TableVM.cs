@@ -49,5 +49,14 @@ namespace ProjectManagement.ViewModel
             DetailedInformationvm.YourDataCollection[0].Detailedinformationfun = ShowingCtrl;
         }
 
+
+
+        #region OtherFun
+
+
+
+
+        #endregion
+
     }
 }

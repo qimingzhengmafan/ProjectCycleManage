@@ -78,7 +78,7 @@
                            VerticalAlignment="Center"
                            FontSize="20"
                            Margin="50 0 0 0"/>
-                    <TextBlock Text="{Binding AllProjectsNum}"
+                    <TextBlock Text="{Binding Allprojectsnum}"
                                VerticalAlignment="Center"
                                Margin="50 0 0 0"
                                FontSize="25"
@@ -119,7 +119,7 @@
                            VerticalAlignment="Center"
                            FontSize="20"
                            Margin="50 0 0 0"/>
-                    <TextBlock Text="66.7"
+                    <TextBlock Text="{Binding Projectcompletionrate}"
                                VerticalAlignment="Center"
                                
                                Margin="50 0 0 0"
@@ -140,7 +140,7 @@
                            VerticalAlignment="Center"
                            FontSize="20"
                            Margin="50 0 0 0"/>
-                    <TextBlock Text="18"
+                    <TextBlock Text="{Binding Unfinished}"
                                VerticalAlignment="Center"
                                Margin="50 0 0 0"
                                FontSize="25"

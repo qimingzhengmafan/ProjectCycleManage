@@ -12,9 +12,16 @@ namespace DrawerTest
 {
     public partial class DrawerUIVM: ObservableObject
     {
-        [ObservableProperty] private double _currentPressurex;
+        //[ObservableProperty] 
+        //private double _currentPressurex;
+        [ObservableProperty]
+        private int _year;
 
-        [ObservableProperty] private Action _detailedinformationfun;
+        [ObservableProperty]
+        private int _percent;
+
+        [ObservableProperty] 
+        private Action _detailedinformationfun;
 
         [ObservableProperty] 
         private int _uiheight;
@@ -59,6 +66,8 @@ namespace DrawerTest
         {
             DetailedInformationACT(_detailedinformationfun);
         }
+
+
         private void DetailedInformationACT(Action action)
         {
             action();
