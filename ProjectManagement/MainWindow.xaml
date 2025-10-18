@@ -139,7 +139,7 @@
                 </Grid>
 
                 <Grid Visibility="{Binding TableViewVisibility}">
-                    <view:TableView/>
+                    <view:TableView DataContext="{Binding TableVMInfor}"/>
                 </Grid>
 
                 <Grid Visibility="{Binding SettingViewVisibility}">

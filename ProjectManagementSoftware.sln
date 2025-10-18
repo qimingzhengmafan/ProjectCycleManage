@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 18
-VisualStudioVersion = 18.0.11018.127 d18.0
+VisualStudioVersion = 18.0.11018.127
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MiniExcelTest", "MiniExcelTest\MiniExcelTest.csproj", "{B72C03FA-E590-4515-A527-78B92F817725}"
 EndProject
@@ -22,6 +22,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DrawerTest", "DrawerTest\DrawerTest.csproj", "{3653DCAB-94BA-4C72-BCD9-E41B60517478}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScrollControlProjectnetcore", "ScrollControlProjectnetcore\ScrollControlProjectnetcore.csproj", "{20064E6D-7463-4C27-811F-9645612D4727}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClientSide", "ClientSide\ClientSide.csproj", "{E0297E9B-A727-4027-9940-2013CF6C3CE6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -69,6 +71,10 @@ Global
 		{20064E6D-7463-4C27-811F-9645612D4727}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{20064E6D-7463-4C27-811F-9645612D4727}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{20064E6D-7463-4C27-811F-9645612D4727}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E0297E9B-A727-4027-9940-2013CF6C3CE6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E0297E9B-A727-4027-9940-2013CF6C3CE6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E0297E9B-A727-4027-9940-2013CF6C3CE6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E0297E9B-A727-4027-9940-2013CF6C3CE6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

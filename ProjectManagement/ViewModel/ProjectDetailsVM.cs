@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using ProjectManagement.Data;
 using ProjectManagement.Models;
+using CommunityToolkit.Mvvm.Input;
 
 namespace ProjectManagement.ViewModel
 {
@@ -128,8 +129,17 @@ namespace ProjectManagement.ViewModel
         private string? _remarkks;
 
         #endregion
-        
-        
+
+
+        public ProjectDetailsVM()
+        {
+            LoadEmployees();
+            LoadType();
+            LoadEquipmentType();
+            Loadprojectstage();
+            Loadprojectphasestatus();
+        }
+
         #region 责任人下拉框
 
         private ObservableCollection<PeopleTable> _employees;
@@ -288,11 +298,6 @@ namespace ProjectManagement.ViewModel
         // 更新状态信息
         private void UpdateEquipmentTypeStatus()
         {
-            //if (SelectedEmployee != null)
-            //{
-            //    StatusMessage = $"选中: {SelectedEmployee.PeopleName} ({SelectedEmployee.PeopleId})";
-            //    MessageBox.Show(StatusMessage);
-            //}
             EquipmenttypeId = SelectedEquipmentType.EquipmentTypeId;
         }
 
@@ -418,6 +423,113 @@ namespace ProjectManagement.ViewModel
 
 
         #endregion
+        #region 项目阶段状态下拉框
+
+        private ObservableCollection<ProjectPhaseStatus> _projectphasestatus;
+        private ProjectPhaseStatus _selectedprojectphasestatus;
+
+        // 列表 - 用于下拉框
+        public ObservableCollection<ProjectPhaseStatus> Projectphasestatus
+        {
+            get => _projectphasestatus;
+            set
+            {
+                _projectphasestatus = value;
+                OnPropertyChanged();
+            }
+        }
+
+        // 选中
+        public ProjectPhaseStatus Selectedprojectphasestatus
+        {
+            get => _selectedprojectphasestatus;
+            set
+            {
+                _selectedprojectphasestatus = value;
+                OnPropertyChanged();
+                UpdateProjectPhaseStatus();
+            }
+        }
+
+        // 加载数据
+        private void Loadprojectphasestatus()
+        {
+            try
+            {
+                using (var context = new ProjectContext())
+                {
+                    var projectphasestatus = context.ProjectPhaseStatus
+                        .OrderBy(e => e.ProjectPhaseStatusName)
+                        .ToList();
+
+                    Projectphasestatus = new ObservableCollection<ProjectPhaseStatus>(projectphasestatus);
+
+                    if (Projectphasestatus.Count > 0)
+                        Selectedprojectphasestatus = Projectphasestatus[0];
+
+                }
+            }
+            catch (Exception ex)
+            {
+
+            }
+        }
+
+        // 更新状态信息
+        private void UpdateProjectPhaseStatus()
+        {
+            ProjectPhaseStatusId = Selectedprojectphasestatus.ProjectPhaseStatusId;
+        }
+
+
+        #endregion
+
+
+        #region OtherFun
+
+        [RelayCommand]
+        private void SaveChanges()
+        {
+            UpdateUserEmailAsync();
+        }
+
+        [RelayCommand]
+        private void DeleteProject()
+        {
+            
+        }
         
+        
+        public async Task UpdateUserEmailAsync()
+        {
+            using var context = new ProjectContext();
+    
+            // 第一步：查询数据库获取完整实体
+            var project = await context.Projects.FindAsync(Projectsid);
+            if (project != null)
+            {
+                project.ProjectsId = Projectsid;
+                project.ProjectName = ProjectName;
+                project.EquipmentName = Equipmentname;
+                project.ProjectIdentifyingNumber = ProjectIdentifyingNumber;
+                project.equipmenttypeId = EquipmenttypeId;
+                project.typeId = TypeId;
+                project.ProjectStageId = ProjectStageId;
+                project.FinishTime = FinishTime;
+                project.StartTime = StartTime;
+                project.Budget = Budget;
+                project.ActualExpenditure = ActualExpenditure;
+                project.ProjectPhaseStatusId = ProjectPhaseStatusId;
+                project.ProjectLeaderId = ProjectsLeaderID;
+                project.projectfollowuppersonId = ProjectsfollowuppersonId;
+                project.AssetNumber = Assetnumber;
+                project.remarks = Remarkks;
+                
+                await context.SaveChangesAsync(); // 更新所有修改的字段
+            }
+        }
+
+        #endregion
+
     }
 }

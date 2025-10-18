@@ -8,11 +8,12 @@
              xmlns:slc="clr-namespace:ScrollControlProjectnetcore;assembly=ScrollControlProjectnetcore"
              xmlns:draw="clr-namespace:DrawerTest;assembly=DrawerTest"
              mc:Ignorable="d" 
+             d:DataContext="{d:DesignInstance Type=viewmodel:TableVM}"
              d:DesignHeight="700" 
              d:DesignWidth="1252">
-    <UserControl.DataContext>
-        <viewmodel:TableVM/>
-    </UserControl.DataContext>
+    <!-- <UserControl.DataContext> -->
+    <!--     <viewmodel:TableVM/> -->
+    <!-- </UserControl.DataContext> -->
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="233"/>
@@ -73,7 +74,7 @@
               HorizontalAlignment="Right"
               Background="White">
             <ScrollViewer>
-                <local:ProjectDetails/>
+                <local:ProjectDetails DataContext="{Binding Projectdetailsvm}"/>
             </ScrollViewer>
         </Grid>
         

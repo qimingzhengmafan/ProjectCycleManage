@@ -9,6 +9,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Resources\Images\Change.png" />
     <None Remove="Resources\Images\人像.png" />
     <None Remove="Resources\Images\修改.png" />
     <None Remove="Resources\Images\图标 1%401x.png" />
@@ -54,6 +55,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Resource Include="Resources\Images\Change.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="Resources\Images\人像.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>

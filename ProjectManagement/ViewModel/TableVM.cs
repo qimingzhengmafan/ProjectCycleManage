@@ -3,6 +3,7 @@ using DrawerTest;
 using Microsoft.EntityFrameworkCore;
 using ProjectManagement.Data;
 using ProjectManagement.Models;
+using ProjectManagement.View;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,7 +24,9 @@ namespace ProjectManagement.ViewModel
 
         [ObservableProperty]
         private DetailedInformation _detailedInformationvm = new DetailedInformation();
-
+        
+        [ObservableProperty]
+        private ProjectDetailsVM _projectdetailsvm = new ProjectDetailsVM();
 
         public TreeViewModel TreeViewModel
         {
@@ -32,7 +35,7 @@ namespace ProjectManagement.ViewModel
         }
         
 
-        public void ShowingCtrl(string data)
+        public async void ShowingCtrl(string data)
         {
             IsShow = !IsShow;
             if (IsShow)
@@ -44,8 +47,43 @@ namespace ProjectManagement.ViewModel
                 Showwidth = 0;
             }
 
+            Projects projectdata = await GetProjectByProjectNameAsync(data);
 
 
+            Projectdetailsvm.Projectsid = projectdata.ProjectsId;
+            Projectdetailsvm.ProjectName = projectdata.ProjectName;
+            Projectdetailsvm.Equipmentname = projectdata.EquipmentName;
+            Projectdetailsvm.ProjectIdentifyingNumber = projectdata.ProjectIdentifyingNumber;
+
+            using (var context = new ProjectContext())
+            {
+                var equipmenttypedata = await context.Projects
+                    .Include(c => c.equipmenttype)
+                    .FirstAsync(c => c.equipmenttypeId == projectdata.equipmenttypeId.GetValueOrDefault());
+
+                if(equipmenttypedata != null)
+                {
+                    Projectdetailsvm.SelectedEquipmentType = equipmenttypedata.equipmenttype;
+                }
+
+            };
+
+
+
+
+            //Projectdetailsvm.SelectedEquipmentType.EquipmentTypeId = projectdata.equipmenttypeId.GetValueOrDefault();
+
+            Projectdetailsvm.SelectedType.TypeId = projectdata.typeId.GetValueOrDefault();
+            Projectdetailsvm.Selectedprojectstage.ProjectStageId = projectdata.ProjectStageId;
+            Projectdetailsvm.FinishTime = projectdata.FinishTime;
+            Projectdetailsvm.StartTime = projectdata.StartTime;
+            Projectdetailsvm.Budget = projectdata.Budget;
+            Projectdetailsvm.ActualExpenditure = projectdata.ActualExpenditure;
+            //Projectdetailsvm.Selectedprojectphasestatus.ProjectPhaseStatusId = projectdata.ProjectPhaseStatusId.GetValueOrDefault();
+            Projectdetailsvm.SelectedEmployee.PeopleId = projectdata.ProjectLeaderId.GetValueOrDefault();
+            //Projectdetailsvm.SelectedFollowEmployee.PeopleId = projectdata.projectfollowuppersonId.GetValueOrDefault();
+            Projectdetailsvm.Assetnumber = projectdata.AssetNumber;
+            Projectdetailsvm.Remarkks = projectdata.remarks;
         }
 
 
@@ -207,8 +245,16 @@ namespace ProjectManagement.ViewModel
                 return values;
             }
         }
+        
+        public async Task<Projects> GetProjectByProjectNameAsync(string name)
+        {
+            using var context = new ProjectContext();
 
-
+            return await context.Projects
+                .FirstAsync(u => u.ProjectName == name);
+            
+        }
+        
         #endregion
 
     }
