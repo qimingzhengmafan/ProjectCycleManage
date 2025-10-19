@@ -11,6 +11,9 @@ using CommunityToolkit.Mvvm.Input;
 
 namespace ProjectManagement.ViewModel
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public partial class ProjectDetailsVM : ObservableObject
     {
         
@@ -127,6 +130,68 @@ namespace ProjectManagement.ViewModel
         /// </summary>
         [ObservableProperty] 
         private string? _remarkks;
+
+        #endregion
+
+        #region 文件记录
+
+        //OA采购申请单号OA Purchase Application Number 
+        [ObservableProperty]
+        private string? oapurchaseapplicationnumber;
+
+        //"OA领用申请单号"，OA Requisition application Number
+        [ObservableProperty]
+        private string? oarequisitionapplicationnumber;
+
+        //"设备申请表"Equipment application Form
+        [ObservableProperty]
+        private bool _equipmentapplicationform;
+
+        //技术协议 technical agreement
+        [ObservableProperty]
+        private bool _technicalagreement;
+
+        //设备方案/BOM清单，equipment solution OR BOM list
+        [ObservableProperty]
+        private bool _equipmentsolutionorbomlist;
+
+        //"设备项目问题改善"，Equipment Project Problem Improvement
+        /// <summary>
+        /// 
+        /// </summary>
+        [ObservableProperty]
+        private bool _equipmentprojectproblemimprovement;
+
+        //"设备验证记录"	，Equipment Verification Record
+        [ObservableProperty]
+        private bool _equipmentverificationrecord;
+
+        //培训记录，training record
+        [ObservableProperty]
+        private bool _trainingrecord;
+
+        //说明书，manual
+        [ObservableProperty]
+        private bool _manual;
+
+        //维保文件，maintenance document
+        [ObservableProperty]
+        private bool _maintenancedocument;
+
+        //WI，WI
+        [ObservableProperty]
+        private bool _wi;
+
+        //"设备验收单"，Equipment Acceptance Form
+        [ObservableProperty]
+        private bool _equipmentacceptanceform;
+
+        //“文件发放记录表Document Distribution Record Form
+        [ObservableProperty]
+        private bool _documentdistributionrecordform;
+
+
+
 
         #endregion
 

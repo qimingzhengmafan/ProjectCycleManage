@@ -17,6 +17,7 @@
     <None Remove="Resources\Images\好友-copy.png" />
     <None Remove="Resources\Images\总览1.png" />
     <None Remove="Resources\Images\总览w.png" />
+    <None Remove="Resources\Images\文档.png" />
     <None Remove="Resources\Images\新增项目_新增新建操作_jurassic.png" />
     <None Remove="Resources\Images\时间安排.png" />
     <None Remove="Resources\Images\机器人.png" />
@@ -79,6 +80,9 @@
     </Resource>
     <Resource Include="Resources\Images\总览w.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\文档.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Resources\Images\新增项目_新增新建操作_jurassic.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
