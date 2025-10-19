@@ -6,7 +6,8 @@
              xmlns:local="clr-namespace:ProjectManagement.View"
              xmlns:viewmodel="clr-namespace:ProjectManagement.ViewModel"
              xmlns:slc="clr-namespace:ScrollControlProjectnetcore;assembly=ScrollControlProjectnetcore"
-             xmlns:draw="clr-namespace:DrawerTest;assembly=DrawerTest"
+             xmlns:draw="clr-namespace:DrawerTest;assembly=DrawerTest" 
+             xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
              mc:Ignorable="d" 
              d:DataContext="{d:DesignInstance Type=viewmodel:TableVM}"
              d:DesignHeight="700" 
@@ -37,7 +38,16 @@
                 
                 <TreeView.ItemTemplate>
                     <HierarchicalDataTemplate ItemsSource="{Binding LevelTwo}">
-                        <TextBlock Text="{Binding LevelOne}"/>
+                        <StackPanel>
+                            <TextBlock Text="{Binding LevelOne}"/>
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="MouseLeftButtonUp">
+                                    <i:InvokeCommandAction Command="{Binding DataContext.TreeViewModel.NodeClickCommand, RelativeSource={RelativeSource AncestorType=TreeView}}"
+                                                           CommandParameter="{Binding}" />
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                        </StackPanel>
+
                     </HierarchicalDataTemplate>
                 </TreeView.ItemTemplate>
 

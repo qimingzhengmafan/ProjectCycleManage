@@ -23,6 +23,21 @@ namespace ProjectManagement.Model
                 OnPropChanged("LevelOne");
             }
         }
+        
+        private int _level = 1;
+        /// <summary>
+        /// 层级
+        /// </summary>
+        public int Level
+        {
+            get => _level;
+            set
+            {
+                _level = value;
+                OnPropChanged("Level");
+            }
+        }
+        
         private ObservableCollection<TreeModel> _leveltwo = new ObservableCollection<TreeModel>();
         /// <summary>
         /// 二级
