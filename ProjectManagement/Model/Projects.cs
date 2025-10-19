@@ -95,5 +95,10 @@ namespace ProjectManagement.Models
         /// </summary>
         public int? DaysDiff { get; set; }
 
+        /// <summary>
+        /// 检验
+        /// </summary>
+        public string? CheckData { get; set; }
+
     }
 }
