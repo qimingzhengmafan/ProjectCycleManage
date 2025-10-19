@@ -16,6 +16,8 @@ namespace ProjectManagement.ViewModel
 {
     public partial class TreeViewModel : ObservableObject
     {
+        // 定义节点点击事件
+        public event Action<TreeModel> NodeClicked;
         private TreeModel _treeModel = new TreeModel();
         public TreeModel TreeModel1
         {
@@ -122,6 +124,9 @@ namespace ProjectManagement.ViewModel
                 
                 // 处理点击逻辑
                 MessageBox.Show($"点击了节点: {nodeName}, 层级: {level}");
+                
+                // 触发节点点击事件
+                NodeClicked?.Invoke(clickedNode);
                 
                 // 可以根据层级执行不同的操作
                 switch (level)
