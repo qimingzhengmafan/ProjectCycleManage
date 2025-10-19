@@ -33,7 +33,7 @@ namespace ClientSide.ViewModel
         private Visibility _tableViewVisibility = Visibility.Collapsed;
 
         [ObservableProperty]
-        private TableVM _tableVMInfor = new TableVM();
+        private TablePVM _tableVMInfor;
 
         [ObservableProperty]
         private PersonalDataVM _personaldataVMInfor = new PersonalDataVM();
@@ -44,7 +44,7 @@ namespace ClientSide.ViewModel
         public MainVM(string LoginNameInput)
         {
             _contextmodel = new ContextModel(_projectContext);
-
+            _tableVMInfor = new TablePVM(LoginNameInput);
             int _index1 = 0;
             var data = _contextmodel.GetPersonalProjectsStatues(DateTime.Now.Year , LoginNameInput);
             List<string> names = new List<string>();

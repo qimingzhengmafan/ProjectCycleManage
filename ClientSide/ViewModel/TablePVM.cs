@@ -3,19 +3,21 @@ using CommunityToolkit.Mvvm.Input;
 using DrawerTest;
 using Microsoft.EntityFrameworkCore;
 using ProjectManagement.Data;
+using ProjectManagement.Model;
 using ProjectManagement.Models;
-using ProjectManagement.View;
+using ProjectManagement.ViewModel;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 
-namespace ProjectManagement.ViewModel
+namespace ClientSide.ViewModel
 {
-    public partial class TableVM: ObservableObject
+    public partial class TablePVM : ObservableObject
     {
         public ProjectContext Context { get; set; }
         private TreeViewModel _treeViewModel = new TreeViewModel();
@@ -25,8 +27,11 @@ namespace ProjectManagement.ViewModel
         private int _showwidth = 0;
 
         [ObservableProperty]
+        private string _logname;
+
+        [ObservableProperty]
         private DetailedInformation _detailedInformationvm = new DetailedInformation();
-        
+
         [ObservableProperty]
         private ProjectDetailsVM _projectdetailsvm = new ProjectDetailsVM();
 
@@ -37,12 +42,11 @@ namespace ProjectManagement.ViewModel
             {
                 if (_treeViewModel != null)
                 {
-                    // 取消之前的事件订阅
                     _treeViewModel.NodeClicked -= OnTreeNodeClicked;
                 }
-                
+
                 _treeViewModel = value;
-                
+
                 if (_treeViewModel != null)
                 {
                     // 订阅新实例的事件
@@ -52,23 +56,23 @@ namespace ProjectManagement.ViewModel
         }
 
         // 处理树节点点击的方法
-        private void OnTreeNodeClicked(Model.TreeModel clickedNode)
+        private void OnTreeNodeClicked(ProjectManagement.Model.TreeModel clickedNode)
         {
             if (clickedNode != null)
             {
                 string nodeName = clickedNode.LevelOne ?? "未知节点";
                 int level = clickedNode.Level;
-                
+
                 // 在这里处理树节点点击逻辑
                 //MessageBox.Show($"TableVM收到树节点点击: {nodeName}, 层级: {level}");
-                
+
                 // 根据不同的层级和节点类型执行不同的操作
                 HandleTreeNodeClick(clickedNode, level, nodeName);
             }
         }
 
         // 根据树节点类型处理点击逻辑
-        private void HandleTreeNodeClick(Model.TreeModel clickedNode, int level, string nodeName)
+        private void HandleTreeNodeClick(ProjectManagement.Model.TreeModel clickedNode, int level, string nodeName)
         {
             switch (level)
             {
@@ -87,10 +91,10 @@ namespace ProjectManagement.ViewModel
             }
         }
 
-        private void HandleLevelOneNode(Model.TreeModel node, string nodeName)
+        private void HandleLevelOneNode(ProjectManagement.Model.TreeModel node, string nodeName)
         {
             Console.WriteLine($"处理一级节点: {nodeName}");
-            
+
             // 根据一级节点类型刷新数据
             if (nodeName.Contains("工程项目"))
             {
@@ -104,10 +108,10 @@ namespace ProjectManagement.ViewModel
             }
         }
 
-        private void HandleLevelTwoNode(Model.TreeModel node, string nodeName)
+        private void HandleLevelTwoNode(ProjectManagement.Model.TreeModel node, string nodeName)
         {
             Console.WriteLine($"处理二级节点: {nodeName}");
-            
+
             if (nodeName.Contains("年份"))
             {
                 // 年份节点，可能需要展开或折叠年份列表
@@ -120,16 +124,16 @@ namespace ProjectManagement.ViewModel
             }
         }
 
-        private void HandleLevelThreeNode(Model.TreeModel node, string nodeName)
+        private void HandleLevelThreeNode(ProjectManagement.Model.TreeModel node, string nodeName)
         {
             Console.WriteLine($"处理三级节点: {nodeName}");
-            
+
             // 提取年份或人员名称
             string cleanName = nodeName.Replace("📆", "").Replace("👤", "").Trim();
-            
+
             if (nodeName.Contains("📆"))
             {
-                GetPersonalDatalistFun();
+                GetPersonalDatalistFun(Logname);
                 // 具体年份被点击
                 if (int.TryParse(cleanName, out int year))
                 {
@@ -143,7 +147,7 @@ namespace ProjectManagement.ViewModel
                 // 具体人员被点击
                 //Console.WriteLine($"人员 {cleanName} 被点击");
                 //RefreshProjectData(cleanName, null);
-                GetPersonalDatalistFun(cleanName);
+                //GetPersonalDatalistFun(cleanName);
             }
         }
 
@@ -151,20 +155,20 @@ namespace ProjectManagement.ViewModel
         private void RefreshProjectData(string personName, int? year)
         {
             //Console.WriteLine($"刷新项目数据 - 人员: {personName ?? "全部"}, 年份: {year?.ToString() ?? "全部"}");
-            
+
             //// 这里可以根据人员名称和年份重新加载项目数据
             //// 调用现有的数据加载方法，但根据点击的节点进行过滤
-            
+
             //// 示例：重新初始化数据集合
             //int currentYear = DateTime.Now.Year;
             //DetailedInformationvm.DataCollection = new System.Collections.ObjectModel.ObservableCollection<DrawerTest.DrawerUIVM>();
-            
+
             //for (int i = 2022; i <= currentYear; i++)
             //{
             //    // 如果指定了年份，只加载该年份的数据
             //    if (year.HasValue && i != year.Value)
             //        continue;
-                    
+
             //    (int AllCounts, int CompletsCounts) = GetYearsCompleteProjectsleadername(i, personName);
             //    var backdata = GetYearProjectGrid(i, personName);
             //    var RecvBriefinformationdata = new System.Collections.ObjectModel.ObservableCollection<ProjectsInformationGrid>();
@@ -245,7 +249,8 @@ namespace ProjectManagement.ViewModel
                 {
 
                 }
-            };
+            }
+            ;
 
             //Projectdetailsvm.SelectedType.TypeId = projectdata.typeId.GetValueOrDefault();
             using (var context = new ProjectContext())
@@ -264,7 +269,8 @@ namespace ProjectManagement.ViewModel
                 {
 
                 }
-            };
+            }
+            ;
 
             //Projectdetailsvm.Selectedprojectstage.ProjectStageId = projectdata.ProjectStageId;
             using (var context = new ProjectContext())
@@ -283,7 +289,8 @@ namespace ProjectManagement.ViewModel
                 {
 
                 }
-            };
+            }
+            ;
 
             //Projectdetailsvm.Selectedprojectphasestatus.ProjectPhaseStatusId = projectdata.ProjectPhaseStatusId.GetValueOrDefault();
             using (var context = new ProjectContext())
@@ -302,7 +309,8 @@ namespace ProjectManagement.ViewModel
                 {
 
                 }
-            };
+            }
+            ;
 
             //Projectdetailsvm.SelectedEmployee.PeopleId = projectdata.ProjectLeaderId.GetValueOrDefault();
             using (var context = new ProjectContext())
@@ -321,7 +329,8 @@ namespace ProjectManagement.ViewModel
                 {
 
                 }
-            };
+            }
+            ;
 
             //Projectdetailsvm.SelectedFollowEmployee.PeopleId = projectdata.projectfollowuppersonId.GetValueOrDefault();
             using (var context = new ProjectContext())
@@ -340,60 +349,21 @@ namespace ProjectManagement.ViewModel
                 {
 
                 }
-            };
+            }
+            ;
 
         }
 
 
         //public DetailedInformation detailedInformation = new DetailedInformation();
 
-        public TableVM()
+        public TablePVM(string InName)
         {
             // 通过属性设置TreeViewModel，确保事件订阅被执行
             TreeViewModel = new TreeViewModel();
-            
-            int year = DateTime.Now.Year;
+            Logname = InName;
 
-            DetailedInformationvm.DataCollection = new System.Collections.ObjectModel.ObservableCollection<DrawerTest.DrawerUIVM>();
-            for (int i = 2022; i <= year; i++)
-            {
-                (int AllCounts , int CompletsCounts) = GetYearsCompleteProjects(i);
-                var backdata = GetYearProjectGrid(i);
-                var RecvBriefinformationdata = new System.Collections.ObjectModel.ObservableCollection<ProjectsInformationGrid>();
-
-                foreach (var project in backdata)
-                {
-                    var Briefinformationdata = new ProjectsInformationGrid();
-                    Briefinformationdata.Projectname = project.Project;
-                    Briefinformationdata.Projectstage = project.CompletionStatus;
-                    Briefinformationdata.Projectleadername = project.ProjectLeader;
-                    Briefinformationdata.Detailedinformationfun = ShowingCtrl;
-                    if (project.IsCompleted)
-                    {
-                        Briefinformationdata.Beltcolor = StatusColor.CompletedColors.BeltColor;
-                        Briefinformationdata.Textcolor = StatusColor.CompletedColors.TextColor;
-                    }
-                    else
-                    {
-                        Briefinformationdata.Beltcolor = StatusColor.UnfinishedColors.BeltColor;
-                        Briefinformationdata.Textcolor = StatusColor.UnfinishedColors.TextColor;
-                    }
-
-
-
-                    RecvBriefinformationdata.Add(Briefinformationdata);
-                }
-
-
-                DetailedInformationvm.DataCollection.Add(new DrawerUIVM()
-                {
-                    Year = i,
-                    AllprojectsNum = AllCounts,
-                    CompleteProjects = CompletsCounts,
-                    Unit = "年",
-                    Briefinformation = RecvBriefinformationdata,
-                });
-            }
+            GetPersonalDatalistFun(Logname);
 
         }
 
@@ -404,8 +374,8 @@ namespace ProjectManagement.ViewModel
             DetailedInformationvm.DataCollection = new System.Collections.ObjectModel.ObservableCollection<DrawerTest.DrawerUIVM>();
             for (int i = 2022; i <= year; i++)
             {
-                (int AllCounts, int CompletsCounts) = GetYearsCompleteProjectsleadername(i , Inname);
-                var backdata = GetYearProjectGrid(i , Inname);
+                (int AllCounts, int CompletsCounts) = GetYearsCompleteProjectsleadername(i, Inname);
+                var backdata = GetYearProjectGrid(i, Inname);
                 var RecvBriefinformationdata = new System.Collections.ObjectModel.ObservableCollection<ProjectsInformationGrid>();
 
                 foreach (var project in backdata)
@@ -502,7 +472,7 @@ namespace ProjectManagement.ViewModel
             using (var context = new ProjectContext())
             {
                 var projects = context.Projects
-                .Where(p => p.Year == year )
+                .Where(p => p.Year == year)
                 .AsNoTracking()
                 .ToList();
 
@@ -583,7 +553,7 @@ namespace ProjectManagement.ViewModel
         }
 
 
-        private List<(string Project, string ProjectLeader, string CompletionStatus , bool IsCompleted)> GetYearProjectGrid(int year, string name = null)
+        private List<(string Project, string ProjectLeader, string CompletionStatus, bool IsCompleted)> GetYearProjectGrid(int year, string name = null)
         {
             using (var context = new ProjectContext())
             {
@@ -610,8 +580,8 @@ namespace ProjectManagement.ViewModel
                     .OrderBy(p => p.ProjectName) // 按项目名称排序
                     .ToList();
 
-                List<(string Project, string ProjectLeader, string CompletionStatus , bool IsCompleted)> values =
-                    new List<(string Project, string ProjectLeader, string CompletionStatus , bool IsCompleted)>();
+                List<(string Project, string ProjectLeader, string CompletionStatus, bool IsCompleted)> values =
+                    new List<(string Project, string ProjectLeader, string CompletionStatus, bool IsCompleted)>();
 
                 foreach (var project in projects)
                 {
@@ -631,22 +601,22 @@ namespace ProjectManagement.ViewModel
                         CompleteStatus = false;
                     }
 
-                    values.Add((project.ProjectName, project.LeaderName, completionStatus , CompleteStatus));
+                    values.Add((project.ProjectName, project.LeaderName, completionStatus, CompleteStatus));
                 }
 
                 return values;
             }
         }
-        
+
         public async Task<Projects> GetProjectByProjectNameAsync(string name)
         {
             using var context = new ProjectContext();
 
             return await context.Projects
                 .FirstAsync(u => u.ProjectName == name);
-            
+
         }
-        
+
         #endregion
 
     }
