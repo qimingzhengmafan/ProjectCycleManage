@@ -1,13 +1,15 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
+using Microsoft.EntityFrameworkCore;
+using ProjectManagement.Data;
+using ProjectManagement.Models;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using ProjectManagement.Data;
-using ProjectManagement.Models;
-using CommunityToolkit.Mvvm.Input;
+using System.Windows;
 
 namespace ProjectManagement.ViewModel
 {
@@ -580,6 +582,12 @@ namespace ProjectManagement.ViewModel
         }
 
         [RelayCommand]
+        private void SaveFileChanges()
+        {
+            SaveDocumentStatusAsync(); // 新增：保存文档状态
+        }
+
+        [RelayCommand]
         private void DeleteProject()
         {
             
@@ -610,12 +618,278 @@ namespace ProjectManagement.ViewModel
                 project.projectfollowuppersonId = ProjectsfollowuppersonId;
                 project.AssetNumber = Assetnumber;
                 project.remarks = Remarkks;
+
+                //await UpdateUserEmailAsync();
                 
                 await context.SaveChangesAsync(); // 更新所有修改的字段
             }
         }
 
         #endregion
+        // 在 ProjectDetailsVM.cs 中添加
+
+        #region 文档状态快速实现
+
+        // 加载文档状态（在项目加载时调用）
+        public async Task LoadDocumentStatusAsync()
+        {
+            try
+            {
+                using (var context = new ProjectContext())
+                {
+                    // 1. 获取当前项目的设备类型
+                    var project = await context.Projects
+                        .Include(p => p.equipmenttype)
+                        .FirstOrDefaultAsync(p => p.ProjectsId == Projectsid);
+
+                    if (project?.equipmenttypeId == null) return;
+
+                    // 2. 获取该设备类型关联的文档类型
+                    var associatedDocs = await context.ProjectTypeDocumentAssociationTables
+                        .Where(x => x.EquipmentTypeId == project.equipmenttypeId)
+                        .Select(x => x.DocumentTypeId)
+                        .ToListAsync();
+
+                    // 3. 获取项目文档状态
+                    var documentStatuses = await context.ProjectDocumentStatus
+                        .Where(x => x.ProjectsId == Projectsid && associatedDocs.Contains(x.DocumentTypeId))
+                        .ToListAsync();
+
+                    // 4. 更新复选框状态
+                    foreach (var status in documentStatuses)
+                    {
+                        switch (status.DocumentTypeId)
+                        {
+                            case 101: // OA申请单号
+                                Oapurchaseapplicationnumber = status.Remarks;
+                                break;
+                            case 102: // 设备申请表
+                                Equipmentapplicationform = status.IsHasDocument ?? false;
+                                break;
+                            case 103: // 技术协议
+                                Technicalagreement = status.IsHasDocument ?? false;
+                                break;
+                            case 104: // 设备方案/BOM清单
+                                Equipmentsolutionorbomlist = status.IsHasDocument ?? false;
+                                break;
+                            case 105: // 设备项目问题改善
+                                Equipmentprojectproblemimprovement = status.IsHasDocument ?? false;
+                                break;
+                            case 106: // 设备验证记录
+                                Equipmentverificationrecord = status.IsHasDocument ?? false;
+                                break;
+                            case 107: // 培训记录
+                                Trainingrecord = status.IsHasDocument ?? false;
+                                break;
+                            case 108: // 说明书
+                                Manual = status.IsHasDocument ?? false;
+                                break;
+                            case 109: // 维保文件
+                                Maintenancedocument = status.IsHasDocument ?? false;
+                                break;
+                            case 110: // WI
+                                Wi = status.IsHasDocument ?? false;
+                                break;
+                            case 111: // 设备验收单
+                                Equipmentacceptanceform = status.IsHasDocument ?? false;
+                                break;
+                            case 112: // 文件发放记录表
+                                Documentdistributionrecordform = status.IsHasDocument ?? false;
+                                break;
+                            case 113: // OA领用申请单号
+                                Oarequisitionapplicationnumber = status.Remarks;
+                                break;
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                // 简单处理异常
+                Console.WriteLine($"加载文档状态失败: {ex.Message}");
+            }
+        }
+
+        // 保存文档状态（在保存项目时调用）
+        public async Task SaveDocumentStatusAsync()
+        {
+            try
+            {
+                using (var context = new ProjectContext())
+                {
+                    // 获取当前项目的设备类型
+                    var project = await context.Projects
+                        .FirstOrDefaultAsync(p => p.ProjectsId == Projectsid);
+
+                    if (project?.equipmenttypeId == null) return;
+
+                    // 获取该设备类型关联的文档类型
+                    var associatedDocs = await context.ProjectTypeDocumentAssociationTables
+                        .Where(x => x.EquipmentTypeId == project.equipmenttypeId)
+                        .Select(x => x.DocumentTypeId)
+                        .ToListAsync();
+
+                    // 获取或创建文档状态记录
+                    foreach (var docTypeId in associatedDocs)
+                    {
+                        var status = await context.ProjectDocumentStatus
+                            .FirstOrDefaultAsync(x => x.ProjectsId == Projectsid && x.DocumentTypeId == docTypeId);
+
+                        if (status == null)
+                        {
+                            status = new ProjectDocumentStatus
+                            {
+                                ProjectsId = Projectsid,
+                                DocumentTypeId = docTypeId
+                            };
+                            context.ProjectDocumentStatus.Add(status);
+                        }
+
+                        // 更新状态
+                        bool hasDocument = false;
+                        string remarks = null;
+
+                        switch (docTypeId)
+                        {
+                            case 101: // OA申请单号
+                                remarks = Oapurchaseapplicationnumber;
+                                hasDocument = !string.IsNullOrEmpty(remarks);
+                                break;
+                            case 102: // 设备申请表
+                                hasDocument = Equipmentapplicationform;
+                                break;
+                            case 103: // 技术协议
+                                hasDocument = Technicalagreement;
+                                break;
+                            case 104: // 设备方案/BOM清单
+                                hasDocument = Equipmentsolutionorbomlist;
+                                break;
+                            case 105: // 设备项目问题改善
+                                hasDocument = Equipmentprojectproblemimprovement;
+                                break;
+                            case 106: // 设备验证记录
+                                hasDocument = Equipmentverificationrecord;
+                                break;
+                            case 107: // 培训记录
+                                hasDocument = Trainingrecord;
+                                break;
+                            case 108: // 说明书
+                                hasDocument = Manual;
+                                break;
+                            case 109: // 维保文件
+                                hasDocument = Maintenancedocument;
+                                break;
+                            case 110: // WI
+                                hasDocument = Wi;
+                                break;
+                            case 111: // 设备验收单
+                                hasDocument = Equipmentacceptanceform;
+                                break;
+                            case 112: // 文件发放记录表
+                                hasDocument = Documentdistributionrecordform;
+                                break;
+                            case 113: // OA领用申请单号
+                                remarks = Oarequisitionapplicationnumber;
+                                hasDocument = !string.IsNullOrEmpty(remarks);
+                                break;
+                        }
+
+                        status.IsHasDocument = hasDocument;
+                        status.TheLastUpDateTime = hasDocument ? DateTime.Now : null;
+                        status.UpdatePeopleId = ProjectsLeaderID;
+                        status.Remarks = remarks;
+                    }
+
+                    await context.SaveChangesAsync();
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"保存文档状态失败: {ex.Message}");
+            }
+        }
+
+        #endregion
+
+
+
+        // 修改初始化方法
+        public async Task InitializeAsync(int projectId)
+        {
+            Projectsid = projectId;
+            await LoadProjectDataAsync();
+            await LoadDocumentStatusAsync(); // 新增：加载文档状态
+        }
+
+        // 修改 LoadProjectDataAsync 方法
+        private async Task LoadProjectDataAsync()
+        {
+            try
+            {
+                using (var context = new ProjectContext())
+                {
+                    var project = await context.Projects
+                        .Include(p => p.equipmenttype)
+                        .Include(p => p.type)
+                        .Include(p => p.ProjectStage)
+                        .Include(p => p.ProjectPhaseStatus)
+                        .Include(p => p.ProjectLeader)
+                        .Include(p => p.projectfollowupperson)
+                        .FirstOrDefaultAsync(p => p.ProjectsId == Projectsid);
+
+                    if (project != null)
+                    {
+                        // 设置基本属性
+                        Year = project.Year;
+                        ProjectName = project.ProjectName;
+                        Equipmentname = project.EquipmentName;
+                        ProjectIdentifyingNumber = project.ProjectIdentifyingNumber;
+                        EquipmenttypeId = project.equipmenttypeId;
+                        TypeId = project.typeId ?? 0;
+                        ProjectStageId = project.ProjectStageId;
+                        FinishTime = project.FinishTime;
+                        StartTime = project.StartTime;
+                        Budget = project.Budget;
+                        ActualExpenditure = project.ActualExpenditure;
+                        ProjectPhaseStatusId = project.ProjectPhaseStatusId ?? 0;
+                        ProjectsLeaderID = project.ProjectLeaderId;
+                        ProjectsfollowuppersonId = project.projectfollowuppersonId;
+                        Assetnumber = project.AssetNumber;
+                        Remarkks = project.remarks;
+
+                        // 设置下拉框选中项
+                        if (project.ProjectLeaderId.HasValue)
+                        {
+                            SelectedEmployee = Employees?.FirstOrDefault(e => e.PeopleId == project.ProjectLeaderId.Value);
+                        }
+                        if (project.projectfollowuppersonId.HasValue)
+                        {
+                            SelectedFollowEmployee = Employees?.FirstOrDefault(e => e.PeopleId == project.projectfollowuppersonId.Value);
+                        }
+                        if (project.equipmenttypeId.HasValue)
+                        {
+                            SelectedEquipmentType = EquipmentTypes?.FirstOrDefault(e => e.EquipmentTypeId == project.equipmenttypeId.Value);
+                        }
+                        if (project.typeId.HasValue)
+                        {
+                            SelectedType = Types?.FirstOrDefault(t => t.TypeId == project.typeId.Value);
+                        }
+                        if (project.ProjectStageId > 0)
+                        {
+                            Selectedprojectstage = Projectstage?.FirstOrDefault(s => s.ProjectStageId == project.ProjectStageId);
+                        }
+                        if (project.ProjectPhaseStatusId.HasValue)
+                        {
+                            Selectedprojectphasestatus = Projectphasestatus?.FirstOrDefault(s => s.ProjectPhaseStatusId == project.ProjectPhaseStatusId.Value);
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"加载项目数据失败: {ex.Message}");
+            }
+        }
 
     }
 }

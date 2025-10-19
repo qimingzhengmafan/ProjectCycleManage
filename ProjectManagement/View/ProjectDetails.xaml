@@ -868,7 +868,7 @@
                             </Grid>
                         </Border>
 
-                        <Border Grid.Row="5">
+                        <Grid Grid.Row="5">
                             <Button Width="123"
                                     Background="#1296DB"
                                     BorderThickness="0"
@@ -878,7 +878,16 @@
                                     Margin="600 0 0 0"
                                     Height="61"
                                     Command="{Binding SaveChangesCommand}"/>
-                         </Border>
+                            <Button Width="123"
+                                    Background="#1296DB"
+                                    BorderThickness="0"
+                                    Content="保存文件"
+                                    FontSize="20"
+                                    Foreground="White"
+                                    Margin="514,266,246,266"
+                                    Height="61"
+                                    Command="{Binding SaveFileChangesCommand}"/>
+                        </Grid>
 
                         </Grid>
 

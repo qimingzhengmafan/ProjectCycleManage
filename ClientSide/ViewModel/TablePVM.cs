@@ -231,7 +231,7 @@ namespace ClientSide.ViewModel
             Projectdetailsvm.ActualExpenditure = projectdata.ActualExpenditure;
             Projectdetailsvm.Assetnumber = projectdata.AssetNumber;
             Projectdetailsvm.Remarkks = projectdata.remarks;
-
+            Projectdetailsvm.InitializeAsync(projectdata.ProjectsId);
             //Projectdetailsvm.SelectedEquipmentType
             using (var context = new ProjectContext())
             {
