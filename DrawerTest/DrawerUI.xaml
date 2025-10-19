@@ -32,68 +32,68 @@
                                     <RowDefinition/>
                                 </Grid.RowDefinitions>
                                 <Grid Grid.Row="0"
-                          Grid.RowSpan="2">
+                                      Grid.RowSpan="2">
                                     <TextBlock Text="{Binding Percent}"
-                                   FontSize="35"
-                                   FontWeight="Bold"
-                                   HorizontalAlignment="Left"
-                                   VerticalAlignment="Center"
-                                   Margin="600 0 0 0"/>
+                                               FontSize="35"
+                                               FontWeight="Bold"
+                                               HorizontalAlignment="Left"
+                                               VerticalAlignment="Center"
+                                               Margin="600 0 0 0"/>
                                 </Grid>
                                 <StackPanel Orientation="Horizontal">
                                     <TextBlock Text="{Binding Year}"
-                                       FontSize="20"
-                                       FontWeight="Bold"
-                                       VerticalAlignment="Center"
-                                       Margin="70 0 0 0"/>
+                                               FontSize="20"
+                                               FontWeight="Bold"
+                                               VerticalAlignment="Center"
+                                               Margin="70 0 0 0"/>
                                     <Label Content="{Binding Unit}"
-                                   FontSize="20"
-                                   FontWeight="Bold"
-                                   VerticalContentAlignment="Center"
-                                   Margin="10 0 0 0"/>
+                                           FontSize="20"
+                                           FontWeight="Bold"
+                                           VerticalContentAlignment="Center"
+                                           Margin="10 0 0 0"/>
                                 </StackPanel>
 
 
                                 <StackPanel Grid.Row="1"
-                                    Orientation="Horizontal">
+                                            Orientation="Horizontal">
                                     <Label Content="总项目数 : "
-                                   FontSize="15"
-                                   FontWeight="Bold"
-                                   Margin="66 0 0 0"
-                                   VerticalContentAlignment="Center"/>
+                                           FontSize="15"
+                                           FontWeight="Bold"
+                                           Margin="66 0 0 0"
+                                           VerticalContentAlignment="Center"/>
                                     <TextBlock Text="{Binding AllprojectsNum}"
-                                       FontSize="15"
-                                       FontWeight="Bold"
-                                       Margin="30 0 0 0"
-                                       VerticalAlignment="Center"/>
+                                               FontSize="15"
+                                               FontWeight="Bold"
+                                               Margin="30 0 0 0"
+                                               VerticalAlignment="Center"/>
                                     <Label Content="个"
-                                   FontSize="15"
-                                   FontWeight="Bold"
-                                   Margin="20 0 0 0"
-                                   VerticalContentAlignment="Center"/>
+                                           FontSize="15"
+                                           FontWeight="Bold"
+                                           Margin="20 0 0 0"
+                                           VerticalContentAlignment="Center"/>
 
                                     <Label Content="|"
-                                   FontSize="15"
-                                   FontWeight="Bold"
-                                   Margin="50 0 0 0"
-                                   VerticalContentAlignment="Center"/>
+                                           FontSize="15"
+                                           FontWeight="Bold"
+                                           Margin="50 0 0 0"
+                                           VerticalContentAlignment="Center"/>
 
                                     <Label Content="已完成 : "
-                               FontSize="15"
-                               FontWeight="Bold"
-                               Margin="50 0 0 0"
-                               VerticalContentAlignment="Center"/>
+                                           FontSize="15"
+                                           FontWeight="Bold"
+                                           Margin="50 0 0 0"
+                                           VerticalContentAlignment="Center"/>
                                     <TextBlock Text="{Binding CompleteProjects}"
-                                   FontSize="15"
-                                   FontWeight="Bold"
-                                   Foreground="#16A34A"
-                                   Margin="30 0 0 0"
-                                   VerticalAlignment="Center"/>
+                                               FontSize="15"
+                                               FontWeight="Bold"
+                                               Foreground="#16A34A"
+                                               Margin="30 0 0 0"
+                                               VerticalAlignment="Center"/>
                                     <Label Content="个"
-                                   FontSize="15"
-                                   FontWeight="Bold"
-                                   Margin="20 0 0 0"
-                                   VerticalContentAlignment="Center"/>
+                                           FontSize="15"
+                                           FontWeight="Bold"
+                                           Margin="20 0 0 0"
+                                           VerticalContentAlignment="Center"/>
                                 </StackPanel>
                             </Grid>
                         </Button.Content>
