@@ -121,6 +121,7 @@
                                                 <TextBox Height="50"
                                                          Text="{Binding Projectsid}"
                                                          IsReadOnly="True"
+                                                         IsEnabled="False"
                                                          FontSize="20"
                                                          VerticalContentAlignment="Center"
                                                          HorizontalAlignment="Left"

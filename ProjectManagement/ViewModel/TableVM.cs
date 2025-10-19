@@ -60,7 +60,7 @@ namespace ProjectManagement.ViewModel
                 int level = clickedNode.Level;
                 
                 // 在这里处理树节点点击逻辑
-                MessageBox.Show($"TableVM收到树节点点击: {nodeName}, 层级: {level}");
+                //MessageBox.Show($"TableVM收到树节点点击: {nodeName}, 层级: {level}");
                 
                 // 根据不同的层级和节点类型执行不同的操作
                 HandleTreeNodeClick(clickedNode, level, nodeName);
@@ -132,70 +132,71 @@ namespace ProjectManagement.ViewModel
                 // 具体年份被点击
                 if (int.TryParse(cleanName, out int year))
                 {
-                    Console.WriteLine($"年份 {year} 被点击");
-                    RefreshProjectData(null, year);
+                    //Console.WriteLine($"年份 {year} 被点击");
+                    //RefreshProjectData(null, year);
                 }
             }
             else if (nodeName.Contains("👤"))
             {
                 // 具体人员被点击
-                Console.WriteLine($"人员 {cleanName} 被点击");
-                RefreshProjectData(cleanName, null);
+                //Console.WriteLine($"人员 {cleanName} 被点击");
+                //RefreshProjectData(cleanName, null);
+                GetPersonalDatalistFun(cleanName);
             }
         }
 
         // 刷新项目数据显示
         private void RefreshProjectData(string personName, int? year)
         {
-            Console.WriteLine($"刷新项目数据 - 人员: {personName ?? "全部"}, 年份: {year?.ToString() ?? "全部"}");
+            //Console.WriteLine($"刷新项目数据 - 人员: {personName ?? "全部"}, 年份: {year?.ToString() ?? "全部"}");
             
-            // 这里可以根据人员名称和年份重新加载项目数据
-            // 调用现有的数据加载方法，但根据点击的节点进行过滤
+            //// 这里可以根据人员名称和年份重新加载项目数据
+            //// 调用现有的数据加载方法，但根据点击的节点进行过滤
             
-            // 示例：重新初始化数据集合
-            int currentYear = DateTime.Now.Year;
-            DetailedInformationvm.DataCollection = new System.Collections.ObjectModel.ObservableCollection<DrawerTest.DrawerUIVM>();
+            //// 示例：重新初始化数据集合
+            //int currentYear = DateTime.Now.Year;
+            //DetailedInformationvm.DataCollection = new System.Collections.ObjectModel.ObservableCollection<DrawerTest.DrawerUIVM>();
             
-            for (int i = 2022; i <= currentYear; i++)
-            {
-                // 如果指定了年份，只加载该年份的数据
-                if (year.HasValue && i != year.Value)
-                    continue;
+            //for (int i = 2022; i <= currentYear; i++)
+            //{
+            //    // 如果指定了年份，只加载该年份的数据
+            //    if (year.HasValue && i != year.Value)
+            //        continue;
                     
-                (int AllCounts, int CompletsCounts) = GetYearsCompleteProjectsleadername(i, personName);
-                var backdata = GetYearProjectGrid(i, personName);
-                var RecvBriefinformationdata = new System.Collections.ObjectModel.ObservableCollection<ProjectsInformationGrid>();
+            //    (int AllCounts, int CompletsCounts) = GetYearsCompleteProjectsleadername(i, personName);
+            //    var backdata = GetYearProjectGrid(i, personName);
+            //    var RecvBriefinformationdata = new System.Collections.ObjectModel.ObservableCollection<ProjectsInformationGrid>();
 
-                foreach (var project in backdata)
-                {
-                    var Briefinformationdata = new ProjectsInformationGrid();
-                    Briefinformationdata.Projectname = project.Project;
-                    Briefinformationdata.Projectstage = project.CompletionStatus;
-                    Briefinformationdata.Projectleadername = project.ProjectLeader;
-                    Briefinformationdata.Detailedinformationfun = ShowingCtrl;
-                    if (project.IsCompleted)
-                    {
-                        Briefinformationdata.Beltcolor = StatusColor.CompletedColors.BeltColor;
-                        Briefinformationdata.Textcolor = StatusColor.CompletedColors.TextColor;
-                    }
-                    else
-                    {
-                        Briefinformationdata.Beltcolor = StatusColor.UnfinishedColors.BeltColor;
-                        Briefinformationdata.Textcolor = StatusColor.UnfinishedColors.TextColor;
-                    }
+            //    foreach (var project in backdata)
+            //    {
+            //        var Briefinformationdata = new ProjectsInformationGrid();
+            //        Briefinformationdata.Projectname = project.Project;
+            //        Briefinformationdata.Projectstage = project.CompletionStatus;
+            //        Briefinformationdata.Projectleadername = project.ProjectLeader;
+            //        Briefinformationdata.Detailedinformationfun = ShowingCtrl;
+            //        if (project.IsCompleted)
+            //        {
+            //            Briefinformationdata.Beltcolor = StatusColor.CompletedColors.BeltColor;
+            //            Briefinformationdata.Textcolor = StatusColor.CompletedColors.TextColor;
+            //        }
+            //        else
+            //        {
+            //            Briefinformationdata.Beltcolor = StatusColor.UnfinishedColors.BeltColor;
+            //            Briefinformationdata.Textcolor = StatusColor.UnfinishedColors.TextColor;
+            //        }
 
-                    RecvBriefinformationdata.Add(Briefinformationdata);
-                }
+            //        RecvBriefinformationdata.Add(Briefinformationdata);
+            //    }
 
-                DetailedInformationvm.DataCollection.Add(new DrawerUIVM()
-                {
-                    Year = i,
-                    AllprojectsNum = AllCounts,
-                    CompleteProjects = CompletsCounts,
-                    Unit = "年",
-                    Briefinformation = RecvBriefinformationdata,
-                });
-            }
+            //    DetailedInformationvm.DataCollection.Add(new DrawerUIVM()
+            //    {
+            //        Year = i,
+            //        AllprojectsNum = AllCounts,
+            //        CompleteProjects = CompletsCounts,
+            //        Unit = "年",
+            //        Briefinformation = RecvBriefinformationdata,
+            //    });
+            //}
         }
 
 
@@ -394,15 +395,15 @@ namespace ProjectManagement.ViewModel
 
         }
 
-        private void GetPersonalDatalistFun()
+        private void GetPersonalDatalistFun(string Inname)
         {
             int year = DateTime.Now.Year;
 
             DetailedInformationvm.DataCollection = new System.Collections.ObjectModel.ObservableCollection<DrawerTest.DrawerUIVM>();
             for (int i = 2022; i <= year; i++)
             {
-                (int AllCounts, int CompletsCounts) = GetYearsCompleteProjectsleadername(i , "朱成绪");
-                var backdata = GetYearProjectGrid(i , "朱成绪");
+                (int AllCounts, int CompletsCounts) = GetYearsCompleteProjectsleadername(i , Inname);
+                var backdata = GetYearProjectGrid(i , Inname);
                 var RecvBriefinformationdata = new System.Collections.ObjectModel.ObservableCollection<ProjectsInformationGrid>();
 
                 foreach (var project in backdata)

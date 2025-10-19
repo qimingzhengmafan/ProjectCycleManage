@@ -123,7 +123,7 @@ namespace ProjectManagement.ViewModel
                 int level = clickedNode.Level;
                 
                 // 处理点击逻辑
-                MessageBox.Show($"点击了节点: {nodeName}, 层级: {level}");
+                //MessageBox.Show($"点击了节点: {nodeName}, 层级: {level}");
                 
                 // 触发节点点击事件
                 NodeClicked?.Invoke(clickedNode);
@@ -132,13 +132,13 @@ namespace ProjectManagement.ViewModel
                 switch (level)
                 {
                     case 1:
-                        MessageBox.Show("这是一级节点");
+                        //MessageBox.Show("这是一级节点");
                         break;
                     case 2:
-                        MessageBox.Show("这是二级节点");
+                        //MessageBox.Show("这是二级节点");
                         break;
                     default:
-                        MessageBox.Show($"这是第{level}级节点");
+                        //MessageBox.Show($"这是第{level}级节点");
                         break;
                 }
             }
