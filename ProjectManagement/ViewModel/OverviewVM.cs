@@ -293,7 +293,8 @@ namespace ProjectManagement.ViewModel
 
             Task.Run(() =>
             {
-                var data = GetProjectGrid1(2022);
+                #region 总览
+                var data = GetProjectGrid1(DateTime.Now.Year);
                 foreach (var item in data)
                 {
                     AllProjectsList.Add(new SeamlessLoopingScroll.ProjectItem()
@@ -304,8 +305,11 @@ namespace ProjectManagement.ViewModel
                         Owner = item.ProjectLeader
                     });
                 }
+                #endregion
 
-                var personaldata_zhuchengxu = GetPPersonalProjectGrid(DateTime.Now.Year , "朱成绪");
+
+                #region 朱成绪
+                var personaldata_zhuchengxu = GetPPersonalProjectGrid(DateTime.Now.Year, "朱成绪");
                 //PersonalDataVM_ChengXuZhu
                 if (personaldata_zhuchengxu.Count != 0)
                 {
@@ -322,14 +326,10 @@ namespace ProjectManagement.ViewModel
 
                     }
                 }
-
-                (int AllProjects_zhuchengxu , int ComProjects_zhuchengxu) = GetLeaderCompleteProjects(DateTime.Now.Year , "朱成绪");
+                (int AllProjects_zhuchengxu, int ComProjects_zhuchengxu) = GetLeaderCompleteProjects(DateTime.Now.Year, "朱成绪");
                 PersonalDataVM_ChengXuZhu.Allprojectsnum = AllProjects_zhuchengxu;
                 PersonalDataVM_ChengXuZhu.CompleteProjectsNum = ComProjects_zhuchengxu;
-
-
-
-                var data_zhuchengxu = _contextmodel.GetPersonalProjectsStatues(DateTime.Now.Year , "朱成绪");
+                var data_zhuchengxu = _contextmodel.GetPersonalProjectsStatues(DateTime.Now.Year, "朱成绪");
                 List<string> names = new List<string>();
                 List<int> num = new List<int>();
                 int _index1 = 0;
@@ -350,8 +350,101 @@ namespace ProjectManagement.ViewModel
                            $"{point.StackedValue.Total} ";
                     series.ToolTipLabelFormatter = point => $"{point.StackedValue.Share:P2}";
                 });
+                #endregion
+
+                #region 董鑫
+                var personaldata_dongxin = GetPPersonalProjectGrid(DateTime.Now.Year, "董鑫");
+                //PersonalDataVM_ChengXuZhu  PersonalDataVM_DongXin
+                if (personaldata_dongxin.Count != 0)
+                {
+                    PersonalDataVM_DongXin.PersonalProjectsList.Clear();
+                    foreach (var item in personaldata_dongxin)
+                    {
+                        PersonalDataVM_DongXin.PersonalProjectsList.Add(new SeamlessLoopingScroll.ProjectItem()
+                        {
+                            ProjectName = item.Project,
+                            CountDown = item.DaysDiff,
+                            FileProgress = item.FileProgress,
+                            Owner = item.ProjectLeader
+                        });
+
+                    }
+                }
+
+                (int AllProjects_dongxin, int ComProjects_dongxin) = GetLeaderCompleteProjects(DateTime.Now.Year, "董鑫");
+                PersonalDataVM_DongXin.Allprojectsnum = AllProjects_dongxin;
+                PersonalDataVM_DongXin.CompleteProjectsNum = ComProjects_dongxin;
+                var data_dongxin = _contextmodel.GetPersonalProjectsStatues(DateTime.Now.Year, "董鑫");
+                List<string> namesdongxin = new List<string>();
+                List<int> numdongxin = new List<int>();
+                _index1 = 0;
+                foreach (var item in data_dongxin)
+                {
+                    namesdongxin.Add(item.Status);
+                    numdongxin.Add(item.count);
+                }
+                PersonalDataVM_DongXin.Personalprojectsinformation.Series = numdongxin.AsPieSeries((value, series) =>
+                {
+                    series.Name = namesdongxin[_index1++ % namesdongxin.Count];
+                    series.DataLabelsPosition = LiveChartsCore.Measure.PolarLabelsPosition.Middle;
+                    series.DataLabelsSize = 15;
+                    series.DataLabelsPaint = new SolidColorPaint(new SKColor(30, 30, 30));
+                    series.DataLabelsFormatter =
+                       point =>
+                           $"{point.Coordinate.PrimaryValue} " + "/ " +
+                           $"{point.StackedValue.Total} ";
+                    series.ToolTipLabelFormatter = point => $"{point.StackedValue.Share:P2}";
+                });
+                #endregion
+
+                #region 裴涛
+                var personaldata_peitao = GetPFollowCompletePersonalProjectGrid(DateTime.Now.Year, "裴涛");
+                //PersonalDataVM_PeiTao
+                if (personaldata_peitao.Count != 0)
+                {
+                    PersonalDataVM_PeiTao.PersonalProjectsList.Clear();
+                    foreach (var item in personaldata_peitao)
+                    {
+                        PersonalDataVM_PeiTao.PersonalProjectsList.Add(new SeamlessLoopingScroll.ProjectItem()
+                        {
+                            ProjectName = item.Project,
+                            CountDown = item.DaysDiff,
+                            FileProgress = item.FileProgress,
+                            Owner = item.ProjectLeader
+                        });
+
+                    }
+                }
+
+                (int AllProjects_peitao, int ComProjects_peitao) = GetFollowCompleteProjects(DateTime.Now.Year, "裴涛");
+                PersonalDataVM_PeiTao.Allprojectsnum = AllProjects_peitao;
+                PersonalDataVM_PeiTao.CompleteProjectsNum = ComProjects_peitao;
+                var data_peitao = _contextmodel.GetPersonalProjectsStatues(DateTime.Now.Year, "裴涛");
+                List<string> namespeitao = new List<string>();
+                List<int> numpeitao = new List<int>();
+                _index1 = 0;
+                foreach (var item in data_peitao)
+                {
+                    namespeitao.Add(item.Status);
+                    numpeitao.Add(item.count);
+                }
+                PersonalDataVM_PeiTao.Personalprojectsinformation.Series = numpeitao.AsPieSeries((value, series) =>
+                {
+                    series.Name = namespeitao[_index1++ % namespeitao.Count];
+                    series.DataLabelsPosition = LiveChartsCore.Measure.PolarLabelsPosition.Middle;
+                    series.DataLabelsSize = 15;
+                    series.DataLabelsPaint = new SolidColorPaint(new SKColor(30, 30, 30));
+                    series.DataLabelsFormatter =
+                       point =>
+                           $"{point.Coordinate.PrimaryValue} " + "/ " +
+                           $"{point.StackedValue.Total} ";
+                    series.ToolTipLabelFormatter = point => $"{point.StackedValue.Share:P2}";
+                });
+                #endregion
 
             });
+            
+
             //_ = GetProjectGrid(2022);
 
 
@@ -579,7 +672,86 @@ namespace ProjectManagement.ViewModel
             return (allProjectNum.GetValueOrDefault(), completeProjects.GetValueOrDefault());
 
         }
-        
+
+
+        /// <summary>
+        /// 获取项目跟进人
+        /// </summary>
+        /// <param name="year"></param>
+        /// <param name="Name"></param>
+        /// <returns></returns>
+        private (int AllProjectNum, int Completeprojects) GetFollowCompleteProjects(int year, string Name)
+        {
+            int? allProjectNum;
+            int? completeProjects;
+
+            using (var context = new ProjectContext())
+            {
+                // 查询该人员在该年份的所有项目
+                var projects = context.Projects
+                .Where(p => p.Year == year &&
+                           p.projectfollowupperson.PeopleName == Name)
+                .AsNoTracking()
+                .ToList();
+
+                // 计算项目总数
+                allProjectNum = projects.Count;
+
+                // 计算已完成项目数
+                completeProjects = projects.Count(p =>
+                    p.ProjectStageId == 105 &&
+                    p.ProjectPhaseStatusId == 104);
+            }
+            return (allProjectNum.GetValueOrDefault(), completeProjects.GetValueOrDefault());
+
+        }
+
+        private List<(string Project, int DaysDiff, int FileProgress, string ProjectLeader)> GetPFollowCompletePersonalProjectGrid(int year, string Name)
+        {
+            using (var context = new ProjectContext())
+            {
+                var projects = context.Projects
+                    .Where(p => p.Year == year && p.projectfollowupperson.PeopleName == Name)
+                    .Include(p => p.projectfollowupperson)
+                    .Select(p => new
+                    {
+                        p.ProjectName,
+                        p.DaysDiff,
+                        p.FileProgress,
+                        LeaderName = p.projectfollowupperson.PeopleName
+                    })
+                    .OrderBy(p => p.ProjectName)
+                    .ToList();
+
+                List<(string Project, int DaysDiff, int FileProgress, string projectfollowupperson)> values =
+                    new List<(string Project, int DaysDiff, int FileProgress, string projectfollowupperson)>();
+
+                foreach (var project in projects)
+                {
+                    (string Project, int DaysDiff, int FileProgress, string projectfollowupperson) projectvaule;
+                    projectvaule.Project = project.ProjectName;
+                    projectvaule.FileProgress = (int)project.FileProgress.GetValueOrDefault();
+                    projectvaule.DaysDiff = project.DaysDiff.GetValueOrDefault();
+                    projectvaule.projectfollowupperson = project.LeaderName;
+                    values.Add(projectvaule);
+                }
+
+                //foreach (var item in values)
+                //{
+                //    PersonalDataVM_YanXin.PersonalProjectsList.Add(new SeamlessLoopingScroll.ProjectItem()
+                //    {
+                //        ProjectName = item.Project,
+                //        CountDown = item.DaysDiff,
+                //        FileProgress = item.FileProgress,
+                //        Owner = item.ProjectLeader
+                //    });
+                //}
+
+                return values;
+
+            }
+        }
+
         #endregion
     }
 }

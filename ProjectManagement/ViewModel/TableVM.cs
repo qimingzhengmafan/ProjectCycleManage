@@ -1,4 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using DrawerTest;
 using Microsoft.EntityFrameworkCore;
 using ProjectManagement.Data;
@@ -49,41 +50,131 @@ namespace ProjectManagement.ViewModel
 
             Projects projectdata = await GetProjectByProjectNameAsync(data);
 
-
             Projectdetailsvm.Projectsid = projectdata.ProjectsId;
             Projectdetailsvm.ProjectName = projectdata.ProjectName;
             Projectdetailsvm.Equipmentname = projectdata.EquipmentName;
             Projectdetailsvm.ProjectIdentifyingNumber = projectdata.ProjectIdentifyingNumber;
-
-            using (var context = new ProjectContext())
-            {
-                var equipmenttypedata = await context.Projects
-                    .Include(c => c.equipmenttype)
-                    .FirstAsync(c => c.equipmenttypeId == projectdata.equipmenttypeId.GetValueOrDefault());
-
-                if(equipmenttypedata != null)
-                {
-                    Projectdetailsvm.SelectedEquipmentType = equipmenttypedata.equipmenttype;
-                }
-
-            };
-
-
-
-
-            //Projectdetailsvm.SelectedEquipmentType.EquipmentTypeId = projectdata.equipmenttypeId.GetValueOrDefault();
-
-            Projectdetailsvm.SelectedType.TypeId = projectdata.typeId.GetValueOrDefault();
-            Projectdetailsvm.Selectedprojectstage.ProjectStageId = projectdata.ProjectStageId;
             Projectdetailsvm.FinishTime = projectdata.FinishTime;
             Projectdetailsvm.StartTime = projectdata.StartTime;
             Projectdetailsvm.Budget = projectdata.Budget;
             Projectdetailsvm.ActualExpenditure = projectdata.ActualExpenditure;
-            //Projectdetailsvm.Selectedprojectphasestatus.ProjectPhaseStatusId = projectdata.ProjectPhaseStatusId.GetValueOrDefault();
-            Projectdetailsvm.SelectedEmployee.PeopleId = projectdata.ProjectLeaderId.GetValueOrDefault();
-            //Projectdetailsvm.SelectedFollowEmployee.PeopleId = projectdata.projectfollowuppersonId.GetValueOrDefault();
             Projectdetailsvm.Assetnumber = projectdata.AssetNumber;
             Projectdetailsvm.Remarkks = projectdata.remarks;
+
+            //Projectdetailsvm.SelectedEquipmentType
+            using (var context = new ProjectContext())
+            {
+                try
+                {
+                    var equipmenttypedata = await context.Projects
+                        .Include(c => c.equipmenttype)
+                        .FirstAsync(c => c.equipmenttypeId == projectdata.equipmenttypeId.GetValueOrDefault());
+                    if (equipmenttypedata != null)
+                    {
+                        Projectdetailsvm.SelectedEquipmentType = equipmenttypedata.equipmenttype;
+                    }
+                }
+                catch (Exception)
+                {
+
+                }
+            };
+
+            //Projectdetailsvm.SelectedType.TypeId = projectdata.typeId.GetValueOrDefault();
+            using (var context = new ProjectContext())
+            {
+                try
+                {
+                    var typedata = await context.Projects
+                        .Include(c => c.type)
+                        .FirstAsync(c => c.typeId == projectdata.typeId.GetValueOrDefault());
+                    if (typedata != null)
+                    {
+                        Projectdetailsvm.SelectedType = typedata.type;
+                    }
+                }
+                catch (Exception)
+                {
+
+                }
+            };
+
+            //Projectdetailsvm.Selectedprojectstage.ProjectStageId = projectdata.ProjectStageId;
+            using (var context = new ProjectContext())
+            {
+                try
+                {
+                    var projectstagedata = await context.Projects
+                        .Include(c => c.ProjectStage)
+                        .FirstAsync(c => c.ProjectStageId == projectdata.ProjectStageId);
+                    if (projectstagedata != null)
+                    {
+                        Projectdetailsvm.Selectedprojectstage = projectstagedata.ProjectStage;
+                    }
+                }
+                catch (Exception)
+                {
+
+                }
+            };
+
+            //Projectdetailsvm.Selectedprojectphasestatus.ProjectPhaseStatusId = projectdata.ProjectPhaseStatusId.GetValueOrDefault();
+            using (var context = new ProjectContext())
+            {
+                try
+                {
+                    var ProjectPhaseStatusdata = await context.Projects
+                        .Include(c => c.ProjectPhaseStatus)
+                        .FirstAsync(c => c.ProjectPhaseStatusId == projectdata.ProjectPhaseStatusId);
+                    if (ProjectPhaseStatusdata != null)
+                    {
+                        Projectdetailsvm.Selectedprojectphasestatus = ProjectPhaseStatusdata.ProjectPhaseStatus;
+                    }
+                }
+                catch (Exception)
+                {
+
+                }
+            };
+
+            //Projectdetailsvm.SelectedEmployee.PeopleId = projectdata.ProjectLeaderId.GetValueOrDefault();
+            using (var context = new ProjectContext())
+            {
+                try
+                {
+                    var ProjectLearderdata = await context.Projects
+                        .Include(c => c.ProjectLeader)
+                        .FirstAsync(c => c.ProjectLeaderId == projectdata.ProjectLeaderId);
+                    if (ProjectLearderdata != null)
+                    {
+                        Projectdetailsvm.SelectedEmployee = ProjectLearderdata.ProjectLeader;
+                    }
+                }
+                catch (Exception)
+                {
+
+                }
+            };
+
+            //Projectdetailsvm.SelectedFollowEmployee.PeopleId = projectdata.projectfollowuppersonId.GetValueOrDefault();
+            using (var context = new ProjectContext())
+            {
+                try
+                {
+                    var ProjectFollowdata = await context.Projects
+                        .Include(c => c.projectfollowupperson)
+                        .FirstAsync(c => c.projectfollowuppersonId == projectdata.projectfollowuppersonId);
+                    if (ProjectFollowdata != null)
+                    {
+                        Projectdetailsvm.SelectedFollowEmployee = ProjectFollowdata.projectfollowupperson;
+                    }
+                }
+                catch (Exception)
+                {
+
+                }
+            };
+
         }
 
 
@@ -97,7 +188,7 @@ namespace ProjectManagement.ViewModel
             for (int i = 2022; i <= year; i++)
             {
                 (int AllCounts , int CompletsCounts) = GetYearsCompleteProjects(i);
-                var backdata = GetYearProjectGrid(2022);
+                var backdata = GetYearProjectGrid(i);
                 var RecvBriefinformationdata = new System.Collections.ObjectModel.ObservableCollection<ProjectsInformationGrid>();
 
                 foreach (var project in backdata)
@@ -136,6 +227,54 @@ namespace ProjectManagement.ViewModel
 
         }
 
+        [RelayCommand]
+        private void GetPersonalDatalistFun()
+        {
+            int year = DateTime.Now.Year;
+
+            DetailedInformationvm.DataCollection = new System.Collections.ObjectModel.ObservableCollection<DrawerTest.DrawerUIVM>();
+            for (int i = 2022; i <= year; i++)
+            {
+                (int AllCounts, int CompletsCounts) = GetYearsCompleteProjectsleadername(i , "朱成绪");
+                var backdata = GetYearProjectGrid(i , "朱成绪");
+                var RecvBriefinformationdata = new System.Collections.ObjectModel.ObservableCollection<ProjectsInformationGrid>();
+
+                foreach (var project in backdata)
+                {
+                    var Briefinformationdata = new ProjectsInformationGrid();
+                    Briefinformationdata.Projectname = project.Project;
+                    Briefinformationdata.Projectstage = project.CompletionStatus;
+                    Briefinformationdata.Projectleadername = project.ProjectLeader;
+                    Briefinformationdata.Detailedinformationfun = ShowingCtrl;
+                    if (project.IsCompleted)
+                    {
+                        Briefinformationdata.Beltcolor = StatusColor.CompletedColors.BeltColor;
+                        Briefinformationdata.Textcolor = StatusColor.CompletedColors.TextColor;
+                    }
+                    else
+                    {
+                        Briefinformationdata.Beltcolor = StatusColor.UnfinishedColors.BeltColor;
+                        Briefinformationdata.Textcolor = StatusColor.UnfinishedColors.TextColor;
+                    }
+
+
+
+                    RecvBriefinformationdata.Add(Briefinformationdata);
+                }
+
+
+                DetailedInformationvm.DataCollection.Add(new DrawerUIVM()
+                {
+                    Year = i,
+                    AllprojectsNum = AllCounts,
+                    CompleteProjects = CompletsCounts,
+                    Unit = "年",
+                    Briefinformation = RecvBriefinformationdata,
+                });
+            }
+        }
+
+
 
 
         #region OtherFun
@@ -162,6 +301,44 @@ namespace ProjectManagement.ViewModel
             }
             return (allProjectNum.GetValueOrDefault(), completeProjects.GetValueOrDefault());
 
+        }
+
+        /// <summary>
+        /// 项目负责人查找
+        /// </summary>
+        /// <param name="year"></param>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        private (int AllProjectNum, int Completeprojects) GetYearsCompleteProjectsleadername(int year, string name = null)
+        {
+            int? allProjectNum;
+            int? completeProjects;
+
+            using (var context = new ProjectContext())
+            {
+                // 基础查询条件
+                var query = context.Projects
+                    .Where(p => p.Year == year)
+                    .AsNoTracking();
+
+                // 如果name不为空，添加名称过滤条件
+                if (!string.IsNullOrEmpty(name))
+                {
+                    query = query.Where(p => p.ProjectLeader.PeopleName.Contains(name));
+                }
+
+                // 执行查询
+                var projects = query.ToList();
+
+                // 计算项目总数
+                allProjectNum = projects.Count;
+
+                // 计算已完成项目数
+                completeProjects = projects.Count(p =>
+                    p.ProjectStageId == 105 &&
+                    p.ProjectPhaseStatusId == 104);
+            }
+            return (allProjectNum.GetValueOrDefault(), completeProjects.GetValueOrDefault());
         }
 
         private (int AllProjectNum, int Completeprojects) GetfollowuppersonCompleteProjects(int year, string Name)

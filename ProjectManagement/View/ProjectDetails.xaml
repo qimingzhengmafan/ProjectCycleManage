@@ -10,7 +10,7 @@
              d:DataContext="{d:DesignInstance Type=vm:ProjectDetailsVM}"
              d:DesignHeight="1800" d:DesignWidth="900">
     <Grid>
-        <ScrollViewer>
+
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="56"/>
@@ -692,6 +692,6 @@
                     </ScrollViewer>
                 </Grid>
             </Grid>
-        </ScrollViewer>
+        <!--</ScrollViewer>-->
     </Grid>
 </UserControl>

@@ -26,7 +26,16 @@ namespace ProjectManagement.ViewModel
             {
                 _allprojectsnum = value;
                 Unfinished = _allprojectsnum - CompleteProjectsNum;
-                Projectcompletionrate = CompleteProjectsNum / _allprojectsnum * 100;
+                try
+                {
+                    Projectcompletionrate = CompleteProjectsNum / _allprojectsnum * 100;
+                }
+                catch (Exception)
+                {
+
+                    //throw;
+                }
+                
                 OnPropertyChanged();
             }
         }
@@ -39,7 +48,16 @@ namespace ProjectManagement.ViewModel
             {
                 _completeProjectsNum = value;
                 Unfinished = Allprojectsnum - _completeProjectsNum;
-                Projectcompletionrate = _completeProjectsNum / Allprojectsnum * 100;
+                try
+                {
+                    Projectcompletionrate = _completeProjectsNum / Allprojectsnum * 100;
+                }
+                catch (Exception)
+                {
+
+                    //throw;
+                }
+                
                 OnPropertyChanged();
             }
         }

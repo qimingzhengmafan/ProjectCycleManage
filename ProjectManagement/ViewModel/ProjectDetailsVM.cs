@@ -238,7 +238,11 @@ namespace ProjectManagement.ViewModel
         // 更新状态信息
         private void UpdateFollowStatusMessage()
         {
-            ProjectsfollowuppersonId = SelectedFollowEmployee.PeopleId;
+            if (SelectedFollowEmployee != null)
+            {
+                ProjectsfollowuppersonId = SelectedFollowEmployee.PeopleId;
+            }
+            
         }
 
 
@@ -298,7 +302,12 @@ namespace ProjectManagement.ViewModel
         // 更新状态信息
         private void UpdateEquipmentTypeStatus()
         {
-            EquipmenttypeId = SelectedEquipmentType.EquipmentTypeId;
+
+            if (SelectedEquipmentType != null)
+            {
+                EquipmenttypeId = SelectedEquipmentType.EquipmentTypeId;
+            }
+                
         }
 
 
@@ -358,7 +367,11 @@ namespace ProjectManagement.ViewModel
         // 更新状态信息
         private void UpdateTypeStatus()
         {
-            TypeId = SelectedType.TypeId;
+            if (SelectedType != null)
+            {
+                TypeId = SelectedType.TypeId;
+            }
+            
         }
 
 
@@ -418,7 +431,11 @@ namespace ProjectManagement.ViewModel
         // 更新状态信息
         private void UpdateProjectStage()
         {
-            ProjectStageId = Selectedprojectstage.ProjectStageId;
+            if (Selectedprojectstage != null)
+            {
+                ProjectStageId = Selectedprojectstage.ProjectStageId;
+            }
+            
         }
 
 
@@ -478,7 +495,11 @@ namespace ProjectManagement.ViewModel
         // 更新状态信息
         private void UpdateProjectPhaseStatus()
         {
-            ProjectPhaseStatusId = Selectedprojectphasestatus.ProjectPhaseStatusId;
+            if (Selectedprojectstage != null)
+            {
+                ProjectPhaseStatusId = Selectedprojectphasestatus.ProjectPhaseStatusId;
+            }
+            
         }
 
 
