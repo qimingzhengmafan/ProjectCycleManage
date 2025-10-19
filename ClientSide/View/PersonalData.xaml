@@ -1,0 +1,151 @@
+﻿<UserControl x:Class="ClientSide.View.PersonalData"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:slc="clr-namespace:ScrollControlProjectnetcore;assembly=ScrollControlProjectnetcore"
+             xmlns:uc="clr-namespace:ProjectManagement.View.UserControls;assembly=ProjectManagement"
+             xmlns:viewmodel="clr-namespace:ClientSide.ViewModel"
+             xmlns:local="clr-namespace:ClientSide.View"
+             xmlns:vm="clr-namespace:ClientSide.ViewModel"
+             d:DataContext="{d:DesignInstance Type=viewmodel:PersonalDataVM}"
+             mc:Ignorable="d" 
+             d:DesignHeight="700"
+             d:DesignWidth="1252">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+
+        <Grid>
+            <Label Content="个人项目"
+                   Foreground="#707070"
+                   Height="40"
+                   HorizontalAlignment="Center"
+                   VerticalAlignment="Top"
+                   Margin="0 44 0 0"
+                   FontSize="26"/>
+            <Grid Margin="0 97 0 0">
+                <uc:PieChart DataContext="{Binding PersonalProjectsInformation}"/>
+            </Grid>
+        </Grid>
+
+        <Grid Grid.Column="1">
+            <Label Content="文件状态"
+                   Foreground="#707070"
+                   Height="40"
+                   HorizontalAlignment="Center"
+                   VerticalAlignment="Top"
+                   Margin="0 44 0 0"
+                   FontSize="26"/>
+            <Grid Margin="0 97 0 0">
+                <uc:PieChart DataContext="{Binding PersonalFileInformation}"/>
+            </Grid>
+        </Grid>
+
+        <Grid Grid.Column="2">
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+
+            <Border Background="#f2f2f2">
+                <StackPanel Orientation="Horizontal">
+                    <Label Content="总项目数"
+                       Width="110"
+                       VerticalAlignment="Center"
+                       FontSize="20"
+                       Margin="50 0 0 0"/>
+                    <TextBlock Text="{Binding Allprojectsnum}"
+                           VerticalAlignment="Center"
+                           Margin="50 0 0 0"
+                           FontSize="25"
+                           FontWeight="Bold"/>
+                    <Label Content="个"
+                       VerticalAlignment="Center"
+                       FontSize="20"
+                       Margin="50 0 0 0"/>
+                </StackPanel>
+            </Border>
+
+            <Border Grid.Row="1"
+                Background="White">
+                <StackPanel Orientation="Horizontal">
+                    <Label Content="已完成"
+                       Width="110"
+                       VerticalAlignment="Center"
+                       FontSize="20"
+                       Margin="50 0 0 0"/>
+                    <TextBlock Text="{Binding CompleteProjectsNum}"
+                           Foreground="#16A34A"
+                           VerticalAlignment="Center"
+                           Margin="50 0 0 0"
+                           FontSize="25"
+                           FontWeight="Bold"/>
+                    <Label Content="个"
+                       VerticalAlignment="Center"
+                       FontSize="20"
+                       Margin="50 0 0 0"/>
+                </StackPanel>
+            </Border>
+
+            <Border Grid.Row="2"
+                Background="#f2f2f2">
+                <StackPanel Orientation="Horizontal">
+                    <Label Content="项目完成率"
+                       Width="110"
+                       VerticalAlignment="Center"
+                       FontSize="20"
+                       Margin="50 0 0 0"/>
+                    <TextBlock Text="{Binding Projectcompletionrate}"
+                           VerticalAlignment="Center"
+                           
+                           Margin="50 0 0 0"
+                           FontSize="25"
+                           FontWeight="Bold"/>
+                    <Label Content="%"
+                       VerticalAlignment="Center"
+                       FontSize="20"
+                       Margin="50 0 0 0"/>
+                </StackPanel>
+            </Border>
+
+            <Border Grid.Row="3"
+                Background="White">
+                <StackPanel Orientation="Horizontal">
+                    <Label Content="未完成"
+                       Width="110"
+                       VerticalAlignment="Center"
+                       FontSize="20"
+                       Margin="50 0 0 0"/>
+                    <TextBlock Text="{Binding Unfinished}"
+                           VerticalAlignment="Center"
+                           Margin="50 0 0 0"
+                           FontSize="25"
+                           FontWeight="Bold"/>
+                    <Label Content="个"
+                       VerticalAlignment="Center"
+                       FontSize="20"
+                       Margin="50 0 0 0"/>
+                </StackPanel>
+            </Border>
+
+        </Grid>
+
+        <Grid Grid.Row="1"
+          Grid.Column="0"
+          Grid.ColumnSpan="3">
+            <slc:SeamlessLoopingScroll ItemsSource="{Binding PersonalProjectsList}"/>
+        </Grid>
+
+    </Grid>
+</UserControl>

@@ -3,10 +3,104 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:Menu="clr-namespace:Page_Navigation_App.Utilities"
+        xmlns:view="clr-namespace:ClientSide.View"
+        xmlns:vm="clr-namespace:ClientSide.ViewModel"
         xmlns:local="clr-namespace:ClientSide"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid>
+        Title="MainWindow"
+        Height="700" 
+        Width="1350">
 
+    <Window.DataContext>
+        <vm:MainVM/>
+    </Window.DataContext>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="48"/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+
+        <Border>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="91"/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+
+                <Border>
+                    <Button Style="{StaticResource RoundedButtonStyle}"
+                            Background="Transparent"
+                            BorderThickness="0.5 0.5 0.5 0">
+                        <Button.Content>
+                            <Ellipse Height="30"
+                                     Width="30">
+                                <Ellipse.Fill>
+                                    <RadialGradientBrush>
+                                        <GradientStop Color="#FF0123FF" 
+                                                      Offset="1"/>
+                                        <GradientStop Color="White" 
+                                                      Offset="0"/>
+                                    </RadialGradientBrush>
+                                </Ellipse.Fill>
+                            </Ellipse>
+                        </Button.Content>
+                    </Button>
+                </Border>
+
+                <Border Grid.Row="1"
+                        BorderThickness="0.5 0 0.5 0.5"
+                        BorderBrush="#707070"
+                        CornerRadius="0 0 5 0">
+                    <StackPanel>
+                        <Menu:Btn Style="{StaticResource BtnStyle}"
+                                  IsChecked="True"
+                                  BorderThickness="1"
+                                  BorderBrush="Black"
+                                  Command="{Binding PersonalDataViewFunCommand}">
+                            <Grid>
+                                <Image Source="/Resources/Images/机器人.png" 
+                                       Width="25"
+                                       Height="25"/>
+                            </Grid>
+                        </Menu:Btn>
+
+                        <Menu:Btn Style="{StaticResource BtnStyle}"
+                                  Command="{Binding AddViewFunCommand}">
+                            <Grid>
+                                <Image Source="/Resources/Images/新增项目_新增新建操作_jurassic.png"
+                                       Width="25"/>
+
+                            </Grid>
+                        </Menu:Btn>
+
+                        <Menu:Btn Style="{StaticResource BtnStyle}"
+                                  Command="{Binding TableViewFunCommand}">
+                            <Grid>
+                                <Image Source="/Resources/Images/表格 (1).png"
+                                       Width="25"/>
+
+                            </Grid>
+                        </Menu:Btn>
+                    </StackPanel>
+                </Border>
+            </Grid>
+        </Border>
+
+        <Grid Grid.Column="1">
+            <Grid Visibility="{Binding PersonalDataViewVisibility}">
+                <view:PersonalData DataContext="{Binding PersonaldataVMInfor}"/>
+            </Grid>
+
+            <Grid Visibility="{Binding AddViewVisibility}">
+                <view:AddView DataContext="{Binding AddVMInfor}"/>
+            </Grid>
+
+            <Grid Visibility="{Binding TableViewVisibility}">
+                <view:TableView DataContext="{Binding TableVMInfor}"/>
+            </Grid>
+        </Grid>
+        
+        
     </Grid>
 </Window>

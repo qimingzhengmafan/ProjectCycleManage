@@ -15,5 +15,6 @@ namespace ProjectManagement.Models
         [Key]
         public int PeopleId { get; set; }
         public string PeopleName { get; set; }
+        public string Password { get; set; }
     }
 }

@@ -9,7 +9,7 @@
         <Setter Property="VerticalAlignment"
                 Value="Center" />
         <Setter Property="Margin"
-                Value="0,5,0,0" />
+                Value="0,0,0,5" />
 
         <Setter Property="Template">
             <Setter.Value>
@@ -17,12 +17,12 @@
 
                     <Border x:Name="border"
                             Height="50"
-                            Width="228"
+                            Width="48"
                             BorderThickness="0">
 
                         <Border.Background>
                             <SolidColorBrush x:Name="BorderBackground"
-                                             Color="#272B2F" />
+                                             Color="Transparent" />
                         </Border.Background>
 
                         <Grid>
@@ -32,7 +32,7 @@
                                     Width="4"
                                     HorizontalAlignment="Left"
                                     VerticalAlignment="Center"
-                                    Background="#FFFFFF"
+                                    Background="#D2D2D2"
                                     Visibility="Collapsed"
                                     CornerRadius="2" />
 
@@ -60,7 +60,7 @@
                                 <Storyboard>
                                     <ColorAnimation Storyboard.TargetName="BorderBackground"
                                                     Storyboard.TargetProperty="Color"
-                                                    From="#272B2F"
+                                                    From="Transparent"
                                                     To="#3E434A"
                                                     Duration="0:0:0.3" />
                                 </Storyboard>
@@ -76,7 +76,7 @@
                                     <ColorAnimation Storyboard.TargetName="BorderBackground"
                                                     Storyboard.TargetProperty="Color"
                                                     From="#3E434A"
-                                                    To="#272B2F"
+                                                    To="Transparent"
                                                     Duration="0:0:0.3" />
                                 </Storyboard>
                             </BeginStoryboard>
@@ -88,7 +88,7 @@
 
                             <Setter Property="Background"
                                     TargetName="border"
-                                    Value="#212529" />
+                                    Value="LightBlue" />
 
                             <Setter Property="Visibility"
                                     TargetName="Indicator"
@@ -104,15 +104,13 @@
 
     </Style>
 
-    <ImageBrush x:Key="close_app_def"
-                ImageSource="/Images/shutdown_def.png"
+    <!--<ImageBrush x:Key="close_app_def"
                 Stretch="None" />
 
     <ImageBrush x:Key="close_app_mo"
-                ImageSource="/Images/shutdown_mo.png"
-                Stretch="None" />
+                Stretch="None" />-->
 
-    <Style x:Key="ExitApp"
+    <!--<Style x:Key="ExitApp"
            TargetType="{x:Type Button}">
 
         <Setter Property="Height"
@@ -133,8 +131,8 @@
                 <ControlTemplate TargetType="{x:Type Button}">
 
                     <Border x:Name="border"
-                            BorderThickness="0"
-                            Background="{StaticResource close_app_def}">
+                            BorderThickness="0">
+                        --><!--Background="{StaticResource close_app_def}">--><!--
 
                     </Border>
 
@@ -166,6 +164,32 @@
 
         </Setter>
 
+    </Style>-->
+
+
+    <Style x:Key="RoundedButtonStyle" TargetType="Button">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Border x:Name="border"
+                            Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            CornerRadius="0 5 0 0">
+                        <ContentPresenter HorizontalAlignment="Center"
+                                          VerticalAlignment="Center"/>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="border" Property="Background" Value="LightBlue"/>
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter TargetName="border" Property="Background" Value="DodgerBlue"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
     </Style>
 
 </ResourceDictionary>
