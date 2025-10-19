@@ -305,7 +305,7 @@ namespace ProjectManagement.ViewModel
                     });
                 }
 
-                var personaldata_zhuchengxu = GetPPersonalProjectGrid(2022 , "朱成绪");
+                var personaldata_zhuchengxu = GetPPersonalProjectGrid(DateTime.Now.Year , "朱成绪");
                 //PersonalDataVM_ChengXuZhu
                 if (personaldata_zhuchengxu.Count != 0)
                 {
@@ -323,13 +323,13 @@ namespace ProjectManagement.ViewModel
                     }
                 }
 
-                (int AllProjects_zhuchengxu , int ComProjects_zhuchengxu) = GetLeaderCompleteProjects(2022 , "朱成绪");
+                (int AllProjects_zhuchengxu , int ComProjects_zhuchengxu) = GetLeaderCompleteProjects(DateTime.Now.Year , "朱成绪");
                 PersonalDataVM_ChengXuZhu.Allprojectsnum = AllProjects_zhuchengxu;
                 PersonalDataVM_ChengXuZhu.CompleteProjectsNum = ComProjects_zhuchengxu;
 
 
 
-                var data_zhuchengxu = _contextmodel.GetPersonalProjectsStatues(2022 , "朱成绪");
+                var data_zhuchengxu = _contextmodel.GetPersonalProjectsStatues(DateTime.Now.Year , "朱成绪");
                 List<string> names = new List<string>();
                 List<int> num = new List<int>();
                 int _index1 = 0;

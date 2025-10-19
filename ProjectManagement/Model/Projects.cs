@@ -21,7 +21,7 @@ namespace ProjectManagement.Models
         /// <summary>
         /// 采购月份
         /// </summary>
-        public DateTime? ProcurementMonth { get; set; }
+        public string? ProcurementMonth { get; set; }
         public string ProjectName { get; set; }
         public string? EquipmentName { get; set; }
 

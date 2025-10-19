@@ -17,6 +17,15 @@ namespace ClientSide.ViewModel
 
         [ObservableProperty]
         private AllProjects _personalprojectsinformation = new AllProjects();
+        public AllProjects PersonalProjectsInformation
+        {
+            get => _personalprojectsinformation;
+            set => _personalprojectsinformation = value;
+        }
+
+        [ObservableProperty]
+        private AllProjects _personalFileInformation = new AllProjects();
+
 
         private int _allprojectsnum = 0;
         public int Allprojectsnum
@@ -61,11 +70,7 @@ namespace ClientSide.ViewModel
 
 
 
-        public AllProjects PersonalProjectsInformation
-        {
-            get => _personalprojectsinformation;
-            set => _personalprojectsinformation = value;
-        }
+
 
         public PersonalDataVM()
         {

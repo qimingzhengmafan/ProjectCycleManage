@@ -76,7 +76,9 @@ INSERT INTO `typetable` VALUES (103, '改善');
 -- ----------------------------
 -- Records of projects
 -- ----------------------------
-INSERT INTO `projects` VALUES (1, 2022, NULL, 'Hilti整机报警电压自动切换设备', 'HDGC2022001', 102, 102, 105, NULL, '25000', '25000', 100, 104, 101, NULL, 'HD-3101-4343', NULL , NULL , NULL ,NULL);
-
+INSERT INTO `projects` VALUES (1, 2022, NULL, 'Hilti整机报警电压自动切换设备', 'HDGC2022001', 102, 102, 105, NULL, '25000', '25000', 100, 104, 101, NULL, 'HD-3101-4343', NULL , NULL , NULL ,NULL ,NULL ,NULL);
+-- ----------------------------
+-- INSERT INTO `projects` VALUES (ProjectsId, Year, ProcurementMonth, ProjectName, ProjectIdentifyingNumber, equipmenttypeId, typeId, ProjectStageId, FinishTime, Budget, ActualExpenditure, ProjectProgress, ProjectPhaseStatusId, ProjectLeaderId, projectfollowuppersonId, AssetNumber, remarks , StartTime , ProjectCycle ,EquipmentName ,FileProgress ,DaysDiff);
+-- ----------------------------
 
 SET FOREIGN_KEY_CHECKS = 1;

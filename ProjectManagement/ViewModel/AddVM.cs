@@ -21,7 +21,7 @@ namespace ProjectManagement.ViewModel
         {
             //_contextModel = new ContextModel(Context);
             Year = currenttime.Year;
-            ProcurementMonth = currenttime;
+            ProcurementMonth = currenttime.Year.ToString() + "." +currenttime.Month.ToString();
             //Projectsid = _contextModel.GetTotalProjectsNum() + 1;
 
             LoadEmployees();
@@ -345,7 +345,7 @@ namespace ProjectManagement.ViewModel
         /// 采购月份
         /// </summary>
         [ObservableProperty]
-        private DateTime? _procurementMonth;
+        private string? _procurementMonth;
         
         /// <summary>
         /// 项目名称

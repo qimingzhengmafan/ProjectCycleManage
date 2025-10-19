@@ -18,7 +18,7 @@ namespace ClientSide.View
     /// <summary>
     /// LogInView.xaml 的交互逻辑
     /// </summary>
-    public partial class LogInView : UserControl
+    public partial class LogInView : Window
     {
         public LogInView()
         {
