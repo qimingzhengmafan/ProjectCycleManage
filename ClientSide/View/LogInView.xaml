@@ -6,8 +6,6 @@
         xmlns:local="clr-namespace:ClientSide.View"
         xmlns:vm="clr-namespace:ClientSide.ViewModel"
         mc:Ignorable="d" 
-        d:DesignHeight="225" 
-        d:DesignWidth="400"
         Width="800"
         Height="450">
     <Window.DataContext>
@@ -16,17 +14,12 @@
     <Border Background="AliceBlue">
         <Grid>
             <Grid.RowDefinitions>
+                <RowDefinition Height="100"/>
                 <RowDefinition/>
-                <RowDefinition/>
-                <RowDefinition/>
+                <RowDefinition Height="150"/>
             </Grid.RowDefinitions>
 
             <Grid Grid.Row="1">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="100"/>
-                    <ColumnDefinition/>
-                    <ColumnDefinition Width="100"/>
-                </Grid.ColumnDefinitions>
 
                 <Grid Grid.Column="1">
                     <Grid.RowDefinitions>
@@ -34,37 +27,62 @@
                         <RowDefinition/>
                     </Grid.RowDefinitions>
 
-                    <Grid>
-                        <StackPanel Orientation="Horizontal">
-                            <Label Content="姓名"/>
+                    <Grid Height="50">
+                        <StackPanel Orientation="Horizontal"
+                                    HorizontalAlignment="Center">
+                            <Label Content="账 号"
+                                   FontSize="20"
+                                   Margin="0 0 0 -6"
+                                   VerticalContentAlignment="Bottom"/>
                             <TextBox Text="{Binding Name}"
-                                     Width="150"/>
+                                     BorderThickness="0 0 0 1"
+                                     Background="Transparent"
+                                     Margin="30 0 0 0"
+                                     FontSize="20"
+                                     VerticalContentAlignment="Bottom"
+                                     Width="387"
+                                     Height="50"/>
                         </StackPanel>
                     </Grid>
 
-                    <Grid Grid.Row="1">
-                        <StackPanel Orientation="Horizontal">
-                            <Label Content="密码"/>
+                    <Grid Grid.Row="1"
+                          Height="50">
+                        <StackPanel Orientation="Horizontal"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Bottom">
+                            <Label Content="密 码"
+                                   FontSize="20"
+                                   Margin="0 0 0 -6"
+                                   VerticalAlignment="Bottom"
+                                   VerticalContentAlignment="Bottom"/>
                             <TextBox Text="{Binding Password}"
-                                     Width="150"/>
+                                     BorderThickness="0 0 0 1"
+                                     Background="Transparent"
+                                     Width="387"
+                                     Height="50"
+                                     FontSize="20"
+                                     VerticalContentAlignment="Bottom"
+                                     Margin="30 0 0 0"/>
                         </StackPanel>
                     </Grid>
                 </Grid>
             </Grid>
 
             <Grid Grid.Row="2">
-                <StackPanel Orientation="Horizontal"
-                            HorizontalAlignment="Right"
-                            VerticalAlignment="Bottom">
-                    <Button Width="50"
-                            Height="25"
-                            Content="登陆"
-                            Command="{Binding LoginCommand}"/>
-                    <Button Width="50"
-                            Margin="50 0 0 0"
-                            Height="25"
-                            Content="取消"/>
-                </StackPanel>
+                <!--<Button Width="467"
+                        Height="61"
+                        Content="登陆"
+                        Command="{Binding LoginCommand}"/>-->
+
+                <Button Width="467"
+                        Background="#1296DB"
+                        BorderThickness="0"
+                        Content="登                   陆"
+                        FontSize="20"
+                        Foreground="White"
+                        Height="61"
+                        Command="{Binding LoginCommand}"/>
+
             </Grid>
         </Grid>  
     </Border>
