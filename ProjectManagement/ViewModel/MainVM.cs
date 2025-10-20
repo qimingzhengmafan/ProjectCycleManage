@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Page_Navigation_App.Utilities;
 using ProjectManagement.Data;
 using ProjectManagement.Model;
+using ProjectManagement.Models;
 using SkiaSharp;
 using System;
 using System.Collections.Generic;
@@ -15,6 +16,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Documents;
 using System.Windows.Input;
+using System.Windows.Threading;
 using System.Xml.Linq;
 
 namespace ProjectManagement.ViewModel
@@ -168,6 +170,30 @@ namespace ProjectManagement.ViewModel
         private ProjectContext _projectContext = new ProjectContext();
         private ContextModel _contextmodel;
 
+        private string _messagedata;
+        public string Messagedata
+        {
+            get => _messagedata;
+            set
+            {
+                _messagedata = value;
+                IsOpen = true;
+                ShowToast();
+                OnPropertyChanged();
+            }
+        }
+
+        private bool _isopen;
+        public bool IsOpen
+        {
+
+            get => _isopen;
+            set
+            {
+                _isopen = value;
+                OnPropertyChanged();
+            }
+        }
         public MainVM()
         {
             _contextmodel = new ContextModel(_projectContext);
@@ -225,6 +251,23 @@ namespace ProjectManagement.ViewModel
             SettingViewICommand = new RelayCommand(SettingViewICommandFun);
             TableViewICommand = new RelayCommand(TableViewICommandFun);
 
+            Messagedata = "";
+            var backdata = GetYearProjectGrid(DateTime.Now.Year);
+            foreach (var item in backdata)
+            {
+                if (item.IsCompleted)
+                {
+                    Messagedata = Messagedata + item.Project + "  " + item.CompletionStatus + "  " + "请处理";
+                }
+                else
+                {
+                    //Messagedata = Messagedata + item.Project + "  " + "\r\n" + item.CompletionStatus + "  " + "请处理" + "\r\n";
+                }
+                //Messagedata = "ghjkl";
+
+
+            }
+            
         }
 
         //ProjectInfor
@@ -306,6 +349,74 @@ namespace ProjectManagement.ViewModel
             ChangeViewVisibility = Visibility.Collapsed;
         }
         #endregion
+
+
+        private List<(string Project, string ProjectLeader, string CompletionStatus, bool IsCompleted)> GetYearProjectGrid(int year, string name = null)
+        {
+            using (var context = new ProjectContext())
+            {
+                IQueryable<Projects> projectsQuery = context.Projects
+                    .Where(p => p.Year == year)
+                    .Include(p => p.ProjectLeader); // 加载负责人导航属性
+
+                // 如果提供了负责人姓名，进行过滤
+                if (!string.IsNullOrEmpty(name))
+                {
+                    projectsQuery = projectsQuery.Where(p => p.ProjectLeader.PeopleName.Contains(name));
+                }
+
+                var projects = projectsQuery
+                    .Select(p => new
+                    {
+                        p.ProjectName,
+                        LeaderName = p.ProjectLeader.PeopleName, // 获取负责人姓名
+                        p.ProjectStageId,
+                        p.ProjectPhaseStatusId,
+                        p.FinishTime,
+                        IsCompleted = p.ProjectStageId == 105 && p.ProjectPhaseStatusId == 104
+                    })
+                    .OrderBy(p => p.ProjectName) // 按项目名称排序
+                    .ToList();
+
+                List<(string Project, string ProjectLeader, string CompletionStatus, bool IsCompleted)> values =
+                    new List<(string Project, string ProjectLeader, string CompletionStatus, bool IsCompleted)>();
+
+                foreach (var project in projects)
+                {
+                    string completionStatus;
+                    bool CompleteStatus;
+
+                    if (project.IsCompleted)
+                    {
+                        // 已完成项目
+                        completionStatus = $"已完成{project.FinishTime?.ToString("(yyyy-MM-dd)") ?? ""}";
+                        CompleteStatus = true;
+                    }
+                    else
+                    {
+                        // 未完成项目
+                        completionStatus = $"未完成{project.FinishTime?.ToString("(yyyy-MM-dd)") ?? ""}";
+                        CompleteStatus = false;
+                    }
+
+                    values.Add((project.ProjectName, project.LeaderName, completionStatus, CompleteStatus));
+                }
+
+                return values;
+            }
+        }
+
+        private void ShowToast(int duration = 10000)
+        {
+            // 自动关闭
+            var timer = new DispatcherTimer { Interval = TimeSpan.FromMilliseconds(duration) };
+            timer.Tick += (sender, args) =>
+            {
+                timer.Stop();
+                IsOpen = false;
+            };
+            timer.Start();
+        }
 
         #endregion
     }
