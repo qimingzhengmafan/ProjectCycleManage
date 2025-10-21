@@ -665,23 +665,38 @@ namespace ProjectManagement.ViewModel
                         .Include(p => p.equipmenttype)
                         .FirstOrDefaultAsync(p => p.ProjectsId == Projectsid);
 
-                    if (project?.equipmenttypeId == null)
+                    if (project == null)
                     {
-                        MessageBox.Show("此项目无设备类型，无法显示文档信息！");
+                        MessageBox.Show("未找到项目信息！");
+                        return;
                     }
 
-                    // 2. 获取该设备类型关联的文档类型
-                    var associatedDocs = await context.ProjectTypeDocumentAssociationTables
-                        .Where(x => x.EquipmentTypeId == project.equipmenttypeId)
-                        .Select(x => x.DocumentTypeId)
-                        .ToListAsync();
+                    List<ProjectDocumentStatus> documentStatuses;
 
-                    // 3. 获取项目文档状态
-                    var documentStatuses = await context.ProjectDocumentStatus
-                        .Where(x => x.ProjectsId == Projectsid && associatedDocs.Contains(x.DocumentTypeId))
-                        .ToListAsync();
+                    // 2. 根据是否有设备类型ID决定查询方式
+                    if (project.equipmenttypeId == null)
+                    {
+                        // 没有设备类型ID，获取项目所有相关文件数据
+                        documentStatuses = await context.ProjectDocumentStatus
+                            .Where(x => x.ProjectsId == Projectsid)
+                            .ToListAsync();
+                        MessageBox.Show("此项目未设置设备类型，将按照“ 非标外购 ”类型对项目显示 ！");
+                    }
+                    else
+                    {
+                        // 有设备类型ID，获取该设备类型关联的文档类型
+                        var associatedDocs = await context.ProjectTypeDocumentAssociationTables
+                            .Where(x => x.EquipmentTypeId == project.equipmenttypeId)
+                            .Select(x => x.DocumentTypeId)
+                            .ToListAsync();
 
-                    // 4. 更新复选框状态
+                        // 获取项目文档状态（只包含关联的文档类型）
+                        documentStatuses = await context.ProjectDocumentStatus
+                            .Where(x => x.ProjectsId == Projectsid && associatedDocs.Contains(x.DocumentTypeId))
+                            .ToListAsync();
+                    }
+
+                    // 3. 更新复选框状态
                     foreach (var status in documentStatuses)
                     {
                         switch (status.DocumentTypeId)
@@ -733,6 +748,7 @@ namespace ProjectManagement.ViewModel
             {
                 // 简单处理异常
                 Console.WriteLine($"加载文档状态失败: {ex.Message}");
+                MessageBox.Show($"加载文档状态失败: {ex.Message}");
             }
         }
 
