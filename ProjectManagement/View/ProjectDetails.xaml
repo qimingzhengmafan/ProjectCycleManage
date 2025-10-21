@@ -10,7 +10,8 @@
              mc:Ignorable="d" 
              d:DataContext="{d:DesignInstance Type=vm:ProjectDetailsVM}"
              d:DesignHeight="2800" d:DesignWidth="900">
-    <Grid>
+    <Border BorderThickness="1 0 0 0"
+            BorderBrush="#BBBBBB">
 
         <Grid>
             <Grid.RowDefinitions>
@@ -744,7 +745,7 @@
                                 <Grid Grid.Row="2"
                                       Grid.RowSpan="2"
                                       Grid.ColumnSpan="2">
-                                    <Grid>
+                                    <Grid Margin="10 0 0 0">
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition/>
                                             <ColumnDefinition/>
@@ -893,6 +894,7 @@
                                             x:Name="Confirm"
                                             BorderThickness="0"
                                             Height="50"
+                                            IsEnabled="{Binding Conformisenable}"
                                             Command="{Binding ConformFunCommand}"
                                             Margin="550 0 0 0"
                                             Width="150">
@@ -951,5 +953,5 @@
             </Grid>
         </Grid>
         <!--</ScrollViewer>-->
-    </Grid>
+    </Border>
 </UserControl>

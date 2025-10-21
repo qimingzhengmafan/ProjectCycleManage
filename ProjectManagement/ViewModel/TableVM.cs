@@ -227,6 +227,15 @@ namespace ProjectManagement.ViewModel
             Projectdetailsvm.ActualExpenditure = projectdata.ActualExpenditure;
             Projectdetailsvm.Assetnumber = projectdata.AssetNumber;
             Projectdetailsvm.Remarkks = projectdata.remarks;
+            Projectdetailsvm.Confirm = projectdata.CheckData;
+            if (projectdata.CheckData == "PASS")
+            {
+                Projectdetailsvm.Conformisenable = false;
+            }
+            else
+            {
+                Projectdetailsvm.Conformisenable = true;
+            }
             Projectdetailsvm.InitializeAsync(projectdata.ProjectsId);
             //Projectdetailsvm.SelectedEquipmentType
             using (var context = new ProjectContext())

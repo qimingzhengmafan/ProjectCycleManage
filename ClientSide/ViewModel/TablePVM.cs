@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using ProjectManagement.Data;
 using ProjectManagement.Model;
 using ProjectManagement.Models;
+using ProjectManagement.View;
 using ProjectManagement.ViewModel;
 using System;
 using System.Collections.Generic;
@@ -231,6 +232,8 @@ namespace ClientSide.ViewModel
             Projectdetailsvm.ActualExpenditure = projectdata.ActualExpenditure;
             Projectdetailsvm.Assetnumber = projectdata.AssetNumber;
             Projectdetailsvm.Remarkks = projectdata.remarks;
+            Projectdetailsvm.Confirm = projectdata.CheckData;
+            Projectdetailsvm.Conformisenable = false;
             Projectdetailsvm.InitializeAsync(projectdata.ProjectsId);
             //Projectdetailsvm.SelectedEquipmentType
             using (var context = new ProjectContext())

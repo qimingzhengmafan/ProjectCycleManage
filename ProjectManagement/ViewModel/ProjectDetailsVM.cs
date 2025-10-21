@@ -138,6 +138,15 @@ namespace ProjectManagement.ViewModel
         [ObservableProperty]
         private string? _confirm;
 
+
+        /// <summary>
+        /// 
+        /// </summary>
+        [ObservableProperty]
+        private bool _conformisenable;
+
+        //[ObservableProperty]
+        //private bool _logname;
         #endregion
 
 
@@ -656,7 +665,10 @@ namespace ProjectManagement.ViewModel
                         .Include(p => p.equipmenttype)
                         .FirstOrDefaultAsync(p => p.ProjectsId == Projectsid);
 
-                    if (project?.equipmenttypeId == null) return;
+                    if (project?.equipmenttypeId == null)
+                    {
+                        MessageBox.Show("此项目无设备类型，无法显示文档信息！");
+                    }
 
                     // 2. 获取该设备类型关联的文档类型
                     var associatedDocs = await context.ProjectTypeDocumentAssociationTables
