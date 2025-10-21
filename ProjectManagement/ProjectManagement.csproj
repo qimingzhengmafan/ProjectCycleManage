@@ -18,9 +18,12 @@
     <None Remove="Resources\Images\总览1.png" />
     <None Remove="Resources\Images\总览w.png" />
     <None Remove="Resources\Images\文档.png" />
+    <None Remove="Resources\Images\文档1.png" />
     <None Remove="Resources\Images\新增项目_新增新建操作_jurassic.png" />
     <None Remove="Resources\Images\时间安排.png" />
     <None Remove="Resources\Images\机器人.png" />
+    <None Remove="Resources\Images\正确.png" />
+    <None Remove="Resources\Images\确认.png" />
     <None Remove="Resources\Images\维修.png" />
     <None Remove="Resources\Images\表格 %281%29.png" />
     <None Remove="Resources\Images\表格 w.png" />
@@ -84,6 +87,9 @@
     <Resource Include="Resources\Images\文档.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
+    <Resource Include="Resources\Images\文档1.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="Resources\Images\新增项目_新增新建操作_jurassic.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
@@ -92,6 +98,12 @@
     </Resource>
     <Resource Include="Resources\Images\机器人.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\正确.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\确认.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Resources\Images\维修.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -109,6 +121,10 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Resources\Images\费用.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <None Remove="Resources\Images\check.png" />
+    <Resource Include="Resources\Images\check.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
   </ItemGroup>

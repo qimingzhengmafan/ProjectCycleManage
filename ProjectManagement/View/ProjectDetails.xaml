@@ -6,6 +6,7 @@
              xmlns:local="clr-namespace:ProjectManagement.View"
              xmlns:vm="clr-namespace:ProjectManagement.ViewModel"
              xmlns:draw="clr-namespace:DrawerTest;assembly=DrawerTest"
+             x:Name="DetailsInfor"
              mc:Ignorable="d" 
              d:DataContext="{d:DesignInstance Type=vm:ProjectDetailsVM}"
              d:DesignHeight="2800" d:DesignWidth="900">
@@ -29,12 +30,12 @@
                                    Margin="30 0 0 0"/>
 
                             <draw:ProjectProgressInfo Width="300"
-                                                        Height="20"
-                                                        HorizontalContentAlignment="Right"
-                                                        ContentText="已完成（2025/10/1）"
-                                                        BeltColor="#F0FDF4"
-                                                        TextColor="#10B981"
-                                                        Margin="500 0 0 0"/>
+                                                      Height="20"
+                                                      HorizontalContentAlignment="Right"
+                                                      ContentText="已完成（2025/10/1）"
+                                                      BeltColor="#F0FDF4"
+                                                      TextColor="#10B981"
+                                                      Margin="500 0 0 0"/>
                         </StackPanel>
                     </Border>
                 </Grid>
@@ -49,6 +50,7 @@
                                 <RowDefinition Height="481"/>
                                 <RowDefinition Height="227"/>
                                 <RowDefinition Height="481"/>
+                                <RowDefinition Height="100"/>
                                 <RowDefinition Height="*"/>
                             </Grid.RowDefinitions>
 
@@ -71,7 +73,8 @@
                                                VerticalContentAlignment="Bottom"
                                                FontSize="30"
                                                FontWeight="Bold"/>
-                                        <Image Source="/Resources/Images/流程.png"
+
+                                    <Image Source="/Resources/Images/流程.png"
                                                Height="35"
                                                Width="35"
                                                Margin="600 0 0 0"/>
@@ -867,8 +870,51 @@
                                 </Grid>
                             </Grid>
                         </Border>
+                            
+                        <Border Grid.Row="5"
+                                     BorderBrush="#BBBBBB"
+                                     BorderThickness=" 0 0 0 0.5">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="100"/>
+                                </Grid.RowDefinitions>
+                                <StackPanel Orientation="Horizontal"
+                                             VerticalAlignment="Center">
+                                    <Image Source="/Resources/Images/check.png"
+                                           Height="35"
+                                           Width="35"
+                                           Margin="30 0 0 0"/>
+                                    <Label Content="确认"
+                                           VerticalContentAlignment="Bottom"
+                                           FontSize="30"
+                                           FontWeight="Bold"/>
 
-                        <Grid Grid.Row="5">
+                                    <Button Background="#1296DB"
+                                            x:Name="Confirm"
+                                            BorderThickness="0"
+                                            Height="50"
+                                            Margin="550 0 0 0"
+                                            Width="150">
+                                        <Button.Content>
+                                            <StackPanel Orientation="Horizontal">
+                                                <Image Source="/Resources/Images/正确.png" 
+                                                       Height="30"/>
+                                                <Label Content="确 认"
+                                                       FontSize="20"
+                                                       Margin="20 0 0 0"
+                                                       Foreground="White"/>
+                                            </StackPanel>
+                                            
+                                        </Button.Content>
+                                    </Button>
+                                </StackPanel>
+                            </Grid>
+                        </Border>  
+                            
+                            
+                            
+                        <Grid Grid.Row="6"
+                              Height="100">
                             <Button Width="123"
                                     Background="#1296DB"
                                     BorderThickness="0"
@@ -878,15 +924,6 @@
                                     Margin="600 0 0 0"
                                     Height="61"
                                     Command="{Binding SaveChangesCommand}"/>
-                            <Button Width="123"
-                                    Background="#1296DB"
-                                    BorderThickness="0"
-                                    Content="保存文件"
-                                    FontSize="20"
-                                    Foreground="White"
-                                    Margin="514,266,246,266"
-                                    Height="61"
-                                    Command="{Binding SaveFileChangesCommand}"/>
                         </Grid>
 
                         </Grid>

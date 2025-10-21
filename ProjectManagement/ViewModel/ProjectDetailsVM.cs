@@ -19,7 +19,6 @@ namespace ProjectManagement.ViewModel
     public partial class ProjectDetailsVM : ObservableObject
     {
         
-        
         #region Binding字段
         /// <summary>
         /// 项目编号
@@ -133,7 +132,15 @@ namespace ProjectManagement.ViewModel
         [ObservableProperty] 
         private string? _remarkks;
 
+        /// <summary>
+        /// 已完成
+        /// </summary>
+        [ObservableProperty]
+        private string? _confirm;
+
         #endregion
+
+
 
         #region 文件记录
 
@@ -579,18 +586,25 @@ namespace ProjectManagement.ViewModel
         private void SaveChanges()
         {
             UpdateUserEmailAsync();
+            SaveDocumentStatusAsync(); // 新增：保存文档状态
         }
 
         [RelayCommand]
         private void SaveFileChanges()
         {
-            SaveDocumentStatusAsync(); // 新增：保存文档状态
+            
         }
 
         [RelayCommand]
         private void DeleteProject()
         {
             
+        }
+
+        [RelayCommand]
+        private void ConformFun()
+        {
+            Confirm = "PASS";
         }
         
         
@@ -618,7 +632,7 @@ namespace ProjectManagement.ViewModel
                 project.projectfollowuppersonId = ProjectsfollowuppersonId;
                 project.AssetNumber = Assetnumber;
                 project.remarks = Remarkks;
-
+                project.CheckData = Confirm;
                 //await UpdateUserEmailAsync();
                 
                 await context.SaveChangesAsync(); // 更新所有修改的字段
