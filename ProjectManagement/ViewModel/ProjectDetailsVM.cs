@@ -986,6 +986,14 @@ namespace ProjectManagement.ViewModel
                         .Include(p => p.projectfollowupperson)
                         .FirstOrDefaultAsync(p => p.ProjectsId == Projectsid);
 
+                    // 先重置所有下拉框选中项
+                    SelectedEmployee = null;
+                    SelectedFollowEmployee = null;
+                    SelectedEquipmentType = null;
+                    SelectedType = null;
+                    Selectedprojectstage = null;
+                    Selectedprojectphasestatus = null;
+
                     if (project != null)
                     {
                         // 设置基本属性
@@ -1031,6 +1039,26 @@ namespace ProjectManagement.ViewModel
                         {
                             Selectedprojectphasestatus = Projectphasestatus?.FirstOrDefault(s => s.ProjectPhaseStatusId == project.ProjectPhaseStatusId.Value);
                         }
+                    }
+                    else
+                    {
+                        // 如果项目为空，重置所有基本属性
+                        Year = null;
+                        ProjectName = null;
+                        Equipmentname = null;
+                        ProjectIdentifyingNumber = null;
+                        EquipmenttypeId = null;
+                        TypeId = 0;
+                        ProjectStageId = 0;
+                        FinishTime = null;
+                        StartTime = null;
+                        Budget = null;
+                        ActualExpenditure = null;
+                        ProjectPhaseStatusId = 0;
+                        ProjectsLeaderID = null;
+                        ProjectsfollowuppersonId = null;
+                        Assetnumber = null;
+                        Remarkks = null;
                     }
                 }
             }
