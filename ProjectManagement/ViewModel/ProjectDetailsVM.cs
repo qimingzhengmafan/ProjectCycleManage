@@ -10,6 +10,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Media;
 
 namespace ProjectManagement.ViewModel
 {
@@ -208,6 +209,51 @@ namespace ProjectManagement.ViewModel
         [ObservableProperty]
         private bool _documentdistributionrecordform;
 
+
+
+
+        #endregion
+
+        #region TextColor
+
+        [ObservableProperty]
+        private string _oapurchaseapplicationnumberColor = Colors.Black.ToString();
+
+        [ObservableProperty]
+        private string _equipmentapplicationformColor = Colors.Black.ToString();
+
+        [ObservableProperty]
+        private string _technicalagreementColor = Colors.Black.ToString();
+
+        [ObservableProperty]
+        private string _equipmentsolutionorbomlistColor = Colors.Black.ToString();
+
+        [ObservableProperty]
+        private string _equipmentprojectproblemimprovementColor = Colors.Black.ToString();
+
+        [ObservableProperty]
+        private string _equipmentverificationrecordColor = Colors.Black.ToString();
+
+        [ObservableProperty]
+        private string _trainingrecordColor = Colors.Black.ToString();
+
+        [ObservableProperty]
+        private string _manualColor = Colors.Black.ToString();
+
+        [ObservableProperty]
+        private string _maintenancedocumentColor = Colors.Black.ToString();
+
+        [ObservableProperty]
+        private string _wiColor = Colors.Black.ToString();
+
+        [ObservableProperty]
+        private string _equipmentacceptanceformColor = Colors.Black.ToString();
+
+        [ObservableProperty]
+        private string _documentdistributionrecordformColor = Colors.Black.ToString();
+
+        [ObservableProperty]
+        private string _oarequisitionapplicationnumberColor = Colors.Black.ToString();
 
 
 
@@ -653,7 +699,6 @@ namespace ProjectManagement.ViewModel
 
         #region 文档状态快速实现
 
-        // 加载文档状态（在项目加载时调用）
         public async Task LoadDocumentStatusAsync()
         {
             try
@@ -671,74 +716,85 @@ namespace ProjectManagement.ViewModel
                         return;
                     }
 
-                    List<ProjectDocumentStatus> documentStatuses;
+                    List<int> associatedDocumentTypeIds = new List<int>();
 
-                    // 2. 根据是否有设备类型ID决定查询方式
-                    if (project.equipmenttypeId == null)
+                    // 2. 如果有设备类型ID，获取该设备类型关联的文档类型
+                    if (project.equipmenttypeId != null)
                     {
-                        // 没有设备类型ID，获取项目所有相关文件数据
-                        documentStatuses = await context.ProjectDocumentStatus
-                            .Where(x => x.ProjectsId == Projectsid)
-                            .ToListAsync();
-                        MessageBox.Show("此项目未设置设备类型，将按照“ 非标外购 ”类型对项目显示 ！");
-                    }
-                    else
-                    {
-                        // 有设备类型ID，获取该设备类型关联的文档类型
-                        var associatedDocs = await context.ProjectTypeDocumentAssociationTables
+                        associatedDocumentTypeIds = await context.ProjectTypeDocumentAssociationTables
                             .Where(x => x.EquipmentTypeId == project.equipmenttypeId)
                             .Select(x => x.DocumentTypeId)
                             .ToListAsync();
-
-                        // 获取项目文档状态（只包含关联的文档类型）
-                        documentStatuses = await context.ProjectDocumentStatus
-                            .Where(x => x.ProjectsId == Projectsid && associatedDocs.Contains(x.DocumentTypeId))
-                            .ToListAsync();
+                    }
+                    else
+                    {
+                        MessageBox.Show("此项目未设置设备类型，将按照“ 非标外购 ”类型对项目显示 ！");
                     }
 
-                    // 3. 更新复选框状态
+                    // 3. 获取项目的所有文档状态（不管是否关联）
+                    var documentStatuses = await context.ProjectDocumentStatus
+                        .Where(x => x.ProjectsId == Projectsid)
+                        .ToListAsync();
+
+                    // 4. 更新复选框状态和文字颜色
                     foreach (var status in documentStatuses)
                     {
+                        // 检查当前文档类型是否在关联文档类型中
+                        bool isAssociatedDocument = associatedDocumentTypeIds.Contains(status.DocumentTypeId);
+
                         switch (status.DocumentTypeId)
                         {
                             case 101: // OA申请单号
                                 Oapurchaseapplicationnumber = status.Remarks;
+                                SetDocumentTextColor(101, isAssociatedDocument);
                                 break;
                             case 102: // 设备申请表
                                 Equipmentapplicationform = status.IsHasDocument ?? false;
+                                SetDocumentTextColor(102, isAssociatedDocument);
                                 break;
                             case 103: // 技术协议
                                 Technicalagreement = status.IsHasDocument ?? false;
+                                SetDocumentTextColor(103, isAssociatedDocument);
                                 break;
                             case 104: // 设备方案/BOM清单
                                 Equipmentsolutionorbomlist = status.IsHasDocument ?? false;
+                                SetDocumentTextColor(104, isAssociatedDocument);
                                 break;
                             case 105: // 设备项目问题改善
                                 Equipmentprojectproblemimprovement = status.IsHasDocument ?? false;
+                                SetDocumentTextColor(105, isAssociatedDocument);
                                 break;
                             case 106: // 设备验证记录
                                 Equipmentverificationrecord = status.IsHasDocument ?? false;
+                                SetDocumentTextColor(106, isAssociatedDocument);
                                 break;
                             case 107: // 培训记录
                                 Trainingrecord = status.IsHasDocument ?? false;
+                                SetDocumentTextColor(107, isAssociatedDocument);
                                 break;
                             case 108: // 说明书
                                 Manual = status.IsHasDocument ?? false;
+                                SetDocumentTextColor(108, isAssociatedDocument);
                                 break;
                             case 109: // 维保文件
                                 Maintenancedocument = status.IsHasDocument ?? false;
+                                SetDocumentTextColor(109, isAssociatedDocument);
                                 break;
                             case 110: // WI
                                 Wi = status.IsHasDocument ?? false;
+                                SetDocumentTextColor(110, isAssociatedDocument);
                                 break;
                             case 111: // 设备验收单
                                 Equipmentacceptanceform = status.IsHasDocument ?? false;
+                                SetDocumentTextColor(111, isAssociatedDocument);
                                 break;
                             case 112: // 文件发放记录表
                                 Documentdistributionrecordform = status.IsHasDocument ?? false;
+                                SetDocumentTextColor(112, isAssociatedDocument);
                                 break;
                             case 113: // OA领用申请单号
                                 Oarequisitionapplicationnumber = status.Remarks;
+                                SetDocumentTextColor(113, isAssociatedDocument);
                                 break;
                         }
                     }
@@ -749,6 +805,57 @@ namespace ProjectManagement.ViewModel
                 // 简单处理异常
                 Console.WriteLine($"加载文档状态失败: {ex.Message}");
                 MessageBox.Show($"加载文档状态失败: {ex.Message}");
+            }
+        }
+
+        // 设置文档文字颜色的辅助方法
+        private void SetDocumentTextColor(int documentTypeId, bool isRed)
+        {
+            // 这里需要根据您的UI框架来实现具体的颜色设置
+            // 以下是一个示例，您需要根据实际情况调整
+
+            // 假设您有对应的控件属性来设置颜色
+            switch (documentTypeId)
+            {
+                case 101:
+                    OapurchaseapplicationnumberColor = isRed ? Colors.Red.ToString() : Colors.Black.ToString();
+                    break;
+                case 102:
+                    EquipmentapplicationformColor = isRed ? Colors.Red.ToString() : Colors.Black.ToString();
+                    break;
+                case 103:
+                    TechnicalagreementColor = isRed ? Colors.Red.ToString() : Colors.Black.ToString();
+                    break;
+                case 104:
+                    EquipmentsolutionorbomlistColor = isRed ? Colors.Red.ToString() : Colors.Black.ToString();
+                    break;
+                case 105:
+                    EquipmentprojectproblemimprovementColor = isRed ? Colors.Red.ToString() : Colors.Black.ToString();
+                    break;
+                case 106:
+                    EquipmentverificationrecordColor = isRed ? Colors.Red.ToString() : Colors.Black.ToString();
+                    break;
+                case 107:
+                    TrainingrecordColor = isRed ? Colors.Red.ToString() : Colors.Black.ToString();
+                    break;
+                case 108:
+                    ManualColor = isRed ? Colors.Red.ToString() : Colors.Black.ToString();
+                    break;
+                case 109:
+                    MaintenancedocumentColor = isRed ? Colors.Red.ToString() : Colors.Black.ToString();
+                    break;
+                case 110:
+                    WiColor = isRed ? Colors.Red.ToString() : Colors.Black.ToString();
+                    break;
+                case 111:
+                    EquipmentacceptanceformColor = isRed ? Colors.Red.ToString() : Colors.Black.ToString();
+                    break;
+                case 112:
+                    DocumentdistributionrecordformColor = isRed ? Colors.Red.ToString() : Colors.Black.ToString();
+                    break;
+                case 113:
+                    OarequisitionapplicationnumberColor = isRed ? Colors.Red.ToString() : Colors.Black.ToString();
+                    break;
             }
         }
 

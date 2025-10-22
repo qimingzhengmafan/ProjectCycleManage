@@ -712,6 +712,7 @@
                                                     VerticalAlignment="Top">
                                             <StackPanel Orientation="Horizontal">
                                                 <Label Content="OA申请单号"
+                                                       Foreground="{Binding OapurchaseapplicationnumberColor}"
                                                        Style="{StaticResource OptionsStyle}"/>
                                             </StackPanel>
                                             <TextBox Height="50"
@@ -729,6 +730,7 @@
                                         <StackPanel VerticalAlignment="Top">
                                             <StackPanel Orientation="Horizontal">
                                                 <Label Content="OA领用申请单号"
+                                                       Foreground="{Binding OarequisitionapplicationnumberColor}"
                                                        Style="{StaticResource OptionsStyle}"/>
                                             </StackPanel>
                                             <TextBox Height="50"
@@ -764,6 +766,7 @@
                                                   VerticalContentAlignment="Center"
                                                   VerticalAlignment="Center">
                                             <Label Content="设备申请表"
+                                                   Foreground="{Binding EquipmentapplicationformColor}"
                                                    Style="{StaticResource checkboxlabel}"/>
                                         </CheckBox>
 
@@ -774,6 +777,7 @@
                                                   VerticalContentAlignment="Center"
                                                   VerticalAlignment="Center">
                                             <Label Content="技术协议"
+                                                   Foreground="{Binding TechnicalagreementColor}"
                                                    Style="{StaticResource checkboxlabel}"/>
                                         </CheckBox>
 
@@ -784,6 +788,7 @@
                                                   VerticalContentAlignment="Center"
                                                   VerticalAlignment="Center">
                                             <Label Content="设备方案 / BOM清单"
+                                                   Foreground="{Binding EquipmentsolutionorbomlistColor}"
                                                    Style="{StaticResource checkboxlabel}"/>
                                         </CheckBox>
 
@@ -794,6 +799,7 @@
                                                   VerticalContentAlignment="Center"
                                                   VerticalAlignment="Center">
                                             <Label Content="设备项目问题改善"
+                                                   Foreground="{Binding EquipmentprojectproblemimprovementColor}"
                                                    Style="{StaticResource checkboxlabel}"/>
                                         </CheckBox>
 
@@ -804,6 +810,7 @@
                                                   VerticalContentAlignment="Center"
                                                   VerticalAlignment="Center">
                                             <Label Content="设备验证记录"
+                                                   Foreground="{Binding EquipmentverificationrecordColor}"
                                                    Style="{StaticResource checkboxlabel}"/>
                                         </CheckBox>
 
@@ -814,6 +821,7 @@
                                                   VerticalContentAlignment="Center"
                                                   VerticalAlignment="Center">
                                             <Label Content="培训记录"
+                                                   Foreground="{Binding TrainingrecordColor}"
                                                    Style="{StaticResource checkboxlabel}"/>
                                         </CheckBox>
 
@@ -824,6 +832,7 @@
                                                   VerticalContentAlignment="Center"
                                                   VerticalAlignment="Center">
                                             <Label Content="说明书"
+                                                   Foreground="{Binding ManualColor}"
                                                    Style="{StaticResource checkboxlabel}"/>
                                         </CheckBox>
 
@@ -834,6 +843,7 @@
                                                   VerticalContentAlignment="Center"
                                                   VerticalAlignment="Center">
                                             <Label Content="维保文件"
+                                                   Foreground="{Binding MaintenancedocumentColor}"
                                                    Style="{StaticResource checkboxlabel}"/>
                                         </CheckBox>
 
@@ -844,6 +854,7 @@
                                                   VerticalContentAlignment="Center"
                                                   VerticalAlignment="Center">
                                             <Label Content="WI"
+                                                   Foreground="{Binding WiColor}"
                                                    Style="{StaticResource checkboxlabel}"/>
                                         </CheckBox>
 
@@ -854,6 +865,7 @@
                                                   VerticalContentAlignment="Center"
                                                   VerticalAlignment="Center">
                                             <Label Content="设备验收单"
+                                                   Foreground="{Binding EquipmentacceptanceformColor}"
                                                    Style="{StaticResource checkboxlabel}"/>
                                         </CheckBox>
 
@@ -864,6 +876,7 @@
                                                   VerticalContentAlignment="Center"
                                                   VerticalAlignment="Center">
                                             <Label Content="文件发放记录表"
+                                                   Foreground="{Binding DocumentdistributionrecordformColor}"
                                                    Style="{StaticResource checkboxlabel}"/>
                                         </CheckBox>
 
