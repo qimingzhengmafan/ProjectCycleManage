@@ -442,6 +442,204 @@ namespace ProjectManagement.ViewModel
                 });
                 #endregion
 
+                #region 江琛
+                var personaldata_jiangchen = GetPFollowCompletePersonalProjectGrid(DateTime.Now.Year, "裴涛");
+                //PersonalDataVM_JiangChen
+                if (personaldata_jiangchen.Count != 0)
+                {
+                    PersonalDataVM_JiangChen.PersonalProjectsList.Clear();
+                    foreach (var item in personaldata_jiangchen)
+                    {
+                        PersonalDataVM_JiangChen.PersonalProjectsList.Add(new SeamlessLoopingScroll.ProjectItem()
+                        {
+                            ProjectName = item.Project,
+                            CountDown = item.DaysDiff,
+                            FileProgress = item.FileProgress,
+                            Owner = item.ProjectLeader
+                        });
+
+                    }
+                }
+
+                (int AllProjects_jiangchen, int ComProjects_jiangchen) = GetFollowCompleteProjects(DateTime.Now.Year, "江琛");
+                PersonalDataVM_JiangChen.Allprojectsnum = AllProjects_jiangchen;
+                PersonalDataVM_JiangChen.CompleteProjectsNum = ComProjects_jiangchen;
+                var data_jiangchen = _contextmodel.GetPersonalProjectsStatues(DateTime.Now.Year, "江琛");
+                List<string> namesjiangchen = new List<string>();
+                List<int> numjiangchen = new List<int>();
+                _index1 = 0;
+                foreach (var item in data_jiangchen)
+                {
+                    namesjiangchen.Add(item.Status);
+                    numjiangchen.Add(item.count);
+                }
+                PersonalDataVM_JiangChen.Personalprojectsinformation.Series = numjiangchen.AsPieSeries((value, series) =>
+                {
+                    series.Name = namesjiangchen[_index1++ % namesjiangchen.Count];
+                    series.DataLabelsPosition = LiveChartsCore.Measure.PolarLabelsPosition.Middle;
+                    series.DataLabelsSize = 15;
+                    series.DataLabelsPaint = new SolidColorPaint(new SKColor(30, 30, 30));
+                    series.DataLabelsFormatter =
+                       point =>
+                           $"{point.Coordinate.PrimaryValue} " + "/ " +
+                           $"{point.StackedValue.Total} ";
+                    series.ToolTipLabelFormatter = point => $"{point.StackedValue.Share:P2}";
+                });
+                #endregion
+
+                #region 王嘉豪
+                //PersonalDataVM_PeiTao
+                //personaldata_peitao
+                //AllProjects_peitao
+                //ComProjects_peitao
+                //data_peitao
+                //namespeitao
+                //numpeitao
+                var personaldata_wangjiahao = GetPFollowCompletePersonalProjectGrid(DateTime.Now.Year, "裴涛");
+                if (personaldata_wangjiahao.Count != 0)
+                {
+                    PersonalDataVM_WangJiaHao.PersonalProjectsList.Clear();
+                    foreach (var item in personaldata_wangjiahao)
+                    {
+                        PersonalDataVM_WangJiaHao.PersonalProjectsList.Add(new SeamlessLoopingScroll.ProjectItem()
+                        {
+                            ProjectName = item.Project,
+                            CountDown = item.DaysDiff,
+                            FileProgress = item.FileProgress,
+                            Owner = item.ProjectLeader
+                        });
+
+                    }
+                }
+
+                (int AllProjects_wangjiahao, int ComProjects_wangjiahao) = GetFollowCompleteProjects(DateTime.Now.Year, "裴涛");
+                PersonalDataVM_WangJiaHao.Allprojectsnum = AllProjects_wangjiahao;
+                PersonalDataVM_WangJiaHao.CompleteProjectsNum = ComProjects_wangjiahao;
+                var data_wangjiahao = _contextmodel.GetPersonalProjectsStatues(DateTime.Now.Year, "裴涛");
+                List<string> nameswangjiahao = new List<string>();
+                List<int> numwangjiahao = new List<int>();
+                _index1 = 0;
+                foreach (var item in data_wangjiahao)
+                {
+                    nameswangjiahao.Add(item.Status);
+                    numwangjiahao.Add(item.count);
+                }
+                PersonalDataVM_WangJiaHao.Personalprojectsinformation.Series = numwangjiahao.AsPieSeries((value, series) =>
+                {
+                    series.Name = nameswangjiahao[_index1++ % nameswangjiahao.Count];
+                    series.DataLabelsPosition = LiveChartsCore.Measure.PolarLabelsPosition.Middle;
+                    series.DataLabelsSize = 15;
+                    series.DataLabelsPaint = new SolidColorPaint(new SKColor(30, 30, 30));
+                    series.DataLabelsFormatter =
+                       point =>
+                           $"{point.Coordinate.PrimaryValue} " + "/ " +
+                           $"{point.StackedValue.Total} ";
+                    series.ToolTipLabelFormatter = point => $"{point.StackedValue.Share:P2}";
+                });
+                #endregion
+
+                #region 张园园
+                //PersonalDataVM_PeiTao
+                //personaldata_peitao
+                //AllProjects_peitao
+                //ComProjects_peitao
+                //data_peitao
+                //namespeitao
+                //numpeitao
+                var personaldata_zhangyuanyuan = GetPFollowCompletePersonalProjectGrid(DateTime.Now.Year, "裴涛");
+                if (personaldata_zhangyuanyuan.Count != 0)
+                {
+                    PersonalDataVM_ZhangYuanYuan.PersonalProjectsList.Clear();
+                    foreach (var item in personaldata_zhangyuanyuan)
+                    {
+                        PersonalDataVM_ZhangYuanYuan.PersonalProjectsList.Add(new SeamlessLoopingScroll.ProjectItem()
+                        {
+                            ProjectName = item.Project,
+                            CountDown = item.DaysDiff,
+                            FileProgress = item.FileProgress,
+                            Owner = item.ProjectLeader
+                        });
+
+                    }
+                }
+
+                (int AllProjects_zhangyuanyuan, int ComProjects_zhangyuanyuan) = GetFollowCompleteProjects(DateTime.Now.Year, "裴涛");
+                PersonalDataVM_ZhangYuanYuan.Allprojectsnum = AllProjects_zhangyuanyuan;
+                PersonalDataVM_ZhangYuanYuan.CompleteProjectsNum = ComProjects_zhangyuanyuan;
+                var data_zhangyuanyuan = _contextmodel.GetPersonalProjectsStatues(DateTime.Now.Year, "裴涛");
+                List<string> nameszhangyuanyuan = new List<string>();
+                List<int> numzhangyuanyuan = new List<int>();
+                _index1 = 0;
+                foreach (var item in data_zhangyuanyuan)
+                {
+                    nameszhangyuanyuan.Add(item.Status);
+                    numzhangyuanyuan.Add(item.count);
+                }
+                PersonalDataVM_ZhangYuanYuan.Personalprojectsinformation.Series = numzhangyuanyuan.AsPieSeries((value, series) =>
+                {
+                    series.Name = nameszhangyuanyuan[_index1++ % nameszhangyuanyuan.Count];
+                    series.DataLabelsPosition = LiveChartsCore.Measure.PolarLabelsPosition.Middle;
+                    series.DataLabelsSize = 15;
+                    series.DataLabelsPaint = new SolidColorPaint(new SKColor(30, 30, 30));
+                    series.DataLabelsFormatter =
+                       point =>
+                           $"{point.Coordinate.PrimaryValue} " + "/ " +
+                           $"{point.StackedValue.Total} ";
+                    series.ToolTipLabelFormatter = point => $"{point.StackedValue.Share:P2}";
+                });
+                #endregion
+
+                #region 严鑫
+                //PersonalDataVM_PeiTao
+                //personaldata_peitao
+                //AllProjects_peitao
+                //ComProjects_peitao
+                //data_peitao
+                //namespeitao
+                //numpeitao
+                var personaldata_yanxin = GetPFollowCompletePersonalProjectGrid(DateTime.Now.Year, "裴涛");
+                if (personaldata_yanxin.Count != 0)
+                {
+                    PersonalDataVM_YanXin.PersonalProjectsList.Clear();
+                    foreach (var item in personaldata_yanxin)
+                    {
+                        PersonalDataVM_YanXin.PersonalProjectsList.Add(new SeamlessLoopingScroll.ProjectItem()
+                        {
+                            ProjectName = item.Project,
+                            CountDown = item.DaysDiff,
+                            FileProgress = item.FileProgress,
+                            Owner = item.ProjectLeader
+                        });
+
+                    }
+                }
+
+                (int AllProjects_yanxin, int ComProjects_yanxin) = GetFollowCompleteProjects(DateTime.Now.Year, "裴涛");
+                PersonalDataVM_YanXin.Allprojectsnum = AllProjects_yanxin;
+                PersonalDataVM_YanXin.CompleteProjectsNum = ComProjects_yanxin;
+                var data_yanxin = _contextmodel.GetPersonalProjectsStatues(DateTime.Now.Year, "裴涛");
+                List<string> namesyanxin = new List<string>();
+                List<int> numyanxin = new List<int>();
+                _index1 = 0;
+                foreach (var item in data_yanxin)
+                {
+                    namesyanxin.Add(item.Status);
+                    numyanxin.Add(item.count);
+                }
+                PersonalDataVM_YanXin.Personalprojectsinformation.Series = numyanxin.AsPieSeries((value, series) =>
+                {
+                    series.Name = namesyanxin[_index1++ % namesyanxin.Count];
+                    series.DataLabelsPosition = LiveChartsCore.Measure.PolarLabelsPosition.Middle;
+                    series.DataLabelsSize = 15;
+                    series.DataLabelsPaint = new SolidColorPaint(new SKColor(30, 30, 30));
+                    series.DataLabelsFormatter =
+                       point =>
+                           $"{point.Coordinate.PrimaryValue} " + "/ " +
+                           $"{point.StackedValue.Total} ";
+                    series.ToolTipLabelFormatter = point => $"{point.StackedValue.Share:P2}";
+                });
+                #endregion
+
             });
             
 
