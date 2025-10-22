@@ -6,6 +6,7 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <UseWPF>true</UseWPF>
+    <ApplicationIcon>Resources\Images\图标.ico</ApplicationIcon>
   </PropertyGroup>
 
   <ItemGroup>
@@ -128,6 +129,7 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
     <None Remove="Resources\Images\check.png" />
+    <Content Include="Resources\Images\图标.ico" />
     <Resource Include="Resources\Images\check.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>

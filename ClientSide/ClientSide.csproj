@@ -6,6 +6,7 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <UseWPF>true</UseWPF>
+    <ApplicationIcon>图标.ico</ApplicationIcon>
   </PropertyGroup>
 
   <ItemGroup>
@@ -27,6 +28,10 @@
     <None Remove="Resources\Images\设置.png" />
     <None Remove="Resources\Images\详情.png" />
     <None Remove="Resources\Images\费用.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="图标.ico" />
   </ItemGroup>
 
   <ItemGroup>
