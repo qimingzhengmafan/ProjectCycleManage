@@ -5,8 +5,55 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ProjectFullLifeCycleManagementSoftware"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid>
+        Title="MainWindow" 
+        Height="1080" 
+        Width="1920">
+    <Grid Background="#f5f7fa">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="250"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
 
+        <Grid Background="White">
+            <Border CornerRadius="0">
+                <Border.Background>
+                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                        <GradientStop Color="#FF1A3A8F"/>
+                        <GradientStop Color="#FF2D5BD6" Offset="1"/>
+                    </LinearGradientBrush>
+                </Border.Background>
+
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="65"/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+
+                    <Grid>
+                        <Border BorderThickness="0 0 0 0.2"
+                                BorderBrush="#BBBBBB">
+                            <Label Content="项目全周期管理"
+                                   VerticalContentAlignment="Center"
+                                   HorizontalContentAlignment="Center"
+                                   Foreground="White"
+                                   FontSize="25"
+                                   FontWeight="Bold"
+                                   Margin="30 0 0 0"/>
+                        </Border>
+                    </Grid>
+
+                    <Grid HorizontalAlignment="Left">
+
+
+
+                    </Grid>
+                </Grid>
+                
+            </Border>
+        </Grid>
+
+        <Grid Grid.Column="1">
+            
+        </Grid>
     </Grid>
 </Window>
