@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ProjectCycleManage"
+        xmlns:Menu="clr-namespace:Page_Navigation_App.Utilities"
         mc:Ignorable="d"
         Title="MainWindow" 
         Height="1080" 
@@ -46,11 +47,117 @@
                         <Image Source="/Resources/Images/项目管理.png" 
                                Height="23"
                                Margin="20 0 0 0"/>
+                    </Grid>
 
+                    <Grid Grid.Row="1">
+                        <Border Grid.Row="1"
+                                BorderThickness="0.5 0 0.5 0.5"
+                                BorderBrush="#707070"
+                                CornerRadius="0 0 5 0">
+                            <StackPanel>
 
+                                <Menu:Btn Style="{StaticResource BtnStyle}"
+                                          IsChecked="True"
+                                          BorderThickness="1"
+                                          BorderBrush="Black"
+                                          Command="{Binding}">
+                                    <Grid>
+                                        <StackPanel Orientation="Horizontal"
+                                                    Margin="30 0 0 0">
+                                            <Image Source="/Resources/Images/home-copy-copy.png" 
+                                                   Width="18"
+                                                   Height="18"/>
+                                            <Label Content="项目总览"
+                                                   VerticalContentAlignment="Center"
+                                                   FontSize="16"
+                                                   FontWeight="Bold"
+                                                   Foreground="White"
+                                                   Margin="5 0 0 0"/>
+                                        </StackPanel>
+                                        
+                                    </Grid>
+                                </Menu:Btn>
+
+                                <Menu:Btn Style="{StaticResource BtnStyle}"
+                                          BorderThickness="1"
+                                          BorderBrush="Black"
+                                          Command="{Binding MaintenanceOverViewICommand}">
+                                    <Grid>
+                                        <StackPanel Orientation="Horizontal"
+                                                    Margin="30 0 0 0">
+                                            <Image Source="/Resources/Images/任务.png" 
+                                                   Width="18"
+                                                   Height="18"/>
+                                            <Label Content="我的任务"
+                                                   VerticalContentAlignment="Center"
+                                                   FontSize="16"
+                                                   FontWeight="Bold"
+                                                   Foreground="White"
+                                                   Margin="5 0 0 0"/>
+                                        </StackPanel>
+                                    </Grid>
+                                </Menu:Btn>
+
+                                <Menu:Btn Style="{StaticResource BtnStyle}"
+                                          Command="{Binding AddViewICommand}">
+                                    <Grid>
+                                        <StackPanel Orientation="Horizontal"
+                                                    Margin="30 0 0 0">
+                                            <Image Source="/Resources/Images/文档.png" 
+                                                   Width="18"
+                                                   Height="18"/>
+                                            <Label Content="文档中心"
+                                                   VerticalContentAlignment="Center"
+                                                   FontSize="16"
+                                                   FontWeight="Bold"
+                                                   Foreground="White"
+                                                   Margin="5 0 0 0"/>
+                                        </StackPanel>
+
+                                    </Grid>
+                                </Menu:Btn>
+
+                                <Menu:Btn Style="{StaticResource BtnStyle}"
+                                          Command="{Binding TableViewICommand}">
+                                    <Grid>
+                                        <StackPanel Orientation="Horizontal"
+                                                    Margin="30 0 0 0">
+                                            <Image Source="/Resources/Images/分析.png" 
+                                                   Width="18"
+                                                   Height="18"/>
+                                            <Label Content="数据分析"
+                                                   VerticalContentAlignment="Center"
+                                                   FontSize="16"
+                                                   FontWeight="Bold"
+                                                   Foreground="White"
+                                                   Margin="5 0 0 0"/>
+                                        </StackPanel>
+
+                                    </Grid>
+                                </Menu:Btn>
+
+                                <Menu:Btn Style="{StaticResource BtnStyle}"
+                                          Command="{Binding SettingViewICommand}">
+                                    <Grid>
+                                        <StackPanel Orientation="Horizontal"
+                                                    Margin="30 0 0 0">
+                                            <Image Source="/Resources/Images/设置.png" 
+                                                   Width="18"
+                                                   Height="18"/>
+                                            <Label Content="系统设置"
+                                                   VerticalContentAlignment="Center"
+                                                   FontSize="16"
+                                                   FontWeight="Bold"
+                                                   Foreground="White"
+                                                   Margin="5 0 0 0"/>
+                                        </StackPanel>
+
+                                    </Grid>
+                                </Menu:Btn>
+                            </StackPanel>
+                        </Border>
                     </Grid>
                 </Grid>
-
             </Border>
         </Grid>
 

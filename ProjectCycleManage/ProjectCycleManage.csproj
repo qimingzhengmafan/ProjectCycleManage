@@ -9,6 +9,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Resources\Images\home-copy-copy.png" />
+    <None Remove="Resources\Images\任务.png" />
+    <None Remove="Resources\Images\分析.png" />
+    <None Remove="Resources\Images\文档.png" />
+    <None Remove="Resources\Images\设置.png" />
     <None Remove="Resources\Images\项目管理.png" />
   </ItemGroup>
 
@@ -39,6 +44,21 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Resource Include="Resources\Images\home-copy-copy.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\任务.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\分析.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\文档.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\设置.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="Resources\Images\项目管理.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
