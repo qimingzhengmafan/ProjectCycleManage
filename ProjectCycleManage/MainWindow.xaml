@@ -71,6 +71,7 @@
                                                    VerticalContentAlignment="Center"
                                                    FontSize="16"
                                                    FontWeight="Bold"
+                                                   FontFamily="YouYuan"
                                                    Foreground="White"
                                                    Margin="5 0 0 0"/>
                                         </StackPanel>
@@ -91,6 +92,7 @@
                                             <Label Content="我的任务"
                                                    VerticalContentAlignment="Center"
                                                    FontSize="16"
+                                                   FontFamily="YouYuan"
                                                    FontWeight="Bold"
                                                    Foreground="White"
                                                    Margin="5 0 0 0"/>
@@ -110,6 +112,7 @@
                                                    VerticalContentAlignment="Center"
                                                    FontSize="16"
                                                    FontWeight="Bold"
+                                                   FontFamily="YouYuan"
                                                    Foreground="White"
                                                    Margin="5 0 0 0"/>
                                         </StackPanel>
@@ -126,6 +129,7 @@
                                                    Width="18"
                                                    Height="18"/>
                                             <Label Content="数据分析"
+                                                   FontFamily="YouYuan"
                                                    VerticalContentAlignment="Center"
                                                    FontSize="16"
                                                    FontWeight="Bold"
@@ -145,6 +149,7 @@
                                                    Width="18"
                                                    Height="18"/>
                                             <Label Content="系统设置"
+                                                   FontFamily="YouYuan"
                                                    VerticalContentAlignment="Center"
                                                    FontSize="16"
                                                    FontWeight="Bold"

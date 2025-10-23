@@ -86,9 +86,9 @@
                         <Trigger Property="IsChecked"
                                  Value="True">
 
-                            <Setter Property="Background"
+                            <Setter Property="Opacity"
                                     TargetName="border"
-                                    Value="#212529" />
+                                    Value="0.18" />
 
                             <Setter Property="Visibility"
                                     TargetName="Indicator"
