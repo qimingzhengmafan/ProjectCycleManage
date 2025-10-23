@@ -125,19 +125,28 @@ public class ContextModel
         // 如果提供了人员ID，添加人员过滤条件
         if (name != null)
         {
-            projectsQuery = projectsQuery.Where(p =>
-                p.ProjectLeader.PeopleName == name);
+            if (name == "董鑫" || name == "朱成绪")
+            {
+                projectsQuery = projectsQuery.Where(p =>
+                    p.ProjectLeader.PeopleName == name);
+            }
+            else
+            {
+                projectsQuery = projectsQuery.Where(p =>
+                    p.projectfollowupperson.PeopleName == name);
+            }
+
         }
 
-        // 获取有项目的状态数量统计
-        var statusCounts = projectsQuery
-            .GroupBy(p => p.ProjectStage.ProjectStageName) // 按状态名称分组
-            .Select(g => new
-            {
-                StatusName = g.Key,
-                Count = g.Count() // 统计每组项目数量
-            })
-            .ToList();
+            // 获取有项目的状态数量统计
+            var statusCounts = projectsQuery
+                .GroupBy(p => p.ProjectStage.ProjectStageName) // 按状态名称分组
+                .Select(g => new
+                {
+                    StatusName = g.Key,
+                    Count = g.Count() // 统计每组项目数量
+                })
+                .ToList();
 
         // 使用左连接确保所有状态都显示，包括数量为0的状态
         var result = allStatusNames

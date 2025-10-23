@@ -15,6 +15,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
+using System.Xml.Linq;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace ClientSide.ViewModel
 {
@@ -365,8 +367,9 @@ namespace ClientSide.ViewModel
             // 通过属性设置TreeViewModel，确保事件订阅被执行
             TreeViewModel = new TreeViewModel();
             Logname = InName;
-
             GetPersonalDatalistFun(Logname);
+
+            
 
         }
 
@@ -379,6 +382,7 @@ namespace ClientSide.ViewModel
             {
                 (int AllCounts, int CompletsCounts) = GetYearsCompleteProjectsleadername(i, Inname);
                 var backdata = GetYearProjectGrid(i, Inname);
+
                 var RecvBriefinformationdata = new System.Collections.ObjectModel.ObservableCollection<ProjectsInformationGrid>();
 
                 foreach (var project in backdata)
@@ -512,8 +516,19 @@ namespace ClientSide.ViewModel
                 // 如果name不为空，添加名称过滤条件
                 if (!string.IsNullOrEmpty(name))
                 {
-                    query = query.Where(p => p.ProjectLeader.PeopleName.Contains(name));
+                    if (name == "董鑫" || name == "朱成绪")
+                    {
+                        query = query.Where(p => p.ProjectLeader.PeopleName.Contains(name));
+                    }
+                    else
+                    {
+                        query = query.Where(p => p.projectfollowupperson.PeopleName.Contains(name));
+                    }
+                    
                 }
+
+
+
 
                 // 执行查询
                 var projects = query.ToList();
@@ -529,7 +544,7 @@ namespace ClientSide.ViewModel
             return (allProjectNum.GetValueOrDefault(), completeProjects.GetValueOrDefault());
         }
 
-        private (int AllProjectNum, int Completeprojects) GetfollowuppersonCompleteProjects(int year, string Name)
+        private (int AllProjectNum, int Completeprojects) GetfollowuppersonCompleteProjects(int year, string Name = null)
         {
             int? allProjectNum;
             int? completeProjects;
@@ -564,10 +579,27 @@ namespace ClientSide.ViewModel
                     .Where(p => p.Year == year)
                     .Include(p => p.ProjectLeader); // 加载负责人导航属性
 
+
+
+
+
+
                 // 如果提供了负责人姓名，进行过滤
                 if (!string.IsNullOrEmpty(name))
                 {
-                    projectsQuery = projectsQuery.Where(p => p.ProjectLeader.PeopleName.Contains(name));
+                    if (name == "董鑫" || name == "朱成绪")
+                    {
+                        projectsQuery = projectsQuery.Where(p => p.ProjectLeader.PeopleName.Contains(name));
+                    }
+                    else
+                    {
+                        projectsQuery = projectsQuery.Where(p => p.projectfollowupperson.PeopleName.Contains(name));
+                    }
+
+
+
+
+                    
                 }
 
                 var projects = projectsQuery

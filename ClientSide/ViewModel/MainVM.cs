@@ -135,7 +135,7 @@ namespace ClientSide.ViewModel
         {
             using (var context = new ProjectContext())
             {
-                var projects = context.Projects
+                var projects1 = context.Projects
                     .Where(p => p.Year == year && p.ProjectLeader.PeopleName == Name)
                     .Include(p => p.ProjectLeader)
                     .Select(p => new
@@ -147,6 +147,30 @@ namespace ClientSide.ViewModel
                     })
                     .OrderBy(p => p.ProjectName)
                     .ToList();
+
+                var projects2 = context.Projects
+                    .Where(p => p.Year == year && p.projectfollowupperson.PeopleName == Name)
+                    .Include(p => p.ProjectLeader)
+                    .Select(p => new
+                    {
+                        p.ProjectName,
+                        p.DaysDiff,
+                        p.FileProgress,
+                        LeaderName = p.ProjectLeader.PeopleName
+                    })
+                    .OrderBy(p => p.ProjectName)
+                    .ToList();
+                var projects = projects1;
+
+                if (Name == "朱成绪" || Name == "董鑫")
+                {
+                    projects = projects1;
+                }
+                else
+                {
+                    projects = projects2;
+                }
+
 
                 List<(string Project, int DaysDiff, int FileProgress, string ProjectLeader)> values =
                     new List<(string Project, int DaysDiff, int FileProgress, string ProjectLeader)>();

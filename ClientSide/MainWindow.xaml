@@ -100,6 +100,35 @@
             <Grid Visibility="{Binding TableViewVisibility}">
                 <view:TableView DataContext="{Binding TableVMInfor}"/>
             </Grid>
+
+
+
+
+            <!--<Popup x:Name="ToastPopup" 
+                   IsOpen="{Binding IsOpen,Mode=OneWay,UpdateSourceTrigger=PropertyChanged}"
+                   Height="600"
+                   Width="300"
+                   Placement="Custom" 
+                   AllowsTransparency="True"
+                   PopupAnimation="Slide"
+                   StaysOpen="False"
+                   CustomPopupPlacementCallback="ToastPopup_CustomPopupPlacement">
+                <Border Background="White" 
+                        CornerRadius="5"
+                        Padding="15"
+                        Margin="10">
+                    <StackPanel>
+                        <TextBlock x:Name="ToastTitle" 
+                                   Text="通知" 
+                                   Foreground="Black" 
+                                   FontWeight="Bold"/>
+                        <TextBlock x:Name="ToastMessage" 
+                                   Text="{Binding Messagedata}" 
+                                   Foreground="Black" 
+                                   Margin="0,5,0,0"/>
+                    </StackPanel>
+                </Border>
+            </Popup>-->
         </Grid>
         
         

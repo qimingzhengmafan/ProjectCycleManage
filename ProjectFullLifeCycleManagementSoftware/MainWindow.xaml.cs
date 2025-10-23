@@ -9,10 +9,10 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace ClientSide
+namespace ProjectFullLifeCycleManagementSoftware
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xamlv1
+    /// Interaction logic for MainWindow.xaml
     /// </summary>
     public partial class MainWindow : Window
     {

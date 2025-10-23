@@ -20,7 +20,7 @@ namespace DrawerTest
         private int _year;
 
         [ObservableProperty]
-        private int _percent;
+        private double _percent;
 
         [ObservableProperty] 
         private int _uiheight;
@@ -41,7 +41,7 @@ namespace DrawerTest
                 if (value == 0)
                     Percent = 0;
                 else
-                    Percent = CompleteProjects / _allprojectsNum * 100;
+                    Percent = Math.Round((double)CompleteProjects / (double)_allprojectsNum * 100.0 , 0);
                 OnPropertyChanged();
             }
         }
@@ -59,8 +59,7 @@ namespace DrawerTest
                 if (AllprojectsNum == 0)
                     Percent = 0;
                 else
-                    Percent = _completeProjects / AllprojectsNum * 100;
-
+                    Percent = Math.Round((double)_completeProjects / (double)AllprojectsNum * 100.0 , 1);
                 OnPropertyChanged();
             }
         }
