@@ -20,7 +20,6 @@
   <ItemGroup>
     <Folder Include="Resources\Config\" />
     <Folder Include="Resources\Fonts\" />
-    <Folder Include="ViewModel\" />
   </ItemGroup>
 
   <ItemGroup>

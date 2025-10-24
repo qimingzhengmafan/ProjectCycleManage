@@ -58,20 +58,33 @@ namespace ProjectCycleManage.View
                 case "进行中":
                     projectctrl.BackColor = "#E8F5E9";
                     projectctrl.FontColor = "#10B981";
+                    projectctrl.SuspendBtnVb = Visibility.Visible;
+                    projectctrl.RestartBtnVb = Visibility.Collapsed;
+                    projectctrl.SuspendBtnEn = true;
                     break;
 
                 case "暂停":
                     projectctrl.BackColor = "#FFDBDB";
                     projectctrl.FontColor = "#FA0202";
+                    projectctrl.SuspendBtnEn = true;
+                    projectctrl.SuspendBtnVb = Visibility.Collapsed;
+                    projectctrl.RestartBtnVb = Visibility.Visible;
+                    
                     break;
 
                 case "已完成":
                     projectctrl.BackColor = "#E3F2FD";
                     projectctrl.FontColor = "#2196F3";
+                    projectctrl.SuspendBtnVb = Visibility.Visible;
+                    projectctrl.RestartBtnVb = Visibility.Collapsed;
+                    projectctrl.SuspendBtnEn = false;
                     break;
                 case "审核中":
                     projectctrl.BackColor = "#FFFBEB";
                     projectctrl.FontColor = "#FAC42F";
+                    projectctrl.SuspendBtnEn = true;
+                    projectctrl.SuspendBtnVb = Visibility.Visible;
+                    projectctrl.RestartBtnVb = Visibility.Collapsed;
                     break;
             }
         }
@@ -162,6 +175,102 @@ namespace ProjectCycleManage.View
             projectctrldouble.ProjectStatusProgress = newdata.ToString();
         }
 
+
+        /// <summary>
+        /// 查看详情
+        /// </summary>
+        public ICommand ViewDetails
+        {
+            get { return (ICommand)GetValue(ViewDetailsProperty); }
+            set { SetValue(ViewDetailsProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for ViewDetails.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty ViewDetailsProperty =
+            DependencyProperty.Register(nameof(ViewDetails), typeof(ICommand), typeof(ProjectCard), new PropertyMetadata(null));
+
+
+        /// <summary>
+        /// 暂停项目
+        /// </summary>
+        public ICommand SuspendProject
+        {
+            get { return (ICommand)GetValue(SuspendProjectProperty); }
+            set { SetValue(SuspendProjectProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for SuspendProject.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty SuspendProjectProperty =
+            DependencyProperty.Register(nameof(SuspendProject), typeof(ICommand), typeof(ProjectCard), new PropertyMetadata(null , SuspendProjectChanged));
+        private static void SuspendProjectChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            var projectctrl = (ProjectCard)d;
+            projectctrl.BackColor = "#FFDBDB";
+            projectctrl.FontColor = "#FA0202";
+            projectctrl.SuspendBtnEn = true;
+            projectctrl.SuspendBtnVb = Visibility.Collapsed;
+            projectctrl.RestartBtnVb = Visibility.Visible;
+        }
+
+        /// <summary>
+        /// 项目重启
+        /// </summary>
+        public ICommand RestartProject
+        {
+            get { return (ICommand)GetValue(RestartProjectProperty); }
+            set { SetValue(RestartProjectProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for RestartProject.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty RestartProjectProperty =
+            DependencyProperty.Register(nameof(RestartProject), typeof(ICommand), typeof(ProjectCard), new PropertyMetadata(null , RestartProjectChanged));
+
+        private static void RestartProjectChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            var projectctrl = (ProjectCard)d;
+            projectctrl.BackColor = "#FFDBDB";
+            projectctrl.FontColor = "#FA0202";
+            projectctrl.SuspendBtnEn = true;
+            projectctrl.SuspendBtnVb = Visibility.Visible;
+            projectctrl.RestartBtnVb = Visibility.Collapsed;
+        }
+
+        /// <summary>
+        /// 暂停项目
+        /// </summary>
+        public Visibility SuspendBtnVb
+        {
+            get { return (Visibility)GetValue(SuspendBtnVbProperty); }
+            set { SetValue(SuspendBtnVbProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for SuspendBtnVb.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty SuspendBtnVbProperty =
+            DependencyProperty.Register(nameof(SuspendBtnVb), typeof(Visibility), typeof(ProjectCard), new PropertyMetadata(Visibility.Visible));
+
+        /// <summary>
+        /// 项目重启
+        /// </summary>
+        public Visibility RestartBtnVb
+        {
+            get { return (Visibility)GetValue(RestartBtnVbProperty); }
+            set { SetValue(RestartBtnVbProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for RestartBtnVb.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty RestartBtnVbProperty =
+            DependencyProperty.Register(nameof(RestartBtnVb), typeof(Visibility), typeof(ProjectCard), new PropertyMetadata(Visibility.Collapsed));
+
+
+        public bool SuspendBtnEn
+        {
+            get { return (bool)GetValue(SuspendBtnEnProperty); }
+            set { SetValue(SuspendBtnEnProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for SuspendBtnEn.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty SuspendBtnEnProperty =
+            DependencyProperty.Register(nameof(SuspendBtnEn), typeof(bool), typeof(ProjectCard), new PropertyMetadata(true));
 
 
 
