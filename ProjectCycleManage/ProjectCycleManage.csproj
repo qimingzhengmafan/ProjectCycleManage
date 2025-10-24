@@ -21,7 +21,6 @@
     <Folder Include="Resources\Config\" />
     <Folder Include="Resources\Fonts\" />
     <Folder Include="ViewModel\" />
-    <Folder Include="View\UserControls\" />
   </ItemGroup>
 
   <ItemGroup>
@@ -41,6 +40,10 @@
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     <PackageReference Include="Newtonsoft.Json.Bson" Version="1.0.3" />
     <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="9.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\DrawerTest\DrawerTest.csproj" />
   </ItemGroup>
 
   <ItemGroup>
