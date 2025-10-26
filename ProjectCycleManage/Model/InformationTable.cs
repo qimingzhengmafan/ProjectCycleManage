@@ -18,5 +18,8 @@ namespace ProjectCycleManage.Model
 
         [Comment("权限分级")]
         public string? Permission { get; set; }
+
+        [Comment("备注")]
+        public string? Reamrks { get; set; }
     }
 }
