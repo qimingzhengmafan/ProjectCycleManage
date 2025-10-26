@@ -9,12 +9,18 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Resources\Images\edit-编辑.png" />
     <None Remove="Resources\Images\home-copy-copy.png" />
     <None Remove="Resources\Images\任务.png" />
     <None Remove="Resources\Images\分析.png" />
+    <None Remove="Resources\Images\完成.png" />
+    <None Remove="Resources\Images\想法.png" />
     <None Remove="Resources\Images\文档.png" />
     <None Remove="Resources\Images\设置.png" />
+    <None Remove="Resources\Images\采购2.png" />
     <None Remove="Resources\Images\项目管理.png" />
+    <None Remove="Resources\Images\预验收.png" />
+    <None Remove="Resources\Images\验收.png" />
   </ItemGroup>
 
   <ItemGroup>
@@ -46,6 +52,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Resource Include="Resources\Images\edit-编辑.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="Resources\Images\home-copy-copy.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
@@ -55,13 +64,28 @@
     <Resource Include="Resources\Images\分析.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
+    <Resource Include="Resources\Images\完成.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\想法.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="Resources\Images\文档.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Resources\Images\设置.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
+    <Resource Include="Resources\Images\采购2.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="Resources\Images\项目管理.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\预验收.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\验收.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
   </ItemGroup>

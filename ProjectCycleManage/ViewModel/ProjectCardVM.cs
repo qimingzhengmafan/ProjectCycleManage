@@ -2,7 +2,10 @@
 using CommunityToolkit.Mvvm.Input;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
+using System.Printing;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -37,19 +40,38 @@ namespace ProjectCycleManage.Model
         private double _projectstatusprogressdouble;
 
 
-        //SuspendProject
-        //RestartProject
-
         [RelayCommand]
         private void SuspendProject()
         {
             MessageBox.Show("SuspendProject");
+            Runningstatus = "暂停";
         }
 
         [RelayCommand]
         private void RestartProject()
         {
             MessageBox.Show("RestartProject");
+        }
+
+        [RelayCommand]
+        private void ViewDetails()
+        {
+            MessageBox.Show("ViewDetails");
+        }
+
+        private enum runningstatus
+        {
+            [Description("进行中")]
+            进行中,
+
+            [Description("暂停")]
+            暂停,
+
+            [Description("已完成")]
+            已完成,
+
+            [Description("审核中")]
+            审核中
         }
     }
 }

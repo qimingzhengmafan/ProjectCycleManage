@@ -6,10 +6,15 @@
         xmlns:local="clr-namespace:ProjectCycleManage"
         xmlns:Menu="clr-namespace:Page_Navigation_App.Utilities"
         xmlns:view="clr-namespace:ProjectCycleManage.View"
+        xmlns:vm="clr-namespace:ProjectCycleManage.ViewModel"
         mc:Ignorable="d"
         Title="MainWindow" 
         Height="1080" 
         Width="1920">
+    <Window.DataContext>
+        <vm:MainVM/>
+    </Window.DataContext>
+    
     <Grid Background="#f5f7fa">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="250"/>
@@ -167,7 +172,7 @@
         </Grid>
 
         <Grid Grid.Column="1">
-            <view:Overview/>
+            <view:Overview DataContext="{Binding OverView}"/>
         </Grid>
     </Grid>
 </Window>

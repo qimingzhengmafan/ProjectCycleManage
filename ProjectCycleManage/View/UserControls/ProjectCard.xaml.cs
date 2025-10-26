@@ -163,7 +163,7 @@ namespace ProjectCycleManage.View
 
         // Using a DependencyProperty as the backing store for ProjectStatusProgressdouble.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty ProjectStatusProgressdoubleProperty =
-            DependencyProperty.Register(nameof(ProjectStatusProgressdouble), typeof(double), typeof(ProjectCard), new PropertyMetadata(0 , OndoubleChanged));
+            DependencyProperty.Register(nameof(ProjectStatusProgressdouble), typeof(double), typeof(ProjectCard), new PropertyMetadata(0.0 , OndoubleChanged));
 
 
 
@@ -204,12 +204,12 @@ namespace ProjectCycleManage.View
             DependencyProperty.Register(nameof(SuspendProject), typeof(ICommand), typeof(ProjectCard), new PropertyMetadata(null , SuspendProjectChanged));
         private static void SuspendProjectChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            var projectctrl = (ProjectCard)d;
-            projectctrl.BackColor = "#FFDBDB";
-            projectctrl.FontColor = "#FA0202";
-            projectctrl.SuspendBtnEn = true;
-            projectctrl.SuspendBtnVb = Visibility.Collapsed;
-            projectctrl.RestartBtnVb = Visibility.Visible;
+            //var projectctrl = (ProjectCard)d;
+            //projectctrl.BackColor = "#FFDBDB";
+            //projectctrl.FontColor = "#FA0202";
+            //projectctrl.SuspendBtnEn = true;
+            //projectctrl.SuspendBtnVb = Visibility.Collapsed;
+            //projectctrl.RestartBtnVb = Visibility.Visible;
         }
 
         /// <summary>
@@ -227,12 +227,12 @@ namespace ProjectCycleManage.View
 
         private static void RestartProjectChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            var projectctrl = (ProjectCard)d;
-            projectctrl.BackColor = "#FFDBDB";
-            projectctrl.FontColor = "#FA0202";
-            projectctrl.SuspendBtnEn = true;
-            projectctrl.SuspendBtnVb = Visibility.Visible;
-            projectctrl.RestartBtnVb = Visibility.Collapsed;
+            //var projectctrl = (ProjectCard)d;
+            //projectctrl.BackColor = "#FFDBDB";
+            //projectctrl.FontColor = "#FA0202";
+            //projectctrl.SuspendBtnEn = true;
+            //projectctrl.SuspendBtnVb = Visibility.Visible;
+            //projectctrl.RestartBtnVb = Visibility.Collapsed;
         }
 
         /// <summary>

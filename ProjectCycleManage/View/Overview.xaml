@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:ProjectCycleManage.View"
+             xmlns:uc="clr-namespace:ProjectCycleManage.View.UserControls"
              xmlns:vm="clr-namespace:ProjectCycleManage.ViewModel"
              mc:Ignorable="d" 
              d:DesignHeight="2080"
@@ -13,7 +14,7 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="65"/>
             <RowDefinition Height="275"/>
-            <RowDefinition/>
+            <RowDefinition Height="470"/>
             <RowDefinition/>
             <RowDefinition/>
         </Grid.RowDefinitions>
@@ -28,10 +29,13 @@
                    VerticalContentAlignment="Center"/>
         </Border>
 
-        <Grid Grid.Row="1">
+        <Grid Grid.Row="1"
+              Margin="20 0 20 0">
             <ScrollViewer HorizontalScrollBarVisibility="Auto"
                           VerticalScrollBarVisibility="Disabled">
-                <ItemsControl ItemsSource="{Binding}">
+                <ItemsControl ItemsSource="{Binding ProjectShowAreaCard}"
+                              HorizontalAlignment="Left"
+                              VerticalAlignment="Center">
                     <ItemsControl.ItemsPanel>
                         <ItemsPanelTemplate>
                             <StackPanel Orientation="Vertical"/>
@@ -40,12 +44,286 @@
 
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
-                            <local:ProjectCard/>
+                            <local:ProjectCard ProjectName="{Binding Projectname}"
+                                               ProjectLeader="{Binding Projectleader}"
+                                               RunningStatus="{Binding Runningstatus}"
+                                               ProjectStatus="{Binding Projectstatus}"
+                                               StartTime="{Binding Starttimme}"
+                                               ProjectStatusProgressdouble="{Binding Projectstatusprogressdouble}"
+                                               ViewDetails="{Binding ViewDetailsCommand}"
+                                               SuspendProject="{Binding SuspendProjectCommand}"
+                                               RestartProject="{Binding RestartProjectCommand}"/>
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>
                 </ItemsControl>
-                
+
             </ScrollViewer>
+        </Grid>
+
+        <Grid Grid.Row="2">
+            <Border Margin="20 0 20 0"
+                    Background="White"
+                    CornerRadius="15">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="55"/>
+                        <RowDefinition Height="110"/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+
+                    <Grid>
+                        <StackPanel HorizontalAlignment="Left"
+                                    VerticalAlignment="Center"
+                                    Orientation="Horizontal"
+                                    Margin="20 0 0 0">
+                            <Image Source="/Resources/Images/组织架构.png" 
+                                   Width="25"
+                                   Height="25"/>
+
+                            <Label Margin="5 0 0 0"
+                                   Content="阶段管理 - "
+                                   Foreground="#2D5BD6"
+                                   FontSize="18"
+                                   FontWeight="Bold"/>
+                            <TextBlock Text="磁钢机开发"
+                                       VerticalAlignment="Center"
+                                       FontSize="18"
+                                       Foreground="#2D5BD6"
+                                       FontWeight="Bold"/>
+                        </StackPanel>
+                    </Grid>
+
+                    <Grid Grid.Row="1"
+                          Margin="20 0 20 0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="2*"/>
+                            <ColumnDefinition Width="2*"/>
+                            <ColumnDefinition Width="2*"/>
+                            <ColumnDefinition Width="2*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <ProgressBar Grid.ColumnSpan="6"
+                                     Value="100"
+                                     Height="5"
+                                     Margin="0"
+                                     BorderThickness="0"
+                                     Foreground="#1684FC"/>
+
+                        <Grid Grid.Column="0">
+                            <Border Height="73"
+                                    Width="50"
+                                    Margin="0 27 0 0"
+                                    HorizontalAlignment="Right">
+                                <StackPanel>
+                                    <Grid Width="50"
+                                          Height="50">
+                                        <Ellipse Height="50"
+                                                 Width="50"
+                                                 Fill="#4CAF50"/>
+                                        <Image Source="/Resources/Images/想法.png"
+                                               Height="25"
+                                               Width="25"/>
+
+                                    </Grid>
+                                    <TextBlock Text="项目评审"
+                                               HorizontalAlignment="Center"
+                                               FontSize="12"/>
+                                </StackPanel>
+                            </Border>
+                        </Grid>
+
+                        <Grid Grid.Column="1">
+                            <Border Height="73"
+                                    Width="50"
+                                    Margin="0 27 0 0"
+                                    HorizontalAlignment="Right">
+                                <StackPanel>
+                                    <Grid Width="50"
+                                          Height="50">
+                                        <Ellipse Height="50"
+                                                 Width="50"
+                                                 Fill="#4CAF50"/>
+                                        <Image Source="/Resources/Images/采购2.png"
+                                               Height="25"
+                                               Width="25"/>
+
+                                    </Grid>
+                                    <TextBlock Text="设备采购"
+                                               HorizontalAlignment="Center"
+                                               FontSize="12"/>
+                                </StackPanel>
+                            </Border>
+                        </Grid>
+
+                        <Grid Grid.Column="2">
+                            <Border Height="73"
+                                    Width="50"
+                                    Margin="0 27 0 0"
+                                    HorizontalAlignment="Right">
+                                <StackPanel>
+                                    <Grid Width="50"
+                                          Height="50">
+                                        <Ellipse Height="50"
+                                                 Width="50"
+                                                 Fill="#4CAF50"/>
+                                        <Image Source="/Resources/Images/预验收.png"
+                                               Height="25"
+                                               Width="25"/>
+
+                                    </Grid>
+                                    <TextBlock Text="预验收"
+                                               HorizontalAlignment="Center"
+                                               FontSize="12"/>
+                                </StackPanel>
+                            </Border>
+                        </Grid>
+
+                        <Grid Grid.Column="3">
+                            <Border Height="73"
+                                    Width="50"
+                                    Margin="0 27 0 0"
+                                    HorizontalAlignment="Right">
+                                <StackPanel>
+                                    <Grid Width="50"
+                                          Height="50">
+                                        <Ellipse Height="50"
+                                                 Width="50"
+                                                 Fill="#4CAF50"/>
+                                        <Image Source="/Resources/Images/验收.png"
+                                               Height="25"
+                                               Width="25"/>
+
+                                    </Grid>
+                                    <TextBlock Text="验收"
+                                               HorizontalAlignment="Center"
+                                               FontSize="12"/>
+                                </StackPanel>
+                            </Border>
+                        </Grid>
+
+                        <Grid Grid.Column="4">
+                            <Border Height="73"
+                                    Width="50"
+                                    Margin="0 27 0 0"
+                                    HorizontalAlignment="Right">
+                                <StackPanel>
+                                    <Grid Width="50"
+                                          Height="50">
+                                        <Ellipse Height="50"
+                                                 Width="50"
+                                                 Fill="#4CAF50"/>
+                                        <Image Source="/Resources/Images/完成.png"
+                                               Height="25"
+                                               Width="25"/>
+
+                                    </Grid>
+                                    <TextBlock Text="完成"
+                                               HorizontalAlignment="Center"
+                                               FontSize="12"/>
+                                </StackPanel>
+                            </Border>
+                        </Grid>
+
+                    </Grid>
+
+                    <Grid Grid.Row="2">
+                        <Border Margin="20 0 20 20"
+                                Background="#F9F9F9"
+                                CornerRadius="15">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="48"/>
+                                    <RowDefinition Height="117"/>
+                                    <RowDefinition/>
+                                </Grid.RowDefinitions>
+
+                                <StackPanel Margin="30 0 0 5"
+                                            Orientation="Horizontal"
+                                            HorizontalAlignment="Left"
+                                            VerticalAlignment="Bottom">
+                                    <TextBlock Text="预验收阶段"
+                                               FontSize="16"
+                                               FontWeight="Bold"
+                                               Foreground="#101010"/>
+                                    <TextBlock Text=" - "
+                                               FontSize="16"
+                                               FontWeight="Bold"
+                                               Foreground="#101010"/>
+                                    <TextBlock Text="所需信息"
+                                               FontSize="16"
+                                               FontWeight="Bold"
+                                               Foreground="#101010"/>
+                                </StackPanel>
+
+                                <Border Grid.Row="1"
+                                        BorderThickness=" 0 0 0 1"
+                                        BorderBrush="#BBBBBB"
+                                        Margin="30 0 30 0">
+                                    <ScrollViewer HorizontalScrollBarVisibility="Auto"
+                                                  VerticalScrollBarVisibility="Disabled">
+                                        <ItemsControl ItemsSource="{Binding ProjectShowAreaCard}"
+                                                      HorizontalAlignment="Left"
+                                                      VerticalAlignment="Center">
+                                            <ItemsControl.ItemsPanel>
+                                                <ItemsPanelTemplate>
+                                                    <StackPanel Orientation="Vertical"/>
+                                                </ItemsPanelTemplate>
+                                            </ItemsControl.ItemsPanel>
+
+                                            <ItemsControl.ItemTemplate>
+                                                <DataTemplate>
+                                                    <uc:InformationCard/>
+                                                </DataTemplate>
+                                            </ItemsControl.ItemTemplate>
+                                        </ItemsControl>
+                                    </ScrollViewer>
+                                </Border>
+
+                                <Grid Grid.Row="2"
+                                      Margin="0 0 30 0">
+                                    <StackPanel Orientation="Horizontal"
+                                                HorizontalAlignment="Right"
+                                                VerticalAlignment="Center">
+                                        <Button Width="96"
+                                                Height="36"
+                                                Margin="0 0 47 0"
+                                                Content="提交审批"
+                                                BorderBrush="Transparent"
+                                                BorderThickness="0"
+                                                Foreground="White"
+                                                FontSize="14"
+                                                Background="#2D5BD6"/>
+                                        <Button Width="96"
+                                                Height="36"
+                                                Margin="0 0 5 0"
+                                                Content="驳回"
+                                                Foreground="White"
+                                                BorderThickness="0"
+                                                FontSize="14"
+                                                Background="#F44336"/>
+                                        
+                                        <Button Width="161"
+                                                Height="36"
+                                                Content="允许进行下一阶段"
+                                                Foreground="White"
+                                                Background="#4CAF50"
+                                                FontSize="14"
+                                                BorderThickness="0"/>
+                                        
+                                    </StackPanel>
+                                </Grid>
+                                
+                            </Grid>
+                        </Border>
+                    </Grid>
+                </Grid>
+            </Border>
+        </Grid>
+
+        <Grid Grid.Row="3">
+            
         </Grid>
     </Grid>
 </UserControl>
