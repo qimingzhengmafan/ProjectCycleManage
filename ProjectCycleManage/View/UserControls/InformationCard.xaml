@@ -31,8 +31,10 @@
                                VerticalAlignment="Center"/>
                 </Border>
 
-                <!--文档-->
+                
                 <Grid Grid.Row="1">
+
+                    <!--文档-->
                     <Grid Visibility="Collapsed">
                         <StackPanel Orientation="Horizontal">
                             <TextBlock Text="设备项目问题改善"
@@ -103,7 +105,7 @@
                         </StackPanel>
                     </Grid>
 
-                    <!--信息-填写内容-->
+                    <!--文档-OA-->
                     <Grid Visibility="Visible">
                         <StackPanel Orientation="Horizontal">
                             <TextBlock Text="申请单号"
