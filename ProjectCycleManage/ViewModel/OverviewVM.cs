@@ -39,6 +39,10 @@ namespace ProjectCycleManage.ViewModel
         }
         public OverviewVM()
         {
+            Task.Run(() =>
+            {
+
+            });
 
         }
 

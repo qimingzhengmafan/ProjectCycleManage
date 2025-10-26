@@ -7,7 +7,8 @@
              mc:Ignorable="d"
              Width="250"
              Height="94"
-             Tag="">
+             Tag=""
+             x:Name="InformationCardUC">
     <Grid>
         <Border CornerRadius="15"
                 Background="White">
@@ -24,7 +25,7 @@
                         HorizontalAlignment="Left"
                         VerticalAlignment="Bottom"
                         Margin="14 0 0 0">
-                    <TextBlock Text="文档 - OA"
+                    <TextBlock Text="文档"
                                FontSize="12"
                                Foreground="#2196F3"
                                HorizontalAlignment="Center"
@@ -43,6 +44,7 @@
                                        Margin="14 0 0 0"/>
 
                             <CheckBox VerticalAlignment="Center"
+                                      Command=""
                                       Margin="42 0 0 0"
                                       Content="确认"/>
                         </StackPanel>

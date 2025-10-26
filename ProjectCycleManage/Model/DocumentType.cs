@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using ProjectCycleManage.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,5 +18,9 @@ namespace ProjectManagement.Models
 
         [Comment("权限分级")]
         public string? Permission { get; set; }
+
+        [Comment("文档类型-例-文档-OA")]
+        public int? FileTypesDataId { get; set; }
+        public FileTypesTable? FileTypesData { get; set; }
     }
 }

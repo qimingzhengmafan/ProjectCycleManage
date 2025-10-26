@@ -21,5 +21,9 @@ namespace ProjectCycleManage.Model
 
         [Comment("备注")]
         public string? Reamrks { get; set; }
+
+        [Comment("信息类型-例-信息-时间")]
+        public int? InforTypesDataId { get; set; }
+        public FileTypesTable? InforTypesData { get; set; }
     }
 }

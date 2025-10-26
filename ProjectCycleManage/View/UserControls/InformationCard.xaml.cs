@@ -55,9 +55,94 @@ namespace ProjectCycleManage.View.UserControls
 
         #region 文档
 
+
+        public Visibility FileVisib
+        {
+            get { return (Visibility)GetValue(FileVisibProperty); }
+            set { SetValue(FileVisibProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for FileVisib.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty FileVisibProperty =
+            DependencyProperty.Register(nameof(FileVisib), typeof(Visibility), typeof(InformationCard), new PropertyMetadata(Visibility.Collapsed));
+
+
+
+        public bool? FileIsExist
+        {
+            get { return (bool?)GetValue(FileIsExistProperty); }
+            set { SetValue(FileIsExistProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for FileIsExist.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty FileIsExistProperty =
+            DependencyProperty.Register(nameof(FileIsExist), typeof(bool?), typeof(InformationCard), new PropertyMetadata(null));
+
+
+
+        public string FileName
+        {
+            get { return (string)GetValue(FileNameProperty); }
+            set { SetValue(FileNameProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for FileName.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty FileNameProperty =
+            DependencyProperty.Register(nameof(FileName), typeof(string), typeof(InformationCard), new PropertyMetadata(null));
+
+
         #endregion
 
         #region 文档-OA
+
+
+        public Visibility File_OA_Visib
+        {
+            get { return (Visibility)GetValue(File_OA_VisibProperty); }
+            set { SetValue(File_OA_VisibProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for File_OA_Visib.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty File_OA_VisibProperty =
+            DependencyProperty.Register(nameof(File_OA_Visib), typeof(Visibility), typeof(InformationCard), new PropertyMetadata(Visibility.Collapsed));
+
+
+
+        public string File_OA_InData
+        {
+            get { return (string)GetValue(File_OA_InDataProperty); }
+            set { SetValue(File_OA_InDataProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for File_OA_InData.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty File_OA_InDataProperty =
+            DependencyProperty.Register(nameof(File_OA_InData), typeof(string), typeof(InformationCard), new PropertyMetadata(null));
+
+
+
+
+        public string File_OA_WriteData
+        {
+            get { return (string)GetValue(File_OA_WriteDataProperty); }
+            set { SetValue(File_OA_WriteDataProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for File_OA_WriteData.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty File_OA_WriteDataProperty =
+            DependencyProperty.Register(nameof(File_OA_WriteData), typeof(string), typeof(InformationCard), new PropertyMetadata(null));
+
+
+
+        public ICommand File_OA_BtnCommand
+        {
+            get { return (ICommand)GetValue(File_OA_BtnCommandProperty); }
+            set { SetValue(File_OA_BtnCommandProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for File_OA_BtnCommand.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty File_OA_BtnCommandProperty =
+            DependencyProperty.Register(nameof(File_OA_BtnCommand), typeof(ICommand), typeof(InformationCard), new PropertyMetadata(null));
+
 
         #endregion
 
