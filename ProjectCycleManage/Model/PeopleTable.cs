@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -16,5 +17,8 @@ namespace ProjectManagement.Models
         public int PeopleId { get; set; }
         public string PeopleName { get; set; }
         public string Password { get; set; }
+
+        [Comment("权限信息")]
+        public string? Permission { get; set; }
     }
 }

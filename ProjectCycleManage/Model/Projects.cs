@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -79,11 +80,11 @@ namespace ProjectManagement.Models
         /// <summary>
         /// 开始时间
         /// </summary>
-        public DateTime? StartTime { get; set; }
+        /// 
+        [Comment("申请时间")]
+        public DateTime? ApplicationTime { get; set; }
 
-        /// <summary>
-        /// 项目周期
-        /// </summary>
+        [Comment("项目周期")]
         public int? ProjectCycle {  get; set; }
         /// <summary>
         /// 文件进度
@@ -94,11 +95,12 @@ namespace ProjectManagement.Models
         /// 倒计时
         /// </summary>
         public int? DaysDiff { get; set; }
+ 
+        [Comment("申请人")]
+        public string? Applicant { get; set; }
 
-        /// <summary>
-        /// 检验
-        /// </summary>
-        public string? CheckData { get; set; }
+        [Comment("使用部门")]
+        public string? UsingDepartment { get; set;  }
 
     }
 }

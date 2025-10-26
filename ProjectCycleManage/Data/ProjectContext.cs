@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using ProjectCycleManage.Model;
 using ProjectManagement.Models;
 using System;
 using System.Collections.Generic;
@@ -22,6 +23,12 @@ namespace ProjectManagement.Data
         public DbSet<ProjectStage> ProjectStage { get; set; }
         public DbSet<ProjectTypeDocumentAssociationTable> ProjectTypeDocumentAssociationTables { get; set; }
         public DbSet<TypeTable> TypeTable { get; set; }
+        public DbSet<EquipTypeStageDocTable> EquipTypeStageDocTable { get; set; }
+        public DbSet<EquipTypeStageInfoTable> EquipTypeStageInfoTable { get; set; }
+        public DbSet<InformationTable> InformationTable { get; set; }
+        public DbSet<PermInfoTable> PermInfoTable { get; set; }
+        public DbSet<ProjFlowTable> ProjFlowTable { get; set; }
+        public DbSet<TypeApprFlowPersSeqTable> TypeApprFlowPersSeqTable { get; set; }
 
         // 配置数据库连接
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

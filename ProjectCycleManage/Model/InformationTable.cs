@@ -1,19 +1,20 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ProjectManagement.Models
+namespace ProjectCycleManage.Model
 {
-    /// <summary>
-    /// 文档类型表
-    /// </summary>
-    public class DocumentType
+    [Comment("信息表")]
+    public class InformationTable
     {
-        public int DocumentTypeId { get; set; }
-        public string DocumentTypeName { get; set; }
+        [Key]
+        public int Id {  get; set; }
+
+        public string Infor { get; set;  }
 
         [Comment("权限分级")]
         public string? Permission { get; set; }
