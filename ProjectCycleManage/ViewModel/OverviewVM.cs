@@ -87,7 +87,7 @@ namespace ProjectCycleManage.ViewModel
                             Projectstatusprogressdouble = (double)project.FileProgress.GetValueOrDefault(),
                             Runningstatus = project.ProjectPhaseStatus.ProjectPhaseStatusName,
                             Starttimme = project.ApplicationTime.GetValueOrDefault().ToString(),
-                            ViewDetailsaction = tt
+                            ViewDetailsaction = GetProjectsDatas
                         });
                     }));
 
@@ -97,7 +97,7 @@ namespace ProjectCycleManage.ViewModel
 
         }
 
-        public void tt(string data)
+        public void GetProjectsDatas(string data)
         {
             InformationCardArea.Clear();
 
