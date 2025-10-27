@@ -1,6 +1,9 @@
-﻿using System;
+﻿using ProjectManagement.Models;
+using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
+using System.Printing.IndexedProperties;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -80,6 +83,18 @@ namespace ProjectCycleManage.View.UserControls
 
 
 
+        public ICommand CheckCommand
+        {
+            get { return (ICommand)GetValue(CheckCommandProperty); }
+            set { SetValue(CheckCommandProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for CheckCommand.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty CheckCommandProperty =
+            DependencyProperty.Register(nameof(CheckCommand), typeof(ICommand), typeof(InformationCard), new PropertyMetadata(null));
+
+
+
         public string FileName
         {
             get { return (string)GetValue(FileNameProperty); }
@@ -146,16 +161,181 @@ namespace ProjectCycleManage.View.UserControls
 
         #endregion
 
-        #region 信息-项目负责人/项目跟进人
+        #region 信息-下拉框-项目负责人/项目跟进人
+
+
+
+        public Visibility Infor_People_Visib
+        {
+            get { return (Visibility)GetValue(Infor_People_VisibProperty); }
+            set { SetValue(Infor_People_VisibProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for Infor_People_Visib.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty Infor_People_VisibProperty =
+            DependencyProperty.Register(nameof(Infor_People_Visib), typeof(Visibility), typeof(InformationCard), new PropertyMetadata(Visibility.Collapsed));
+
+
+
+
+        public string Infor_Prople
+        {
+            get { return (string)GetValue(Infor_PropleProperty); }
+            set { SetValue(Infor_PropleProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for Infor_Prople.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty Infor_PropleProperty =
+            DependencyProperty.Register(nameof(Infor_Prople), typeof(string), typeof(InformationCard), new PropertyMetadata(null));
+
+
+
+        public ObservableCollection<PeopleTable> Infor_People_Ob
+        {
+            get { return (ObservableCollection<PeopleTable>)GetValue(Infor_People_ObProperty); }
+            set { SetValue(Infor_People_ObProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for Infor_People_Ob.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty Infor_People_ObProperty =
+            DependencyProperty.Register(nameof(Infor_People_Ob), typeof(ObservableCollection<PeopleTable>), typeof(InformationCard), new PropertyMetadata(null));
+
+
+
+
+        public PeopleTable Infor_Sele_People
+        {
+            get { return (PeopleTable)GetValue(Infor_Sele_PeopleProperty); }
+            set { SetValue(Infor_Sele_PeopleProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for Infor_Sele_People.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty Infor_Sele_PeopleProperty =
+            DependencyProperty.Register(nameof(Infor_Sele_People), typeof(PeopleTable), typeof(InformationCard), new PropertyMetadata(null));
+
+
+
+
+        public ICommand Infor_People_BtnCom
+        {
+            get { return (ICommand)GetValue(Infor_People_BtnComProperty); }
+            set { SetValue(Infor_People_BtnComProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for Infor_People_BtnCom.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty Infor_People_BtnComProperty =
+            DependencyProperty.Register(nameof(Infor_People_BtnCom), typeof(ICommand), typeof(InformationCard), new PropertyMetadata(null));
+
+
 
         #endregion
+
 
         #region 信息-填写内容
 
+
+
+        public Visibility Infor_Text_Visib
+        {
+            get { return (Visibility)GetValue(Infor_Text_VisibProperty); }
+            set { SetValue(Infor_Text_VisibProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for Infor_Text_Visib.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty Infor_Text_VisibProperty =
+            DependencyProperty.Register(nameof(Infor_Text_Visib), typeof(Visibility), typeof(InformationCard), new PropertyMetadata(Visibility.Collapsed));
+
+
+
+
+        public string Infor_Text_In
+        {
+            get { return (string)GetValue(Infor_Text_InProperty); }
+            set { SetValue(Infor_Text_InProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for Infor_Text_In.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty Infor_Text_InProperty =
+            DependencyProperty.Register(nameof(Infor_Text_In), typeof(string), typeof(InformationCard), new PropertyMetadata(null));
+
+
+
+        public string Infor_Text_Write
+        {
+            get { return (string)GetValue(Infor_Text_WriteProperty); }
+            set { SetValue(Infor_Text_WriteProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for Infor_Text_Write.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty Infor_Text_WriteProperty =
+            DependencyProperty.Register(nameof(Infor_Text_Write), typeof(string), typeof(InformationCard), new PropertyMetadata(null));
+
+
+
+        public ICommand Infor_Text_BtnCom
+        {
+            get { return (ICommand)GetValue(Infor_Text_BtnComProperty); }
+            set { SetValue(Infor_Text_BtnComProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for Infor_Text_BtnCom.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty Infor_Text_BtnComProperty =
+            DependencyProperty.Register(nameof(Infor_Text_BtnCom), typeof(ICommand), typeof(InformationCard), new PropertyMetadata(null));
+
+
         #endregion
 
+        #region 信息-日期
+
+
+        public Visibility Infor_Date
+        {
+            get { return (Visibility)GetValue(Infor_DateProperty); }
+            set { SetValue(Infor_DateProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for Infor_Date.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty Infor_DateProperty =
+            DependencyProperty.Register(nameof(Infor_Date), typeof(Visibility), typeof(InformationCard), new PropertyMetadata(Visibility.Collapsed));
 
 
 
+        public string Infor_Data_Text_In
+        {
+            get { return (string)GetValue(Infor_Data_Text_InProperty); }
+            set { SetValue(Infor_Data_Text_InProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for Infor_Data_Text_In.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty Infor_Data_Text_InProperty =
+            DependencyProperty.Register(nameof(Infor_Data_Text_In), typeof(string), typeof(InformationCard), new PropertyMetadata(null));
+
+
+
+        public DateTime Infor_Date_SelectTime
+        {
+            get { return (DateTime)GetValue(Infor_Date_SelectTimeProperty); }
+            set { SetValue(Infor_Date_SelectTimeProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for Infor_Date_SelectTime.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty Infor_Date_SelectTimeProperty =
+            DependencyProperty.Register(nameof(Infor_Date_SelectTime), typeof(DateTime), typeof(InformationCard), new PropertyMetadata(null));
+
+
+
+        public ICommand Infor_Date_Btn_Com
+        {
+            get { return (ICommand)GetValue(Infor_Date_Btn_ComProperty); }
+            set { SetValue(Infor_Date_Btn_ComProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for Infor_Date_Btn_Com.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty Infor_Date_Btn_ComProperty =
+            DependencyProperty.Register(nameof(Infor_Date_Btn_Com), typeof(ICommand), typeof(InformationCard), new PropertyMetadata(null));
+
+
+        #endregion
     }
+
 }

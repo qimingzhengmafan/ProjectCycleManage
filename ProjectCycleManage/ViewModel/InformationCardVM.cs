@@ -9,6 +9,8 @@ namespace ProjectCycleManage.ViewModel
 {
     public partial class InformationCardVM : ObservableObject
     {
+        [ObservableProperty]
+        private string _taginfor;
 
     }
 }
