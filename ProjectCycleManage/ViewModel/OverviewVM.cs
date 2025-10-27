@@ -38,6 +38,9 @@ namespace ProjectCycleManage.ViewModel
         [ObservableProperty]
         private string _stagename;
 
+        [ObservableProperty]
+        private string _loginpersonname;
+
 
         public ObservableCollection<ProjectCardVM> ProjectShowAreaCard
         {
@@ -62,7 +65,7 @@ namespace ProjectCycleManage.ViewModel
                 using var context = new ProjectContext();
 
                 // 查询2025年的所有项目
-                var projects2025 = context.Projects
+                var projectsdata = context.Projects
                     .Where(p => p.Year == 2025)
                     .Include(p => p.ProjectStage)
                     .Include(p => p.type)
@@ -71,7 +74,7 @@ namespace ProjectCycleManage.ViewModel
                     .ToList();
 
                 // 输出结果
-                foreach (var project in projects2025)
+                foreach (var project in projectsdata)
                 {
                     Application.Current.Dispatcher.BeginInvoke(new Action(() =>
                     {
