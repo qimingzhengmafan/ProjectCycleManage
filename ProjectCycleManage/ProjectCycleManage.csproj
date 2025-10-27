@@ -16,6 +16,7 @@
     <None Remove="Resources\Images\完成.png" />
     <None Remove="Resources\Images\想法.png" />
     <None Remove="Resources\Images\文档.png" />
+    <None Remove="Resources\Images\组织架构.png" />
     <None Remove="Resources\Images\设置.png" />
     <None Remove="Resources\Images\采购2.png" />
     <None Remove="Resources\Images\项目管理.png" />
@@ -71,6 +72,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Resources\Images\文档.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\组织架构.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Resources\Images\设置.png">

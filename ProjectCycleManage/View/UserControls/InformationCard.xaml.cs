@@ -40,7 +40,6 @@ namespace ProjectCycleManage.View.UserControls
         public static readonly DependencyProperty InformationTagProperty =
             DependencyProperty.Register(nameof(InformationTag), typeof(string), typeof(InformationCard), new PropertyMetadata(null));
 
-
         public string InformationTypes
         {
             get { return (string)GetValue(InformationTypesProperty); }
@@ -51,9 +50,72 @@ namespace ProjectCycleManage.View.UserControls
         public static readonly DependencyProperty InformationTypesProperty =
             DependencyProperty.Register(nameof(InformationTypes), typeof(string), typeof(InformationCard), new PropertyMetadata(null , OnInformationTypesChanged));
 
+
         private static void OnInformationTypesChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
+            var inforcardctrl = (InformationCard)d;
+            string newdata = (string)e.NewValue;
 
+            switch (newdata)
+            {
+                case "文档":
+                    inforcardctrl.FileVisib = Visibility.Visible;
+
+                    inforcardctrl.Infor_People_Visib = Visibility.Collapsed;
+                    inforcardctrl.Infor_Text_Visib = Visibility.Collapsed;
+                    inforcardctrl.File_OA_Visib = Visibility.Collapsed;
+                    inforcardctrl.Infor_Date = Visibility.Collapsed;
+                    break;
+
+                case "信息-下拉框":
+                    inforcardctrl.Infor_People_Visib = Visibility.Visible;
+
+                    inforcardctrl.FileVisib = Visibility.Collapsed;
+                    inforcardctrl.Infor_Text_Visib = Visibility.Collapsed;
+                    inforcardctrl.File_OA_Visib = Visibility.Collapsed;
+                    inforcardctrl.Infor_Date = Visibility.Collapsed;
+
+                    break;
+
+                case "信息-填写":
+                    inforcardctrl.Infor_Text_Visib = Visibility.Visible;
+
+                    inforcardctrl.FileVisib = Visibility.Collapsed;
+                    inforcardctrl.Infor_People_Visib = Visibility.Collapsed;
+                    inforcardctrl.File_OA_Visib = Visibility.Collapsed;
+                    inforcardctrl.Infor_Date = Visibility.Collapsed;
+                    break;
+
+                case "文档-OA":
+                    inforcardctrl.File_OA_Visib = Visibility.Visible;
+
+                    inforcardctrl.FileVisib = Visibility.Collapsed;
+                    inforcardctrl.Infor_People_Visib = Visibility.Collapsed;
+                    inforcardctrl.Infor_Text_Visib = Visibility.Collapsed;
+                    inforcardctrl.Infor_Date = Visibility.Collapsed;
+
+                    break;
+
+                case "信息-日期":
+                    inforcardctrl.Infor_Date = Visibility.Visible;
+
+                    inforcardctrl.FileVisib = Visibility.Collapsed;
+                    inforcardctrl.Infor_People_Visib = Visibility.Collapsed;
+                    inforcardctrl.Infor_Text_Visib = Visibility.Collapsed;
+                    inforcardctrl.File_OA_Visib = Visibility.Collapsed;
+
+                    break;
+
+                default:
+                    inforcardctrl.Infor_Date = Visibility.Collapsed;
+
+                    inforcardctrl.FileVisib = Visibility.Collapsed;
+                    inforcardctrl.Infor_People_Visib = Visibility.Collapsed;
+                    inforcardctrl.Infor_Text_Visib = Visibility.Collapsed;
+                    inforcardctrl.File_OA_Visib = Visibility.Collapsed;
+                    break;
+
+            }
         }
 
         #region 文档

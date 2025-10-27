@@ -12,7 +12,7 @@ using System.Windows;
 
 namespace ProjectCycleManage.Model
 {
-    public partial class ProjectCardVM: ObservableObject
+    public partial class ProjectCardVM : ObservableObject
     {
         //ProjectName
         //RunningStatus
@@ -39,10 +39,15 @@ namespace ProjectCycleManage.Model
         [ObservableProperty]
         private double _projectstatusprogressdouble;
 
+        [ObservableProperty]
+        private string _projectsid;
+
+        public Action<string> ViewDetailsaction;
 
         [RelayCommand]
         private void SuspendProject()
         {
+            //暂停
             MessageBox.Show("SuspendProject");
             Runningstatus = "暂停";
         }
@@ -50,14 +55,23 @@ namespace ProjectCycleManage.Model
         [RelayCommand]
         private void RestartProject()
         {
+            //重启
             MessageBox.Show("RestartProject");
         }
 
         [RelayCommand]
         private void ViewDetails()
         {
-            MessageBox.Show("ViewDetails");
+            //查看详情
+            //MessageBox.Show("此项目序号为 ： " + Projectsid);
+            ViewDetailsaction(Projectsid);
         }
+
+        private void ViewDetailsFun(string ProjectID)
+        {
+            ViewDetailsaction(ProjectID);
+        }
+
 
         private enum runningstatus
         {

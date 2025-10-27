@@ -34,7 +34,6 @@
             <ScrollViewer HorizontalScrollBarVisibility="Auto"
                           VerticalScrollBarVisibility="Disabled">
                 <ItemsControl ItemsSource="{Binding ProjectShowAreaCard}"
-                              
                               HorizontalAlignment="Left"
                               VerticalAlignment="Center">
                     <ItemsControl.ItemsPanel>
@@ -54,6 +53,7 @@
                                                ViewDetails="{Binding ViewDetailsCommand}"
                                                SuspendProject="{Binding SuspendProjectCommand}"
                                                RestartProject="{Binding RestartProjectCommand}"
+                                               ProjectsID="{Binding Projectsid}"
                                                Margin="20 0 0 0"/>
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>
@@ -87,7 +87,7 @@
                                    Foreground="#2D5BD6"
                                    FontSize="18"
                                    FontWeight="Bold"/>
-                            <TextBlock Text="磁钢机开发"
+                            <TextBlock Text="{Binding Stageprojectname}"
                                        VerticalAlignment="Center"
                                        FontSize="18"
                                        Foreground="#2D5BD6"
@@ -107,7 +107,7 @@
                         </Grid.ColumnDefinitions>
 
                         <ProgressBar Grid.ColumnSpan="6"
-                                     Value="100"
+                                     Value="{Binding Stageprogress}"
                                      Height="5"
                                      Margin="0"
                                      BorderThickness="0"
@@ -265,18 +265,36 @@
                                         Margin="30 0 30 0">
                                     <ScrollViewer HorizontalScrollBarVisibility="Auto"
                                                   VerticalScrollBarVisibility="Disabled">
-                                        <ItemsControl ItemsSource="{Binding ProjectShowAreaCard}"
+                                        <ItemsControl ItemsSource="{Binding InformationCardArea}"
                                                       HorizontalAlignment="Left"
                                                       VerticalAlignment="Center">
                                             <ItemsControl.ItemsPanel>
                                                 <ItemsPanelTemplate>
-                                                    <StackPanel Orientation="Vertical"/>
+                                                    <StackPanel Orientation="Horizontal"/>
                                                 </ItemsPanelTemplate>
                                             </ItemsControl.ItemsPanel>
 
                                             <ItemsControl.ItemTemplate>
                                                 <DataTemplate>
-                                                    <uc:InformationCard/>
+                                                    <uc:InformationCard Margin="20 0 0 0"
+                                                                        InformationTag="{Binding Taginfor}"
+                                                                        InformationTypes="{Binding Infortype}"
+                                                                        FileIsExist="{Binding Fileisexist}"
+                                                                        FileName="{Binding Filename}"
+                                                                        CheckCommand="{Binding checkcommandCommand}"
+                                                                        File_OA_InData="{Binding File_oa_indata}"
+                                                                        File_OA_WriteData="{Binding File_oa_writedata}"
+                                                                        File_OA_BtnCommand="{Binding File_OA_BtnFunCommand}"
+                                                                        Infor_Prople="{Binding Infor_people}"
+                                                                        Infor_People_Ob="{Binding Infor_people_ob}"
+                                                                        Infor_Sele_People="{Binding Infor_sele_people}"
+                                                                        Infor_People_BtnCom="{Binding Infor_People_BtnFunCommand}"
+                                                                        Infor_Text_In="{Binding Infor_text_in}"
+                                                                        Infor_Text_Write="{Binding Infor_text_write}"
+                                                                        Infor_Text_BtnCom="{Binding Infor_text_btnFunCommand}"
+                                                                        Infor_Data_Text_In="{Binding Infor_date_in}"
+                                                                        Infor_Date_SelectTime="{Binding Infor_date_selecttime}"
+                                                                        Infor_Date_Btn_Com="{Binding Infor_Data_BtnFunCommand}"/>
                                                 </DataTemplate>
                                             </ItemsControl.ItemTemplate>
                                         </ItemsControl>

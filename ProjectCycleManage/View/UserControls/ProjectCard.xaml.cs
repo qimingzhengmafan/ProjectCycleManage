@@ -26,6 +26,20 @@ namespace ProjectCycleManage.View
             InitializeComponent();
         }
 
+
+
+        public string ProjectsID
+        {
+            get { return (string)GetValue(ProjectsIDProperty); }
+            set { SetValue(ProjectsIDProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for ProjectsID.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty ProjectsIDProperty =
+            DependencyProperty.Register(nameof(ProjectsID), typeof(string), typeof(ProjectCard), new PropertyMetadata(null));
+
+
+
         public string ProjectName
         {
             get { return (string)GetValue(ProjectNameProperty); }
