@@ -66,7 +66,7 @@ namespace ProjectCycleManage.ViewModel
 
                 // 查询2025年的所有项目
                 var projectsdata = context.Projects
-                    .Where(p => p.Year == 2025)
+                    .Where(p => p.Year == DateTime.Now.Year)
                     .Include(p => p.ProjectStage)
                     .Include(p => p.type)
                     .Include(p => p.ProjectPhaseStatus)
