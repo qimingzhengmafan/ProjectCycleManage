@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ProjectManagement.Data;
 
@@ -11,9 +12,11 @@ using ProjectManagement.Data;
 namespace ProjectManagement.Migrations
 {
     [DbContext(typeof(ProjectContext))]
-    partial class ProjectContextModelSnapshot : ModelSnapshot
+    [Migration("20251028020957_FixTableStructure13")]
+    partial class FixTableStructure13
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -482,10 +485,6 @@ namespace ProjectManagement.Migrations
                     b.Property<string>("ProcurementMonth")
                         .HasColumnType("longtext");
 
-                    b.Property<int?>("ProjInforId")
-                        .HasColumnType("int")
-                        .HasComment("流程ID");
-
                     b.Property<int?>("ProjectCycle")
                         .HasColumnType("int")
                         .HasComment("项目周期");
@@ -529,8 +528,6 @@ namespace ProjectManagement.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("ProjectsId");
-
-                    b.HasIndex("ProjInforId");
 
                     b.HasIndex("ProjectLeaderId");
 
@@ -726,10 +723,6 @@ namespace ProjectManagement.Migrations
 
             modelBuilder.Entity("ProjectManagement.Models.Projects", b =>
                 {
-                    b.HasOne("ProjectCycleManage.Model.ProjFlowTable", "ProjInfor")
-                        .WithMany()
-                        .HasForeignKey("ProjInforId");
-
                     b.HasOne("ProjectManagement.Models.PeopleTable", "ProjectLeader")
                         .WithMany()
                         .HasForeignKey("ProjectLeaderId")
@@ -757,8 +750,6 @@ namespace ProjectManagement.Migrations
                         .WithMany()
                         .HasForeignKey("typeId")
                         .OnDelete(DeleteBehavior.Restrict);
-
-                    b.Navigation("ProjInfor");
 
                     b.Navigation("ProjectLeader");
 

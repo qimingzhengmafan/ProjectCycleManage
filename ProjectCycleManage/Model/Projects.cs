@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using ProjectCycleManage.Model;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -101,6 +102,9 @@ namespace ProjectManagement.Models
 
         [Comment("使用部门")]
         public string? UsingDepartment { get; set;  }
+        [Comment("流程ID")]
+        public int? ProjInforId { get; set; }
+        public ProjFlowTable? ProjInfor { get; set; }
 
     }
 }

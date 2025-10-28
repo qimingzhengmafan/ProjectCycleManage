@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using ProjectCycleManage.Model;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -19,5 +21,13 @@ namespace ProjectManagement.Models
         public DateTime? CheckTime { get; set; }
         public string? CheckResult { get; set; }
         public string? CheckOpinion { get; set; }
+
+        [Comment("流程ID记录")]
+        public int projId {  get; set; }
+        public ProjFlowTable proj { get; set; }
+
+        [Comment("顺序")]
+        public int Sequence { get; set; }
+
     }
 }
