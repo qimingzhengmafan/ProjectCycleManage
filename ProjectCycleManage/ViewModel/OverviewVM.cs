@@ -41,6 +41,12 @@ namespace ProjectCycleManage.ViewModel
         [ObservableProperty]
         private string _loginpersonname;
 
+        /// <summary>
+        /// 登录者等级
+        /// </summary>
+        [ObservableProperty]
+        public int _loginpersonnamegrade;
+
 
         public ObservableCollection<ProjectCardVM> ProjectShowAreaCard
         {
@@ -55,8 +61,10 @@ namespace ProjectCycleManage.ViewModel
             set => _informationshowarea = value;
         }
         
-        public OverviewVM()
+        public OverviewVM(int loginpeoplegrade)
         {
+            Loginpersonnamegrade = loginpeoplegrade;
+
             Stageprogress = 0.0;
 
             Task.Run(() =>
@@ -186,8 +194,9 @@ namespace ProjectCycleManage.ViewModel
                                         {
                                             Inforprojectid = data,
                                             Filename = item.DocumentTypeName,
-                                            
+                                            Loginpersonnamegrade = Loginpersonnamegrade,
                                             Taginfor = item.Permission,
+
                                             Infortype = item.FileTypesDataname,
                                         });
                                     }));
@@ -200,7 +209,7 @@ namespace ProjectCycleManage.ViewModel
                                         {
                                             Inforprojectid = data,
                                             File_oa_indata = item.DocumentTypeName,
-                                            
+                                            Loginpersonnamegrade = Loginpersonnamegrade,
                                             Taginfor = item.Permission,
                                             Infortype = item.FileTypesDataname,
                                         });
@@ -231,7 +240,7 @@ namespace ProjectCycleManage.ViewModel
                                         {
                                             Inforprojectid = data,
                                             Infor_people = item.InformationName,
-                                            
+                                            Loginpersonnamegrade = Loginpersonnamegrade,
                                             Taginfor = item.Permission,
                                             Infortype = item.InformationType,
 
@@ -246,7 +255,7 @@ namespace ProjectCycleManage.ViewModel
                                         {
                                             Inforprojectid = data,
                                             Infor_text_in = item.InformationName,
-                                            
+                                            Loginpersonnamegrade = Loginpersonnamegrade,
                                             Taginfor = item.Permission,
                                             Infortype = item.InformationType,
                                         });
@@ -260,7 +269,7 @@ namespace ProjectCycleManage.ViewModel
                                         {
                                             Inforprojectid = data,
                                             Infor_date_in = item.InformationName,
-                                            
+                                            Loginpersonnamegrade = Loginpersonnamegrade,
                                             Taginfor = item.Permission,
                                             Infortype = item.InformationType,
                                         });

@@ -277,6 +277,7 @@
                                             <ItemsControl.ItemTemplate>
                                                 <DataTemplate>
                                                     <uc:InformationCard Margin="20 0 0 0"
+                                                                        Loginpersonnamegrade="{Binding Loginpersonnamegrade}"
                                                                         InformationTag="{Binding Taginfor}"
                                                                         InformationTypes="{Binding Infortype}"
                                                                         FileIsExist="{Binding Fileisexist,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"

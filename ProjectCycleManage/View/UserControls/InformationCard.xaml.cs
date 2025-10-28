@@ -28,8 +28,36 @@ namespace ProjectCycleManage.View.UserControls
             InitializeComponent();
         }
 
+        /// <summary>
+        /// 登陆者等级
+        /// </summary>
+        public int Loginpersonnamegrade
+        {
+            get { return (int)GetValue(LoginpersonnamegradeProperty); }
+            set { SetValue(LoginpersonnamegradeProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for Loginpersonnamegrade.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty LoginpersonnamegradeProperty =
+            DependencyProperty.Register(nameof(Loginpersonnamegrade), typeof(int), typeof(InformationCard), new PropertyMetadata(0));
 
 
+
+        public bool CardIsEnable
+        {
+            get { return (bool)GetValue(CardIsEnableProperty); }
+            set { SetValue(CardIsEnableProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for CardIsEnable.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty CardIsEnableProperty =
+            DependencyProperty.Register(nameof(CardIsEnable), typeof(bool), typeof(InformationCard), new PropertyMetadata(true));
+
+
+
+        /// <summary>
+        /// 控件级别
+        /// </summary>
         public string InformationTag
         {
             get { return (string)GetValue(InformationTagProperty); }
@@ -38,7 +66,29 @@ namespace ProjectCycleManage.View.UserControls
 
         // Using a DependencyProperty as the backing store for InformationTag.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty InformationTagProperty =
-            DependencyProperty.Register(nameof(InformationTag), typeof(string), typeof(InformationCard), new PropertyMetadata(null));
+            DependencyProperty.Register(nameof(InformationTag), typeof(string), typeof(InformationCard), new PropertyMetadata(null , OnInformationgradeChanged));
+
+        private static void OnInformationgradeChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            var inforcardctrl = (InformationCard)d;
+            string newdata = (string)e.NewValue;
+
+            if (inforcardctrl.Loginpersonnamegrade == 10)
+            {
+                inforcardctrl.CardIsEnable = true;
+            }
+            else
+            {
+                if (inforcardctrl.Loginpersonnamegrade == Convert.ToInt32(newdata))
+                {
+                    inforcardctrl.CardIsEnable = true;
+                }
+                else
+                {
+                    inforcardctrl.CardIsEnable = false;
+                }
+            }
+        }
 
         public string InformationTypes
         {

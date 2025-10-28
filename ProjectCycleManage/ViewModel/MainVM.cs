@@ -9,11 +9,25 @@ namespace ProjectCycleManage.ViewModel
 {
     public partial class MainVM:ObservableObject
     {
-        private OverviewVM _overviewvm = new OverviewVM();
+        [ObservableProperty]
+        private string _loginpersonname;
+
+        /// <summary>
+        /// 登陆者级别
+        /// </summary>
+        [ObservableProperty]
+        private int _loginpersonnamegrade = 2;
+
+        private OverviewVM _overviewvm;
         public OverviewVM OverView
         {
             get => _overviewvm;
             set => _overviewvm = value;
+        }
+
+        public MainVM()
+        {
+            _overviewvm = new OverviewVM(_loginpersonnamegrade);
         }
     }
 }

@@ -23,7 +23,14 @@ namespace ProjectCycleManage.ViewModel
         #region 公共属性
 
         /// <summary>
-        /// 等级/权限信息
+        /// 登录者级别
+        /// </summary>
+        [ObservableProperty]
+        private int _loginpersonnamegrade;
+
+
+        /// <summary>
+        /// 控件等级/权限信息
         /// </summary>
         [ObservableProperty]
         private string _taginfor;
