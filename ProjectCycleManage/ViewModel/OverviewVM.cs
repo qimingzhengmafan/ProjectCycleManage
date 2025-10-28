@@ -1,4 +1,5 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Query.Internal;
 using OpenTK.Graphics.OpenGL;
@@ -45,13 +46,152 @@ namespace ProjectCycleManage.ViewModel
         /// 登录者等级
         /// </summary>
         [ObservableProperty]
-        public int _loginpersonnamegrade;
+        private int _loginpersonnamegrade;
 
+        [ObservableProperty]
+        private string _currentProjectId;
 
         public ObservableCollection<ProjectCardVM> ProjectShowAreaCard
         {
             get => _projectshowarea;
             set => _projectshowarea = value;
+        }
+
+        [RelayCommand]
+        private async Task SubmitApproval()
+        {
+            if (string.IsNullOrEmpty(CurrentProjectId))
+            {
+                MessageBox.Show("请先选择项目");
+                return;
+            }
+
+            await ExecuteApprovalProcessAsync();
+        }
+
+        [RelayCommand]
+        private async Task TestWriteApprovalRecord()
+        {
+            if (string.IsNullOrEmpty(CurrentProjectId))
+            {
+                MessageBox.Show("请先选择项目");
+                return;
+            }
+
+            try
+            {
+                using var context = new ProjectContext();
+                await WriteApprovalResultAsync(context);
+                MessageBox.Show("测试审批记录写入成功！");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"测试审批记录写入失败：{ex.Message}");
+            }
+        }
+
+        private async Task ExecuteApprovalProcessAsync()
+        {
+            try
+            {
+                using var context = new ProjectContext();
+                
+                // 1. 检查审批资格和流程状态
+                var (hasApprovalPermission, isInApprovalFlow) = await CheckApprovalPermissionAndFlowStatusAsync(context);
+                //isInApprovalFlow是否为指定流程
+                //hasApprovalPermission是否具有审批资格
+                // 根据检查结果处理四种分支情况
+                if (!hasApprovalPermission && !isInApprovalFlow)
+                {
+                    // 不具有审批资格且不在审批流程：更新projects表的ProjInforId字段（当前值+1）
+                    await UpdateProjectProjInforIdAsync(context);
+                    MessageBox.Show("项目流程已更新");
+                    return;
+                }
+                else if (!hasApprovalPermission && isInApprovalFlow)
+                {
+                    //在审批流程，但不具备审批资格
+                    MessageBox.Show("审批中，请催一催审批再点击");
+                    return;
+                }
+                else if (hasApprovalPermission && !isInApprovalFlow)
+                {
+
+                    MessageBox.Show("未到审批流程");
+                    return;
+                }
+                
+                // 具有审批资格且在审批流程：继续下一步
+                
+                // 2. 检查当前登录人员是否已经审批过
+                var currentUserId = await GetCurrentUserIdAsync(context);
+                var projectId = Convert.ToInt32(CurrentProjectId);
+                
+                // 获取当前项目信息
+                var project = await context.Projects
+                    .Include(p => p.ProjectStage)
+                    .FirstOrDefaultAsync(p => p.ProjectsId == projectId);
+                
+                if (project == null)
+                {
+                    MessageBox.Show("项目不存在");
+                    return;
+                }
+                
+                // 检查当前登录人员是否已经有审批记录
+                var currentUserApprovalRecord = await context.InspectionRecord
+                    .FirstOrDefaultAsync(ir => ir.ProjectsId == projectId 
+                                             && ir.projId == project.ProjInforId 
+                                             && ir.CheckPeopleId == currentUserId);
+                
+                if (currentUserApprovalRecord != null)
+                {
+                    // 当前登录人员已经有审批记录
+                    if (currentUserApprovalRecord.CheckResult == "PASS")
+                    {
+                        MessageBox.Show("审批完成，无需重复审批");
+                        return;
+                    }
+                    else if (currentUserApprovalRecord.CheckResult == "Rejection")
+                    {
+                        // 如果是拒绝状态，可以继续审批
+                        MessageBox.Show("继续审批流程");
+                    }
+                }
+                
+                // 3. 检查审批记录
+                var inspectionRecord = await CheckInspectionRecordAsync(context);
+                
+                if (inspectionRecord == null)
+                {
+                    // 不存在审批记录：确认当前登录人是否为第一顺位审批人
+                    var isFirstApprover = await CheckIfFirstApproverAsync(context);
+                    if (!isFirstApprover)
+                    {
+                        MessageBox.Show("未到审批流程");
+                        return;
+                    }
+                    // 如果是第一顺位审批人，直接进入步骤6（写入审批结果）
+                }
+                else
+                {
+                    // 存在审批记录：检查前序审批结果
+                    var previousApprovalResult = await CheckPreviousApprovalResultAsync(context);
+                    if (previousApprovalResult != "PASS")
+                    {
+                        MessageBox.Show("未到审批流程");
+                        return;
+                    }
+                }
+                
+                // 4. 写入审批结果
+                await WriteApprovalResultAsync(context);
+                MessageBox.Show("审批完成");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"审批流程执行失败：{ex.Message}");
+            }
         }
         
 
@@ -61,9 +201,10 @@ namespace ProjectCycleManage.ViewModel
             set => _informationshowarea = value;
         }
         
-        public OverviewVM(int loginpeoplegrade)
+        public OverviewVM(int loginpeoplegrade ,string loginpeoplename)
         {
             Loginpersonnamegrade = loginpeoplegrade;
+            Loginpersonname = loginpeoplename;
 
             Stageprogress = 0.0;
 
@@ -108,7 +249,7 @@ namespace ProjectCycleManage.ViewModel
         public void GetProjectsDatas(string data)
         {
             InformationCardArea.Clear();
-
+            CurrentProjectId = data;
             //MessageBox.Show("overviewvm" + data);
             Task.Run(() =>
             {
@@ -289,6 +430,284 @@ namespace ProjectCycleManage.ViewModel
             
 
 
+        }
+
+        private async Task<(bool hasApprovalPermission, bool isInApprovalFlow)> CheckApprovalPermissionAndFlowStatusAsync(ProjectContext context)
+        {
+            var projectId = Convert.ToInt32(CurrentProjectId);
+            
+            // 获取当前项目信息
+            var project = await context.Projects
+                .Include(p => p.ProjectStage)
+                .FirstOrDefaultAsync(p => p.ProjectsId == projectId);
+            
+            if (project == null)
+            {
+                return (false, false);
+            }
+            
+            // 检查当前项目流程是否为指定流程（101,103,105,107,109,111）
+            var specifiedFlows = new[] { 101, 103, 105, 107, 109, 111 };
+            var isInApprovalFlow = specifiedFlows.Contains(project.ProjInforId.GetValueOrDefault());
+            
+            // 获取当前登录人ID
+            var currentUserId = await GetCurrentUserIdAsync(context);
+            
+            // 查询typeappflowpersseqtable表，确认当前登录人是否具有审批资格
+            var hasApprovalPermission = await context.TypeApprFlowPersSeqTable
+                .AnyAsync(t => t.equipmenttypeId == project.equipmenttypeId 
+                             && t.ReviewerPeopleId == currentUserId 
+                             && t.Mark != "Dele");
+            
+            return (hasApprovalPermission, isInApprovalFlow);
+        }
+
+        private async Task<int> GetCurrentUserIdAsync(ProjectContext context)
+        {
+            // 根据登录名获取用户ID
+            var currentUser = await context.PeopleTable
+                .FirstOrDefaultAsync(p => p.PeopleName == Loginpersonname);
+            
+            return currentUser?.PeopleId ?? 0;
+        }
+
+        private async Task SubmitApprovalAsync(ProjectContext context)
+        {
+            var projectId = Convert.ToInt32(CurrentProjectId);
+            
+            // 获取当前项目信息
+            var project = await context.Projects
+                .Include(p => p.ProjectStage)
+                .FirstOrDefaultAsync(p => p.ProjectsId == projectId);
+            
+            if (project == null)
+            {
+                return;
+            }
+            
+            // 根据当前流程状态，设置下一步的流程状态
+            // 这里需要根据实际业务逻辑来确定下一步的流程状态
+            // 目前暂时保持原状态，实际应用中可能需要更新到下一个审批阶段
+            
+            // 示例：如果当前是101，则可能需要更新到下一个状态
+            // 这里需要根据具体的业务规则来实现
+            
+            // 保存项目状态变更
+            await context.SaveChangesAsync();
+        }
+
+        private async Task<InspectionRecord> CheckInspectionRecordAsync(ProjectContext context)
+        {
+            var projectId = Convert.ToInt32(CurrentProjectId);
+            
+            // 获取当前项目信息
+            var project = await context.Projects
+                .Include(p => p.ProjectStage)
+                .FirstOrDefaultAsync(p => p.ProjectsId == projectId);
+            
+            if (project == null)
+            {
+                return null;
+            }
+            
+            // 使用当前项目ID和流程ID查询InspectionRecord表
+            var inspectionRecord = await context.InspectionRecord
+                .FirstOrDefaultAsync(ir => ir.ProjectsId == projectId 
+                                         && ir.projId == project.ProjInforId);
+            
+            return inspectionRecord;
+        }
+
+        private async Task<bool> CheckIfFirstApproverAsync(ProjectContext context)
+        {
+            var projectId = Convert.ToInt32(CurrentProjectId);
+            
+            // 获取当前项目信息
+            var project = await context.Projects
+                .FirstOrDefaultAsync(p => p.ProjectsId == projectId);
+            
+            if (project == null)
+            {
+                return false;
+            }
+            
+            // 获取当前登录人ID
+            var currentUserId = await GetCurrentUserIdAsync(context);
+            
+            // 查询第一顺位审批人
+            var firstApprover = await context.TypeApprFlowPersSeqTable
+                .Where(t => t.equipmenttypeId == project.equipmenttypeId 
+                         && t.Sequence == 1 
+                         && t.Mark != "Dele")
+                .FirstOrDefaultAsync();
+            
+            return firstApprover?.ReviewerPeopleId == currentUserId;
+        }
+
+        private async Task<string> CheckPreviousApprovalResultAsync(ProjectContext context)
+        {
+            var projectId = Convert.ToInt32(CurrentProjectId);
+            
+            // 获取当前项目信息
+            var project = await context.Projects
+                .Include(p => p.ProjectStage)
+                .FirstOrDefaultAsync(p => p.ProjectsId == projectId);
+            
+            if (project == null)
+            {
+                return "FAIL";
+            }
+            
+            // 获取当前登录人ID
+            var currentUserId = await GetCurrentUserIdAsync(context);
+            
+            // 查询当前登录人的审批顺序
+            var currentApprover = await context.TypeApprFlowPersSeqTable
+                .Where(t => t.equipmenttypeId == project.equipmenttypeId 
+                         && t.ReviewerPeopleId == currentUserId 
+                         && t.Mark != "Dele")
+                .FirstOrDefaultAsync();
+            
+            if (currentApprover == null || currentApprover.Sequence <= 1)
+            {
+                return "PASS"; // 第一顺位没有前序审批
+            }
+            
+            // 查询前一顺位审批人
+            var previousSequence = currentApprover.Sequence - 1;
+            var previousApprover = await context.TypeApprFlowPersSeqTable
+                .Where(t => t.equipmenttypeId == project.equipmenttypeId 
+                         && t.Sequence == previousSequence 
+                         && t.Mark != "Dele")
+                .FirstOrDefaultAsync();
+            
+            if (previousApprover == null)
+            {
+                return "FAIL";
+            }
+            
+            // 查询前一顺位审批人的审批结果
+            var previousApproval = await context.InspectionRecord
+                .Where(ir => ir.ProjectsId == projectId 
+                          && ir.projId == project.ProjInforId
+                          && ir.CheckPeopleId == previousApprover.ReviewerPeopleId)
+                .FirstOrDefaultAsync();
+            
+            return previousApproval?.CheckResult ?? "FAIL";
+        }
+
+        private async Task WriteApprovalResultAsync(ProjectContext context)
+        {
+            var projectId = Convert.ToInt32(CurrentProjectId);
+            
+            // 获取当前项目信息
+            var project = await context.Projects
+                .Include(p => p.ProjectStage)
+                .FirstOrDefaultAsync(p => p.ProjectsId == projectId);
+            
+            if (project == null)
+            {
+                return;
+            }
+            
+            // 获取当前登录人ID
+            var currentUserId = await GetCurrentUserIdAsync(context);
+            
+            // 获取当前用户审批顺序
+            var sequence = await GetCurrentUserSequenceAsync(context, project.equipmenttypeId, currentUserId);
+            
+            // 获取数据库总条数+1作为InspectionRecordId
+            var totalRecords = await context.InspectionRecord.CountAsync();
+            var newInspectionRecordId = totalRecords + 1;
+            
+            // 创建审批记录
+            var inspectionRecord = new InspectionRecord
+            {
+                InspectionRecordId = newInspectionRecordId,
+                ProjectsId = projectId,
+                CheckPeopleId = currentUserId,
+                CheckTime = DateTime.Now,
+                CheckResult = "PASS", // 默认通过，实际应根据审批结果设置
+                CheckOpinion = "审批通过", // 可为空
+                projId = project.ProjInforId.GetValueOrDefault(),
+                Sequence = sequence
+            };
+            
+            context.InspectionRecord.Add(inspectionRecord);
+            
+            // 检查当前登录人员是否为最后一位审批人
+            var isLastApprover = await IsLastApproverAsync(context, project.equipmenttypeId, currentUserId);
+            
+            // 如果是最后一位审批人且ProjInforId不等于111，则将ProjInforId加1
+            if (isLastApprover && project.ProjInforId.HasValue && project.ProjInforId.Value != 111)
+            {
+                project.ProjInforId = project.ProjInforId.Value + 1;
+                MessageBox.Show("审批完成！作为最后一位审批人，已将项目流程状态更新到下一阶段。");
+            }
+            else if (isLastApprover && project.ProjInforId.HasValue && project.ProjInforId.Value == 111)
+            {
+                MessageBox.Show("审批完成！当前项目流程状态已为最终阶段（111），无需更新。");
+            }
+            
+            await context.SaveChangesAsync();
+        }
+
+        private async Task<int> GetCurrentUserSequenceAsync(ProjectContext context, int? equipmentTypeId, int userId)
+        {
+            var approver = await context.TypeApprFlowPersSeqTable
+                .Where(t => t.equipmenttypeId == equipmentTypeId 
+                         && t.ReviewerPeopleId == userId 
+                         && t.Mark != "Dele")
+                .FirstOrDefaultAsync();
+            
+            return approver?.Sequence ?? 0;
+        }
+
+        /// <summary>
+        /// 检查当前登录人员是否为最后一位审批人
+        /// </summary>
+        private async Task<bool> IsLastApproverAsync(ProjectContext context, int? equipmentTypeId, int userId)
+        {
+            // 获取当前用户的审批顺序
+            var currentUserSequence = await GetCurrentUserSequenceAsync(context, equipmentTypeId, userId);
+            
+            if (currentUserSequence == 0)
+            {
+                return false; // 当前用户不是审批人
+            }
+            
+            // 获取该设备类型的最大审批顺序
+            var maxSequence = await context.TypeApprFlowPersSeqTable
+                .Where(t => t.equipmenttypeId == equipmentTypeId && t.Mark != "Dele")
+                .MaxAsync(t => (int?)t.Sequence);
+            
+            return maxSequence.HasValue && currentUserSequence == maxSequence.Value;
+        }
+
+        private async Task UpdateProjectProjInforIdAsync(ProjectContext context)
+        {
+            var projectId = Convert.ToInt32(CurrentProjectId);
+            
+            // 获取当前项目信息
+            var project = await context.Projects
+                .FirstOrDefaultAsync(p => p.ProjectsId == projectId);
+            
+            if (project == null)
+            {
+                return;
+            }
+            
+            // 更新ProjInforId字段（当前值+1）
+            if (project.ProjInforId.HasValue)
+            {
+                project.ProjInforId = project.ProjInforId.Value + 1;
+            }
+            else
+            {
+                project.ProjInforId = 1; // 如果当前值为null，则设置为1
+            }
+            
+            await context.SaveChangesAsync();
         }
 
     }

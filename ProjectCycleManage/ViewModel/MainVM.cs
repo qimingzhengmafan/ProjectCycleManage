@@ -15,7 +15,7 @@ namespace ProjectCycleManage.ViewModel
     public partial class MainVM:ObservableObject
     {
         [ObservableProperty]
-        private string _loginpersonname = "李香";
+        private string _loginpersonname = "李世永";
 
         /// <summary>
         /// 登陆者级别
@@ -36,7 +36,7 @@ namespace ProjectCycleManage.ViewModel
 
         public MainVM()
         {
-            _overviewvm = new OverviewVM(_loginpersonnamegrade);
+            _overviewvm = new OverviewVM(Loginpersonnamegrade , Loginpersonname);
             _alertedProjects = new HashSet<int>();
             _context = new ProjectContext();
             

@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="ProjectCycleManage.View.Overview"
+<UserControl x:Class="ProjectCycleManage.View.Overview"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -315,7 +315,8 @@
                                                 BorderThickness="0"
                                                 Foreground="White"
                                                 FontSize="14"
-                                                Background="#2D5BD6"/>
+                                                Background="#2D5BD6"
+                                                Command="{Binding SubmitApprovalCommand}"/>
                                         <Button Width="96"
                                                 Height="36"
                                                 Margin="0 0 5 0"
@@ -325,13 +326,13 @@
                                                 FontSize="14"
                                                 Background="#F44336"/>
                                         
-                                        <Button Width="161"
+                                        <!--<Button Width="161"
                                                 Height="36"
                                                 Content="允许进行下一阶段"
                                                 Foreground="White"
                                                 Background="#4CAF50"
                                                 FontSize="14"
-                                                BorderThickness="0"/>
+                                                BorderThickness="0"/>-->
                                         
                                     </StackPanel>
                                 </Grid>
