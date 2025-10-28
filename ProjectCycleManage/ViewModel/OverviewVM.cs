@@ -86,7 +86,7 @@ namespace ProjectCycleManage.ViewModel
                             Projectstatus = project.ProjectStage.ProjectStageName,
                             Projectstatusprogressdouble = (double)project.FileProgress.GetValueOrDefault(),
                             Runningstatus = project.ProjectPhaseStatus.ProjectPhaseStatusName,
-                            Starttimme = project.ApplicationTime.GetValueOrDefault().ToString(),
+                            Starttimme = project.ApplicationTime,
                             ViewDetailsaction = GetProjectsDatas
                         });
                     }));
@@ -185,10 +185,10 @@ namespace ProjectCycleManage.ViewModel
                                         InformationCardArea.Add(new InformationCardVM()
                                         {
                                             Inforprojectid = data,
-                                            Infortype = item.FileTypesDataname,
+                                            Filename = item.DocumentTypeName,
+                                            
                                             Taginfor = item.Permission,
-
-                                            Filename = item.DocumentTypeName
+                                            Infortype = item.FileTypesDataname,
                                         });
                                     }));
                                     break;
@@ -199,9 +199,10 @@ namespace ProjectCycleManage.ViewModel
                                         InformationCardArea.Add(new InformationCardVM()
                                         {
                                             Inforprojectid = data,
-                                            Infortype = item.FileTypesDataname,
-                                            Taginfor = item.Permission,
                                             File_oa_indata = item.DocumentTypeName,
+                                            
+                                            Taginfor = item.Permission,
+                                            Infortype = item.FileTypesDataname,
                                         });
                                     }));
                                     break;
@@ -228,10 +229,11 @@ namespace ProjectCycleManage.ViewModel
                                     {
                                         InformationCardArea.Add(new InformationCardVM()
                                         {
-                                            Infor_people = item.InformationName,
                                             Inforprojectid = data,
-                                            Infortype = item.InformationType,
+                                            Infor_people = item.InformationName,
+                                            
                                             Taginfor = item.Permission,
+                                            Infortype = item.InformationType,
 
                                         });
                                     }));
@@ -243,9 +245,10 @@ namespace ProjectCycleManage.ViewModel
                                         InformationCardArea.Add(new InformationCardVM()
                                         {
                                             Inforprojectid = data,
-                                            Infortype = item.InformationType,
-                                            Taginfor = item.Permission,
                                             Infor_text_in = item.InformationName,
+                                            
+                                            Taginfor = item.Permission,
+                                            Infortype = item.InformationType,
                                         });
                                     }));
                                     break;
@@ -256,10 +259,10 @@ namespace ProjectCycleManage.ViewModel
                                         InformationCardArea.Add(new InformationCardVM()
                                         {
                                             Inforprojectid = data,
-                                            Infortype = item.InformationType,
+                                            Infor_date_in = item.InformationName,
+                                            
                                             Taginfor = item.Permission,
-
-                                            Infor_date_in = item.InformationName
+                                            Infortype = item.InformationType,
                                         });
                                     }));
                                     break;
@@ -272,9 +275,6 @@ namespace ProjectCycleManage.ViewModel
 
                         }
                     }
-
-
-                    //var io = projectinfor;
                 }
             });
             

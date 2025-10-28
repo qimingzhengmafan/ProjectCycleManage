@@ -151,9 +151,9 @@
                                        FontSize="14"
                                        VerticalAlignment="Center"
                                        Margin="14 0 0 0"/>
-                            <DatePicker Style="{StaticResource LargeDatePickerStyle}"
+                            <DatePicker 
                                         HorizontalAlignment="Left"
-                                        SelectedDate="{Binding Infor_Date_SelectTime}"
+                                        SelectedDate="{Binding Infor_Date_SelectTime,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                                         Width="120"
                                         FontSize="14"
                                         Height="20"

@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Linq.Dynamic.Core;
 using System.Linq.Expressions;
 using System.Reflection.Metadata;
 using System.Text;
@@ -49,6 +50,22 @@ namespace ProjectCycleManage.ViewModel
                         });
                         
                     }
+                }
+                else if (_infortype == "信息-填写")
+                {
+                    Infor_text_write = GetFieldValueByRemarkDynamic( Convert.ToInt32(Inforprojectid) , Infor_text_in).GetAwaiter().GetResult();
+                }
+                else if (_infortype == "信息-日期")
+                {
+                    Infor_date_selecttime = GetFieldValueByRemarkDynamicDateTime(Convert.ToInt32(Inforprojectid), Infor_date_in).GetAwaiter().GetResult();
+                }
+                else if (_infortype == "文档")
+                {
+
+                }
+                else if (_infortype == "文档-OA")
+                {
+
                 }
             }
         }
@@ -265,12 +282,12 @@ namespace ProjectCycleManage.ViewModel
         private string _infor_date_in;
 
         [ObservableProperty]
-        private DateTime _infor_date_selecttime;
+        private DateTime? _infor_date_selecttime;
 
         [RelayCommand]
         private void Infor_Data_BtnFun()
         {
-
+            //MessageBox.Show(Infor_date_selecttime.ToString());
         }
         #endregion
 
@@ -715,6 +732,71 @@ namespace ProjectCycleManage.ViewModel
                 return UpdateResult.Fail($"更新失败：{ex.Message}");
             }
         }
+        public async Task<string> GetFieldValueByRemarkDynamic(int recordId, string remark)
+        {
+            using (var context = new ProjectContext())
+            {
+                // 步骤1：根据备注查询对应的字段名
+                var fieldMapping = context.InformationTable
+                .FirstOrDefault(r => r.Reamrks == remark);
+
+                if (fieldMapping == null)
+                {
+                    throw new KeyNotFoundException($"未找到备注 '{remark}' 对应的字段名");
+                }
+                string targetFieldName = fieldMapping.Infor;
+
+                // 步骤2：使用动态LINQ只查询特定字段
+                // 构建只选择目标字段的查询
+                var query = context.Projects
+                    .Where(p => p.ProjectsId == recordId)
+                    .Select($"new ({targetFieldName} as Value)");
+
+                var result =query.Cast<dynamic>().FirstOrDefault();
+
+                if (result == null)
+                {
+                    throw new KeyNotFoundException($"未找到ID为 {recordId} 的记录");
+                }
+
+                return ConvertToString(result.Value);
+            }
+
+
+        }
+
+        public async Task<DateTime?> GetFieldValueByRemarkDynamicDateTime(int recordId, string remark)
+        {
+            using (var context = new ProjectContext())
+            {
+                // 步骤1：根据备注查询对应的字段名
+                var fieldMapping = context.InformationTable
+                .FirstOrDefault(r => r.Reamrks == remark);
+
+                if (fieldMapping == null)
+                {
+                    throw new KeyNotFoundException($"未找到备注 '{remark}' 对应的字段名");
+                }
+                string targetFieldName = fieldMapping.Infor;
+
+                // 步骤2：使用动态LINQ只查询特定字段
+                // 构建只选择目标字段的查询
+                var query = context.Projects
+                    .Where(p => p.ProjectsId == recordId)
+                    .Select($"new ({targetFieldName} as Value)");
+
+                var result = query.Cast<dynamic>().FirstOrDefault();
+
+                if (result == null)
+                {
+                    throw new KeyNotFoundException($"未找到ID为 {recordId} 的记录");
+                }
+
+                return result.Value;
+            }
+
+
+        }
 
         // 返回结果类
         public class UpdateResult
@@ -724,6 +806,27 @@ namespace ProjectCycleManage.ViewModel
 
             public static UpdateResult Success() => new UpdateResult { IsSuccess = true, Message = "操作成功" };
             public static UpdateResult Fail(string message) => new UpdateResult { IsSuccess = false, Message = message };
+        }
+        private string ConvertToString(object value)
+        {
+            if (value == null)
+                return string.Empty;
+
+            if (value is string str)
+                return str;
+
+            // 处理特殊类型
+            if (value is DateTime dateTime)
+                return dateTime.ToString("yyyy-MM-dd HH:mm:ss");
+
+            if (value is bool boolValue)
+                return boolValue ? "是" : "否";
+
+            if (value is decimal decimalValue)
+                return decimalValue.ToString("F2");
+
+            // 默认使用ToString()
+            return value.ToString();
         }
 
     }

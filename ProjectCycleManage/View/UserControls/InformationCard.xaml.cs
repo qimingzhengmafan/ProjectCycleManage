@@ -374,15 +374,17 @@ namespace ProjectCycleManage.View.UserControls
 
 
 
-        public DateTime Infor_Date_SelectTime
+        public DateTime? Infor_Date_SelectTime
         {
-            get { return (DateTime)GetValue(Infor_Date_SelectTimeProperty); }
+            get { return (DateTime?)GetValue(Infor_Date_SelectTimeProperty); }
             set { SetValue(Infor_Date_SelectTimeProperty, value); }
         }
 
         // Using a DependencyProperty as the backing store for Infor_Date_SelectTime.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty Infor_Date_SelectTimeProperty =
-            DependencyProperty.Register(nameof(Infor_Date_SelectTime), typeof(DateTime), typeof(InformationCard), new PropertyMetadata(null));
+            DependencyProperty.Register(nameof(Infor_Date_SelectTime), typeof(DateTime?), typeof(InformationCard), new PropertyMetadata(null));
+
+
 
 
 

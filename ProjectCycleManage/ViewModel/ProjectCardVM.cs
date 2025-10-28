@@ -31,7 +31,7 @@ namespace ProjectCycleManage.Model
         private string _projectleader;
 
         [ObservableProperty]
-        private string _starttimme;
+        private DateTime? _starttimme;
 
         [ObservableProperty]
         private string _projectstatus;
