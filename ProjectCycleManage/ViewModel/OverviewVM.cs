@@ -106,9 +106,8 @@ namespace ProjectCycleManage.ViewModel
             {
                 using (var context = new ProjectContext())
                 {
-                    // 查询2025年的所有项目
                     var projectinfor = context.Projects
-                    .Where(p => p.Year == 2025 && p.ProjectsId == Convert.ToInt32(data))
+                    .Where(p => p.ProjectsId == Convert.ToInt32(data))
                     .Include(p => p.ProjectStage)
                     .Include(p => p.type)
                     .Include(p => p.ProjectPhaseStatus)
@@ -149,6 +148,7 @@ namespace ProjectCycleManage.ViewModel
                         .Include(etsd => etsd.documenttype)
                         .Select(etsd => new
                         {
+                            //projectid = etsd.
                             DocumentTypeId = etsd.documenttype.DocumentTypeId,
                             DocumentTypeName = etsd.documenttype.DocumentTypeName,
                             Permission = etsd.documenttype.Permission,
@@ -184,6 +184,7 @@ namespace ProjectCycleManage.ViewModel
                                     {
                                         InformationCardArea.Add(new InformationCardVM()
                                         {
+                                            Inforprojectid = data,
                                             Infortype = item.FileTypesDataname,
                                             Taginfor = item.Permission,
 
@@ -197,6 +198,7 @@ namespace ProjectCycleManage.ViewModel
                                     {
                                         InformationCardArea.Add(new InformationCardVM()
                                         {
+                                            Inforprojectid = data,
                                             Infortype = item.FileTypesDataname,
                                             Taginfor = item.Permission,
                                             File_oa_indata = item.DocumentTypeName,
@@ -226,10 +228,11 @@ namespace ProjectCycleManage.ViewModel
                                     {
                                         InformationCardArea.Add(new InformationCardVM()
                                         {
+                                            Infor_people = item.InformationName,
+                                            Inforprojectid = data,
                                             Infortype = item.InformationType,
                                             Taginfor = item.Permission,
 
-                                            Infor_people = item.InformationName
                                         });
                                     }));
                                     break;
@@ -239,6 +242,7 @@ namespace ProjectCycleManage.ViewModel
                                     {
                                         InformationCardArea.Add(new InformationCardVM()
                                         {
+                                            Inforprojectid = data,
                                             Infortype = item.InformationType,
                                             Taginfor = item.Permission,
                                             Infor_text_in = item.InformationName,
@@ -251,6 +255,7 @@ namespace ProjectCycleManage.ViewModel
                                     {
                                         InformationCardArea.Add(new InformationCardVM()
                                         {
+                                            Inforprojectid = data,
                                             Infortype = item.InformationType,
                                             Taginfor = item.Permission,
 

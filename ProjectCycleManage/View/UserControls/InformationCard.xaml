@@ -66,9 +66,8 @@
                                       ItemsSource="{Binding Infor_People_Ob}"
                                       DisplayMemberPath="PeopleName"
                                       SelectedValuePath="PeopleId"
-                                      SelectedItem="{Binding Infor_Sele_People, Mode=TwoWay}"
+                                      SelectedItem="{Binding Infor_Sele_People, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                                       Margin="20 0 0 0"
-                                      SelectedIndex="0"
                                       VerticalContentAlignment="Center">
                             </ComboBox>
 
@@ -94,7 +93,7 @@
                                        VerticalAlignment="Center"
                                        Margin="14 0 0 0"/>
                             <TextBox VerticalAlignment="Center"
-                                     Text="{Binding Infor_Text_Write}"
+                                     Text="{Binding Infor_Text_Write ,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                                      Width="125"
                                      Height="25"
                                      Margin="20 0 0 0"

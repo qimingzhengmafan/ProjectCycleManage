@@ -1,13 +1,18 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using Microsoft.EntityFrameworkCore;
 using ProjectManagement.Data;
 using ProjectManagement.Models;
+using SkiaSharp;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Linq.Expressions;
+using System.Reflection.Metadata;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Input;
 
 namespace ProjectCycleManage.ViewModel
@@ -16,12 +21,41 @@ namespace ProjectCycleManage.ViewModel
     {
         #region 公共属性
 
+        /// <summary>
+        /// 等级/权限信息
+        /// </summary>
         [ObservableProperty]
         private string _taginfor;
 
-        [ObservableProperty]
+        /// <summary>
+        /// 信息类型-例-文档-OA
+        /// </summary>
+        //[ObservableProperty]
         private string _infortype;
+        public string Infortype
+        {
+            get => _infortype;
+            set
+            {
+                _infortype = value;
+                OnPropertyChanged();
+                if (_infortype == "信息-下拉框")
+                {
+                    if (Infor_people == "项目负责人" || Infor_people == "跟进人")
+                    {
+                        Task.Run(() =>
+                        {
+                            LoadEmployees();
+                        });
+                        
+                    }
+                }
+            }
+        }
 
+        /// <summary>
+        /// 项目ID
+        /// </summary>
         [ObservableProperty]
         private string _inforprojectid;
 
@@ -37,7 +71,7 @@ namespace ProjectCycleManage.ViewModel
         [RelayCommand]
         private void checkcommand()
         {
-
+            MessageBox.Show("click" + Fileisexist.Value.ToString());
         }
         #endregion
 
@@ -55,20 +89,158 @@ namespace ProjectCycleManage.ViewModel
         }
         #endregion
 
-        #region 信息-下拉框
+        #region 信息-人员下拉框
         [ObservableProperty]
         private string _infor_people;
 
-        [ObservableProperty]
+        //[ObservableProperty]
         private ObservableCollection<PeopleTable> _infor_people_ob;
+        public ObservableCollection<PeopleTable> Infor_people_ob
+        {
+            get => _infor_people_ob;
+            set
+            {
+                _infor_people_ob = value;
+                OnPropertyChanged();
+            }
+        }
 
-        [ObservableProperty]
-        private PeopleTable infor_sele_people;
+        //[ObservableProperty]
+        private PeopleTable _infor_sele_people;
+        public PeopleTable Infor_sele_people
+        {
+            get => _infor_sele_people;
+            set
+            {
+                _infor_sele_people = value;
+                OnPropertyChanged();
+                //UpdateStatusMessage();
+            }
+        }
+
+        // 加载员工数据
+        private void LoadEmployees()
+        {
+            try
+            {
+                using (var context = new ProjectContext())
+                {
+                    var employees = context.PeopleTable
+                        .OrderBy(e => e.PeopleName)
+                        .ToList();
+
+                    Infor_people_ob = new ObservableCollection<PeopleTable>(employees);
+
+                    if (Infor_people_ob.Count > 0)
+                    {
+                        //SelectedFollowEmployee = Employees[0];
+                        //Infor_sele_people = Infor_people_ob[0];
+                        Infor_sele_people = null;
+                    }
+                }
+
+                using (var context = new ProjectContext())
+                {
+                    if (Infor_people == "跟进人")
+                    {
+                        var project = context.Projects
+                            .Include(p => p.equipmenttype)
+                            .Include(p => p.type)
+                            .Include(p => p.ProjectStage)
+                            .Include(p => p.ProjectPhaseStatus)
+                            .Include(p => p.ProjectLeader)
+                            .Include(p => p.projectfollowupperson)
+                            .FirstOrDefault(p => p.ProjectsId == Convert.ToInt32(Inforprojectid));
+
+                        if (project != null)
+                        {
+                            if (project.projectfollowuppersonId.HasValue)
+                            {
+                                Infor_sele_people = Infor_people_ob?.FirstOrDefault(e => e.PeopleId == project.projectfollowuppersonId.Value);
+                            }
+                        }
+                    }
+                    else if (Infor_people == "项目负责人")
+                    {
+                        var project = context.Projects
+                            .Include(p => p.equipmenttype)
+                            .Include(p => p.type)
+                            .Include(p => p.ProjectStage)
+                            .Include(p => p.ProjectPhaseStatus)
+                            .Include(p => p.ProjectLeader)
+                            .Include(p => p.projectfollowupperson)
+                            .FirstOrDefault(p => p.ProjectsId == Convert.ToInt32(Inforprojectid));
+
+                        if (project != null)
+                        {
+                            if (project.projectfollowuppersonId.HasValue)
+                            {
+                                Infor_sele_people = Infor_people_ob?.FirstOrDefault(e => e.PeopleId == project.ProjectLeaderId.Value);
+                            }
+                        }
+                    }
+
+                }
+            }
+            catch (Exception ex)
+            {
+
+            }
+        }
 
         [RelayCommand]
         private void Infor_People_BtnFun()
         {
+            Task.Run(() =>
+            {
+                try
+                {
+                    using (var context = new ProjectContext())
+                    {
+                        if (Infor_people == "跟进人")
+                        {
+                            // 先查询出要更新的实体
+                            var entity = context.Projects
+                                .FirstOrDefault(x => x.ProjectsId == Convert.ToInt32(Inforprojectid));
 
+                            if (entity != null)
+                            {
+                                // 更新指定字段
+                                entity.projectfollowuppersonId = Infor_sele_people.PeopleId;
+
+                                // 保存更改
+                                context.SaveChangesAsync();
+                            }
+                            MessageBox.Show("保存成功");
+                        }
+                        else if (Infor_people == "项目负责人")
+                        {
+                            // 先查询出要更新的实体
+                            var entity = context.Projects
+                                .FirstOrDefault(x => x.ProjectsId == Convert.ToInt32(Inforprojectid));
+
+                            if (entity != null)
+                            {
+                                // 更新指定字段
+                                entity.ProjectLeaderId = Infor_sele_people.PeopleId;
+
+                                // 保存更改
+                                context.SaveChangesAsync();
+                            }
+                            MessageBox.Show("保存成功");
+                        }
+
+                    }
+                }
+                catch (Exception)
+                {
+                    MessageBox.Show("保存失败");
+
+                    //throw;
+                }
+                //MessageBox.Show("Change!" + Infor_sele_people.PeopleName);
+                
+            });
         }
         #endregion
 
@@ -82,6 +254,8 @@ namespace ProjectCycleManage.ViewModel
         [RelayCommand]
         private void Infor_text_btnFun()
         {
+            //MessageBox.Show("1" + Infor_text_write);
+            UpdateByRemark(Convert.ToInt32(Inforprojectid) , Infor_text_in , Infor_text_write);
 
         }
         #endregion
@@ -100,7 +274,10 @@ namespace ProjectCycleManage.ViewModel
         }
         #endregion
 
+        public InformationCardVM()
+        {
 
+        }
 
 
         //#region 责任人下拉框
@@ -475,6 +652,79 @@ namespace ProjectCycleManage.ViewModel
 
 
         //#endregion
+
+
+        /// <summary>
+        /// 通过备注更新主表记录
+        /// </summary>
+        /// <param name="mainTableId">主表记录的唯一ID</param>
+        /// <param name="remark">已知的字段备注</param>
+        /// <param name="newValue">要更新的新值</param>
+        /// <returns>是否更新成功</returns>
+        public async Task<UpdateResult> UpdateByRemark(int mainTableId, string remark, object newValue)
+        {
+            try
+            {
+                using var context = new ProjectContext();
+
+                // 查找字段映射
+                var fieldRemark = await context.InformationTable
+                    .FirstOrDefaultAsync(r => r.Reamrks == remark);
+
+                if (fieldRemark == null)
+                {
+                    return UpdateResult.Fail($"未找到备注 '{remark}' 对应的字段映射");
+                }
+
+                string targetFieldName = fieldRemark.Infor;
+
+                // 验证字段存在性
+                var targetProperty = typeof(Projects).GetProperty(targetFieldName);
+                if (targetProperty == null)
+                {
+                    return UpdateResult.Fail($"主表不存在字段：{targetFieldName}");
+                }
+
+                // 查找实体
+                var entity = await context.Projects
+                    .FirstOrDefaultAsync(m => m.ProjectsId == mainTableId);
+
+                if (entity == null)
+                {
+                    return UpdateResult.Fail($"未找到ID为 {mainTableId} 的记录");
+                }
+
+                // 类型转换并赋值
+                try
+                {
+                    var convertedValue = Convert.ChangeType(newValue, targetProperty.PropertyType);
+                    targetProperty.SetValue(entity, convertedValue);
+                }
+                catch (InvalidCastException)
+                {
+                    return UpdateResult.Fail($"值 '{newValue}' 无法转换为字段 {targetFieldName} 的类型 {targetProperty.PropertyType.Name}");
+                }
+
+                // 保存更改
+                await context.SaveChangesAsync();
+                return UpdateResult.Success();
+            }
+            catch (Exception ex)
+            {
+                //_logger.LogError(ex, "更新字段时发生错误");
+                return UpdateResult.Fail($"更新失败：{ex.Message}");
+            }
+        }
+
+        // 返回结果类
+        public class UpdateResult
+        {
+            public bool IsSuccess { get; set; }
+            public string Message { get; set; }
+
+            public static UpdateResult Success() => new UpdateResult { IsSuccess = true, Message = "操作成功" };
+            public static UpdateResult Fail(string message) => new UpdateResult { IsSuccess = false, Message = message };
+        }
 
     }
 }
