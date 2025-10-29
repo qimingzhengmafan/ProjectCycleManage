@@ -213,9 +213,39 @@ namespace ProjectCycleManage.ViewModel
                 // 创建数据库上下文
                 using var context = new ProjectContext();
 
-                // 查询2025年的所有项目
-                var projectsdata = context.Projects
-                    .Where(p => p.Year == DateTime.Now.Year)
+                // 获取当前登录人的ID
+                var currentUser = context.PeopleTable
+                    .FirstOrDefault(p => p.PeopleName == loginpeoplename);
+                
+                if (currentUser == null)
+                {
+                    // 如果找不到当前用户，不加载任何项目
+                    return;
+                }
+
+                // 检查当前用户是否在typeapprflowpersseqtable的ReviewerPeopleId中
+                var isReviewer = context.TypeApprFlowPersSeqTable
+                    .Any(t => t.ReviewerPeopleId == currentUser.PeopleId && t.Mark != "Dele");
+
+                IQueryable<Projects> projectsQuery;
+
+                if (isReviewer)
+                {
+                    // 如果是审核人，显示当前年份全部项目
+                    projectsQuery = context.Projects
+                        .Where(p => p.Year == DateTime.Now.Year);
+                }
+                else
+                {
+                    // 如果不是审核人，只显示当前用户负责或跟进的项目
+                    projectsQuery = context.Projects
+                        .Where(p => p.Year == DateTime.Now.Year &&
+                                  (p.ProjectLeaderId == currentUser.PeopleId || 
+                                   p.projectfollowuppersonId == currentUser.PeopleId));
+                }
+
+                // 执行查询
+                var projectsdata = projectsQuery
                     .Include(p => p.ProjectStage)
                     .Include(p => p.type)
                     .Include(p => p.ProjectPhaseStatus)
