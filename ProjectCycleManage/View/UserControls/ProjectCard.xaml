@@ -14,6 +14,13 @@
     <Grid DataContext="{Binding ElementName=UC_ProjectCard}">
         <Border Background="White"
                 CornerRadius="15">
+            <Border.Effect>
+                <DropShadowEffect Color="Black" 
+                                  Direction="5" 
+                                  ShadowDepth="5" 
+                                  Opacity="0.3" 
+                                  BlurRadius="10"/>
+            </Border.Effect>
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="45"/>

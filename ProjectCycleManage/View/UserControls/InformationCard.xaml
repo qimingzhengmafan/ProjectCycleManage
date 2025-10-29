@@ -14,6 +14,13 @@
           IsEnabled="{Binding CardIsEnable}">
         <Border CornerRadius="15"
                 Background="White">
+            <Border.Effect>
+                <DropShadowEffect Color="Black" 
+                                  Direction="2" 
+                                  ShadowDepth="2" 
+                                  Opacity="0.3" 
+                                  BlurRadius="2"/>
+            </Border.Effect>
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="36"/>
