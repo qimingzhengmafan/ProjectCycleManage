@@ -7,6 +7,7 @@
         xmlns:Menu="clr-namespace:Page_Navigation_App.Utilities"
         xmlns:view="clr-namespace:ProjectCycleManage.View"
         xmlns:vm="clr-namespace:ProjectCycleManage.ViewModel"
+        WindowState="Maximized"
         mc:Ignorable="d"
         Title="MainWindow"
         Height="1080" 
