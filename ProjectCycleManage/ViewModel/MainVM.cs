@@ -34,8 +34,11 @@ namespace ProjectCycleManage.ViewModel
         private readonly HashSet<int> _alertedProjects;
         private ProjectContext _context;
 
-        public MainVM()
+        public MainVM(string name , int personnamegrade)
         {
+            Loginpersonnamegrade = personnamegrade;
+            Loginpersonname = name;
+
             _overviewvm = new OverviewVM(Loginpersonnamegrade , Loginpersonname);
             _alertedProjects = new HashSet<int>();
             _context = new ProjectContext();

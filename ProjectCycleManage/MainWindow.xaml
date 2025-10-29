@@ -8,12 +8,12 @@
         xmlns:view="clr-namespace:ProjectCycleManage.View"
         xmlns:vm="clr-namespace:ProjectCycleManage.ViewModel"
         mc:Ignorable="d"
-        Title="MainWindow" 
+        Title="MainWindow"
         Height="1080" 
         Width="1920">
-    <Window.DataContext>
+    <!--<Window.DataContext>
         <vm:MainVM/>
-    </Window.DataContext>
+    </Window.DataContext>-->
     
     <Grid Background="#f5f7fa">
         <Grid.ColumnDefinitions>

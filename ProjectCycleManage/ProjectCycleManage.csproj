@@ -16,9 +16,12 @@
     <None Remove="Resources\Images\完成.png" />
     <None Remove="Resources\Images\想法.png" />
     <None Remove="Resources\Images\文档.png" />
+    <None Remove="Resources\Images\登录.png" />
     <None Remove="Resources\Images\组织架构.png" />
     <None Remove="Resources\Images\设置.png" />
+    <None Remove="Resources\Images\退出登录.png" />
     <None Remove="Resources\Images\采购2.png" />
+    <None Remove="Resources\Images\锁定.png" />
     <None Remove="Resources\Images\项目管理.png" />
     <None Remove="Resources\Images\预验收.png" />
     <None Remove="Resources\Images\验收.png" />
@@ -75,13 +78,22 @@
     <Resource Include="Resources\Images\文档.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
+    <Resource Include="Resources\Images\登录.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="Resources\Images\组织架构.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Resources\Images\设置.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
+    <Resource Include="Resources\Images\退出登录.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="Resources\Images\采购2.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\锁定.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Resources\Images\项目管理.png">
