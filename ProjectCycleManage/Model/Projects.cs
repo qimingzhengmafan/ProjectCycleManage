@@ -1,4 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using ProjectCycleManage.Model;
 using System;
 using System.Collections.Generic;
@@ -105,6 +105,9 @@ namespace ProjectManagement.Models
         [Comment("流程ID")]
         public int? ProjInforId { get; set; }
         public ProjFlowTable? ProjInfor { get; set; }
+
+        [Comment("最后一次提交审核时间")]
+        public DateTime? LastSubmitTime { get; set; }
 
     }
 }

@@ -236,7 +236,7 @@ namespace ProjectCycleManage.ViewModel
                     }
                 }
                 
-                // 4. 写入审批结果
+                // 5. 写入审批结果
                 await WriteApprovalResultAsync(context);
                 MessageBox.Show("审批完成");
             }
@@ -568,6 +568,9 @@ namespace ProjectCycleManage.ViewModel
                 return;
             }
             
+            // 更新最后一次提交审核时间
+            project.LastSubmitTime = DateTime.Now;
+            
             // 根据当前流程状态，设置下一步的流程状态
             // 这里需要根据实际业务逻辑来确定下一步的流程状态
             // 目前暂时保持原状态，实际应用中可能需要更新到下一个审批阶段
@@ -593,10 +596,14 @@ namespace ProjectCycleManage.ViewModel
                 return null;
             }
             
-            // 使用当前项目ID和流程ID查询InspectionRecord表
+            // 获取当前登录人ID
+            var currentUserId = await GetCurrentUserIdAsync(context);
+            
+            // 使用当前项目ID、流程ID和当前用户ID查询InspectionRecord表
             var inspectionRecord = await context.InspectionRecord
                 .FirstOrDefaultAsync(ir => ir.ProjectsId == projectId 
-                                         && ir.projId == project.ProjInforId);
+                                         && ir.projId == project.ProjInforId
+                                         && ir.CheckPeopleId == currentUserId);
             
             return inspectionRecord;
         }
@@ -669,11 +676,12 @@ namespace ProjectCycleManage.ViewModel
                 return "FAIL";
             }
             
-            // 查询前一顺位审批人的审批结果
+            // 查询前一顺位审批人的审批结果（按时间降序排序，获取最新记录）
             var previousApproval = await context.InspectionRecord
                 .Where(ir => ir.ProjectsId == projectId 
                           && ir.projId == project.ProjInforId
                           && ir.CheckPeopleId == previousApprover.ReviewerPeopleId)
+                .OrderByDescending(ir => ir.CheckTime) // 按审批时间降序排序
                 .FirstOrDefaultAsync();
             
             return previousApproval?.CheckResult ?? "FAIL";
@@ -836,6 +844,9 @@ namespace ProjectCycleManage.ViewModel
             {
                 return;
             }
+            
+            // 更新最后一次提交审核时间
+            project.LastSubmitTime = DateTime.Now;
             
             // 更新ProjInforId字段（当前值+1）
             if (project.ProjInforId.HasValue)

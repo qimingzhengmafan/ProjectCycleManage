@@ -1,4 +1,4 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.ComponentModel;
 using ProjectManagement.Data;
 using ProjectCycleManage.Model;
 using System;
@@ -15,13 +15,13 @@ namespace ProjectCycleManage.ViewModel
     public partial class MainVM:ObservableObject
     {
         [ObservableProperty]
-        private string _loginpersonname = "李世永";
+        private string _loginpersonname;
 
         /// <summary>
         /// 登陆者级别
         /// </summary>
         [ObservableProperty]
-        private int _loginpersonnamegrade = 2;
+        private int _loginpersonnamegrade;
 
         private OverviewVM _overviewvm;
         public OverviewVM OverView
@@ -32,6 +32,7 @@ namespace ProjectCycleManage.ViewModel
 
         private Timer _monitoringTimer;
         private readonly HashSet<int> _alertedProjects;
+        private readonly Dictionary<int, DateTime> _alertTimes;
         private ProjectContext _context;
 
         public MainVM(string name , int personnamegrade)
@@ -41,6 +42,7 @@ namespace ProjectCycleManage.ViewModel
 
             _overviewvm = new OverviewVM(Loginpersonnamegrade , Loginpersonname);
             _alertedProjects = new HashSet<int>();
+            _alertTimes = new Dictionary<int, DateTime>();
             _context = new ProjectContext();
             
             // 启动项目监控
@@ -65,6 +67,22 @@ namespace ProjectCycleManage.ViewModel
         }
 
         /// <summary>
+        /// 获取项目的最后提醒时间
+        /// </summary>
+        private DateTime GetLastAlertTime(int projectId)
+        {
+            return _alertTimes.ContainsKey(projectId) ? _alertTimes[projectId] : DateTime.MinValue;
+        }
+
+        /// <summary>
+        /// 更新项目的提醒时间
+        /// </summary>
+        private void UpdateAlertTime(int projectId, DateTime alertTime)
+        {
+            _alertTimes[projectId] = alertTime;
+        }
+
+        /// <summary>
         /// 获取当前登录用户的ID
         /// </summary>
         private async Task<int?> GetCurrentUserIdAsync()
@@ -78,6 +96,7 @@ namespace ProjectCycleManage.ViewModel
             }
             catch (Exception ex)
             {
+                MessageBox.Show($"获取当前用户ID出错: {ex.Message}");
                 Console.WriteLine($"获取当前用户ID出错: {ex.Message}");
                 return null;
             }
@@ -146,8 +165,43 @@ namespace ProjectCycleManage.ViewModel
 
                     if (currentUserSeq <= 1)
                     {
-                        // 已经是第一顺位，丢弃结果
-                        return false;
+                        // 检查当前用户是否已经审批过（第一顺位也需要检查重新提交）
+                        var currentUserApproval1 = await _context.InspectionRecord
+                            .Where(ir => ir.ProjectsId == projectId &&
+                                        ir.projId == project.ProjInforId &&
+                                        ir.CheckPeopleId == currentUserId)
+                            .FirstOrDefaultAsync();
+
+                        if (currentUserApproval1 != null)
+                        {
+                            // 如果当前用户已经审批过，检查审批结果
+                            if (currentUserApproval1.CheckResult == "PASS")
+                            {
+                                // 如果之前已经通过，丢弃结果（不能重复审批）
+                                return false;
+                            }
+                            else if (currentUserApproval1.CheckResult == "REJECT")
+                            {
+                                // 如果之前驳回过，检查项目是否重新提交
+                                var projectInfo = await _context.Projects
+                                    .FirstOrDefaultAsync(p => p.ProjectsId == projectId);
+                                
+                                if (projectInfo != null && projectInfo.LastSubmitTime.HasValue)
+                                {
+                                    // 如果项目重新提交的时间晚于驳回时间，说明是第二次提交，需要重新审批
+                                    if (projectInfo.LastSubmitTime > currentUserApproval1.CheckTime)
+                                    {
+                                        return true; // 需要重新审批
+                                    }
+                                }
+                                
+                                // 项目未重新提交，不能再次审批
+                                return false;
+                            }
+                        }
+                        
+                        // 如果是第一顺位且没有审批记录，可以审批
+                        return true;
                     }
 
                     // 查找前一顺位审批人的审批结果
@@ -177,12 +231,41 @@ namespace ProjectCycleManage.ViewModel
                                     ir.CheckPeopleId == currentUserId)
                         .FirstOrDefaultAsync();
 
-                    // 如果当前用户已经审批过，则不能再次审批
-                    return currentUserApproval == null;
+                    if (currentUserApproval != null)
+                    {
+                        // 如果当前用户已经审批过，检查审批结果
+                        if (currentUserApproval.CheckResult == "PASS")
+                        {
+                            // 如果之前已经通过，丢弃结果（不能重复审批）
+                            return false;
+                        }
+                        else if (currentUserApproval.CheckResult == "REJECT")
+                        {
+                            // 如果之前驳回过，检查项目是否重新提交
+                            var projectInfo = await _context.Projects
+                                .FirstOrDefaultAsync(p => p.ProjectsId == projectId);
+                            
+                            if (projectInfo != null && projectInfo.LastSubmitTime.HasValue)
+                            {
+                                // 如果项目重新提交的时间晚于驳回时间，说明是第二次提交，需要重新审批
+                                if (projectInfo.LastSubmitTime > currentUserApproval.CheckTime)
+                                {
+                                    return true; // 需要重新审批
+                                }
+                            }
+                            
+                            // 项目未重新提交，不能再次审批
+                            return false;
+                        }
+                    }
+
+                    // 如果当前用户没有审批过，可以审批
+                    return true;
                 }
             }
             catch (Exception ex)
             {
+                MessageBox.Show("审批权限检查出错");
                 // 记录日志
                 Console.WriteLine($"审批权限检查出错: {ex.Message}");
                 return false;
@@ -199,6 +282,7 @@ namespace ProjectCycleManage.ViewModel
                 var currentUserId = await GetCurrentUserIdAsync();
                 if (currentUserId == null)
                 {
+                    MessageBox.Show("无法获取当前用户ID，跳过检查");
                     Console.WriteLine("无法获取当前用户ID，跳过检查");
                     return;
                 }
@@ -230,17 +314,19 @@ namespace ProjectCycleManage.ViewModel
                     // 对每个项目进行完整的审批流程检查
                     foreach (var project in alertProjects)
                     {
-                        // 检查是否已经提醒过
-                        if (_alertedProjects.Contains(project.ProjectId))
-                            continue;
-
                         // 检查审批权限和流程条件
                         var canApprove = await CheckApprovalPermissionAsync(project.ProjectId, currentUserId.Value);
                         
                         if (canApprove)
                         {
-                            validAlertProjects.Add(project);
-                            _alertedProjects.Add(project.ProjectId);
+                            // 检查是否需要提醒（通过已提醒项目集合的跟踪）
+                            if (!_alertedProjects.Contains(project.ProjectId))
+                            {
+                                validAlertProjects.Add(project);
+                                _alertedProjects.Add(project.ProjectId);
+                                // 设置提醒时间为当前时间
+                                UpdateAlertTime(project.ProjectId, DateTime.Now);
+                            }
                         }
                     }
 
@@ -256,6 +342,7 @@ namespace ProjectCycleManage.ViewModel
             }
             catch (Exception ex)
             {
+                MessageBox.Show("$\"项目监控出错: {ex.Message}\"");
                 Console.WriteLine($"项目监控出错: {ex.Message}");
             }
         }

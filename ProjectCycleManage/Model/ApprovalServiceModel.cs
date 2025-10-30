@@ -52,6 +52,7 @@ namespace ProjectCycleManage.Model
             }
             catch (Exception ex)
             {
+                MessageBox.Show($"项目状态检查出错: {ex.Message} -- Approvalse");
                 Console.WriteLine($"项目状态检查出错: {ex.Message}");
                 return new List<ProjectAlertInfo>();
             }
