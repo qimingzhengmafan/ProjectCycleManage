@@ -111,8 +111,39 @@ namespace ProjectCycleManage.ViewModel
             
             if (existingRecord != null)
             {
-                MessageBox.Show("您已经审批过此项目！");
-                return;
+                // 如果当前用户已经审批过，检查是否是第二次提交
+                if (existingRecord.CheckResult == "PASS")
+                {
+                    MessageBox.Show("您已经审批通过此项目，无法再次驳回！");
+                    return;
+                }
+                else if (existingRecord.CheckResult == "Rejection")
+                {
+                    // 如果是驳回状态，检查项目是否重新提交
+                    var projectId = Convert.ToInt32(CurrentProjectId);
+                    var project = await context.Projects
+                        .FirstOrDefaultAsync(p => p.ProjectsId == projectId);
+                    
+                    if (project != null && project.LastSubmitTime.HasValue)
+                    {
+                        // 如果项目重新提交的时间晚于驳回时间，说明是第二次提交，可以重新驳回
+                        if (project.LastSubmitTime > existingRecord.CheckTime)
+                        {
+                            // 允许重新驳回
+                            MessageBox.Show("项目已重新提交，可以重新驳回！");
+                        }
+                        else
+                        {
+                            MessageBox.Show("您已经驳回过此项目！");
+                            return;
+                        }
+                    }
+                    else
+                    {
+                        MessageBox.Show("您已经驳回过此项目！");
+                        return;
+                    }
+                }
             }
             
             // 写入驳回结果
@@ -192,10 +223,12 @@ namespace ProjectCycleManage.ViewModel
                 
                 // 检查当前登录人员是否已经有审批记录
                 var currentUserApprovalRecord = await context.InspectionRecord
+                    .OrderByDescending(ir => ir.CheckTime)
                     .FirstOrDefaultAsync(ir => ir.ProjectsId == projectId 
                                              && ir.projId == project.ProjInforId 
                                              && ir.CheckPeopleId == currentUserId);
-                
+
+
                 if (currentUserApprovalRecord != null)
                 {
                     // 当前登录人员已经有审批记录
@@ -601,6 +634,7 @@ namespace ProjectCycleManage.ViewModel
             
             // 使用当前项目ID、流程ID和当前用户ID查询InspectionRecord表
             var inspectionRecord = await context.InspectionRecord
+                .OrderByDescending(ir => ir.CheckTime)
                 .FirstOrDefaultAsync(ir => ir.ProjectsId == projectId 
                                          && ir.projId == project.ProjInforId
                                          && ir.CheckPeopleId == currentUserId);
