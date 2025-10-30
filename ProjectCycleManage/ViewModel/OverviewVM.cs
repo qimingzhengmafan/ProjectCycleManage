@@ -240,7 +240,7 @@ namespace ProjectCycleManage.ViewModel
                     else if (currentUserApprovalRecord.CheckResult == "Rejection")
                     {
                         // 如果是拒绝状态，可以继续审批
-                        MessageBox.Show("继续审批流程");
+                        //MessageBox.Show("继续审批流程");
                     }
                 }
                 

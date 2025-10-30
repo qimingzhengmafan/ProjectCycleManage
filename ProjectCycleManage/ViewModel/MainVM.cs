@@ -170,6 +170,7 @@ namespace ProjectCycleManage.ViewModel
                             .Where(ir => ir.ProjectsId == projectId &&
                                         ir.projId == project.ProjInforId &&
                                         ir.CheckPeopleId == currentUserId)
+                            .OrderByDescending(ir => ir.CheckTime)
                             .FirstOrDefaultAsync();
 
                         if (currentUserApproval1 != null)
@@ -229,6 +230,7 @@ namespace ProjectCycleManage.ViewModel
                         .Where(ir => ir.ProjectsId == projectId &&
                                     ir.projId == project.ProjInforId &&
                                     ir.CheckPeopleId == currentUserId)
+                        .OrderByDescending(ir => ir.CheckTime)
                         .FirstOrDefaultAsync();
 
                     if (currentUserApproval != null)
