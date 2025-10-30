@@ -42,6 +42,8 @@ namespace ProjectCycleManage.ViewModel
         [ObservableProperty]
         private string _loginpersonname;
 
+        [ObservableProperty]
+        private string _projectstage;
         /// <summary>
         /// 登录者等级
         /// </summary>
@@ -276,10 +278,11 @@ namespace ProjectCycleManage.ViewModel
 
         }
 
-        public void GetProjectsDatas(string data)
+        public void GetProjectsDatas(string data , string projectstage)
         {
             InformationCardArea.Clear();
             CurrentProjectId = data;
+            Projectstage = projectstage;
             //MessageBox.Show("overviewvm" + data);
             Task.Run(() =>
             {

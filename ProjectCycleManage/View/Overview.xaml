@@ -245,7 +245,7 @@
                                             Orientation="Horizontal"
                                             HorizontalAlignment="Left"
                                             VerticalAlignment="Bottom">
-                                    <TextBlock Text="预验收阶段"
+                                    <TextBlock Text="{Binding Projectstage}"
                                                FontSize="16"
                                                FontWeight="Bold"
                                                Foreground="#101010"/>

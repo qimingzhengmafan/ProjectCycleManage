@@ -42,7 +42,7 @@ namespace ProjectCycleManage.Model
         [ObservableProperty]
         private string _projectsid;
 
-        public Action<string> ViewDetailsaction;
+        public Action<string , string> ViewDetailsaction;
 
         [RelayCommand]
         private void SuspendProject()
@@ -64,12 +64,12 @@ namespace ProjectCycleManage.Model
         {
             //查看详情
             //MessageBox.Show("此项目序号为 ： " + Projectsid);
-            ViewDetailsaction(Projectsid);
+            ViewDetailsaction(Projectsid , Projectstatus);
         }
 
-        private void ViewDetailsFun(string ProjectID)
+        private void ViewDetailsFun(string ProjectID , string projectstatus)
         {
-            ViewDetailsaction(ProjectID);
+            ViewDetailsaction(ProjectID , projectstatus);
         }
 
 

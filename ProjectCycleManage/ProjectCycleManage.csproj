@@ -6,6 +6,7 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <UseWPF>true</UseWPF>
+    <ApplicationIcon>Resources\Images\图标.ico</ApplicationIcon>
   </PropertyGroup>
 
   <ItemGroup>
@@ -13,6 +14,7 @@
     <None Remove="Resources\Images\home-copy-copy.png" />
     <None Remove="Resources\Images\任务.png" />
     <None Remove="Resources\Images\分析.png" />
+    <None Remove="Resources\Images\图标.ico" />
     <None Remove="Resources\Images\完成.png" />
     <None Remove="Resources\Images\想法.png" />
     <None Remove="Resources\Images\文档.png" />
@@ -25,6 +27,10 @@
     <None Remove="Resources\Images\项目管理.png" />
     <None Remove="Resources\Images\预验收.png" />
     <None Remove="Resources\Images\验收.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Resources\Images\图标.ico" />
   </ItemGroup>
 
   <ItemGroup>
