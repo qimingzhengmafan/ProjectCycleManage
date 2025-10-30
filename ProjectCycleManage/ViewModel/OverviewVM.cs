@@ -72,6 +72,56 @@ namespace ProjectCycleManage.ViewModel
         }
 
         [RelayCommand]
+        private async Task RejectApproval()
+        {
+            using var context = new ProjectContext();
+            
+            // 检查审批权限和流程状态
+            var (hasApprovalPermission, isInApprovalFlow) = await CheckApprovalPermissionAndFlowStatusAsync(context);
+            
+            if (!hasApprovalPermission)
+            {
+                MessageBox.Show("您没有审批权限！");
+                return;
+            }
+            
+            if (!isInApprovalFlow)
+            {
+                MessageBox.Show("当前项目不在审批流程中！");
+                return;
+            }
+            
+            // 检查当前用户是否为第一顺位审批人
+            var isFirstApprover = await CheckIfFirstApproverAsync(context);
+            
+            if (!isFirstApprover)
+            {
+                // 检查前序审批结果
+                var previousResult = await CheckPreviousApprovalResultAsync(context);
+                
+                if (previousResult != "PASS")
+                {
+                    MessageBox.Show("前序审批未通过，无法进行驳回！");
+                    return;
+                }
+            }
+            
+            // 检查是否已有审批记录
+            var existingRecord = await CheckInspectionRecordAsync(context);
+            
+            if (existingRecord != null)
+            {
+                MessageBox.Show("您已经审批过此项目！");
+                return;
+            }
+            
+            // 写入驳回结果
+            await WriteRejectionResultAsync(context);
+            
+            MessageBox.Show("项目已驳回！");
+        }
+
+        [RelayCommand]
         private async Task TestWriteApprovalRecord()
         {
             if (string.IsNullOrEmpty(CurrentProjectId))
@@ -680,6 +730,63 @@ namespace ProjectCycleManage.ViewModel
             else if (isLastApprover && project.ProjInforId.HasValue && project.ProjInforId.Value == 111)
             {
                 MessageBox.Show("审批完成！当前项目流程状态已为最终阶段（111），无需更新。");
+            }
+            
+            await context.SaveChangesAsync();
+        }
+
+        private async Task WriteRejectionResultAsync(ProjectContext context)
+        {
+            var projectId = Convert.ToInt32(CurrentProjectId);
+            
+            // 获取当前项目信息
+            var project = await context.Projects
+                .Include(p => p.ProjectStage)
+                .FirstOrDefaultAsync(p => p.ProjectsId == projectId);
+            
+            if (project == null)
+            {
+                return;
+            }
+            
+            // 获取当前登录人ID
+            var currentUserId = await GetCurrentUserIdAsync(context);
+            
+            // 获取当前用户审批顺序
+            var sequence = await GetCurrentUserSequenceAsync(context, project.equipmenttypeId, currentUserId);
+            
+            // 获取数据库总条数+1作为InspectionRecordId
+            var totalRecords = await context.InspectionRecord.CountAsync();
+            var newInspectionRecordId = totalRecords + 1;
+            
+            // 创建驳回记录
+            var inspectionRecord = new InspectionRecord
+            {
+                InspectionRecordId = newInspectionRecordId,
+                ProjectsId = projectId,
+                CheckPeopleId = currentUserId,
+                CheckTime = DateTime.Now,
+                CheckResult = "Rejection", // 驳回结果
+                CheckOpinion = "项目驳回", // 可为空
+                projId = project.ProjInforId.GetValueOrDefault(),
+                Sequence = sequence
+            };
+            
+            context.InspectionRecord.Add(inspectionRecord);
+            
+            // 将projects表的ProjInforId字段当前值减去1
+            if (project.ProjInforId.HasValue && project.ProjInforId.Value > 1)
+            {
+                project.ProjInforId = project.ProjInforId.Value - 1;
+                MessageBox.Show("项目已驳回！项目流程状态已回退到上一阶段。");
+            }
+            else if (project.ProjInforId.HasValue && project.ProjInforId.Value == 1)
+            {
+                MessageBox.Show("项目已驳回！当前项目流程状态已为初始阶段（1），无法继续回退。");
+            }
+            else
+            {
+                MessageBox.Show("项目已驳回！");
             }
             
             await context.SaveChangesAsync();
