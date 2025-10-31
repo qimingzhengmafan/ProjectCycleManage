@@ -281,9 +281,17 @@ namespace ProjectCycleManage.ViewModel
                     var isFirstApprover = await CheckIfFirstApproverAsync(context);
                     if (!isFirstApprover)
                     {
-                        MessageBox.Show("未到审批流程");
-                        return;
+                        // 存在审批记录：检查前序审批结果
+                        var previousApprovalResult = await CheckPreviousApprovalResultAsync(context);
+                        if (previousApprovalResult != "PASS")
+                        {
+                            MessageBox.Show("未到审批流程");
+                            return;
+                        }
+                        //MessageBox.Show("未到审批流程");
+                        //return;
                     }
+
                     // 如果是第一顺位审批人，直接进入步骤6（写入审批结果）
                 }
                 else
