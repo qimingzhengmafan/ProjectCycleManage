@@ -68,6 +68,32 @@ namespace ProjectCycleManage.ViewModel
                 return;
             }
 
+            var ProjectPhaseStatusId = await ConfirmationStatusAsync();
+            if (ProjectPhaseStatusId == null)
+            {
+                MessageBox.Show("前道信息缺失，请先补全前道信息");
+                return;
+            }
+            //未启动
+            else if (ProjectPhaseStatusId == 101)
+            {
+                MessageBox.Show("前道信息填写错误，请重新填写");
+                return;
+            }
+            //暂停
+            else if (ProjectPhaseStatusId == 103)
+            {
+                MessageBox.Show("当前项目暂停中，无需提交");
+                return;
+
+            }
+            //已完成
+            else if (ProjectPhaseStatusId == 104)
+            {
+                MessageBox.Show("当前项目已完成，无需提交");
+                return;
+            }
+
             await ExecuteApprovalProcessAsync();
         }
 
@@ -130,7 +156,7 @@ namespace ProjectCycleManage.ViewModel
                         if (project.LastSubmitTime > existingRecord.CheckTime)
                         {
                             // 允许重新驳回
-                            MessageBox.Show("项目已重新提交，可以重新驳回！");
+                            //MessageBox.Show("项目已重新提交，可以重新驳回！");
                         }
                         else
                         {
@@ -188,6 +214,8 @@ namespace ProjectCycleManage.ViewModel
                 {
                     // 不具有审批资格且不在审批流程：更新projects表的ProjInforId字段（当前值+1）
                     await UpdateProjectProjInforIdAsync(context);
+                    
+
                     MessageBox.Show("项目流程已更新");
                     return;
                 }
@@ -278,7 +306,20 @@ namespace ProjectCycleManage.ViewModel
                 MessageBox.Show($"审批流程执行失败：{ex.Message}");
             }
         }
-        
+
+
+        private async Task<int?> ConfirmationStatusAsync()
+        {
+            using var context = new ProjectContext();
+            int ID = Convert.ToInt32(CurrentProjectId);
+
+            var project = await context.Projects
+                .Include(p => p.ProjectPhaseStatus)
+                .FirstOrDefaultAsync(ir => ir.ProjectsId == ID);
+
+            return project.ProjectPhaseStatusId;
+        }
+
 
         public ObservableCollection<InformationCardVM> InformationCardArea
         {
@@ -767,10 +808,22 @@ namespace ProjectCycleManage.ViewModel
             if (isLastApprover && project.ProjInforId.HasValue && project.ProjInforId.Value != 111)
             {
                 project.ProjInforId = project.ProjInforId.Value + 1;
+                project.ProjectPhaseStatusId = 102;
+                //ProjectStageId更新
+                if (project.ProjectStageId == 106)
+                {
+                    project.ProjectStageId = 101;
+                }
+                else
+                {
+                    project.ProjectStageId = project.ProjectStageId +1;
+                }
+
                 MessageBox.Show("审批完成！作为最后一位审批人，已将项目流程状态更新到下一阶段。");
             }
             else if (isLastApprover && project.ProjInforId.HasValue && project.ProjInforId.Value == 111)
             {
+                project.ProjectPhaseStatusId = 104;
                 MessageBox.Show("审批完成！当前项目流程状态已为最终阶段（111），无需更新。");
             }
             
@@ -819,6 +872,7 @@ namespace ProjectCycleManage.ViewModel
             // 将projects表的ProjInforId字段当前值减去1
             if (project.ProjInforId.HasValue && project.ProjInforId.Value > 1)
             {
+                project.ProjectPhaseStatusId = 102;
                 project.ProjInforId = project.ProjInforId.Value - 1;
                 MessageBox.Show("项目已驳回！项目流程状态已回退到上一阶段。");
             }
@@ -889,9 +943,9 @@ namespace ProjectCycleManage.ViewModel
             }
             else
             {
-                project.ProjInforId = 1; // 如果当前值为null，则设置为1
+                project.ProjInforId = null; // 如果当前值为null，则设置为1
             }
-            
+            project.ProjectPhaseStatusId = 105;
             await context.SaveChangesAsync();
         }
 
