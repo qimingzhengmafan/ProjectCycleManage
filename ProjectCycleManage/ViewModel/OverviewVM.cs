@@ -540,18 +540,85 @@ namespace ProjectCycleManage.ViewModel
                             {
 
                                 case "信息-下拉框":
-                                    Application.Current.Dispatcher.BeginInvoke(new Action(() =>
+                                    switch (item.InformationName)
                                     {
-                                        InformationCardArea.Add(new InformationCardVM()
-                                        {
-                                            Inforprojectid = data,
-                                            Infor_people = item.InformationName,
-                                            Loginpersonnamegrade = Loginpersonnamegrade,
-                                            Taginfor = item.Permission,
-                                            Infortype = item.InformationType,
+                                        case string value when(value == "项目负责人" || value == "跟进人"):
+                                            Application.Current.Dispatcher.BeginInvoke(new Action(() =>
+                                            {
+                                                InformationCardArea.Add(new InformationCardVM()
+                                                {
+                                                    Inforprojectid = data,
+                                                    Infor_people = item.InformationName,
+                                                    Loginpersonnamegrade = Loginpersonnamegrade,
+                                                    Taginfor = item.Permission,
+                                                    Infortype = item.InformationType,
 
-                                        });
-                                    }));
+                                                });
+                                            }));
+                                            break;
+
+                                        case "设备类型":
+                                            Application.Current.Dispatcher.BeginInvoke(new Action(() =>
+                                            {
+                                                InformationCardArea.Add(new InformationCardVM()
+                                                {
+                                                    Inforprojectid = data,
+                                                    Infor_equipmenttype = item.InformationName,
+                                                    Loginpersonnamegrade = Loginpersonnamegrade,
+                                                    Taginfor = item.Permission,
+                                                    Infortype = item.InformationType,
+
+                                                });
+                                            }));
+                                            break;
+
+                                        case "类型":
+                                            Application.Current.Dispatcher.BeginInvoke(new Action(() =>
+                                            {
+                                                InformationCardArea.Add(new InformationCardVM()
+                                                {
+                                                    Inforprojectid = data,
+                                                    Infor_type = item.InformationName,
+                                                    Loginpersonnamegrade = Loginpersonnamegrade,
+                                                    Taginfor = item.Permission,
+                                                    Infortype = item.InformationType,
+
+                                                });
+                                            }));
+                                            break;
+
+                                        case "项目阶段":
+                                            Application.Current.Dispatcher.BeginInvoke(new Action(() =>
+                                            {
+                                                InformationCardArea.Add(new InformationCardVM()
+                                                {
+                                                    Inforprojectid = data,
+                                                    Infor_projectstage = item.InformationName,
+                                                    Loginpersonnamegrade = Loginpersonnamegrade,
+                                                    Taginfor = item.Permission,
+                                                    Infortype = item.InformationType,
+
+                                                });
+                                            }));
+                                            break;
+
+                                        case " 当前进度（例：进行中）":
+                                            Application.Current.Dispatcher.BeginInvoke(new Action(() =>
+                                            {
+                                                InformationCardArea.Add(new InformationCardVM()
+                                                {
+                                                    Inforprojectid = data,
+                                                    Infor_projectphasestatus = item.InformationName,
+                                                    Loginpersonnamegrade = Loginpersonnamegrade,
+                                                    Taginfor = item.Permission,
+                                                    Infortype = item.InformationType,
+
+                                                });
+                                            }));
+                                            break;
+
+                                    }
+
                                     break;
 
                                 case "信息-填写":

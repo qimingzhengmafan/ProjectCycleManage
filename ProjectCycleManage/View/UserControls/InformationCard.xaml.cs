@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Ribbon;
 using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
@@ -341,6 +342,288 @@ namespace ProjectCycleManage.View.UserControls
 
 
         #endregion
+
+        #region 信息-下拉框-设备类型下拉框-非标外购
+
+        
+        public Visibility equipmenttype
+        {
+            get { return (Visibility)GetValue(equipmenttypeProperty); }
+            set { SetValue(equipmenttypeProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for equipmenttype.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty equipmenttypeProperty =
+            DependencyProperty.Register(nameof(equipmenttype), typeof(Visibility), typeof(InformationCard), new PropertyMetadata(Visibility.Collapsed));
+
+
+
+        public string Infor_Equipmenttype
+        {
+            get { return (string)GetValue(Infor_EquipmenttypeProperty); }
+            set { SetValue(Infor_EquipmenttypeProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for Infor_Equipmenttype.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty Infor_EquipmenttypeProperty =
+            DependencyProperty.Register(nameof(Infor_Equipmenttype), typeof(string), typeof(InformationCard), new PropertyMetadata(null));
+
+
+        //ObservableCollection<PeopleTable> Infor_People_Ob
+        public ObservableCollection<EquipmentType> Infor_Equipments_Ob
+        {
+            get { return (ObservableCollection<EquipmentType>)GetValue(Infor_Equipments_ObProperty); }
+            set { SetValue(Infor_Equipments_ObProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for Infor_Equipments_Ob.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty Infor_Equipments_ObProperty =
+            DependencyProperty.Register(nameof(Infor_Equipments_Ob), typeof(ObservableCollection<EquipmentType>), typeof(InformationCard), new PropertyMetadata(null));
+
+
+        //PeopleTable Infor_Sele_People
+        public EquipmentType Infor_Sele_Equipment
+        {
+            get { return (EquipmentType)GetValue(Infor_Sele_EquipmentProperty); }
+            set { SetValue(Infor_Sele_EquipmentProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for Infor_Sele_Equipment.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty Infor_Sele_EquipmentProperty =
+            DependencyProperty.Register(nameof(Infor_Sele_Equipment), typeof(EquipmentType), typeof(InformationCard), new PropertyMetadata(null));
+
+
+        //ICommand Infor_People_BtnCom
+
+
+        public ICommand Inofor_Equipment_BtnCom
+        {
+            get { return (ICommand)GetValue(Inofor_Equipment_BtnComProperty); }
+            set { SetValue(Inofor_Equipment_BtnComProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for Inofor_Equipment_BtnCom.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty Inofor_Equipment_BtnComProperty =
+            DependencyProperty.Register(nameof(Inofor_Equipment_BtnCom), typeof(ICommand), typeof(InformationCard), new PropertyMetadata(null));
+
+
+
+
+
+
+        #endregion
+
+        #region 信息-下拉框-项目类型下拉框
+        //public Visibility Infor_People_Visib
+        //public string Infor_Prople
+        //public ObservableCollection<PeopleTable> Infor_People_Ob
+        //public PeopleTable Infor_Sele_People
+        //public ICommand Infor_People_BtnCom
+
+
+        public Visibility Infor_Types_Visib
+        {
+            get { return (Visibility)GetValue(Infor_Types_VisibProperty); }
+            set { SetValue(Infor_Types_VisibProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for Infor_Types_Visib.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty Infor_Types_VisibProperty =
+            DependencyProperty.Register(nameof(Infor_Types_Visib), typeof(Visibility), typeof(InformationCard), new PropertyMetadata(Visibility.Collapsed));
+
+
+
+        public string Infor_Types
+        {
+            get { return (string)GetValue(Infor_TypesProperty); }
+            set { SetValue(Infor_TypesProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for Infor_Types.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty Infor_TypesProperty =
+            DependencyProperty.Register(nameof(Infor_Types), typeof(string), typeof(InformationCard), new PropertyMetadata(null));
+
+
+
+        public ObservableCollection<TypeTable> Infor_Types_Ob
+        {
+            get { return (ObservableCollection<TypeTable>)GetValue(Infor_Types_ObProperty); }
+            set { SetValue(Infor_Types_ObProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for Infor_Types_Ob.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty Infor_Types_ObProperty =
+            DependencyProperty.Register(nameof(Infor_Types_Ob), typeof(ObservableCollection<TypeTable>), typeof(InformationCard), new PropertyMetadata(null));
+
+
+
+        public TypeTable Infor_Sele_Types
+        {
+            get { return (TypeTable)GetValue(Infor_Sele_TypesProperty); }
+            set { SetValue(Infor_Sele_TypesProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for Infor_Sele_Types.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty Infor_Sele_TypesProperty =
+            DependencyProperty.Register(nameof(Infor_Sele_Types), typeof(TypeTable), typeof(InformationCard), new PropertyMetadata(null));
+
+
+
+        public ICommand Infor_Types_Btncom
+        {
+            get { return (ICommand)GetValue(Infor_Types_BtncomProperty); }
+            set { SetValue(Infor_Types_BtncomProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for Infor_Types_Btncom.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty Infor_Types_BtncomProperty =
+            DependencyProperty.Register(nameof(Infor_Types_Btncom), typeof(ICommand), typeof(InformationCard), new PropertyMetadata(null));
+
+
+
+        #endregion
+
+        #region 信息-下拉框-阶段下拉框
+        //public Visibility Infor_People_Visib
+        //public string Infor_Prople
+        //public ObservableCollection<PeopleTable> Infor_People_Ob
+        //public PeopleTable Infor_Sele_People
+        //public ICommand Infor_People_BtnCom
+
+
+        public Visibility Infor_ProjectStage_Visib
+        {
+            get { return (Visibility)GetValue(Infor_ProjectStage_VisibProperty); }
+            set { SetValue(Infor_ProjectStage_VisibProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for Infor_ProjectStage_Visib.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty Infor_ProjectStage_VisibProperty =
+            DependencyProperty.Register(nameof(Infor_ProjectStage_Visib), typeof(Visibility), typeof(InformationCard), new PropertyMetadata(Visibility.Collapsed));
+
+
+
+        public string Infor_ProjectsStage
+        {
+            get { return (string)GetValue(Infor_ProjectsStageProperty); }
+            set { SetValue(Infor_ProjectsStageProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for Infor_ProjectsStage.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty Infor_ProjectsStageProperty =
+            DependencyProperty.Register(nameof(Infor_ProjectsStage), typeof(string), typeof(InformationCard), new PropertyMetadata(null));
+
+
+
+        public ObservableCollection<ProjectStage> Infor_ProjectStage_Ob
+        {
+            get { return (ObservableCollection<ProjectStage>)GetValue(Infor_ProjectStage_ObProperty); }
+            set { SetValue(Infor_ProjectStage_ObProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for Infor_ProjectStage_Ob.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty Infor_ProjectStage_ObProperty =
+            DependencyProperty.Register(nameof(Infor_ProjectStage_Ob), typeof(ObservableCollection<ProjectStage>), typeof(InformationCard), new PropertyMetadata(null));
+
+
+
+        public ProjectStage Infor_Sele_ProjectStage
+        {
+            get { return (ProjectStage)GetValue(Infor_Sele_ProjectStageProperty); }
+            set { SetValue(Infor_Sele_ProjectStageProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for Infor_Sele_ProjectStage.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty Infor_Sele_ProjectStageProperty =
+            DependencyProperty.Register(nameof(Infor_Sele_ProjectStage), typeof(ProjectStage), typeof(InformationCard), new PropertyMetadata(null));
+
+
+
+        public ICommand Infor_ProjectStage_Btncom
+        {
+            get { return (ICommand)GetValue(Infor_ProjectStage_BtncomProperty); }
+            set { SetValue(Infor_ProjectStage_BtncomProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for Infor_ProjectStage_Btncom.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty Infor_ProjectStage_BtncomProperty =
+            DependencyProperty.Register(nameof(Infor_ProjectStage_Btncom), typeof(ICommand), typeof(InformationCard), new PropertyMetadata(null));
+
+
+
+        #endregion
+
+        #region 信息-下拉框-项目阶段状态下拉框
+        //public Visibility Infor_People_Visib
+        //public string Infor_Prople
+        //public ObservableCollection<PeopleTable> Infor_People_Ob
+        //public PeopleTable Infor_Sele_People
+        //public ICommand Infor_People_BtnCom
+
+
+
+        public Visibility Infor_ProjectPhase_Visib
+        {
+            get { return (Visibility)GetValue(Infor_ProjectPhase_VisibProperty); }
+            set { SetValue(Infor_ProjectPhase_VisibProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for Infor_ProjectPhase_Visib.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty Infor_ProjectPhase_VisibProperty =
+            DependencyProperty.Register(nameof(Infor_ProjectPhase_Visib), typeof(Visibility), typeof(InformationCard), new PropertyMetadata(Visibility.Collapsed));
+
+
+
+        public string Infor_ProjectPha
+        {
+            get { return (string)GetValue(Infor_ProjectPhaProperty); }
+            set { SetValue(Infor_ProjectPhaProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for Infor_ProjectPha.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty Infor_ProjectPhaProperty =
+            DependencyProperty.Register(nameof(Infor_ProjectPha), typeof(string), typeof(InformationCard), new PropertyMetadata(null));
+
+
+
+        public ObservableCollection<ProjectPhaseStatus> Infor_ProjectPha_Ob
+        {
+            get { return (ObservableCollection<ProjectPhaseStatus>)GetValue(Infor_ProjectPha_ObProperty); }
+            set { SetValue(Infor_ProjectPha_ObProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for Infor_ProjectPha_Ob.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty Infor_ProjectPha_ObProperty =
+            DependencyProperty.Register(nameof(Infor_ProjectPha_Ob), typeof(ObservableCollection<ProjectPhaseStatus>), typeof(InformationCard), new PropertyMetadata(null));
+
+
+
+
+        public ProjectPhaseStatus Infor_Sele_ProjectPha
+        {
+            get { return (ProjectPhaseStatus)GetValue(Infor_Sele_ProjectPhaProperty); }
+            set { SetValue(Infor_Sele_ProjectPhaProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for Infor_Sele_ProjectPha.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty Infor_Sele_ProjectPhaProperty =
+            DependencyProperty.Register(nameof(Infor_Sele_ProjectPha), typeof(ProjectPhaseStatus), typeof(InformationCard), new PropertyMetadata(null));
+
+
+
+        public ICommand Infor_Project_BtnCom
+        {
+            get { return (ICommand)GetValue(Infor_Project_BtnComProperty); }
+            set { SetValue(Infor_Project_BtnComProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for Infor_Project_BtnCom.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty Infor_Project_BtnComProperty =
+            DependencyProperty.Register(nameof(Infor_Project_BtnCom), typeof(ICommand), typeof(InformationCard), new PropertyMetadata(null));
+
+
+        #endregion
+
 
 
         #region 信息-填写内容

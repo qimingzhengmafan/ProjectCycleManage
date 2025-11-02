@@ -93,6 +93,138 @@
                         </StackPanel>
                     </Grid>
 
+                    <!-- 信息-下拉框-设备类型下拉框 -->
+                    <Grid Visibility="{Binding equipmenttype}">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="{Binding Infor_Equipmenttype}"
+                                       FontSize="14"
+                                       VerticalAlignment="Center"
+                                       Margin="14 0 0 0"/>
+                            <ComboBox VerticalAlignment="Center"
+                                      Width="125"
+                                      Height="25"
+                                      FontSize="14"
+                                      ItemsSource="{Binding Infor_Equipments_Ob}"
+                                      DisplayMemberPath="EquipmentName"
+                                      SelectedValuePath="EquipmentTypeId"
+                                      SelectedItem="{Binding Infor_Sele_Equipment, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                                      Margin="20 0 0 0"
+                                      VerticalContentAlignment="Center">
+                            </ComboBox>
+
+                            <Button Height="20"
+                                    Width="20"
+                                    Margin="10 0 0 0"
+                                    Background="Transparent"
+                                    Command="{Binding Inofor_Equipment_BtnCom}"
+                                    BorderThickness="0">
+                                <Button.Content>
+                                    <Image Source="/Resources/Images/edit-编辑.png" />
+
+                                </Button.Content>
+                            </Button>
+                        </StackPanel>
+                    </Grid>
+
+                    <!-- 信息-下拉框-项目类型下拉框 -->
+                    <Grid Visibility="{Binding Infor_Types_Visib}">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="{Binding Infor_Types}"
+                                       FontSize="14"
+                                       VerticalAlignment="Center"
+                                       Margin="14 0 0 0"/>
+                            <ComboBox VerticalAlignment="Center"
+                                      Width="125"
+                                      Height="25"
+                                      FontSize="14"
+                                      ItemsSource="{Binding Infor_Types_Ob}"
+                                      DisplayMemberPath="TypeName"
+                                      SelectedValuePath="TypeId"
+                                      SelectedItem="{Binding Infor_Sele_Types, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                                      Margin="20 0 0 0"
+                                      VerticalContentAlignment="Center">
+                            </ComboBox>
+
+                            <Button Height="20"
+                                    Width="20"
+                                    Margin="10 0 0 0"
+                                    Background="Transparent"
+                                    Command="{Binding Infor_Types_Btncom}"
+                                    BorderThickness="0">
+                                <Button.Content>
+                                    <Image Source="/Resources/Images/edit-编辑.png" />
+
+                                </Button.Content>
+                            </Button>
+                        </StackPanel>
+                    </Grid>
+
+                    <!-- 信息-下拉框-阶段下拉框 -->
+                    <Grid Visibility="{Binding Infor_ProjectStage_Visib}">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="{Binding Infor_ProjectsStage}"
+                                       FontSize="14"
+                                       VerticalAlignment="Center"
+                                       Margin="14 0 0 0"/>
+                            <ComboBox VerticalAlignment="Center"
+                                      Width="125"
+                                      Height="25"
+                                      FontSize="14"
+                                      ItemsSource="{Binding Infor_ProjectStage_Ob}"
+                                      DisplayMemberPath="ProjectStageName"
+                                      SelectedValuePath="ProjectStageId"
+                                      SelectedItem="{Binding Infor_Sele_ProjectStage, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                                      Margin="20 0 0 0"
+                                      VerticalContentAlignment="Center">
+                            </ComboBox>
+
+                            <Button Height="20"
+                                    Width="20"
+                                    Margin="10 0 0 0"
+                                    Background="Transparent"
+                                    Command="{Binding Infor_ProjectStage_Btncom}"
+                                    BorderThickness="0">
+                                <Button.Content>
+                                    <Image Source="/Resources/Images/edit-编辑.png" />
+
+                                </Button.Content>
+                            </Button>
+                        </StackPanel>
+                    </Grid>
+
+                    <!-- 信息-下拉框-项目阶段状态下拉框 -->
+                    <Grid Visibility="{Binding Infor_ProjectPhase_Visib}">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="{Binding Infor_ProjectPha}"
+                                       FontSize="14"
+                                       VerticalAlignment="Center"
+                                       Margin="14 0 0 0"/>
+                            <ComboBox VerticalAlignment="Center"
+                                      Width="125"
+                                      Height="25"
+                                      FontSize="14"
+                                      ItemsSource="{Binding Infor_ProjectPha_Ob}"
+                                      DisplayMemberPath="ProjectPhaseStatusName"
+                                      SelectedValuePath="ProjectPhaseStatusId"
+                                      SelectedItem="{Binding Infor_Sele_ProjectPha, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                                      Margin="20 0 0 0"
+                                      VerticalContentAlignment="Center">
+                            </ComboBox>
+
+                            <Button Height="20"
+                                    Width="20"
+                                    Margin="10 0 0 0"
+                                    Background="Transparent"
+                                    Command="{Binding Infor_Project_BtnCom}"
+                                    BorderThickness="0">
+                                <Button.Content>
+                                    <Image Source="/Resources/Images/edit-编辑.png" />
+
+                                </Button.Content>
+                            </Button>
+                        </StackPanel>
+                    </Grid>
+
                     <!--信息-填写内容-->
                     <Grid Visibility="{Binding Infor_Text_Visib}">
                         <StackPanel Orientation="Horizontal">

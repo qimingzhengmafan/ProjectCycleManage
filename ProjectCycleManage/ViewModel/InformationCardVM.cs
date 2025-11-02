@@ -55,7 +55,41 @@ namespace ProjectCycleManage.ViewModel
                         {
                             LoadEmployees();
                         });
+                        return;
                         
+                    }
+
+                    if (Infor_equipmenttype == "设备类型")
+                    {
+                        Task.Run(() =>
+                        {
+                            LoadEquipmentType();
+                        });
+                        return;
+                    }
+                    if (Infor_type == "项目类型")
+                    {
+                        Task.Run(() =>
+                        {
+                            LoadType();
+                        });
+                        return;
+                    }
+                    if (Infor_projectstage == "阶段")
+                    {
+                        Task.Run(() =>
+                        {
+                            Loadprojectstage();
+                        });
+                        return;
+                    }
+                    if (Infor_projectphasestatus == "项目阶段状态")
+                    {
+                        Task.Run(() =>
+                        {
+                            Loadprojectphasestatus();
+                        });
+                        return;
                     }
                 }
                 else if (_infortype == "信息-填写")
@@ -68,11 +102,59 @@ namespace ProjectCycleManage.ViewModel
                 }
                 else if (_infortype == "文档")
                 {
+                    switch (Filename)
+                    {
+                        //102
+                        case "设备申请表":
+                            Fileisexist = GetFileValueByRemarkDynamic(Convert.ToInt32(Inforprojectid),102).GetAwaiter().GetResult();
+                            break;
+                        case "技术协议":
+                            Fileisexist = GetFileValueByRemarkDynamic(Convert.ToInt32(Inforprojectid), 103).GetAwaiter().GetResult();
+                            break;
+                        case "设备方案 OR Boom清单":
+                            Fileisexist = GetFileValueByRemarkDynamic(Convert.ToInt32(Inforprojectid), 104).GetAwaiter().GetResult();
+                            break;
+                        case "设备项目问题改善":
+                            Fileisexist = GetFileValueByRemarkDynamic(Convert.ToInt32(Inforprojectid), 105).GetAwaiter().GetResult();
+                            break;
+                        case "设备验证记录":
+                            Fileisexist = GetFileValueByRemarkDynamic(Convert.ToInt32(Inforprojectid), 106).GetAwaiter().GetResult();
+                            break;
+                        case "培训记录":
+                            Fileisexist = GetFileValueByRemarkDynamic(Convert.ToInt32(Inforprojectid), 107).GetAwaiter().GetResult();
+                            break;
+                        case "说明书":
+                            Fileisexist = GetFileValueByRemarkDynamic(Convert.ToInt32(Inforprojectid), 108).GetAwaiter().GetResult();
+                            break;
+                        case "维保文件":
+                            Fileisexist = GetFileValueByRemarkDynamic(Convert.ToInt32(Inforprojectid), 109).GetAwaiter().GetResult();
+                            break;
+                        case "WI":
+                            Fileisexist = GetFileValueByRemarkDynamic(Convert.ToInt32(Inforprojectid), 110).GetAwaiter().GetResult();
+                            break;
+                        case "设备验收单":
+                            Fileisexist = GetFileValueByRemarkDynamic(Convert.ToInt32(Inforprojectid), 111).GetAwaiter().GetResult();
+                            break;
 
+                        //112
+                        case "文件发放记录":
+                            Fileisexist = GetFileValueByRemarkDynamic(Convert.ToInt32(Inforprojectid), 112).GetAwaiter().GetResult();
+                            break;
+                        default:
+                            break;
+                    }
                 }
                 else if (_infortype == "文档-OA")
                 {
+                    if (File_oa_indata == "OA申请单号")
+                    {
+                        File_oa_writedata = GetOAApplicationFileValueByRemarkDynamic(Convert.ToInt32(Inforprojectid)).GetAwaiter().GetResult();
+                    }
+                    else if (File_oa_indata == "OA领用单号")
+                    {
 
+                        File_oa_writedata = GetOAUseFileValueByRemarkDynamic(Convert.ToInt32(Inforprojectid)).GetAwaiter().GetResult();
+                    }
                 }
             }
         }
@@ -298,388 +380,448 @@ namespace ProjectCycleManage.ViewModel
         }
         #endregion
 
+
+        #region 设备类型下拉框
+        [ObservableProperty]
+        private string _infor_equipmenttype;
+
+        private ObservableCollection<EquipmentType> _infor_equipmentTypes;
+        
+        // 列表 - 用于下拉框
+        public ObservableCollection<EquipmentType> Infor_EquipmentTypes
+        {
+            get => _infor_equipmentTypes;
+            set
+            {
+                _infor_equipmentTypes = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private EquipmentType _selectedEquipmentType;
+        // 选中
+        public EquipmentType SelectedEquipmentType
+        {
+            get => _selectedEquipmentType;
+            set
+            {
+                _selectedEquipmentType = value;
+                OnPropertyChanged();
+            }
+        }
+
+        // 加载数据
+        private void LoadEquipmentType()
+        {
+            try
+            {
+                using (var context = new ProjectContext())
+                {
+                    var equipmenttypes = context.EquipmentType
+                        .OrderBy(e => e.EquipmentName)
+                        .ToList();
+
+                    Infor_EquipmentTypes = new ObservableCollection<EquipmentType>(equipmenttypes);
+
+                    if (Infor_EquipmentTypes.Count > 0)
+                        SelectedEquipmentType = null;
+
+
+
+                }
+
+                using (var context = new ProjectContext())
+                {
+                    var project = context.Projects
+                        .Include(p => p.equipmenttype)
+                        .Include(p => p.type)
+                        .Include(p => p.ProjectStage)
+                        .Include(p => p.ProjectPhaseStatus)
+                        .Include(p => p.ProjectLeader)
+                        .Include(p => p.projectfollowupperson)
+                        .FirstOrDefault(p => p.ProjectsId == Convert.ToInt32(Inforprojectid));
+
+                    if (project != null)
+                    {
+                        if (project.equipmenttypeId.HasValue)
+                        {
+                            SelectedEquipmentType = Infor_EquipmentTypes?.FirstOrDefault(e => e.EquipmentTypeId == project.equipmenttypeId.Value);
+                        }
+                    }
+
+                }
+            }
+            catch (Exception ex)
+            {
+                //StatusMessage = $"加载失败: {ex.Message}";
+            }
+        }
+        [RelayCommand]
+        private void Infor_Equipment_BtnFun()
+        {
+            Task.Run(() =>
+            {
+                try
+                {
+                    using (var context = new ProjectContext())
+                    {
+                        // 先查询出要更新的实体
+                        var entity = context.Projects
+                            .FirstOrDefault(x => x.ProjectsId == Convert.ToInt32(Inforprojectid));
+
+                        if (entity != null)
+                        {
+                            // 更新指定字段
+                            entity.equipmenttypeId = SelectedEquipmentType.EquipmentTypeId;
+
+                            // 保存更改
+                            context.SaveChangesAsync();
+                        }
+                        MessageBox.Show("保存成功");
+
+                    }
+                }
+                catch (Exception)
+                {
+                    MessageBox.Show("保存失败");
+
+                    //throw;
+                }
+
+            });
+        }
+        #endregion
+
+        #region 项目类型下拉框
+
+        [ObservableProperty]
+        private string _infor_type;
+
+        private ObservableCollection<TypeTable> _types;
+        public ObservableCollection<TypeTable> Types
+        {
+            get => _types;
+            set
+            {
+                _types = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private TypeTable _selectedType;
+        // 选中
+        public TypeTable SelectedType
+        {
+            get => _selectedType;
+            set
+            {
+                _selectedType = value;
+                OnPropertyChanged();
+            }
+        }
+
+        // 加载数据
+        private void LoadType()
+        {
+            try
+            {
+                using (var context = new ProjectContext())
+                {
+                    var types = context.TypeTable
+                        .OrderBy(e => e.TypeName)
+                        .ToList();
+
+                    Types = new ObservableCollection<TypeTable>(types);
+
+                    if (Types.Count > 0)
+                        SelectedType = null;
+
+                }
+
+                using (var context = new ProjectContext())
+                {
+                    var project = context.Projects
+                        .Include(p => p.equipmenttype)
+                        .Include(p => p.type)
+                        .Include(p => p.ProjectStage)
+                        .Include(p => p.ProjectPhaseStatus)
+                        .Include(p => p.ProjectLeader)
+                        .Include(p => p.projectfollowupperson)
+                        .FirstOrDefault(p => p.ProjectsId == Convert.ToInt32(Inforprojectid));
+
+                    if (project != null)
+                    {
+                        if (project.typeId.HasValue)
+                        {
+                            SelectedType = Types?.FirstOrDefault(e => e.TypeId == project.typeId.Value);
+                        }
+                    }
+
+                }
+            }
+            catch (Exception ex)
+            {
+
+            }
+        }
+
+        [RelayCommand]
+        private void Infor_Type_BtnFun()
+        {
+            Task.Run(() =>
+            {
+                try
+                {
+                    using (var context = new ProjectContext())
+                    {
+                        // 先查询出要更新的实体
+                        var entity = context.Projects
+                            .FirstOrDefault(x => x.ProjectsId == Convert.ToInt32(Inforprojectid));
+
+                        if (entity != null)
+                        {
+                            // 更新指定字段
+                            entity.typeId = SelectedType.TypeId;
+
+                            // 保存更改
+                            context.SaveChangesAsync();
+                        }
+                        MessageBox.Show("保存成功");
+
+                    }
+                }
+                catch (Exception)
+                {
+                    MessageBox.Show("保存失败");
+
+                    //throw;
+                }
+
+            });
+        }
+        #endregion
+
+        #region 阶段下拉框
+        [ObservableProperty]
+        private string _infor_projectstage;
+
+        private ObservableCollection<ProjectStage> _projectstage;
+        public ObservableCollection<ProjectStage> Projectstage
+        {
+            get => _projectstage;
+            set
+            {
+                _projectstage = value;
+                OnPropertyChanged();
+            }
+        }
+
+
+        private ProjectStage _selectedprojectstage;
+        // 选中
+        public ProjectStage Selectedprojectstage
+        {
+            get => _selectedprojectstage;
+            set
+            {
+                _selectedprojectstage = value;
+                OnPropertyChanged();
+            }
+        }
+
+        // 加载数据
+        private void Loadprojectstage()
+        {
+            try
+            {
+                using (var context = new ProjectContext())
+                {
+                    var projectstage = context.ProjectStage
+                        .OrderBy(e => e.ProjectStageName)
+                        .ToList();
+
+                    Projectstage = new ObservableCollection<ProjectStage>(projectstage);
+
+                    if (Projectstage.Count > 0)
+                        Selectedprojectstage = null;
+
+                }
+
+                using (var context = new ProjectContext())
+                {
+                    var project = context.Projects
+                        .Include(p => p.equipmenttype)
+                        .Include(p => p.type)
+                        .Include(p => p.ProjectStage)
+                        .Include(p => p.ProjectPhaseStatus)
+                        .Include(p => p.ProjectLeader)
+                        .Include(p => p.projectfollowupperson)
+                        .FirstOrDefault(p => p.ProjectsId == Convert.ToInt32(Inforprojectid));
+
+                    if (project != null)
+                    {
+                        Selectedprojectstage = Projectstage?.FirstOrDefault(e => e.ProjectStageId == project.ProjectStageId);
+                    }
+
+                }
+            }
+            catch (Exception ex)
+            {
+
+            }
+        }
+
+        [RelayCommand]
+        private void Infor_ProjectStage_BtnFun()
+        {
+            Task.Run(() =>
+            {
+                try
+                {
+                    using (var context = new ProjectContext())
+                    {
+                        // 先查询出要更新的实体
+                        var entity = context.Projects
+                            .FirstOrDefault(x => x.ProjectsId == Convert.ToInt32(Inforprojectid));
+
+                        if (entity != null)
+                        {
+                            // 更新指定字段
+                            entity.ProjectStageId = Selectedprojectstage.ProjectStageId;
+
+                            // 保存更改
+                            context.SaveChangesAsync();
+                        }
+                        MessageBox.Show("保存成功");
+
+                    }
+                }
+                catch (Exception)
+                {
+                    MessageBox.Show("保存失败");
+
+                    //throw;
+                }
+
+            });
+        }
+
+        #endregion
+
+        #region 项目阶段状态下拉框
+        [ObservableProperty]
+        private string _infor_projectphasestatus;
+
+        private ObservableCollection<ProjectPhaseStatus> _projectphasestatus;
+        public ObservableCollection<ProjectPhaseStatus> Projectphasestatus
+        {
+            get => _projectphasestatus;
+            set
+            {
+                _projectphasestatus = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private ProjectPhaseStatus _selectedprojectphasestatus;
+        // 选中
+        public ProjectPhaseStatus Selectedprojectphasestatus
+        {
+            get => _selectedprojectphasestatus;
+            set
+            {
+                _selectedprojectphasestatus = value;
+                OnPropertyChanged();
+            }
+        }
+
+        // 加载数据
+        private void Loadprojectphasestatus()
+        {
+            try
+            {
+                using (var context = new ProjectContext())
+                {
+                    var projectphasestatus = context.ProjectPhaseStatus
+                        .OrderBy(e => e.ProjectPhaseStatusName)
+                        .ToList();
+
+                    Projectphasestatus = new ObservableCollection<ProjectPhaseStatus>(projectphasestatus);
+
+                    if (Projectphasestatus.Count > 0)
+                        Selectedprojectphasestatus = Projectphasestatus[0];
+
+                }
+
+                using (var context = new ProjectContext())
+                {
+                    var project = context.Projects
+                        .Include(p => p.equipmenttype)
+                        .Include(p => p.type)
+                        .Include(p => p.ProjectStage)
+                        .Include(p => p.ProjectPhaseStatus)
+                        .Include(p => p.ProjectLeader)
+                        .Include(p => p.projectfollowupperson)
+                        .FirstOrDefault(p => p.ProjectsId == Convert.ToInt32(Inforprojectid));
+
+                    if (project != null)
+                    {
+                        Selectedprojectphasestatus = Projectphasestatus?.FirstOrDefault(e => e.ProjectPhaseStatusId == project.ProjectPhaseStatusId.Value);
+                    }
+
+                }
+            }
+            catch (Exception ex)
+            {
+
+            }
+        }
+
+        [RelayCommand]
+        private void Infor_projectphase_BtnFun()
+        {
+            Task.Run(() =>
+            {
+                try
+                {
+                    using (var context = new ProjectContext())
+                    {
+                        // 先查询出要更新的实体
+                        var entity = context.Projects
+                            .FirstOrDefault(x => x.ProjectsId == Convert.ToInt32(Inforprojectid));
+
+                        if (entity != null)
+                        {
+                            // 更新指定字段
+                            entity.ProjectPhaseStatusId = Selectedprojectphasestatus.ProjectPhaseStatusId;
+
+                            // 保存更改
+                            context.SaveChangesAsync();
+                        }
+                        MessageBox.Show("保存成功");
+
+                    }
+                }
+                catch (Exception)
+                {
+                    MessageBox.Show("保存失败");
+
+                    //throw;
+                }
+
+            });
+        }
+
+        #endregion
+
         public InformationCardVM()
         {
 
         }
 
 
-        //#region 责任人下拉框
-
-        //private ObservableCollection<PeopleTable> _employees;
-        //private PeopleTable _selectedEmployee;
-        //private string _statusMessage;
-
-        //// 员工列表 - 用于下拉框
-        //public ObservableCollection<PeopleTable> Employees
-        //{
-        //    get => _employees;
-        //    set
-        //    {
-        //        _employees = value;
-        //        OnPropertyChanged();
-        //    }
-        //}
-
-        //// 选中的员工
-        //public PeopleTable SelectedEmployee
-        //{
-        //    get => _selectedEmployee;
-        //    set
-        //    {
-        //        _selectedEmployee = value;
-        //        OnPropertyChanged();
-        //        UpdateStatusMessage();
-        //    }
-        //}
-
-        //// 状态信息
-        //public string StatusMessage
-        //{
-        //    get => _statusMessage;
-        //    set
-        //    {
-        //        _statusMessage = value;
-        //        OnPropertyChanged();
-        //    }
-        //}
-
-        //// 加载员工数据
-        //private void LoadEmployees()
-        //{
-        //    try
-        //    {
-        //        using (var context = new ProjectContext())
-        //        {
-        //            var employees = context.PeopleTable
-        //                .OrderBy(e => e.PeopleName)
-        //                .ToList();
-
-        //            Employees = new ObservableCollection<PeopleTable>(employees);
-
-        //            if (Employees.Count > 0)
-        //            {
-        //                //SelectedFollowEmployee = Employees[0];
-        //                SelectedEmployee = Employees[0];
-        //            }
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-
-        //    }
-        //}
-
-        //// 更新状态信息
-        //private void UpdateStatusMessage()
-        //{
-        //    if (SelectedEmployee != null)
-        //    {
-        //        //StatusMessage = $"选中: {SelectedEmployee.PeopleName} ({SelectedEmployee.PeopleId})";
-        //        ProjectsLeaderID = SelectedEmployee.PeopleId;
-        //    }
-        //}
-
-
-        //#endregion
-        //#region 跟进人下拉框
-
-        //private PeopleTable _selectedFollowEmployee;
-
-
-        //// 选中
-        //public PeopleTable SelectedFollowEmployee
-        //{
-        //    get => _selectedFollowEmployee;
-        //    set
-        //    {
-        //        _selectedFollowEmployee = value;
-        //        OnPropertyChanged();
-        //        UpdateFollowStatusMessage();
-        //    }
-        //}
-
-        //// 更新状态信息
-        //private void UpdateFollowStatusMessage()
-        //{
-        //    if (SelectedFollowEmployee != null)
-        //    {
-        //        ProjectsfollowuppersonId = SelectedFollowEmployee.PeopleId;
-        //    }
-
-        //}
-
-
-        //#endregion
-
-
-        //#region 设备类型下拉框
-
-        //private ObservableCollection<EquipmentType> _equipmentTypes;
-        //private EquipmentType _selectedEquipmentType;
-
-        //// 列表 - 用于下拉框
-        //public ObservableCollection<EquipmentType> EquipmentTypes
-        //{
-        //    get => _equipmentTypes;
-        //    set
-        //    {
-        //        _equipmentTypes = value;
-        //        OnPropertyChanged();
-        //    }
-        //}
-
-        //// 选中
-        //public EquipmentType SelectedEquipmentType
-        //{
-        //    get => _selectedEquipmentType;
-        //    set
-        //    {
-        //        _selectedEquipmentType = value;
-        //        OnPropertyChanged();
-        //        UpdateEquipmentTypeStatus();
-        //    }
-        //}
-
-        //// 加载数据
-        //private void LoadEquipmentType()
-        //{
-        //    try
-        //    {
-        //        using (var context = new ProjectContext())
-        //        {
-        //            var equipmenttypes = context.EquipmentType
-        //                .OrderBy(e => e.EquipmentName)
-        //                .ToList();
-
-        //            EquipmentTypes = new ObservableCollection<EquipmentType>(equipmenttypes);
-
-        //            if (EquipmentTypes.Count > 0)
-        //                SelectedEquipmentType = EquipmentTypes[0];
-
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        //StatusMessage = $"加载失败: {ex.Message}";
-        //    }
-        //}
-
-        //// 更新状态信息
-        //private void UpdateEquipmentTypeStatus()
-        //{
-
-        //    if (SelectedEquipmentType != null)
-        //    {
-        //        EquipmenttypeId = SelectedEquipmentType.EquipmentTypeId;
-        //    }
-
-        //}
-
-
-        //#endregion
-
-
-        //#region 项目类型下拉框
-
-        //private ObservableCollection<TypeTable> _types;
-        //private TypeTable _selectedType;
-
-        //// 员工列表 - 用于下拉框
-        //public ObservableCollection<TypeTable> Types
-        //{
-        //    get => _types;
-        //    set
-        //    {
-        //        _types = value;
-        //        OnPropertyChanged();
-        //    }
-        //}
-
-        //// 选中
-        //public TypeTable SelectedType
-        //{
-        //    get => _selectedType;
-        //    set
-        //    {
-        //        _selectedType = value;
-        //        OnPropertyChanged();
-        //        UpdateTypeStatus();
-        //    }
-        //}
-
-        //// 加载数据
-        //private void LoadType()
-        //{
-        //    try
-        //    {
-        //        using (var context = new ProjectContext())
-        //        {
-        //            var types = context.TypeTable
-        //                .OrderBy(e => e.TypeName)
-        //                .ToList();
-
-        //            Types = new ObservableCollection<TypeTable>(types);
-
-        //            if (Types.Count > 0)
-        //                SelectedType = Types[0];
-
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-
-        //    }
-        //}
-
-        //// 更新状态信息
-        //private void UpdateTypeStatus()
-        //{
-        //    if (SelectedType != null)
-        //    {
-        //        TypeId = SelectedType.TypeId;
-        //    }
-
-        //}
-
-
-        //#endregion
-
-
-        //#region 阶段下拉框
-
-        //private ObservableCollection<ProjectStage> _projectstage;
-        //private ProjectStage _selectedprojectstage;
-
-        //// 列表 - 用于下拉框
-        //public ObservableCollection<ProjectStage> Projectstage
-        //{
-        //    get => _projectstage;
-        //    set
-        //    {
-        //        _projectstage = value;
-        //        OnPropertyChanged();
-        //    }
-        //}
-
-        //// 选中
-        //public ProjectStage Selectedprojectstage
-        //{
-        //    get => _selectedprojectstage;
-        //    set
-        //    {
-        //        _selectedprojectstage = value;
-        //        OnPropertyChanged();
-        //        UpdateProjectStage();
-        //    }
-        //}
-
-        //// 加载数据
-        //private void Loadprojectstage()
-        //{
-        //    try
-        //    {
-        //        using (var context = new ProjectContext())
-        //        {
-        //            var projectstage = context.ProjectStage
-        //                .OrderBy(e => e.ProjectStageName)
-        //                .ToList();
-
-        //            Projectstage = new ObservableCollection<ProjectStage>(projectstage);
-
-        //            if (Projectstage.Count > 0)
-        //                Selectedprojectstage = Projectstage[0];
-
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-
-        //    }
-        //}
-
-        //// 更新状态信息
-        //private void UpdateProjectStage()
-        //{
-        //    if (Selectedprojectstage != null)
-        //    {
-        //        ProjectStageId = Selectedprojectstage.ProjectStageId;
-        //    }
-
-        //}
-
-
-        //#endregion
-
-
-        //#region 项目阶段状态下拉框
-
-        //private ObservableCollection<ProjectPhaseStatus> _projectphasestatus;
-        //private ProjectPhaseStatus _selectedprojectphasestatus;
-
-        //// 列表 - 用于下拉框
-        //public ObservableCollection<ProjectPhaseStatus> Projectphasestatus
-        //{
-        //    get => _projectphasestatus;
-        //    set
-        //    {
-        //        _projectphasestatus = value;
-        //        OnPropertyChanged();
-        //    }
-        //}
-
-        //// 选中
-        //public ProjectPhaseStatus Selectedprojectphasestatus
-        //{
-        //    get => _selectedprojectphasestatus;
-        //    set
-        //    {
-        //        _selectedprojectphasestatus = value;
-        //        OnPropertyChanged();
-        //        UpdateProjectPhaseStatus();
-        //    }
-        //}
-
-        //// 加载数据
-        //private void Loadprojectphasestatus()
-        //{
-        //    try
-        //    {
-        //        using (var context = new ProjectContext())
-        //        {
-        //            var projectphasestatus = context.ProjectPhaseStatus
-        //                .OrderBy(e => e.ProjectPhaseStatusName)
-        //                .ToList();
-
-        //            Projectphasestatus = new ObservableCollection<ProjectPhaseStatus>(projectphasestatus);
-
-        //            if (Projectphasestatus.Count > 0)
-        //                Selectedprojectphasestatus = Projectphasestatus[0];
-
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-
-        //    }
-        //}
-
-        //// 更新状态信息
-        //private void UpdateProjectPhaseStatus()
-        //{
-        //    if (Selectedprojectstage != null)
-        //    {
-        //        ProjectPhaseStatusId = Selectedprojectphasestatus.ProjectPhaseStatusId;
-        //    }
-
-        //}
-
-
-        //#endregion
-
-
         /// <summary>
-        /// 通过备注更新主表记录
+        /// 通过备注更新主表记录（信息部分专用）
         /// </summary>
         /// <param name="mainTableId">主表记录的唯一ID</param>
         /// <param name="remark">已知的字段备注</param>
@@ -804,6 +946,68 @@ namespace ProjectCycleManage.ViewModel
 
 
         }
+
+        //OA申请单号
+        public async Task<string?> GetOAApplicationFileValueByRemarkDynamic(int recordId)
+        {
+            using (var context = new ProjectContext())
+            {
+                var query = context.ProjectDocumentStatus
+                    .Where(p => p.ProjectsId == recordId)
+                    .FirstOrDefault(p => p.DocumentTypeId == 101);
+
+                var result = query.Remarks;
+
+                //if (result == null)
+                //{
+                //    throw new KeyNotFoundException($"未找到ID为 {recordId} 的记录");
+                //}
+
+                return result;
+            }
+        }
+
+        //OA领用单号
+        public async Task<string?> GetOAUseFileValueByRemarkDynamic(int recordId)
+        {
+            using (var context = new ProjectContext())
+            {
+                var query = context.ProjectDocumentStatus
+                    .Where(p => p.ProjectsId == recordId)
+                    .FirstOrDefault(p => p.DocumentTypeId == 113);
+
+                var result = query.Remarks;
+
+                //if (result == null)
+                //{
+                //    throw new KeyNotFoundException($"未找到ID为 {recordId} 的记录");
+                //}
+
+                return result;
+            }
+        }
+
+        //文件是否存在
+        public async Task<bool?> GetFileValueByRemarkDynamic(int recordId , int FileID)
+        {
+            using (var context = new ProjectContext())
+            {
+                var query = context.ProjectDocumentStatus
+                    .Where(p => p.ProjectsId == recordId)
+                    .FirstOrDefault(p => p.DocumentTypeId == FileID);
+
+                var result = query.IsHasDocument;
+
+                //if (result == null)
+                //{
+                //    throw new KeyNotFoundException($"未找到ID为 {recordId} 的记录");
+                //}
+
+                return (bool)result;
+            }
+        }
+
+
 
         // 返回结果类
         public class UpdateResult
