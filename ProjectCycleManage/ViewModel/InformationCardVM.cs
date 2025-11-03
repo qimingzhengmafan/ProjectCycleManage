@@ -177,7 +177,8 @@ namespace ProjectCycleManage.ViewModel
         [RelayCommand]
         private void checkcommand()
         {
-            MessageBox.Show("click" + Fileisexist.Value.ToString());
+            UpdateByRemark_Files(Convert.ToInt32(Inforprojectid) , Filename , (bool)Fileisexist);
+            //MessageBox.Show("click" + Fileisexist.Value.ToString());
         }
         #endregion
 
@@ -191,7 +192,7 @@ namespace ProjectCycleManage.ViewModel
         [RelayCommand]
         private void File_OA_BtnFun()
         {
-
+            UpdateByRemark_Files_OA(Convert.ToInt32(Inforprojectid), File_oa_indata, File_oa_writedata);
         }
         #endregion
 
@@ -881,6 +882,133 @@ namespace ProjectCycleManage.ViewModel
                 return UpdateResult.Fail($"更新失败：{ex.Message}");
             }
         }
+
+
+        /// <summary>
+        /// 通过备注更新文件记录
+        /// </summary>
+        /// <param name="mainTableId">主表记录的唯一ID</param>
+        /// <param name="remark">已知的字段备注</param>
+        /// <param name="newValue">要更新的新值</param>
+        /// <returns>是否更新成功</returns>
+        public async Task UpdateByRemark_Files(int mainTableId, string remark, object newValue)
+        {
+            try
+            {
+
+                switch (Filename)
+                {
+                    //102
+                    case "设备申请表":
+                        SetFileValueByRemarkDynamic(Convert.ToInt32(Inforprojectid), 102, (bool)Fileisexist);
+                        MessageBox.Show("保存成功");
+                        break;
+
+                    case "技术协议":
+                        SetFileValueByRemarkDynamic(Convert.ToInt32(Inforprojectid), 103, (bool)Fileisexist);
+                        MessageBox.Show("保存成功");
+                        break;
+
+                    case "设备方案 OR Boom清单":
+                        SetFileValueByRemarkDynamic(Convert.ToInt32(Inforprojectid), 104, (bool)Fileisexist);
+                        MessageBox.Show("保存成功");
+                        break;
+
+                    case "设备项目问题改善":
+                        SetFileValueByRemarkDynamic(Convert.ToInt32(Inforprojectid), 105, (bool)Fileisexist);
+                        MessageBox.Show("保存成功");
+                        break;
+
+                    case "设备验证记录":
+                        SetFileValueByRemarkDynamic(Convert.ToInt32(Inforprojectid), 106, (bool)Fileisexist);
+                        MessageBox.Show("保存成功");
+                        break;
+                    case "培训记录":
+
+                        SetFileValueByRemarkDynamic(Convert.ToInt32(Inforprojectid), 107, (bool)Fileisexist);
+                        MessageBox.Show("保存成功");
+                        break;
+                    case "说明书":
+
+                        SetFileValueByRemarkDynamic(Convert.ToInt32(Inforprojectid), 108, (bool)Fileisexist);
+                        MessageBox.Show("保存成功");
+                        break;
+                    case "维保文件":
+
+                        SetFileValueByRemarkDynamic(Convert.ToInt32(Inforprojectid), 109, (bool)Fileisexist);
+                        MessageBox.Show("保存成功");
+                        break;
+                    case "WI":
+                        SetFileValueByRemarkDynamic(Convert.ToInt32(Inforprojectid), 110, (bool)Fileisexist);
+                        MessageBox.Show("保存成功");
+                        break;
+                    case "设备验收单":
+                        SetFileValueByRemarkDynamic(Convert.ToInt32(Inforprojectid), 111, (bool)Fileisexist);
+                        MessageBox.Show("保存成功");
+                        break;
+
+                    //112
+                    case "文件发放记录":
+                        SetFileValueByRemarkDynamic(Convert.ToInt32(Inforprojectid), 112, (bool)Fileisexist);
+                        MessageBox.Show("保存成功");
+                        break;
+
+                    default:
+                        MessageBox.Show("未找到相关信息");
+                        break;
+                }
+            }
+            catch (Exception ex)
+            {
+                //_logger.LogError(ex, "更新字段时发生错误");
+                //return UpdateResult.Fail($"更新失败：{ex.Message}");
+                MessageBox.Show("更新失败");
+            }
+        }
+
+        /// <summary>
+        /// 通过备注更新文件记录
+        /// </summary>
+        /// <param name="mainTableId">主表记录的唯一ID</param>
+        /// <param name="remark">已知的字段备注</param>
+        /// <param name="newValue">要更新的新值</param>
+        /// <returns>是否更新成功</returns>
+        public async Task UpdateByRemark_Files_OA(int mainTableId, string remark, object newValue)
+        {
+            try
+            {
+
+                switch (File_oa_indata)
+                {
+                    //102
+                    case "OA申请单号":
+                        SetOAFileValueByRemarkDynamic(Convert.ToInt32(Inforprojectid), 101, File_oa_writedata);
+                        MessageBox.Show("保存成功");
+                        break;
+
+                    case "OA领用单号":
+                        SetOAFileValueByRemarkDynamic(Convert.ToInt32(Inforprojectid), 113, File_oa_writedata);
+                        MessageBox.Show("保存成功");
+                        break;
+
+                    default:
+                        MessageBox.Show("未找到相关信息");
+                        break;
+                }
+            }
+            catch (Exception ex)
+            {
+                //_logger.LogError(ex, "更新字段时发生错误");
+                //return UpdateResult.Fail($"更新失败：{ex.Message}");
+                MessageBox.Show("更新失败");
+            }
+        }
+
+
+
+
+
+
         public async Task<string> GetFieldValueByRemarkDynamic(int recordId, string remark)
         {
             using (var context = new ProjectContext())
@@ -1007,6 +1135,97 @@ namespace ProjectCycleManage.ViewModel
             }
         }
 
+        //设置文件值
+        public async Task SetFileValueByRemarkDynamic(int recordId, int FileID , bool data)
+        {
+            using (var context = new ProjectContext())
+            {
+                var query = context.ProjectDocumentStatus
+                    .Where(p => p.ProjectsId == recordId)
+                    .FirstOrDefault(p => p.DocumentTypeId == FileID);
+
+                if (query != null)
+                {
+                    query.IsHasDocument = data;
+                }
+                else
+                {
+                    // 如果记录不存在，创建新记录并设置IsHasDocument为false
+                    var newRecord = new ProjectDocumentStatus
+                    {
+                        ProjectsId = recordId,
+                        DocumentTypeId = FileID,
+                        IsHasDocument = data,
+                        TheLastUpDateTime = DateTime.Now
+                    };
+
+                    context.ProjectDocumentStatus.Add(newRecord);
+
+                }
+
+                await context.SaveChangesAsync();
+            }
+        }
+
+        //设置OA文件值
+        public async Task SetOAFileValueByRemarkDynamic(int recordId, int FileID, String data)
+        {
+            using (var context = new ProjectContext())
+            {
+                var query = context.ProjectDocumentStatus
+                    .Where(p => p.ProjectsId == recordId)
+                    .FirstOrDefault(p => p.DocumentTypeId == FileID);
+
+                if (query != null)
+                {
+                    if (data != null)
+                    {
+                        query.IsHasDocument = true;
+                        query.Remarks = data;
+                    }
+                    else
+                    {
+                        query.IsHasDocument = false;
+                        query.Remarks = data;
+                    }
+                    
+                }
+                else
+                {
+                    // 如果记录不存在，创建新记录并设置IsHasDocument为false
+                    if (data != null)
+                    {
+                        var newRecord = new ProjectDocumentStatus
+                        {
+                            ProjectsId = recordId,
+                            DocumentTypeId = FileID,
+                            IsHasDocument = true,
+                            Remarks = data,
+                            TheLastUpDateTime = DateTime.Now
+                        };
+                        context.ProjectDocumentStatus.Add(newRecord);
+                    }
+                    else
+                    {
+                        var newRecord = new ProjectDocumentStatus
+                        {
+                            ProjectsId = recordId,
+                            DocumentTypeId = FileID,
+                            IsHasDocument = false,
+                            Remarks = data,
+                            TheLastUpDateTime = DateTime.Now
+                        };
+                        context.ProjectDocumentStatus.Add(newRecord);
+                    }
+
+
+                    
+
+                }
+
+                await context.SaveChangesAsync();
+            }
+        }
 
 
         // 返回结果类
