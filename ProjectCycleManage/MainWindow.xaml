@@ -22,7 +22,41 @@
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
 
-        <Grid Background="White">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="65"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        
+        <Grid Grid.ColumnSpan="2">
+            <Border BorderThickness="0 0 0 1"
+                    BorderBrush="#BBBBBB">
+                <Grid>
+                    <StackPanel Orientation="Horizontal">
+                        <Image Source="/Resources/Images/logo.png" 
+                               HorizontalAlignment="Left"
+                               Margin="20 0 0 0"/>
+                        
+                        <Grid>
+                            <Border BorderThickness="0 0 0 0.2"
+                                    BorderBrush="#BBBBBB">
+                                <Label Content="项目全生命周期管理系统"
+                                       VerticalContentAlignment="Center"
+                                       HorizontalContentAlignment="Center"
+                                       Foreground="#2D5BD6"
+                                       FontSize="25"
+                                       FontWeight="Bold"
+                                       Margin="88 0 0 0"/>
+                            </Border>
+                        </Grid>
+                    </StackPanel>
+                    
+                </Grid>
+
+            </Border>
+        </Grid>
+
+        <Grid Background="White"
+              Grid.Row="1">
             <Border CornerRadius="0">
                 <Border.Background>
                     <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
@@ -33,32 +67,12 @@
 
                 <Grid>
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="65"/>
                         <RowDefinition/>
                     </Grid.RowDefinitions>
 
-                    <Grid>
-                        <Border BorderThickness="0 0 0 0.2"
-                                BorderBrush="#BBBBBB">
-                            <Label Content="项目全周期管理"
-                                   VerticalContentAlignment="Center"
-                                   HorizontalContentAlignment="Center"
-                                   Foreground="White"
-                                   FontSize="25"
-                                   FontWeight="Bold"
-                                   Margin="30 0 0 0"/>
-                        </Border>
-                    </Grid>
-
-                    <Grid HorizontalAlignment="Left">
-                        <Image Source="/Resources/Images/项目管理.png" 
-                               Height="23"
-                               Margin="20 0 0 0"/>
-                    </Grid>
-
                     <Grid Grid.Row="1">
                         <Border Grid.Row="1"
-                                Margin="0 25 0 0"
+                                Margin="0 5 0 0"
                                 BorderThickness="0.5 0 0.5 0.5"
                                 BorderBrush="#707070"
                                 CornerRadius="0 0 5 0">
@@ -172,7 +186,8 @@
             </Border>
         </Grid>
 
-        <Grid Grid.Column="1">
+        <Grid Grid.Column="1"
+              Grid.Row="1">
             <view:Overview DataContext="{Binding OverView}"/>
         </Grid>
     </Grid>

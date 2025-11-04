@@ -18,12 +18,13 @@
             <RowDefinition/>
             <RowDefinition/>
         </Grid.RowDefinitions>
-        <Border BorderThickness="0 0 0 0.1"
-                BorderBrush="#BBBBBB">
+        <Border>
             <Label FontSize="25"
                    Foreground="#2D5BD6"
-                   Margin="20 0 0 0"
+                   Margin="20 0 20 0"
                    FontFamily="Microsoft YaHei"
+                   BorderThickness="0 0 0 1"
+                   BorderBrush="#BBBBBB"
                    Content="项目总览"
                    FontWeight="Bold"
                    VerticalContentAlignment="Center"/>
