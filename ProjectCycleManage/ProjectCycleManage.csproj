@@ -12,6 +12,7 @@
   <ItemGroup>
     <None Remove="Resources\Images\edit-编辑.png" />
     <None Remove="Resources\Images\home-copy-copy.png" />
+    <None Remove="Resources\Images\logo.png" />
     <None Remove="Resources\Images\任务.png" />
     <None Remove="Resources\Images\分析.png" />
     <None Remove="Resources\Images\图标.ico" />
@@ -67,6 +68,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Resources\Images\home-copy-copy.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\logo.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Resources\Images\任务.png">
