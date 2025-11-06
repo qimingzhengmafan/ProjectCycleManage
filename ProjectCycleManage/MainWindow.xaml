@@ -39,7 +39,7 @@
                         <Grid>
                             <Border BorderThickness="0 0 0 0.2"
                                     BorderBrush="#BBBBBB">
-                                <Label Content="项目全生命周期管理系统"
+                                <Label Content="项目管理系统"
                                        VerticalContentAlignment="Center"
                                        HorizontalContentAlignment="Center"
                                        Foreground="#2D5BD6"
