@@ -5,7 +5,435 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:ProjectCycleManage.View"
              mc:Ignorable="d" 
-             d:DesignHeight="450"
-             d:DesignWidth="800">
-    
+             d:DesignHeight="1037"
+             d:DesignWidth="1647">
+    <Grid>
+        <Grid Margin="20">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="65"/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+
+            <Border BorderThickness="0 0 0 1"
+                    BorderBrush="#BBBBBB">
+                <StackPanel Orientation="Horizontal">
+                    <Image Source="/Resources/Images/添加.png" 
+                           Height="25"/>
+                    <TextBlock Text=" 新增项目"
+                               VerticalAlignment="Center"
+                               FontSize="25"
+                               FontWeight="Bold"
+                               Foreground="#2D5BD5"/>
+                </StackPanel>
+            </Border>
+
+            <Grid Grid.Row="1"
+                  Margin="0 30 0 0">
+                <Border Width="900"
+                        Background="White"
+                        CornerRadius="15">
+                    <Grid Margin="30 30 30 0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="44"/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+
+                        <Border BorderThickness="0 0 0 1"
+                                BorderBrush="#BBBBBB">
+                            <StackPanel Orientation="Horizontal">
+                                <Image Source="/Resources/Images/edit-编辑.png"
+                                       Height="22"/>
+                                <TextBlock Text=" 项目基本信息"
+                                           VerticalAlignment="Center"
+                                           Foreground="#2D5BD5"
+                                           FontSize="22"/>
+                            </StackPanel>
+                        </Border>
+
+                        <Grid Grid.Row="1"
+                              Margin="0 15 0 0">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="280"/>
+                                <RowDefinition Height="147"/>
+                                <RowDefinition Height="280"/>
+                                <RowDefinition Height="280"/>
+                            </Grid.RowDefinitions>
+
+                            <!--项目基本信息-->
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="42"/>
+                                    <RowDefinition Height="125"/>
+                                    <RowDefinition/>
+                                    <RowDefinition Height="30"/>
+                                </Grid.RowDefinitions>
+
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition Width="20"/>
+                                    <ColumnDefinition/>
+                                </Grid.ColumnDefinitions>
+
+                                <Border>
+                                    <StackPanel Orientation="Horizontal">
+                                        <Image Source="/Resources/Images/基本信息.png"
+                                               Height="16"/>
+                                        <TextBlock Text=" 基本信息"
+                                                   VerticalAlignment="Center"
+                                                   Foreground="#2D5BD5"
+                                                   FontSize="20"
+                                                   FontWeight="Bold"/>
+                                    </StackPanel>
+                                </Border>
+
+                                <!--项目名称-->
+                                <Grid Grid.Row="1">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="26"/>
+                                        <RowDefinition/>
+                                        <RowDefinition Height="20.8"/>
+                                        <RowDefinition Height="20"/>
+                                    </Grid.RowDefinitions>
+
+                                    <Border>
+                                        <StackPanel Orientation="Horizontal"
+                                                    Margin="0 0 0 6"
+                                                    VerticalAlignment="Center">
+                                            <Image Source="/Resources/Images/签名.png" 
+                                                   Height="20"/>
+                                            <TextBlock Text=" 项目名称"
+                                                       Foreground="#555555"
+                                                       FontSize="16"/>
+                                        </StackPanel>
+                                    </Border>
+
+                                    <TextBox Grid.Row="1"
+                                             FontSize="14"
+                                             Height="48"
+                                             HorizontalContentAlignment="Left"
+                                             VerticalContentAlignment="Center"
+                                             Text="请输入"/>
+                                    <TextBlock Grid.Row="2"
+                                               Text="项目名称应简洁明了，能准确反应项目内容"
+                                               Foreground="#555555"/>
+                                </Grid>
+
+                                <!--项目编号-->
+                                <Grid Grid.Row="1"
+                                      Grid.Column="2">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="26"/>
+                                        <RowDefinition/>
+                                        <RowDefinition Height="20.8"/>
+                                        <RowDefinition Height="20"/>
+                                    </Grid.RowDefinitions>
+
+                                    <Border>
+                                        <StackPanel Orientation="Horizontal"
+                                                    Margin="0 0 0 6"
+                                                    VerticalAlignment="Center">
+                                            <Image Source="/Resources/Images/井字符.png" 
+                                                   Width="14"
+                                                   Height="16"/>
+                                            <TextBlock Text=" 项目编号"
+                                                       Foreground="#555555"
+                                                       FontSize="16"/>
+                                        </StackPanel>
+                                    </Border>
+
+                                    <TextBox Grid.Row="1"
+                                             FontSize="14"
+                                             Height="48"
+                                             IsEnabled="False"
+                                             IsReadOnly="True"
+                                             HorizontalContentAlignment="Left"
+                                             VerticalContentAlignment="Center"
+                                             Text="请输入"/>
+                                    <TextBlock Grid.Row="2"
+                                               Text="项目编号为自动生成，无需手动填写"
+                                               Foreground="#555555"/>
+                                </Grid>
+
+
+                                <!--设备类型-->
+                                <Grid Grid.Row="2">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="26"/>
+                                        <RowDefinition/>
+                                    </Grid.RowDefinitions>
+
+                                    <Border>
+                                        <StackPanel Orientation="Horizontal"
+                                                    Margin="0 0 0 6"
+                                                    VerticalAlignment="Center">
+                                            <Image Source="/Resources/Images/设备类型.png   " 
+                                                   Height="20"/>
+                                            <TextBlock Text=" 设备类型"
+                                                       Foreground="#555555"
+                                                       FontSize="16"/>
+                                        </StackPanel>
+                                    </Border>
+
+                                    <ComboBox Grid.Row="1"
+                                              FontSize="14"
+                                              Height="48"
+                                              HorizontalContentAlignment="Left"
+                                              VerticalContentAlignment="Center">
+
+                                    </ComboBox>
+
+                                </Grid>
+
+                                <!--项目类型-->
+                                <Grid Grid.Row="2"
+                                      Grid.Column="2">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="26"/>
+                                        <RowDefinition/>
+                                    </Grid.RowDefinitions>
+
+                                    <Border>
+                                        <StackPanel Orientation="Horizontal"
+                                                    Margin="0 0 0 6"
+                                                    VerticalAlignment="Center">
+                                            <Image Source="/Resources/Images/项目类型.png" 
+                                                   Height="20"/>
+                                            <TextBlock Text=" 项目类型"
+                                                       Foreground="#555555"
+                                                       FontSize="16"/>
+                                        </StackPanel>
+                                    </Border>
+
+                                    <ComboBox Grid.Row="1"
+                                              FontSize="14"
+                                              Height="48"
+                                              HorizontalContentAlignment="Left"
+                                              VerticalContentAlignment="Center">
+
+                                    </ComboBox>
+
+                                </Grid>
+                            </Grid>
+
+                            <!--人员信息-->
+                            <Grid Grid.Row="1">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="42"/>
+                                    <RowDefinition Height="125"/>
+                                    <RowDefinition Height="30"/>
+                                </Grid.RowDefinitions>
+
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition Width="20"/>
+                                    <ColumnDefinition/>
+                                </Grid.ColumnDefinitions>
+
+                                <Border>
+                                    <StackPanel Orientation="Horizontal">
+                                        <Image Source="/Resources/Images/人员信息.png"
+                                               Height="16"/>
+                                        <TextBlock Text=" 人员信息"
+                                                   VerticalAlignment="Center"
+                                                   Foreground="#2D5BD5"
+                                                   FontSize="20"
+                                                   FontWeight="Bold"/>
+                                    </StackPanel>
+                                </Border>
+
+                                <!--项目负责人-->
+                                <Grid Grid.Row="1">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="26"/>
+                                        <RowDefinition/>
+                                        <RowDefinition Height="40.8"/>
+                                    </Grid.RowDefinitions>
+
+                                    <Border>
+                                        <StackPanel Orientation="Horizontal"
+                                                    Margin="0 0 0 6"
+                                                    VerticalAlignment="Center">
+                                            <Image Source="/Resources/Images/项目负责人.png" 
+                                                   Height="16"/>
+                                            <TextBlock Text=" 项目负责人"
+                                                       Foreground="#555555"
+                                                       FontSize="16"/>
+                                        </StackPanel>
+                                    </Border>
+
+                                    <ComboBox Grid.Row="1"
+                                             FontSize="14"
+                                              Height="48"
+                                             HorizontalContentAlignment="Left"
+                                             VerticalContentAlignment="Center"
+                                             Text="请输入"/>
+                                </Grid>
+
+                                <!--项目编号-->
+                                <Grid Grid.Row="1"
+                                      Grid.Column="2">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="26"/>
+                                        <RowDefinition/>
+                                        <RowDefinition Height="40.8"/>
+                                    </Grid.RowDefinitions>
+
+                                    <Border>
+                                        <StackPanel Orientation="Horizontal"
+                                                    Margin="0 0 0 6"
+                                                    VerticalAlignment="Center">
+                                            <Image Source="/Resources/Images/申请人.png" 
+                                                   Width="16"
+                                                   Height="16"/>
+                                            <TextBlock Text=" 申请人"
+                                                       Foreground="#555555"
+                                                       FontSize="16"/>
+                                        </StackPanel>
+                                    </Border>
+
+                                    <TextBox Grid.Row="1"
+                                             FontSize="14"
+                                             Height="48"
+                                             HorizontalContentAlignment="Left"
+                                             VerticalContentAlignment="Center"
+                                             Text="请输入"/>
+                                </Grid>
+                            </Grid>
+
+
+                            <!--部门与时间信息-->
+                            <Grid Grid.Row="2">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="42"/>
+                                    <RowDefinition Height="105"/>
+                                    <RowDefinition/>
+                                    <RowDefinition Height="30"/>
+                                </Grid.RowDefinitions>
+
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition Width="20"/>
+                                    <ColumnDefinition/>
+                                </Grid.ColumnDefinitions>
+
+                                <Border>
+                                    <StackPanel Orientation="Horizontal">
+                                        <Image Source="/Resources/Images/部门与时间信息.png"
+                                               Height="16"/>
+                                        <TextBlock Text=" 部门与时间信息"
+                                                   VerticalAlignment="Center"
+                                                   Foreground="#2D5BD5"
+                                                   FontSize="20"
+                                                   FontWeight="Bold"/>
+                                    </StackPanel>
+                                </Border>
+
+                                <!--项目名称-->
+                                <Grid Grid.Row="1">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="26"/>
+                                        <RowDefinition/>
+                                        <RowDefinition Height="20.8"/>
+                                    </Grid.RowDefinitions>
+
+                                    <Border>
+                                        <StackPanel Orientation="Horizontal"
+                                                    Margin="0 0 0 6"
+                                                    VerticalAlignment="Center">
+                                            <Image Source="/Resources/Images/使用部门.png" 
+                                                   Height="20"/>
+                                            <TextBlock Text=" 使用部门"
+                                                       Foreground="#555555"
+                                                       FontSize="16"/>
+                                        </StackPanel>
+                                    </Border>
+
+                                    <TextBox Grid.Row="1"
+                                             FontSize="14"
+                                             Height="48"
+                                             HorizontalContentAlignment="Left"
+                                             VerticalContentAlignment="Center"
+                                             Text="请输入"/>
+                                </Grid>
+
+                                <!--项目编号-->
+                                <Grid Grid.Row="1"
+                                      Grid.Column="2">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="26"/>
+                                        <RowDefinition/>
+                                        <RowDefinition Height="20.8"/>
+                                    </Grid.RowDefinitions>
+
+                                    <Border>
+                                        <StackPanel Orientation="Horizontal"
+                                                    Margin="0 0 0 6"
+                                                    VerticalAlignment="Center">
+                                            <Image Source="/Resources/Images/申请日期.png" 
+                                                   Width="14"
+                                                   Height="16"/>
+                                            <TextBlock Text=" 申请日期"
+                                                       Foreground="#555555"
+                                                       FontSize="16"/>
+                                        </StackPanel>
+                                    </Border>
+
+                                    <Border Grid.Row="1"
+                                            Width="410"
+                                            Height="48"
+                                            CornerRadius="5"
+                                            BorderBrush="#abadb3"
+                                            BorderThickness="1">
+                                        <DatePicker Width="405"
+                                                    Height="40"
+                                                    BorderThickness="1"
+                                                    BorderBrush="#abadb3"
+                                                    VerticalContentAlignment="Center"
+                                                    VerticalAlignment="Center"
+                                                    Style="{StaticResource LargeDatePickerStyle}"
+                                                    FontSize="14"/>
+                                    </Border>
+                                    
+                                </Grid>
+
+
+                                <!--设备类型-->
+                                <Grid Grid.Row="2">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="26"/>
+                                        <RowDefinition/>
+                                        <RowDefinition Height="20"/>
+                                    </Grid.RowDefinitions>
+
+                                    <Border>
+                                        <StackPanel Orientation="Horizontal"
+                                                    Margin="0 0 0 6"
+                                                    VerticalAlignment="Center">
+                                            <Image Source="/Resources/Images/年份.png   " 
+                                                   Height="20"/>
+                                            <TextBlock Text=" 年份"
+                                                       Foreground="#555555"
+                                                       FontSize="16"/>
+                                        </StackPanel>
+                                    </Border>
+
+                                    <TextBox Grid.Row="1"
+                                             FontSize="14"
+                                             Height="48"
+                                             IsEnabled="False"
+                                             IsReadOnly="True">
+
+                                    </TextBox>
+                                    <TextBlock Grid.Row="2"
+                                               Text="年份为自动生成，无需手动填写"
+                                               Foreground="#555555"/>
+
+                                </Grid>
+                            </Grid>
+                        </Grid>
+                    </Grid>
+                </Border>
+            </Grid>
+        </Grid>
+    </Grid>
 </UserControl>

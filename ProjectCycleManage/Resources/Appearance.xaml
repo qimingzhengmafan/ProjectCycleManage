@@ -124,20 +124,20 @@
 
                         <!-- 弹出框 -->
                         <Popup x:Name="PART_Popup"
-                       IsOpen="{Binding IsDropDownOpen, RelativeSource={RelativeSource TemplatedParent}}"
-                       Placement="Bottom"
-                       PlacementTarget="{Binding ElementName=PART_TextBox}"
-                       StaysOpen="False">
+                               IsOpen="{Binding IsDropDownOpen, RelativeSource={RelativeSource TemplatedParent}}"
+                               Placement="Bottom"
+                               PlacementTarget="{Binding ElementName=PART_TextBox}"
+                               StaysOpen="False">
                             <Border Background="White"
-                            BorderBrush="#FFABADB3"
-                            BorderThickness="1"
-                            Padding="3">
+                                    BorderBrush="#FFABADB3"
+                                    BorderThickness="1"
+                                    Padding="3">
                                 <Calendar x:Name="PART_Calendar"
-                                  FontSize="16"
-                                  DisplayDate="{Binding SelectedDate, RelativeSource={RelativeSource TemplatedParent}}"
-                                  SelectedDate="{Binding SelectedDate, RelativeSource={RelativeSource TemplatedParent}}"
-                                  DisplayDateStart="{Binding DisplayDateStart, RelativeSource={RelativeSource TemplatedParent}}"
-                                  DisplayDateEnd="{Binding DisplayDateEnd, RelativeSource={RelativeSource TemplatedParent}}"/>
+                                          FontSize="16"
+                                          DisplayDate="{Binding SelectedDate, RelativeSource={RelativeSource TemplatedParent}}"
+                                          SelectedDate="{Binding SelectedDate, RelativeSource={RelativeSource TemplatedParent}}"
+                                          DisplayDateStart="{Binding DisplayDateStart, RelativeSource={RelativeSource TemplatedParent}}"
+                                          DisplayDateEnd="{Binding DisplayDateEnd, RelativeSource={RelativeSource TemplatedParent}}"/>
                             </Border>
                         </Popup>
                     </Grid>
