@@ -280,7 +280,7 @@ namespace ProjectCycleManage.ViewModel
 
                         if (project != null)
                         {
-                            if (project.projectfollowuppersonId.HasValue)
+                            if (project.ProjectLeaderId.HasValue)
                             {
                                 Infor_sele_people = Infor_people_ob?.FirstOrDefault(e => e.PeopleId == project.ProjectLeaderId.Value);
                             }

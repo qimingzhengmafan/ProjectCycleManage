@@ -15,6 +15,9 @@ namespace ProjectCycleManage.ViewModel
 {
     public partial class MainVM:ObservableObject
     {
+        /// <summary>
+        /// 登陆人
+        /// </summary>
         [ObservableProperty]
         private string _loginpersonname;
 
@@ -31,6 +34,14 @@ namespace ProjectCycleManage.ViewModel
             set => _overviewvm = value;
         }
 
+        private NewProjectVM _newprojectvm;
+
+        public NewProjectVM NewProject
+        {
+            get => _newprojectvm;
+            set => _newprojectvm = value;
+        }
+
         private Timer _monitoringTimer;
         private readonly HashSet<int> _alertedProjects;
         private readonly Dictionary<int, DateTime> _alertTimes;
@@ -43,6 +54,8 @@ namespace ProjectCycleManage.ViewModel
 
 
             _overviewvm = new OverviewVM(Loginpersonnamegrade , Loginpersonname);
+            _newprojectvm= new NewProjectVM(Loginpersonnamegrade, Loginpersonname);
+
             _alertedProjects = new HashSet<int>();
             _alertTimes = new Dictionary<int, DateTime>();
             _context = new ProjectContext();
@@ -413,6 +426,8 @@ namespace ProjectCycleManage.ViewModel
         {
             Vis_overview = Visibility.Visible;
             Vis_newproject = Visibility.Collapsed;
+            
+            OverView = new OverviewVM(Loginpersonnamegrade, Loginpersonname);
         }
 
         [RelayCommand]

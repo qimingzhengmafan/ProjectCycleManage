@@ -216,7 +216,7 @@
 
 
             <Grid Visibility="{Binding Vis_newproject}">
-                <view:NewProjectView/>
+                <view:NewProjectView DataContext="{Binding NewProject}"/>
             </Grid>
             
         </Grid>
