@@ -10,6 +10,7 @@
         WindowState="Maximized"
         mc:Ignorable="d"
         Title="MainWindow"
+        d:DataContext="{d:DesignInstance Type=vm:MainVM}"
         Height="1080" 
         Width="1920">
     <!--<Window.DataContext>
@@ -81,7 +82,7 @@
                                 <Menu:Btn Style="{StaticResource BtnStyle}"
                                           IsChecked="True"
                                           BorderThickness="1"
-                                          Command="{Binding}">
+                                          Command="{Binding OverViewFunCommand}">
                                     <Grid>
                                         <StackPanel Orientation="Horizontal"
                                                     Margin="30 0 0 0">
@@ -179,6 +180,26 @@
 
                                     </Grid>
                                 </Menu:Btn>
+
+                                <Menu:Btn Style="{StaticResource BtnStyle}"
+                                          Command="{Binding NewProjectFunCommand}">
+                                    <Grid>
+                                        <StackPanel Orientation="Horizontal"
+                                                    Margin="30 0 0 0">
+                                            <Image Source="/Resources/Images/plus.png" 
+                                                   Width="18"
+                                                   Height="18"/>
+                                            <Label Content="新增项目"
+                                                   FontFamily="YouYuan"
+                                                   VerticalContentAlignment="Center"
+                                                   FontSize="16"
+                                                   FontWeight="Bold"
+                                                   Foreground="White"
+                                                   Margin="5 0 0 0"/>
+                                        </StackPanel>
+
+                                    </Grid>
+                                </Menu:Btn>
                             </StackPanel>
                         </Border>
                     </Grid>
@@ -188,7 +209,16 @@
 
         <Grid Grid.Column="1"
               Grid.Row="1">
-            <view:Overview DataContext="{Binding OverView}"/>
+            
+            <Grid Visibility="{Binding Vis_overview}">
+                <view:Overview DataContext="{Binding OverView}"/>
+            </Grid>
+
+
+            <Grid Visibility="{Binding Vis_newproject}">
+                <view:NewProjectView/>
+            </Grid>
+            
         </Grid>
     </Grid>
 </Window>

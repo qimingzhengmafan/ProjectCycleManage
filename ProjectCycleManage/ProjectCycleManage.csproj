@@ -13,19 +13,33 @@
     <None Remove="Resources\Images\edit-编辑.png" />
     <None Remove="Resources\Images\home-copy-copy.png" />
     <None Remove="Resources\Images\logo.png" />
+    <None Remove="Resources\Images\plus.png" />
+    <None Remove="Resources\Images\井字符.png" />
+    <None Remove="Resources\Images\人员信息.png" />
     <None Remove="Resources\Images\任务.png" />
+    <None Remove="Resources\Images\保存.png" />
     <None Remove="Resources\Images\分析.png" />
     <None Remove="Resources\Images\图标.ico" />
+    <None Remove="Resources\Images\基本信息.png" />
     <None Remove="Resources\Images\完成.png" />
+    <None Remove="Resources\Images\年份.png" />
     <None Remove="Resources\Images\想法.png" />
     <None Remove="Resources\Images\文档.png" />
+    <None Remove="Resources\Images\申请人.png" />
+    <None Remove="Resources\Images\申请日期.png" />
     <None Remove="Resources\Images\登录.png" />
+    <None Remove="Resources\Images\签名.png" />
     <None Remove="Resources\Images\组织架构.png" />
+    <None Remove="Resources\Images\设备类型.png" />
     <None Remove="Resources\Images\设置.png" />
     <None Remove="Resources\Images\退出登录.png" />
+    <None Remove="Resources\Images\部门与时间信息.png" />
     <None Remove="Resources\Images\采购2.png" />
+    <None Remove="Resources\Images\重置.png" />
     <None Remove="Resources\Images\锁定.png" />
     <None Remove="Resources\Images\项目管理.png" />
+    <None Remove="Resources\Images\项目类型.png" />
+    <None Remove="Resources\Images\项目负责人.png" />
     <None Remove="Resources\Images\预验收.png" />
     <None Remove="Resources\Images\验收.png" />
   </ItemGroup>
@@ -73,13 +87,31 @@
     <Resource Include="Resources\Images\logo.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
+    <Resource Include="Resources\Images\plus.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\井字符.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\人员信息.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="Resources\Images\任务.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\保存.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Resources\Images\分析.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
+    <Resource Include="Resources\Images\基本信息.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="Resources\Images\完成.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\年份.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Resources\Images\想法.png">
@@ -88,10 +120,22 @@
     <Resource Include="Resources\Images\文档.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
+    <Resource Include="Resources\Images\申请人.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\申请日期.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="Resources\Images\登录.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
+    <Resource Include="Resources\Images\签名.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="Resources\Images\组织架构.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\设备类型.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Resources\Images\设置.png">
@@ -100,13 +144,25 @@
     <Resource Include="Resources\Images\退出登录.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
+    <Resource Include="Resources\Images\部门与时间信息.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="Resources\Images\采购2.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\重置.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Resources\Images\锁定.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Resources\Images\项目管理.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\项目类型.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\项目负责人.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Resources\Images\预验收.png">

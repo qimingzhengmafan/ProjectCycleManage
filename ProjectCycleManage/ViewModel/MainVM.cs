@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Threading;
 using System.Windows;
 using Microsoft.EntityFrameworkCore;
+using CommunityToolkit.Mvvm.Input;
 
 namespace ProjectCycleManage.ViewModel
 {
@@ -40,6 +41,7 @@ namespace ProjectCycleManage.ViewModel
             Loginpersonnamegrade = personnamegrade;
             Loginpersonname = name;
 
+
             _overviewvm = new OverviewVM(Loginpersonnamegrade , Loginpersonname);
             _alertedProjects = new HashSet<int>();
             _alertTimes = new Dictionary<int, DateTime>();
@@ -47,8 +49,14 @@ namespace ProjectCycleManage.ViewModel
             
             // 启动项目监控
             StartProjectMonitoring();
+
+            Vis_overview = Visibility.Visible;
+            Vis_newproject = Visibility.Collapsed;
         }
 
+
+
+        #region 项目监控
         /// <summary>
         /// 启动项目监控
         /// </summary>
@@ -91,7 +99,7 @@ namespace ProjectCycleManage.ViewModel
             {
                 var user = await _context.PeopleTable
                     .FirstOrDefaultAsync(p => p.PeopleName == _loginpersonname);
-                
+
                 return user?.PeopleId;
             }
             catch (Exception ex)
@@ -186,7 +194,7 @@ namespace ProjectCycleManage.ViewModel
                                 // 如果之前驳回过，检查项目是否重新提交
                                 var projectInfo = await _context.Projects
                                     .FirstOrDefaultAsync(p => p.ProjectsId == projectId);
-                                
+
                                 if (projectInfo != null && projectInfo.LastSubmitTime.HasValue)
                                 {
                                     // 如果项目重新提交的时间晚于驳回时间，说明是第二次提交，需要重新审批
@@ -195,12 +203,12 @@ namespace ProjectCycleManage.ViewModel
                                         return true; // 需要重新审批
                                     }
                                 }
-                                
+
                                 // 项目未重新提交，不能再次审批
                                 return false;
                             }
                         }
-                        
+
                         // 如果是第一顺位且没有审批记录，可以审批
                         return true;
                     }
@@ -246,7 +254,7 @@ namespace ProjectCycleManage.ViewModel
                             // 如果之前驳回过，检查项目是否重新提交
                             var projectInfo = await _context.Projects
                                 .FirstOrDefaultAsync(p => p.ProjectsId == projectId);
-                            
+
                             if (projectInfo != null && projectInfo.LastSubmitTime.HasValue)
                             {
                                 // 如果项目重新提交的时间晚于驳回时间，说明是第二次提交，需要重新审批
@@ -255,7 +263,7 @@ namespace ProjectCycleManage.ViewModel
                                     return true; // 需要重新审批
                                 }
                             }
-                            
+
                             // 项目未重新提交，不能再次审批
                             return false;
                         }
@@ -318,7 +326,7 @@ namespace ProjectCycleManage.ViewModel
                     {
                         // 检查审批权限和流程条件
                         var canApprove = await CheckApprovalPermissionAsync(project.ProjectId, currentUserId.Value);
-                        
+
                         if (canApprove)
                         {
                             // 检查是否需要提醒（通过已提醒项目集合的跟踪）
@@ -391,5 +399,31 @@ namespace ProjectCycleManage.ViewModel
 
             MessageBox.Show(message.ToString(), "项目状态提醒", MessageBoxButton.OK, MessageBoxImage.Information);
         }
+        #endregion
+
+        #region UI_Visibility_Fun
+        [ObservableProperty]
+        private Visibility _vis_overview;
+
+        [ObservableProperty]
+        private Visibility _vis_newproject;
+
+        [RelayCommand]
+        private void OverViewFun()
+        {
+            Vis_overview = Visibility.Visible;
+            Vis_newproject = Visibility.Collapsed;
+        }
+
+        [RelayCommand]
+        private void NewProjectFun()
+        {
+            Vis_overview = Visibility.Collapsed;
+            Vis_newproject = Visibility.Visible;
+        }
+        #endregion
+
+
+
     }
 }
