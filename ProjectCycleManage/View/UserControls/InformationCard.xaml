@@ -40,6 +40,15 @@
                                HorizontalAlignment="Center"
                                VerticalAlignment="Center"/>
                 </Border>
+                
+                <Image Source="/Resources/Images/锁.png"
+                       Height="16"
+                       Width="16"
+                       Margin="0 0 14 0"
+                       HorizontalAlignment="Right"
+                       VerticalAlignment="Bottom"
+                       Visibility="{Binding LockVisib}"/>
+
 
                 
                 <Grid Grid.Row="1">

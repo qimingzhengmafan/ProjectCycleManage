@@ -17,6 +17,7 @@
     <None Remove="Resources\Images\井字符.png" />
     <None Remove="Resources\Images\人员信息.png" />
     <None Remove="Resources\Images\任务.png" />
+    <None Remove="Resources\Images\使用部门.png" />
     <None Remove="Resources\Images\保存.png" />
     <None Remove="Resources\Images\分析.png" />
     <None Remove="Resources\Images\图标.ico" />
@@ -36,6 +37,7 @@
     <None Remove="Resources\Images\部门与时间信息.png" />
     <None Remove="Resources\Images\采购2.png" />
     <None Remove="Resources\Images\重置.png" />
+    <None Remove="Resources\Images\锁.png" />
     <None Remove="Resources\Images\锁定.png" />
     <None Remove="Resources\Images\项目管理.png" />
     <None Remove="Resources\Images\项目类型.png" />
@@ -99,6 +101,9 @@
     <Resource Include="Resources\Images\任务.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
+    <Resource Include="Resources\Images\使用部门.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="Resources\Images\保存.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
@@ -151,6 +156,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Resources\Images\重置.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\锁.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Resources\Images\锁定.png">

@@ -280,7 +280,7 @@
                                                     <uc:InformationCard Margin="20 0 0 0"
                                                                         Loginpersonnamegrade="{Binding Loginpersonnamegrade}"
                                                                         InformationTag="{Binding Taginfor}"
-                                                                        InformationTypes="{Binding Infortype}"
+                                                                        InformationTypes="{Binding Infortype,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                                                                         FileIsExist="{Binding Fileisexist,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                                                                         FileName="{Binding Filename}"
                                                                         CheckCommand="{Binding checkcommandCommand}"
@@ -288,7 +288,7 @@
                                                                         File_OA_WriteData="{Binding File_oa_writedata,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                                                                         File_OA_BtnCommand="{Binding File_OA_BtnFunCommand}"
                                                                         
-                                                                        Infor_Prople="{Binding Infor_people}"
+                                                                        Infor_Prople="{Binding Infor_people,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                                                                         Infor_People_Ob="{Binding Infor_people_ob}"
                                                                         Infor_Sele_People="{Binding Infor_sele_people,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                                                                         Infor_People_BtnCom="{Binding Infor_People_BtnFunCommand}"
@@ -300,12 +300,12 @@
                                                                         Infor_Date_SelectTime="{Binding Infor_date_selecttime,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                                                                         Infor_Date_Btn_Com="{Binding Infor_Data_BtnFunCommand}"
                                                                         
-                                                                        Infor_Equipmenttype="{Binding Infor_equipmenttype}"
+                                                                        Infor_Equipmenttype="{Binding Infor_equipmenttype,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                                                                         Infor_Equipments_Ob="{Binding Infor_EquipmentTypes}"
                                                                         Infor_Sele_Equipment="{Binding SelectedEquipmentType,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                                                                         Inofor_Equipment_BtnCom="{Binding Infor_Equipment_BtnFunCommand}"
                                                                         
-                                                                        Infor_Types="{Binding Infor_type}"
+                                                                        Infor_Types="{Binding Infor_type,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                                                                         Infor_Types_Ob="{Binding Types}"
                                                                         Infor_Sele_Types="{Binding SelectedType,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                                                                         Infor_Types_Btncom="{Binding Infor_Type_BtnFunCommand}"
@@ -318,7 +318,9 @@
                                                                         Infor_ProjectPha="{Binding Infor_projectphasestatus}"
                                                                         Infor_ProjectPha_Ob="{Binding Projectphasestatus}"
                                                                         Infor_Sele_ProjectPha="{Binding Selectedprojectphasestatus,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
-                                                                        Infor_Project_BtnCom="{Binding Infor_projectphase_BtnFunCommand}"/>
+                                                                        Infor_Project_BtnCom="{Binding Infor_projectphase_BtnFunCommand}"
+                                                                        
+                                                                        />
                                                 </DataTemplate>
                                             </ItemsControl.ItemTemplate>
                                         </ItemsControl>

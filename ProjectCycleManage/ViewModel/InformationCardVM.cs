@@ -35,6 +35,13 @@ namespace ProjectCycleManage.ViewModel
         [ObservableProperty]
         private string _taginfor;
 
+
+        /// <summary>
+        /// 项目ID
+        /// </summary>
+        [ObservableProperty]
+        private string _inforprojectid;
+
         /// <summary>
         /// 信息类型-例-文档-OA
         /// </summary>
@@ -56,7 +63,7 @@ namespace ProjectCycleManage.ViewModel
                             LoadEmployees();
                         });
                         return;
-                        
+
                     }
 
                     if (Infor_equipmenttype == "设备类型")
@@ -67,7 +74,7 @@ namespace ProjectCycleManage.ViewModel
                         });
                         return;
                     }
-                    if (Infor_type == "项目类型")
+                    if (Infor_type == "类型")
                     {
                         Task.Run(() =>
                         {
@@ -94,7 +101,7 @@ namespace ProjectCycleManage.ViewModel
                 }
                 else if (_infortype == "信息-填写")
                 {
-                    Infor_text_write = GetFieldValueByRemarkDynamic( Convert.ToInt32(Inforprojectid) , Infor_text_in).GetAwaiter().GetResult();
+                    Infor_text_write = GetFieldValueByRemarkDynamic(Convert.ToInt32(Inforprojectid), Infor_text_in).GetAwaiter().GetResult();
                 }
                 else if (_infortype == "信息-日期")
                 {
@@ -106,7 +113,7 @@ namespace ProjectCycleManage.ViewModel
                     {
                         //102
                         case "设备申请表":
-                            Fileisexist = GetFileValueByRemarkDynamic(Convert.ToInt32(Inforprojectid),102).GetAwaiter().GetResult();
+                            Fileisexist = GetFileValueByRemarkDynamic(Convert.ToInt32(Inforprojectid), 102).GetAwaiter().GetResult();
                             break;
                         case "技术协议":
                             Fileisexist = GetFileValueByRemarkDynamic(Convert.ToInt32(Inforprojectid), 103).GetAwaiter().GetResult();
@@ -158,12 +165,6 @@ namespace ProjectCycleManage.ViewModel
                 }
             }
         }
-
-        /// <summary>
-        /// 项目ID
-        /// </summary>
-        [ObservableProperty]
-        private string _inforprojectid;
 
         #endregion
 
@@ -821,6 +822,8 @@ namespace ProjectCycleManage.ViewModel
         }
 
 
+
+
         /// <summary>
         /// 通过备注更新主表记录（信息部分专用）
         /// </summary>
@@ -1084,7 +1087,16 @@ namespace ProjectCycleManage.ViewModel
                     .Where(p => p.ProjectsId == recordId)
                     .FirstOrDefault(p => p.DocumentTypeId == 101);
 
-                var result = query.Remarks;
+                string? result;
+                try
+                {
+                    result = query.Remarks;
+                }
+                catch (Exception)
+                {
+                    result = "";
+                    //throw;
+                }
 
                 //if (result == null)
                 //{
@@ -1103,8 +1115,17 @@ namespace ProjectCycleManage.ViewModel
                 var query = context.ProjectDocumentStatus
                     .Where(p => p.ProjectsId == recordId)
                     .FirstOrDefault(p => p.DocumentTypeId == 113);
-
-                var result = query.Remarks;
+                string? result;
+                try
+                {
+                    result = query.Remarks;
+                }
+                catch (Exception)
+                {
+                    result = "";
+                    //throw;
+                }
+                
 
                 //if (result == null)
                 //{
@@ -1123,8 +1144,17 @@ namespace ProjectCycleManage.ViewModel
                 var query = context.ProjectDocumentStatus
                     .Where(p => p.ProjectsId == recordId)
                     .FirstOrDefault(p => p.DocumentTypeId == FileID);
+                bool? result = false;
+                try
+                {
+                    result = query.IsHasDocument;
+                }
+                catch (Exception)
+                {
 
-                var result = query.IsHasDocument;
+                    //throw;
+                }
+                
 
                 //if (result == null)
                 //{

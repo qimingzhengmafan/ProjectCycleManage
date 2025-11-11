@@ -77,97 +77,37 @@ namespace ProjectCycleManage.View.UserControls
             if (inforcardctrl.Loginpersonnamegrade == 10)
             {
                 inforcardctrl.CardIsEnable = true;
+                inforcardctrl.LockVisib = Visibility.Collapsed;
             }
             else
             {
                 if (inforcardctrl.Loginpersonnamegrade == Convert.ToInt32(newdata))
                 {
                     inforcardctrl.CardIsEnable = true;
+                    inforcardctrl.LockVisib = Visibility.Collapsed;
                 }
                 else
                 {
                     inforcardctrl.CardIsEnable = false;
+                    inforcardctrl.LockVisib = Visibility.Visible;
                 }
             }
         }
 
-        public string InformationTypes
+
+
+        public Visibility LockVisib
         {
-            get { return (string)GetValue(InformationTypesProperty); }
-            set { SetValue(InformationTypesProperty, value); }
+            get { return (Visibility)GetValue(LockVisibProperty); }
+            set { SetValue(LockVisibProperty, value); }
         }
 
-        // Using a DependencyProperty as the backing store for InformationTypes.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty InformationTypesProperty =
-            DependencyProperty.Register(nameof(InformationTypes), typeof(string), typeof(InformationCard), new PropertyMetadata(null , OnInformationTypesChanged));
+        // Using a DependencyProperty as the backing store for LockVisib.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty LockVisibProperty =
+            DependencyProperty.Register(nameof(LockVisib), typeof(Visibility), typeof(InformationCard), new PropertyMetadata(Visibility.Visible));
 
 
-        private static void OnInformationTypesChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            var inforcardctrl = (InformationCard)d;
-            string newdata = (string)e.NewValue;
 
-            switch (newdata)
-            {
-                case "文档":
-                    inforcardctrl.FileVisib = Visibility.Visible;
-
-                    inforcardctrl.Infor_People_Visib = Visibility.Collapsed;
-                    inforcardctrl.Infor_Text_Visib = Visibility.Collapsed;
-                    inforcardctrl.File_OA_Visib = Visibility.Collapsed;
-                    inforcardctrl.Infor_Date = Visibility.Collapsed;
-                    break;
-
-                case "信息-下拉框":
-                    inforcardctrl.Infor_People_Visib = Visibility.Visible;
-
-                    inforcardctrl.FileVisib = Visibility.Collapsed;
-                    inforcardctrl.Infor_Text_Visib = Visibility.Collapsed;
-                    inforcardctrl.File_OA_Visib = Visibility.Collapsed;
-                    inforcardctrl.Infor_Date = Visibility.Collapsed;
-
-                    break;
-
-                case "信息-填写":
-                    inforcardctrl.Infor_Text_Visib = Visibility.Visible;
-
-                    inforcardctrl.FileVisib = Visibility.Collapsed;
-                    inforcardctrl.Infor_People_Visib = Visibility.Collapsed;
-                    inforcardctrl.File_OA_Visib = Visibility.Collapsed;
-                    inforcardctrl.Infor_Date = Visibility.Collapsed;
-                    break;
-
-                case "文档-OA":
-                    inforcardctrl.File_OA_Visib = Visibility.Visible;
-
-                    inforcardctrl.FileVisib = Visibility.Collapsed;
-                    inforcardctrl.Infor_People_Visib = Visibility.Collapsed;
-                    inforcardctrl.Infor_Text_Visib = Visibility.Collapsed;
-                    inforcardctrl.Infor_Date = Visibility.Collapsed;
-
-                    break;
-
-                case "信息-日期":
-                    inforcardctrl.Infor_Date = Visibility.Visible;
-
-                    inforcardctrl.FileVisib = Visibility.Collapsed;
-                    inforcardctrl.Infor_People_Visib = Visibility.Collapsed;
-                    inforcardctrl.Infor_Text_Visib = Visibility.Collapsed;
-                    inforcardctrl.File_OA_Visib = Visibility.Collapsed;
-
-                    break;
-
-                default:
-                    inforcardctrl.Infor_Date = Visibility.Collapsed;
-
-                    inforcardctrl.FileVisib = Visibility.Collapsed;
-                    inforcardctrl.Infor_People_Visib = Visibility.Collapsed;
-                    inforcardctrl.Infor_Text_Visib = Visibility.Collapsed;
-                    inforcardctrl.File_OA_Visib = Visibility.Collapsed;
-                    break;
-
-            }
-        }
 
         #region 文档
 
@@ -624,7 +564,119 @@ namespace ProjectCycleManage.View.UserControls
 
         #endregion
 
+        public string InformationTypes
+        {
+            get { return (string)GetValue(InformationTypesProperty); }
+            set { SetValue(InformationTypesProperty, value); }
+        }
 
+        // Using a DependencyProperty as the backing store for InformationTypes.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty InformationTypesProperty =
+            DependencyProperty.Register(nameof(InformationTypes), typeof(string), typeof(InformationCard), new PropertyMetadata(null, OnInformationTypesChanged));
+
+
+        private static void OnInformationTypesChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            var inforcardctrl = (InformationCard)d;
+            string newdata = (string)e.NewValue;
+
+            switch (newdata)
+            {
+                case "文档":
+                    inforcardctrl.FileVisib = Visibility.Visible;
+
+                    inforcardctrl.Infor_People_Visib = Visibility.Collapsed;
+                    inforcardctrl.Infor_Text_Visib = Visibility.Collapsed;
+                    inforcardctrl.File_OA_Visib = Visibility.Collapsed;
+                    inforcardctrl.Infor_Date = Visibility.Collapsed;
+
+                    inforcardctrl.equipmenttype = Visibility.Collapsed;
+                    inforcardctrl.Infor_Types_Visib = Visibility.Collapsed;
+                    break;
+
+                case "信息-下拉框":
+                    if (inforcardctrl.Infor_Prople != null)
+                    {
+                        inforcardctrl.Infor_People_Visib = Visibility.Visible;
+                        inforcardctrl.FileVisib = Visibility.Collapsed;
+                        inforcardctrl.Infor_Text_Visib = Visibility.Collapsed;
+                        inforcardctrl.File_OA_Visib = Visibility.Collapsed;
+                        inforcardctrl.Infor_Date = Visibility.Collapsed;
+                        inforcardctrl.equipmenttype = Visibility.Collapsed;
+                        inforcardctrl.Infor_Types_Visib = Visibility.Collapsed;
+                    }
+                    else if (inforcardctrl.Infor_Equipmenttype != null)
+                    {
+                        inforcardctrl.equipmenttype = Visibility.Visible;
+
+                        inforcardctrl.FileVisib = Visibility.Collapsed;
+                        inforcardctrl.Infor_Text_Visib = Visibility.Collapsed;
+                        inforcardctrl.File_OA_Visib = Visibility.Collapsed;
+                        inforcardctrl.Infor_Date = Visibility.Collapsed;
+                        inforcardctrl.Infor_People_Visib = Visibility.Collapsed;
+                        inforcardctrl.Infor_Types_Visib = Visibility.Collapsed;
+                    }
+                    else if (inforcardctrl.Infor_Types != null)
+                    {
+                        inforcardctrl.Infor_Types_Visib = Visibility.Visible;
+
+                        inforcardctrl.FileVisib = Visibility.Collapsed;
+                        inforcardctrl.Infor_Text_Visib = Visibility.Collapsed;
+                        inforcardctrl.File_OA_Visib = Visibility.Collapsed;
+                        inforcardctrl.Infor_Date = Visibility.Collapsed;
+                        inforcardctrl.equipmenttype = Visibility.Collapsed;
+                        inforcardctrl.Infor_People_Visib = Visibility.Collapsed;
+                    }
+                    break;
+
+                case "信息-填写":
+                    inforcardctrl.Infor_Text_Visib = Visibility.Visible;
+
+                    inforcardctrl.FileVisib = Visibility.Collapsed;
+                    inforcardctrl.Infor_People_Visib = Visibility.Collapsed;
+                    inforcardctrl.File_OA_Visib = Visibility.Collapsed;
+                    inforcardctrl.Infor_Date = Visibility.Collapsed;
+                    inforcardctrl.equipmenttype = Visibility.Collapsed;
+                    inforcardctrl.Infor_Types_Visib = Visibility.Collapsed;
+                    break;
+
+                case "文档-OA":
+                    inforcardctrl.File_OA_Visib = Visibility.Visible;
+
+                    inforcardctrl.FileVisib = Visibility.Collapsed;
+                    inforcardctrl.Infor_People_Visib = Visibility.Collapsed;
+                    inforcardctrl.Infor_Text_Visib = Visibility.Collapsed;
+                    inforcardctrl.Infor_Date = Visibility.Collapsed;
+                    inforcardctrl.equipmenttype = Visibility.Collapsed;
+                    inforcardctrl.Infor_Types_Visib = Visibility.Collapsed;
+
+                    break;
+
+                case "信息-日期":
+                    inforcardctrl.Infor_Date = Visibility.Visible;
+
+                    inforcardctrl.FileVisib = Visibility.Collapsed;
+                    inforcardctrl.Infor_People_Visib = Visibility.Collapsed;
+                    inforcardctrl.Infor_Text_Visib = Visibility.Collapsed;
+                    inforcardctrl.File_OA_Visib = Visibility.Collapsed;
+                    inforcardctrl.equipmenttype = Visibility.Collapsed;
+                    inforcardctrl.Infor_Types_Visib = Visibility.Collapsed;
+
+                    break;
+
+                default:
+                    inforcardctrl.Infor_Date = Visibility.Collapsed;
+
+                    inforcardctrl.FileVisib = Visibility.Collapsed;
+                    inforcardctrl.Infor_People_Visib = Visibility.Collapsed;
+                    inforcardctrl.Infor_Text_Visib = Visibility.Collapsed;
+                    inforcardctrl.File_OA_Visib = Visibility.Collapsed;
+                    inforcardctrl.equipmenttype = Visibility.Collapsed;
+                    inforcardctrl.Infor_Types_Visib = Visibility.Collapsed;
+                    break;
+
+            }
+        }
 
         #region 信息-填写内容
 
