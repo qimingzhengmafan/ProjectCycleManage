@@ -400,7 +400,7 @@ namespace ProjectCycleManage.ViewModel
             }
 
             MessageBox.Show(message.ToString(), "审批提醒", MessageBoxButton.OK, MessageBoxImage.Information);
-            //OverView = new OverviewVM(Loginpersonnamegrade, Loginpersonname);
+            OverView = new OverviewVM(Loginpersonnamegrade, Loginpersonname);
         }
 
         /// <summary>
@@ -438,7 +438,7 @@ namespace ProjectCycleManage.ViewModel
             Vis_overview = Visibility.Visible;
             Vis_newproject = Visibility.Collapsed;
             
-            //OverView = new OverviewVM(Loginpersonnamegrade, Loginpersonname);
+            OverView = new OverviewVM(Loginpersonnamegrade, Loginpersonname);
         }
 
         [RelayCommand]
