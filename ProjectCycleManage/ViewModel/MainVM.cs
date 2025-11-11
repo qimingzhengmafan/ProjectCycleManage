@@ -108,16 +108,113 @@ namespace ProjectCycleManage.ViewModel
         }
 
         /// <summary>
+        /// 检查项目状态是否发生了变化（进入新的审核阶段）
+        /// </summary>
+        private async Task<bool> CheckIfProjectStatusChangedAsync(int projectId, DateTime lastAlertTime)
+        {
+            try
+            {
+                // 如果从未提醒过，不需要检查状态变化
+                if (lastAlertTime == DateTime.MinValue)
+                    return false;
+
+                // 获取项目当前的状态信息
+                var currentProject = await _context.Projects
+                    .Where(p => p.ProjectsId == projectId)
+                    .Select(p => new { p.ProjInforId, p.LastSubmitTime })
+                    .FirstOrDefaultAsync();
+
+                if (currentProject == null)
+                    return false;
+
+                // 检查项目是否有新的提交时间（表示进入了新的审核阶段）
+                if (currentProject.LastSubmitTime.HasValue && currentProject.LastSubmitTime > lastAlertTime)
+                {
+                    // 清空提醒列表，让项目可以重新提醒
+                    ClearProjectFromAlertList(projectId);
+                    return true;
+                }
+
+                // 检查项目状态是否发生了变化（ProjInforId变化）
+                // 获取最后一次提醒时的项目状态
+                var lastAlertStatus = await GetProjectStatusAtTimeAsync(projectId, lastAlertTime);
+                
+                // 如果当前状态与最后一次提醒时的状态不同，说明状态发生了变化
+                if (lastAlertStatus != currentProject.ProjInforId)
+                {
+                    // 清空提醒列表，让项目可以重新提醒
+                    ClearProjectFromAlertList(projectId);
+                    return true;
+                }
+
+                return false;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"检查项目状态变化出错: {ex.Message}");
+                Console.WriteLine($"检查项目状态变化出错: {ex.Message}");
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// 从提醒列表中清除项目
+        /// </summary>
+        private void ClearProjectFromAlertList(int projectId)
+        {
+            _alertedProjects.Remove(projectId);
+            if (_alertTimes.ContainsKey(projectId))
+            {
+                _alertTimes.Remove(projectId);
+            }
+        }
+
+        /// <summary>
+        /// 获取项目在指定时间点的状态
+        /// </summary>
+        private async Task<int?> GetProjectStatusAtTimeAsync(int projectId, DateTime targetTime)
+        {
+            try
+            {
+                // 查询项目状态变更历史记录
+                var statusHistory = await _context.InspectionRecord
+                    .Where(ir => ir.ProjectsId == projectId && ir.CheckTime <= targetTime)
+                    .OrderByDescending(ir => ir.CheckTime)
+                    .Select(ir => new { ir.projId, ir.CheckTime })
+                    .FirstOrDefaultAsync();
+
+                if (statusHistory != null)
+                {
+                    return statusHistory.projId;
+                }
+
+                // 如果没有历史记录，返回项目当前状态
+                var project = await _context.Projects
+                    .Where(p => p.ProjectsId == projectId)
+                    .Select(p => p.ProjInforId)
+                    .FirstOrDefaultAsync();
+
+                return project;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"获取项目历史状态出错: {ex.Message}");
+                Console.WriteLine($"获取项目历史状态出错: {ex.Message}");
+                return null;
+            }
+        }
+
+        /// <summary>
         /// 检查项目是否需要提醒
         /// </summary>
         private async Task<bool> CheckIfNeedsAlertAsync(int projectId, int currentUserId)
         {
             try
             {
-                // 获取项目的最新提交时间
+                // 获取项目的完整信息，包括当前状态和提交时间
                 var project = await _context.Projects
                     .Where(p => p.ProjectsId == projectId)
-                    .Select(p => new { p.LastSubmitTime })
+                    .Select(p => new { p.LastSubmitTime, p.ProjInforId })
                     .FirstOrDefaultAsync();
 
                 if (project == null)
@@ -129,10 +226,24 @@ namespace ProjectCycleManage.ViewModel
                     .OrderByDescending(ir => ir.CheckTime)
                     .FirstOrDefaultAsync();
 
+                // 获取最后一次提醒的时间和状态
+                var lastAlertTime = GetLastAlertTime(projectId);
+                
+                // 检查项目状态是否发生了变化（进入新的审核阶段）
+                bool isNewStatus = await CheckIfProjectStatusChangedAsync(projectId, lastAlertTime);
+                
                 // 如果项目从未被提醒过，需要提醒
                 if (!_alertedProjects.Contains(projectId))
                 {
                     _alertedProjects.Add(projectId);
+                    return true;
+                }
+
+                // 如果项目状态发生了变化（进入新的审核阶段），需要重新提醒
+                if (isNewStatus)
+                {
+                    // 清空提醒列表，让项目可以重新提醒
+                    ClearProjectFromAlertList(projectId);
                     return true;
                 }
 
@@ -143,7 +254,6 @@ namespace ProjectCycleManage.ViewModel
                     if (project.LastSubmitTime.HasValue && project.LastSubmitTime > lastApproval.CheckTime)
                     {
                         // 检查是否已经提醒过这次重新提交
-                        var lastAlertTime = GetLastAlertTime(projectId);
                         if (lastAlertTime < project.LastSubmitTime)
                         {
                             return true; // 需要重新提醒
