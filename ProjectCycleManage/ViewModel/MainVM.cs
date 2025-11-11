@@ -328,9 +328,14 @@ namespace ProjectCycleManage.ViewModel
                 if (!hasValidFlow)
                     return false;
 
-                // 4. 检查审批记录
+                // 4. 检查审批记录 - 重新获取最新的项目状态
+                var currentProjectStatus = await _context.Projects
+                    .Where(p => p.ProjectsId == projectId)
+                    .Select(p => p.ProjInforId)
+                    .FirstOrDefaultAsync();
+                
                 var inspectionRecord = await _context.InspectionRecord
-                    .Where(ir => ir.ProjectsId == projectId && ir.projId == project.ProjInforId)
+                    .Where(ir => ir.ProjectsId == projectId && ir.projId == currentProjectStatus)
                     .OrderByDescending(ir => ir.Sequence)
                     .FirstOrDefaultAsync();
 
@@ -358,7 +363,7 @@ namespace ProjectCycleManage.ViewModel
                         // 检查当前用户是否已经审批过（第一顺位也需要检查重新提交）
                         var currentUserApproval1 = await _context.InspectionRecord
                             .Where(ir => ir.ProjectsId == projectId &&
-                                        ir.projId == project.ProjInforId &&
+                                        ir.projId == currentProjectStatus &&
                                         ir.CheckPeopleId == currentUserId)
                             .OrderByDescending(ir => ir.CheckTime)
                             .FirstOrDefaultAsync();
@@ -406,7 +411,7 @@ namespace ProjectCycleManage.ViewModel
 
                     var previousApproval = await _context.InspectionRecord
                         .Where(ir => ir.ProjectsId == projectId &&
-                                    ir.projId == project.ProjInforId &&
+                                    ir.projId == currentProjectStatus &&
                                     ir.CheckPeopleId == previousApproverId)
                         .OrderByDescending(ir => ir.CheckTime)
                         .FirstOrDefaultAsync();
@@ -420,7 +425,7 @@ namespace ProjectCycleManage.ViewModel
                     // 检查当前用户是否已经审批过
                     var currentUserApproval = await _context.InspectionRecord
                         .Where(ir => ir.ProjectsId == projectId &&
-                                    ir.projId == project.ProjInforId &&
+                                    ir.projId == currentProjectStatus &&
                                     ir.CheckPeopleId == currentUserId)
                         .OrderByDescending(ir => ir.CheckTime)
                         .FirstOrDefaultAsync();
