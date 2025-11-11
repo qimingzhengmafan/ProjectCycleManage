@@ -38,6 +38,7 @@
                                Text="{Binding ProjectName,ElementName=UC_ProjectCard}"
                                FontSize="16"
                                FontWeight="Bold"
+                               FontFamily="Microsoft YaHei"
                                VerticalAlignment="Bottom"/>
                     <Border Grid.Column="1"
                             HorizontalAlignment="Center"
