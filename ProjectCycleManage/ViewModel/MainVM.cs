@@ -108,6 +108,61 @@ namespace ProjectCycleManage.ViewModel
         }
 
         /// <summary>
+        /// 检查项目是否需要提醒
+        /// </summary>
+        private async Task<bool> CheckIfNeedsAlertAsync(int projectId, int currentUserId)
+        {
+            try
+            {
+                // 获取项目的最新提交时间
+                var project = await _context.Projects
+                    .Where(p => p.ProjectsId == projectId)
+                    .Select(p => new { p.LastSubmitTime })
+                    .FirstOrDefaultAsync();
+
+                if (project == null)
+                    return false;
+
+                // 获取当前用户对该项目的最后一次审批记录
+                var lastApproval = await _context.InspectionRecord
+                    .Where(ir => ir.ProjectsId == projectId && ir.CheckPeopleId == currentUserId)
+                    .OrderByDescending(ir => ir.CheckTime)
+                    .FirstOrDefaultAsync();
+
+                // 如果项目从未被提醒过，需要提醒
+                if (!_alertedProjects.Contains(projectId))
+                {
+                    _alertedProjects.Add(projectId);
+                    return true;
+                }
+
+                // 如果项目已经被提醒过，检查是否被重新提交
+                if (lastApproval != null && lastApproval.CheckResult == "Rejection")
+                {
+                    // 如果项目有重新提交时间，并且重新提交时间晚于最后一次驳回时间
+                    if (project.LastSubmitTime.HasValue && project.LastSubmitTime > lastApproval.CheckTime)
+                    {
+                        // 检查是否已经提醒过这次重新提交
+                        var lastAlertTime = GetLastAlertTime(projectId);
+                        if (lastAlertTime < project.LastSubmitTime)
+                        {
+                            return true; // 需要重新提醒
+                        }
+                    }
+                }
+
+                // 其他情况不需要提醒
+                return false;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"检查提醒需求出错: {ex.Message}");
+                Console.WriteLine($"检查提醒需求出错: {ex.Message}");
+                return false;
+            }
+        }
+
+        /// <summary>
         /// 获取当前登录用户的ID
         /// </summary>
         private async Task<int?> GetCurrentUserIdAsync()
@@ -352,11 +407,12 @@ namespace ProjectCycleManage.ViewModel
 
                         if (canApprove)
                         {
-                            // 检查是否需要提醒（通过已提醒项目集合的跟踪）
-                            if (!_alertedProjects.Contains(project.ProjectId))
+                            // 检查是否需要提醒
+                            bool needsAlert = await CheckIfNeedsAlertAsync(project.ProjectId, currentUserId.Value);
+                            
+                            if (needsAlert)
                             {
                                 validAlertProjects.Add(project);
-                                _alertedProjects.Add(project.ProjectId);
                                 // 设置提醒时间为当前时间
                                 UpdateAlertTime(project.ProjectId, DateTime.Now);
                             }
