@@ -141,7 +141,7 @@ namespace ProjectCycleManage.ViewModel
                 var lastAlertStatus = await GetProjectStatusAtTimeAsync(projectId, lastAlertTime);
                 
                 // 如果当前状态与最后一次提醒时的状态不同，说明状态发生了变化
-                if (lastAlertStatus != currentProject.ProjInforId)
+                if (lastAlertStatus.HasValue && lastAlertStatus != currentProject.ProjInforId)
                 {
                     // 清空提醒列表，让项目可以重新提醒
                     ClearProjectFromAlertList(projectId);
@@ -188,14 +188,18 @@ namespace ProjectCycleManage.ViewModel
                 {
                     return statusHistory.projId;
                 }
+                else
+                {
+                    return null;
+                }
 
-                // 如果没有历史记录，返回项目当前状态
-                var project = await _context.Projects
-                    .Where(p => p.ProjectsId == projectId)
-                    .Select(p => p.ProjInforId)
-                    .FirstOrDefaultAsync();
+                //// 如果没有历史记录，返回项目当前状态
+                //var project = await _context.Projects
+                //    .Where(p => p.ProjectsId == projectId)
+                //    .Select(p => p.ProjInforId)
+                //    .FirstOrDefaultAsync();
 
-                return project;
+                //return project;
             }
             catch (Exception ex)
             {
