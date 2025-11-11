@@ -50,6 +50,7 @@ namespace ProjectCycleManage.ViewModel
         private readonly HashSet<int> _alertedProjects;
         private readonly Dictionary<int, DateTime> _alertTimes;
         private ProjectContext _context;
+        DateTime lastdatetime;
 
         public MainVM(string name , int personnamegrade)
         {
@@ -227,15 +228,16 @@ namespace ProjectCycleManage.ViewModel
                     .FirstOrDefaultAsync();
 
                 // 获取最后一次提醒的时间和状态
-                var lastAlertTime = GetLastAlertTime(projectId);
+                lastdatetime = GetLastAlertTime(projectId);
                 
                 // 检查项目状态是否发生了变化（进入新的审核阶段）
-                bool isNewStatus = await CheckIfProjectStatusChangedAsync(projectId, lastAlertTime);
+                bool isNewStatus = await CheckIfProjectStatusChangedAsync(projectId, lastdatetime);
                 
                 // 如果项目从未被提醒过，需要提醒
                 if (!_alertedProjects.Contains(projectId))
                 {
                     _alertedProjects.Add(projectId);
+                    UpdateAlertTime(projectId, DateTime.Now); // 设置提醒时间
                     return true;
                 }
 
@@ -254,7 +256,7 @@ namespace ProjectCycleManage.ViewModel
                     if (project.LastSubmitTime.HasValue && project.LastSubmitTime > lastApproval.CheckTime)
                     {
                         // 检查是否已经提醒过这次重新提交
-                        if (lastAlertTime < project.LastSubmitTime)
+                        if (lastdatetime < project.LastSubmitTime)
                         {
                             return true; // 需要重新提醒
                         }
