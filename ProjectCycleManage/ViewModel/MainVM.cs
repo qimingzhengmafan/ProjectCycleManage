@@ -138,7 +138,7 @@ namespace ProjectCycleManage.ViewModel
 
                 // 检查项目状态是否发生了变化（ProjInforId变化）
                 // 获取最后一次提醒时的项目状态
-                var lastAlertStatus = await GetProjectStatusAtTimeAsync(projectId, lastAlertTime);
+                var lastAlertStatus = await GetProjectStatusAtTimeAsync(projectId, lastAlertTime , currentProject.ProjInforId.GetValueOrDefault());
                 
                 // 如果当前状态与最后一次提醒时的状态不同，说明状态发生了变化
                 if (lastAlertStatus.HasValue && lastAlertStatus != currentProject.ProjInforId)
@@ -173,13 +173,13 @@ namespace ProjectCycleManage.ViewModel
         /// <summary>
         /// 获取项目在指定时间点的状态
         /// </summary>
-        private async Task<int?> GetProjectStatusAtTimeAsync(int projectId, DateTime targetTime)
+        private async Task<int?> GetProjectStatusAtTimeAsync(int projectId, DateTime targetTime, int ProjInforId)
         {
             try
             {
                 // 查询项目状态变更历史记录
                 var statusHistory = await _context.InspectionRecord
-                    .Where(ir => ir.ProjectsId == projectId && ir.CheckTime <= targetTime)
+                    .Where(ir => ir.ProjectsId == projectId && ir.CheckTime <= targetTime && ir.projId == ProjInforId)
                     .OrderByDescending(ir => ir.CheckTime)
                     .Select(ir => new { ir.projId, ir.CheckTime })
                     .FirstOrDefaultAsync();
