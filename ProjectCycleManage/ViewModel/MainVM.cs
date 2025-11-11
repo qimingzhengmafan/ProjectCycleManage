@@ -206,11 +206,13 @@ namespace ProjectCycleManage.ViewModel
                                 // 如果之前已经通过，丢弃结果（不能重复审批）
                                 return false;
                             }
-                            else if (currentUserApproval1.CheckResult == "REJECT")
+                            else if (currentUserApproval1.CheckResult == "Rejection")
                             {
                                 // 如果之前驳回过，检查项目是否重新提交
                                 var projectInfo = await _context.Projects
-                                    .FirstOrDefaultAsync(p => p.ProjectsId == projectId);
+                                    .Where(p => p.ProjectsId == projectId)
+                                    .Select(p => new { p.LastSubmitTime })
+                                    .FirstOrDefaultAsync();
 
                                 if (projectInfo != null && projectInfo.LastSubmitTime.HasValue)
                                 {
@@ -266,14 +268,18 @@ namespace ProjectCycleManage.ViewModel
                             // 如果之前已经通过，丢弃结果（不能重复审批）
                             return false;
                         }
-                        else if (currentUserApproval.CheckResult == "REJECT")
+                        else if (currentUserApproval.CheckResult == "Rejection")
                         {
                             // 如果之前驳回过，检查项目是否重新提交
                             var projectInfo = await _context.Projects
-                                .FirstOrDefaultAsync(p => p.ProjectsId == projectId);
+                                .Where(p => p.ProjectsId == projectId)
+                                .Select(p => new { p.LastSubmitTime })
+                                .FirstOrDefaultAsync();
 
                             if (projectInfo != null && projectInfo.LastSubmitTime.HasValue)
                             {
+                                //MessageBox.Show(projectInfo.LastSubmitTime.ToString() + "----------" + currentUserApproval.CheckTime.ToString());
+                                
                                 // 如果项目重新提交的时间晚于驳回时间，说明是第二次提交，需要重新审批
                                 if (projectInfo.LastSubmitTime > currentUserApproval.CheckTime)
                                 {
@@ -394,7 +400,7 @@ namespace ProjectCycleManage.ViewModel
             }
 
             MessageBox.Show(message.ToString(), "审批提醒", MessageBoxButton.OK, MessageBoxImage.Information);
-            OverView = new OverviewVM(Loginpersonnamegrade, Loginpersonname);
+            //OverView = new OverviewVM(Loginpersonnamegrade, Loginpersonname);
         }
 
         /// <summary>
@@ -432,7 +438,7 @@ namespace ProjectCycleManage.ViewModel
             Vis_overview = Visibility.Visible;
             Vis_newproject = Visibility.Collapsed;
             
-            OverView = new OverviewVM(Loginpersonnamegrade, Loginpersonname);
+            //OverView = new OverviewVM(Loginpersonnamegrade, Loginpersonname);
         }
 
         [RelayCommand]

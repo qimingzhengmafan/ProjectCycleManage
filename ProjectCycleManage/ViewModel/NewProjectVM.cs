@@ -375,13 +375,16 @@ namespace ProjectCycleManage.ViewModel
                             NewProject.ProjectStageId = 106;
                             NewProject.ProjInforId = 101;
                             NewProject.ProjectPhaseStatusId = 105;
+                            NewProject.LastSubmitTime = DateTime.Now;
                         }
                         //不提交审批
                         else if (result == MessageBoxResult.No)
                         {
                             NewProject.ProjectStageId = 106;
                             NewProject.ProjInforId = 100;
+
                             NewProject.ProjectPhaseStatusId = 102;
+
                         }
                         int Saveresult = 0;
                         try
