@@ -31,7 +31,11 @@ namespace ProjectCycleManage.ViewModel
         public OverviewVM OverView
         {
             get => _overviewvm;
-            set => _overviewvm = value;
+            set
+            {
+                _overviewvm = value;
+                OnPropertyChanged();
+            }
         }
 
         private NewProjectVM _newprojectvm;
@@ -390,6 +394,7 @@ namespace ProjectCycleManage.ViewModel
             }
 
             MessageBox.Show(message.ToString(), "审批提醒", MessageBoxButton.OK, MessageBoxImage.Information);
+            OverView = new OverviewVM(Loginpersonnamegrade, Loginpersonname);
         }
 
         /// <summary>

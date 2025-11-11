@@ -342,11 +342,17 @@ namespace ProjectCycleManage.ViewModel
 
             Stageprogress = 0.0;
 
+            
+            Application.Current.Dispatcher.BeginInvoke(new Action(() =>
+            {
+                ProjectShowAreaCard.Clear();
+            }));
+
             Task.Run(() =>
             {
                 // 创建数据库上下文
                 using var context = new ProjectContext();
-
+                
                 // 获取当前登录人的ID
                 var currentUser = context.PeopleTable
                     .FirstOrDefault(p => p.PeopleName == loginpeoplename);

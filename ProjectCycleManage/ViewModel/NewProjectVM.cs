@@ -381,7 +381,7 @@ namespace ProjectCycleManage.ViewModel
                         {
                             NewProject.ProjectStageId = 106;
                             NewProject.ProjInforId = 100;
-                            NewProject.ProjectPhaseStatusId = 105;
+                            NewProject.ProjectPhaseStatusId = 102;
                         }
                         int Saveresult = 0;
                         try
@@ -419,57 +419,6 @@ namespace ProjectCycleManage.ViewModel
                 {
                     MessageBox.Show("系统自动生成数据有误，请重新打开页面！");
                 }
-
-
-
-
-
-
-                //if (Projectsid != null && ProjectName != null &&
-                //    TypeId != null && EquipmentTypes != null &&
-                //    StartTime != null && FinishTime != null)
-                //{
-                //    var newproject = NewProjectFun();
-                //    int result = 0;
-                //    try
-                //    {
-                //        using (var context = new ProjectContext())
-                //        {
-                //            context.Projects.Add(newproject);
-                //            result = context.SaveChanges();
-                //            //if (result > 0)
-                //            //{
-                //            //    MessageBox.Show
-                //            //}
-                //        }
-                //    }
-                //    catch (Exception)
-                //    {
-
-                //        //throw;
-                //        MessageBox.Show("数据库故障");
-                //    }
-                //    finally
-                //    {
-                //        if (result > 0)
-                //        {
-                //            MessageBox.Show("保存成功");
-                //            using (var context = new ProjectContext())
-                //            {
-                //                Projectsid = context.Projects.Count() + 1;
-                //            }
-                //        }
-                //        else
-                //        {
-                //            MessageBox.Show("保存失败");
-                //        }
-                //    }
-
-                //}
-                //else
-                //{
-                //    MessageBox.Show("必填项缺失");
-                //}
 
             }
             catch (Exception)
