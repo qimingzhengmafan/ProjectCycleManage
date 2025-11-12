@@ -4,18 +4,279 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:ProjectCycleManage.View"
+             xmlns:lvc="clr-namespace:LiveChartsCore.SkiaSharpView.WPF;assembly=LiveChartsCore.SkiaSharpView.WPF"
              mc:Ignorable="d" 
              d:DesignHeight="1037" 
              d:DesignWidth="1647">
     <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="65"/>
-            <RowDefinition Height="30"/>
-            <RowDefinition Height="100"/>
-            <RowDefinition/>
-        </Grid.RowDefinitions>
-        
-        
+        <Grid Margin="20 0 20 0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="65"/>
+                <RowDefinition Height="30"/>
+                <RowDefinition Height="104"/>
+                <RowDefinition Height="197"/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
 
+            <Border BorderThickness="0 0 0 1"
+                BorderBrush="#BBBBBB">
+                <StackPanel Orientation="Horizontal">
+                    <Image Source="/Resources/Images/数据分析.png" 
+                       Height="25"/>
+                    <TextBlock Text=" 数据分析"
+                           VerticalAlignment="Center"
+                           FontSize="25"
+                           FontWeight="Bold"
+                           Foreground="#2D5BD5"/>
+                </StackPanel>
+            </Border>
+
+            <Border Grid.Row="2"
+                    Background="White"
+                    CornerRadius="15"
+                    Margin="0 0 0 20">
+                <StackPanel Orientation="Horizontal"
+                            Margin="20 0 0 0">
+                    
+                    <TextBlock Text="年份筛选 :"
+                               FontSize="16"
+                               Foreground="#666666"
+                               VerticalAlignment="Center"/>
+
+                    <ComboBox Height="37"
+                              Margin="20 0 0 0"
+                              Width="150">
+                        
+                    </ComboBox>
+
+                    <TextBlock Text="-"
+                               Margin="20 0 0 0"
+                               FontSize="16"
+                               Foreground="#666666"
+                               VerticalAlignment="Center"/>
+
+                    <ComboBox Height="37"
+                              Margin="20 0 0 0"
+                              Width="150">
+
+                    </ComboBox>
+                </StackPanel>
+                
+                
+            </Border>
+
+            <Border Grid.Row="3">
+                <Grid Margin="0 0 0 30">
+                    <StackPanel Orientation="Horizontal">
+                        <Border Width="251"
+                                Background="White"
+                                CornerRadius="15">
+                            <Grid Margin="20">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="45"/>
+                                    <RowDefinition/>
+                                </Grid.RowDefinitions>
+                                <TextBlock Text="年度项目总数"
+                                               Foreground="#666666"
+                                               FontSize="16"
+                                               VerticalAlignment="Center"/>
+                                <Border Width="40"
+                                        Height="40"
+                                        VerticalAlignment="Center"
+                                        HorizontalAlignment="Right"
+                                        Background="#2196F3"
+                                        CornerRadius="5">
+                                    <Image Source="/Resources/Images/项目管理.png" 
+                                           Height="16"
+                                           Width="16"/>
+                                </Border>
+
+                                <TextBlock Grid.Row="1"
+                                           Text="18"
+                                           FontSize="28"
+                                           FontWeight="Bold"
+                                           VerticalAlignment="Center"/>
+                            </Grid>
+                        </Border>
+
+                        <Border Width="251"
+                                Margin="20 0 0 0"
+                                Background="White"
+                                CornerRadius="15">
+                            <Grid Margin="20">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="45"/>
+                                    <RowDefinition/>
+                                </Grid.RowDefinitions>
+                                <TextBlock Text="年度预算总额"
+                                               Foreground="#666666"
+                                               FontSize="16"
+                                               VerticalAlignment="Center"/>
+                                <Border Width="40"
+                                        Height="40"
+                                        VerticalAlignment="Center"
+                                        HorizontalAlignment="Right"
+                                        Background="#4CAF50"
+                                        CornerRadius="5">
+                                    <Image Source="/Resources/Images/money-03.png" 
+                                           Height="16"
+                                           Width="16"/>
+
+                                </Border>
+
+                                <StackPanel Grid.Row="1"
+                                            Orientation="Horizontal">
+                                    <TextBlock Text="￥ "
+                                               FontSize="28"
+                                               FontWeight="Bold"
+                                               VerticalAlignment="Center"/>
+                                    <TextBlock Text="18"
+                                               FontSize="28"
+                                               FontWeight="Bold"
+                                               VerticalAlignment="Center"/>
+                                </StackPanel>
+                            </Grid>
+                        </Border>
+
+                        <Border Width="251"
+                                Margin="20 0 0 0"
+                                Background="White"
+                                CornerRadius="15">
+                            <Grid Margin="20">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="45"/>
+                                    <RowDefinition/>
+                                </Grid.RowDefinitions>
+                                <TextBlock Text="实际支出总额"
+                                               Foreground="#666666"
+                                               FontSize="16"
+                                               VerticalAlignment="Center"/>
+                                <Border Width="40"
+                                        Height="40"
+                                        VerticalAlignment="Center"
+                                        HorizontalAlignment="Right"
+                                        Background="#FF9800"
+                                        CornerRadius="5">
+                                    <Image Source="/Resources/Images/receipt.png" 
+                                           Height="16"
+                                           Width="16"/>
+
+                                </Border>
+
+                                <StackPanel Grid.Row="1"
+                                            Orientation="Horizontal">
+                                    <TextBlock Text="￥ "
+                                               FontSize="28"
+                                               FontWeight="Bold"
+                                               VerticalAlignment="Center"/>
+                                    <TextBlock Text="18"
+                                               FontSize="28"
+                                               FontWeight="Bold"
+                                               VerticalAlignment="Center"/>
+                                </StackPanel>
+                            </Grid>
+                        </Border>
+
+                        <Border Width="251"
+                                Margin="20 0 0 0"
+                                Background="White"
+                                CornerRadius="15">
+                            <Grid Margin="20">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="45"/>
+                                    <RowDefinition/>
+                                </Grid.RowDefinitions>
+                                <TextBlock Text="平均完成率"
+                                               Foreground="#666666"
+                                               FontSize="16"
+                                               VerticalAlignment="Center"/>
+                                <Border Width="40"
+                                        Height="40"
+                                        VerticalAlignment="Center"
+                                        HorizontalAlignment="Right"
+                                        Background="#9C27B0"
+                                        CornerRadius="5">
+                                    <Image Source="/Resources/Images/tasks.png" 
+                                           Height="16"
+                                           Width="16"/>
+
+                                </Border>
+
+                                <StackPanel Grid.Row="1"
+                                            Orientation="Horizontal">
+                                    <TextBlock Text="18"
+                                               FontSize="28"
+                                               FontWeight="Bold"
+                                               VerticalAlignment="Center"/>
+                                    <TextBlock Text=" %"
+                                               FontSize="28"
+                                               FontWeight="Bold"
+                                               VerticalAlignment="Center"/>
+                                </StackPanel>
+
+                            </Grid>
+                        </Border>
+
+                    </StackPanel>
+                </Grid>
+            </Border>
+
+
+            <Grid Grid.Row="4">
+                <ScrollViewer>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="418"/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition Width="20"/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+
+                        <Border Height="398"
+                                VerticalAlignment="Top">
+
+                            <lvc:CartesianChart LegendPosition="Right">
+                                <lvc:CartesianChart.Series>
+                                    <lvc:SeriesCollection>
+                                        
+                                    </lvc:SeriesCollection>
+                                </lvc:CartesianChart.Series>
+                                <!--<lvc:CartesianChart.Series>
+                                    <lvc:SeriesCollection>
+                                        <lvc:XamlColumnSeries SeriesName="Mary" Values="{Binding MaryValues}"/>
+                                        <lvc:XamlColumnSeries SeriesName="Ana" Values="{Binding AnaValues}"/>
+                                    </lvc:SeriesCollection>
+                                </lvc:CartesianChart.Series>-->
+
+                                <!-- We use force to min step to show all the labels always. -->
+
+                                <!--<lvc:CartesianChart.XAxes>
+                                    <lvc:AxesCollection>
+                                        <lvc:XamlAxis
+                                            Labels="{Binding Labels}"
+                                            LabelsRotation="0"
+                                            SeparatorsPaint="#c8c8c8"
+                                            SeparatorsAtCenter="False"
+                                            TicksPaint="#232323"
+                                            TicksAtCenter="True"
+                                            MinStep="1"
+                                            ForceStepToMin="True"/>
+                                    </lvc:AxesCollection>
+                                </lvc:CartesianChart.XAxes>-->
+
+                            </lvc:CartesianChart>
+                        </Border>
+                        
+                    </Grid>
+                </ScrollViewer>
+            </Grid>
+            
+
+        </Grid>
     </Grid>
+    
 </UserControl>

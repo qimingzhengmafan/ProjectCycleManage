@@ -25,6 +25,7 @@
     <None Remove="Resources\Images\完成.png" />
     <None Remove="Resources\Images\年份.png" />
     <None Remove="Resources\Images\想法.png" />
+    <None Remove="Resources\Images\数据分析.png" />
     <None Remove="Resources\Images\文档.png" />
     <None Remove="Resources\Images\申请人.png" />
     <None Remove="Resources\Images\申请日期.png" />
@@ -48,6 +49,12 @@
 
   <ItemGroup>
     <Content Include="Resources\Images\图标.ico" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Resources\Images\数据分析.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
   </ItemGroup>
 
   <ItemGroup>
