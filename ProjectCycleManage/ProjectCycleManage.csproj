@@ -13,7 +13,10 @@
     <None Remove="Resources\Images\edit-编辑.png" />
     <None Remove="Resources\Images\home-copy-copy.png" />
     <None Remove="Resources\Images\logo.png" />
+    <None Remove="Resources\Images\money-03.png" />
     <None Remove="Resources\Images\plus.png" />
+    <None Remove="Resources\Images\receipt.png" />
+    <None Remove="Resources\Images\tasks.png" />
     <None Remove="Resources\Images\井字符.png" />
     <None Remove="Resources\Images\人员信息.png" />
     <None Remove="Resources\Images\任务.png" />
@@ -52,6 +55,15 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Resource Include="Resources\Images\money-03.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\receipt.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\tasks.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="Resources\Images\数据分析.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>

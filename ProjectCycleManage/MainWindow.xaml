@@ -210,15 +210,19 @@
         <Grid Grid.Column="1"
               Grid.Row="1">
             
-            <Grid Visibility="{Binding Vis_overview}">
+            <!--<Grid Visibility="{Binding Vis_overview}">
                 <view:Overview DataContext="{Binding OverView}"/>
             </Grid>
 
 
             <Grid Visibility="{Binding Vis_newproject}">
                 <view:NewProjectView DataContext="{Binding NewProject}"/>
+            </Grid>-->
+
+            <Grid Visibility="Visible">
+                <view:DataChartUI/>
             </Grid>
-            
+
         </Grid>
     </Grid>
 </Window>

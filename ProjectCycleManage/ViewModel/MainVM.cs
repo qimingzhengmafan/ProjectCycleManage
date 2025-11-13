@@ -46,6 +46,13 @@ namespace ProjectCycleManage.ViewModel
             set => _newprojectvm = value;
         }
 
+        private DataChartVM _datachartvm;
+        public DataChartVM DataChart
+        {
+            get => _datachartvm;
+            set => _datachartvm = value;
+        }
+
         private Timer _monitoringTimer;
         private readonly HashSet<int> _alertedProjects;
         private readonly Dictionary<int, DateTime> _alertTimes;

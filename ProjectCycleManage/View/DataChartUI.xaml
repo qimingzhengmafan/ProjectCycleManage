@@ -4,10 +4,16 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:ProjectCycleManage.View"
+             xmlns:vm="clr-namespace:ProjectCycleManage.ViewModel"
              xmlns:lvc="clr-namespace:LiveChartsCore.SkiaSharpView.WPF;assembly=LiveChartsCore.SkiaSharpView.WPF"
              mc:Ignorable="d" 
+             d:DataContext="{d:DesignInstance Type=vm:DataChartVM}"
              d:DesignHeight="1037" 
              d:DesignWidth="1647">
+
+    <UserControl.DataContext>
+        <vm:DataChartVM/>
+    </UserControl.DataContext>
     <Grid>
         <Grid Margin="20 0 20 0">
             <Grid.RowDefinitions>
@@ -237,38 +243,24 @@
                         </Grid.ColumnDefinitions>
 
                         <Border Height="398"
-                                VerticalAlignment="Top">
+                                VerticalAlignment="Top"
+                                CornerRadius="15"
+                                Background="White">
+                            <Grid Margin="20">
 
-                            <lvc:CartesianChart LegendPosition="Right">
-                                <lvc:CartesianChart.Series>
-                                    <lvc:SeriesCollection>
-                                        
-                                    </lvc:SeriesCollection>
-                                </lvc:CartesianChart.Series>
-                                <!--<lvc:CartesianChart.Series>
-                                    <lvc:SeriesCollection>
-                                        <lvc:XamlColumnSeries SeriesName="Mary" Values="{Binding MaryValues}"/>
-                                        <lvc:XamlColumnSeries SeriesName="Ana" Values="{Binding AnaValues}"/>
-                                    </lvc:SeriesCollection>
-                                </lvc:CartesianChart.Series>-->
-
-                                <!-- We use force to min step to show all the labels always. -->
-
-                                <!--<lvc:CartesianChart.XAxes>
-                                    <lvc:AxesCollection>
-                                        <lvc:XamlAxis
-                                            Labels="{Binding Labels}"
-                                            LabelsRotation="0"
-                                            SeparatorsPaint="#c8c8c8"
-                                            SeparatorsAtCenter="False"
-                                            TicksPaint="#232323"
-                                            TicksAtCenter="True"
-                                            MinStep="1"
-                                            ForceStepToMin="True"/>
-                                    </lvc:AxesCollection>
-                                </lvc:CartesianChart.XAxes>-->
-
-                            </lvc:CartesianChart>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="59"/>
+                                    <RowDefinition/>
+                                </Grid.RowDefinitions>
+                                
+                                <lvc:CartesianChart Grid.Row="1"
+                                                    Series="{Binding Series}"
+                                                    XAxes="{Binding XAxes}"
+                                                    LegendPosition="Top"
+                                                    LegendTextPaint="{Binding LegendTextPaint}"
+                                                    TooltipTextPaint="{Binding TipTextPaint}">
+                                </lvc:CartesianChart>
+                            </Grid>
                         </Border>
                         
                     </Grid>
