@@ -252,6 +252,14 @@
                                     <RowDefinition Height="59"/>
                                     <RowDefinition/>
                                 </Grid.RowDefinitions>
+
+                                <Border>
+                                    <TextBlock Text="年度预算 VS 实际支出"
+                                               FontSize="18"
+                                               VerticalAlignment="Center"
+                                               FontWeight="Bold"
+                                               Foreground="#2D5BD5"/>
+                                </Border>
                                 
                                 <lvc:CartesianChart Grid.Row="1"
                                                     Series="{Binding Series}"
@@ -262,7 +270,98 @@
                                 </lvc:CartesianChart>
                             </Grid>
                         </Border>
-                        
+
+                        <Border Height="398"
+                                Grid.Column="2"
+                                VerticalAlignment="Top"
+                                CornerRadius="15"
+                                Background="White">
+                            <Grid Margin="20">
+
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="59"/>
+                                    <RowDefinition/>
+                                </Grid.RowDefinitions>
+
+                                <Border>
+                                    <TextBlock Text="项目费用"
+                                               FontSize="18"
+                                               VerticalAlignment="Center"
+                                               FontWeight="Bold"
+                                               Foreground="#2D5BD5"/>
+                                </Border>
+
+                                <lvc:CartesianChart Grid.Row="1"
+                                                    Series="{Binding Series}"
+                                                    XAxes="{Binding XAxes}"
+                                                    LegendPosition="Top"
+                                                    LegendTextPaint="{Binding LegendTextPaint}"
+                                                    TooltipTextPaint="{Binding TipTextPaint}">
+                                </lvc:CartesianChart>
+                            </Grid>
+                        </Border>
+
+                        <Border Height="398"
+                                Grid.Row="1"
+                                VerticalAlignment="Top"
+                                CornerRadius="15"
+                                Background="White">
+                            <Grid Margin="20">
+
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="59"/>
+                                    <RowDefinition/>
+                                </Grid.RowDefinitions>
+
+                                <Border>
+                                    <TextBlock Text="项目进度"
+                                               FontSize="18"
+                                               VerticalAlignment="Center"
+                                               FontWeight="Bold"
+                                               Foreground="#2D5BD5"/>
+                                </Border>
+
+                                <lvc:CartesianChart Grid.Row="1"
+                                                    Series="{Binding Series}"
+                                                    XAxes="{Binding XAxes}"
+                                                    LegendPosition="Top"
+                                                    LegendTextPaint="{Binding LegendTextPaint}"
+                                                    TooltipTextPaint="{Binding TipTextPaint}">
+                                </lvc:CartesianChart>
+                            </Grid>
+                        </Border>
+
+                        <Border Height="398"
+                                Grid.Column="2"
+                                Grid.Row="1"
+                                VerticalAlignment="Top"
+                                CornerRadius="15"
+                                Background="White">
+                            <Grid Margin="20">
+
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="59"/>
+                                    <RowDefinition/>
+                                </Grid.RowDefinitions>
+
+                                <Border>
+                                    <TextBlock Text="人员项目情况"
+                                               FontSize="18"
+                                               VerticalAlignment="Center"
+                                               FontWeight="Bold"
+                                               Foreground="#2D5BD5"/>
+                                </Border>
+
+                                <lvc:CartesianChart Grid.Row="1"
+                                                    Series="{Binding Series}"
+                                                    XAxes="{Binding XAxes}"
+                                                    LegendPosition="Top"
+                                                    LegendTextPaint="{Binding LegendTextPaint}"
+                                                    TooltipTextPaint="{Binding TipTextPaint}">
+                                </lvc:CartesianChart>
+                            </Grid>
+                        </Border>
+
                     </Grid>
                 </ScrollViewer>
             </Grid>
