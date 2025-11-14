@@ -28,6 +28,7 @@
     <None Remove="Resources\Images\完成.png" />
     <None Remove="Resources\Images\年份.png" />
     <None Remove="Resources\Images\想法.png" />
+    <None Remove="Resources\Images\折线图.png" />
     <None Remove="Resources\Images\数据分析.png" />
     <None Remove="Resources\Images\文档.png" />
     <None Remove="Resources\Images\申请人.png" />
@@ -35,6 +36,7 @@
     <None Remove="Resources\Images\登录.png" />
     <None Remove="Resources\Images\签名.png" />
     <None Remove="Resources\Images\组织架构.png" />
+    <None Remove="Resources\Images\表格.png" />
     <None Remove="Resources\Images\设备类型.png" />
     <None Remove="Resources\Images\设置.png" />
     <None Remove="Resources\Images\退出登录.png" />
@@ -62,6 +64,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Resources\Images\tasks.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\折线图.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Resources\Images\数据分析.png">
@@ -157,6 +162,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Resources\Images\组织架构.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\表格.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Resources\Images\设备类型.png">
