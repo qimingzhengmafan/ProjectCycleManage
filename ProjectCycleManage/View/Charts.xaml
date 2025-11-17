@@ -104,13 +104,12 @@
                                        Foreground="#2D5BD5"/>
                         </Border>
 
-                        <lvc:CartesianChart Grid.Row="1"
-                                            Series="{Binding Series}"
-                                            XAxes="{Binding XAxes}"
-                                            LegendPosition="Top"
-                                            LegendTextPaint="{Binding LegendTextPaint}"
-                                            TooltipTextPaint="{Binding TipTextPaint}">
-                        </lvc:CartesianChart>
+                        <lvc:PieChart  Grid.Row="1"
+                                       Series="{Binding ProjectprogressSeries}"
+                                       LegendPosition="Right"
+                                       LegendTextPaint="{Binding LegendTextPaint}"
+                                       TooltipTextPaint="{Binding TipTextPaint}">
+                        </lvc:PieChart>
                     </Grid>
                 </Border>
 

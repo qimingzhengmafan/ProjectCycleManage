@@ -3,6 +3,7 @@ using LiveChartsCore;
 using LiveChartsCore.Defaults;
 using LiveChartsCore.Kernel.Sketches;
 using LiveChartsCore.SkiaSharpView;
+using LiveChartsCore.SkiaSharpView.Extensions;
 using LiveChartsCore.SkiaSharpView.Painting;
 using ProjectCycleManage.Model;
 using ProjectManagement.Data;
@@ -14,6 +15,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Xml.Linq;
 
 namespace ProjectCycleManage.ViewModel
 {
@@ -296,6 +298,65 @@ namespace ProjectCycleManage.ViewModel
         }
         #endregion
 
+        #region 项目进度
+        
+        
+        [ObservableProperty]
+        private IEnumerable<ISeries> _projectprogressSeries;
+
+        public void GetProjectProgressSeries()
+        {
+            using (var context = new ProjectContext())
+            {
+                var ProjectNum = context.Projects
+                    .Where(p => p.Year >= _startyear && p.Year <= _endyear)
+                    .ToList();
+
+                var ProjectStage = context.ProjectStage
+                    .OrderBy(p => p.ProjectStageId)
+                    .ToList();
+
+                List<(string, int)> projectstagenum = new List<(string, int)>();
+                foreach (var projectstage in ProjectStage)
+                {
+                    var num = ProjectNum
+                        .Where(p =>  p.ProjectStageId == projectstage.ProjectStageId)
+                        .Count();
+                    projectstagenum.Add((projectstage.ProjectStageName , num));
+                }
+                List<string> _names = new ();
+                List<int> values = new ();
+
+                foreach (var data in projectstagenum)
+                {
+                    _names.Add(data.Item1);
+                    values.Add(data.Item2);
+                }
+                int _index = 0;
+
+                ProjectprogressSeries = 
+                    values.AsPieSeries((value, series) =>
+                    {
+                        series.Name = _names[_index++ % _names.Count];
+                        //if (value != 6) return;
+                
+                        series.Pushout = 5;
+                    });
+
+            }
+        }
+
+        // public IEnumerable<ISeries> Series { get; set; } =
+        //     new[] { 6, 5, 4, 3, 2 }.AsPieSeries((value, series) =>
+        //     {
+        //         // pushes out the slice with the value of 6 to 30 pixels.
+        //         if (value != 6) return;
+        //
+        //         series.Pushout = 30;
+        //     });
+
+        #endregion
+
 
 
         public ChartsVM(int startyear , int stopyear)
@@ -311,6 +372,11 @@ namespace ProjectCycleManage.ViewModel
             Task.Run(() =>
             {
                 GetProjectExpenditures();
+            });
+
+            Task.Run(() =>
+            {
+                GetProjectProgressSeries();
             });
         }
 
