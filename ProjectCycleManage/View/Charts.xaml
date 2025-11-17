@@ -74,11 +74,12 @@
                         </Border>
 
                         <lvc:CartesianChart Grid.Row="1"
-                                            Series="{Binding Series}"
-                                            XAxes="{Binding XAxes}"
+                                            Series="{Binding ProjectExpendituresseries}"
+                                            XAxes="{Binding ProjectExpendituresXAxes}"
                                             LegendPosition="Top"
                                             LegendTextPaint="{Binding LegendTextPaint}"
-                                            TooltipTextPaint="{Binding TipTextPaint}">
+                                            TooltipTextPaint="{Binding TipTextPaint}"
+                                            ZoomMode ="X">
                         </lvc:CartesianChart>
                     </Grid>
                 </Border>

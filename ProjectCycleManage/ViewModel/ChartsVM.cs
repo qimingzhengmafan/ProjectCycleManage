@@ -1,5 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using LiveChartsCore;
+using LiveChartsCore.Defaults;
+using LiveChartsCore.Kernel.Sketches;
 using LiveChartsCore.SkiaSharpView;
 using LiveChartsCore.SkiaSharpView.Painting;
 using ProjectCycleManage.Model;
@@ -109,41 +111,41 @@ namespace ProjectCycleManage.ViewModel
                 }
                 //Application.Current.Dispatcher.BeginInvoke(new Action(() =>
                 //{
-                    Series =
-                    [
-                        new ColumnSeries<double>
-                        {
-                            Name = "预算金额",
-                            Values = years,
-                            MaxBarWidth = 30,
-                            Fill = new SolidColorPaint(new SKColor(76, 172, 250)),
-                        },
+                Series =
+                [
+                    new ColumnSeries<double>
+                    {
+                        Name = "预算金额",
+                        Values = years,
+                        MaxBarWidth = 30,
+                        Fill = new SolidColorPaint(new SKColor(76, 172, 250)),
+                    },
 
-                        new ColumnSeries<double>
-                        {
-                            Name = "实际支出",
-                            Values = valus,
-                            MaxBarWidth = 30,
-                            Fill = new SolidColorPaint(new SKColor(109, 203, 112)),
-                        }
+                    new ColumnSeries<double>
+                    {
+                        Name = "实际支出",
+                        Values = valus,
+                        MaxBarWidth = 30,
+                        Fill = new SolidColorPaint(new SKColor(109, 203, 112)),
+                    }
 
-                    ];
+                ];
 
-                    XAxes =
-                    [
-                        new Axis
-                        {
-                            Labels = AxisLabels,
-                            LabelsRotation = 0,
-                            SeparatorsPaint = new SolidColorPaint(new SKColor(200, 200, 200)),
-                            SeparatorsAtCenter = false,
-                            TicksPaint = new SolidColorPaint(new SKColor(35, 35, 35)),
-                            TicksAtCenter = true,
-                            ForceStepToMin = true,
-                            MinStep = 1,
-                            LabelsPaint = new SolidColorPaint(SKColors.Black){SKTypeface = SKFontManager.Default.MatchCharacter('汉')}, // 标签颜色
-                        }
-                    ];
+                XAxes =
+                [
+                    new Axis
+                    {
+                        Labels = AxisLabels,
+                        LabelsRotation = 0,
+                        SeparatorsPaint = new SolidColorPaint(new SKColor(200, 200, 200)),
+                        SeparatorsAtCenter = false,
+                        TicksPaint = new SolidColorPaint(new SKColor(35, 35, 35)),
+                        TicksAtCenter = true,
+                        ForceStepToMin = true,
+                        MinStep = 1,
+                        LabelsPaint = new SolidColorPaint(SKColors.Black){SKTypeface = SKFontManager.Default.MatchCharacter('汉')}, // 标签颜色
+                    }
+                ];
                 //}));
 
             }
@@ -188,6 +190,112 @@ namespace ProjectCycleManage.ViewModel
         #endregion
 
 
+        #region 项目支出
+        [ObservableProperty]
+        private ISeries[] _projectExpendituresseries;
+
+        [ObservableProperty]
+        private Axis[] _projectExpendituresXAxes;
+
+        /// <summary>
+        /// 获取年度预算
+        /// </summary>
+        public void GetProjectExpenditures()
+        {
+            using (var context = new ProjectContext())
+            {
+                var projectExpenditures = context.Projects
+                    .Where(p => p.Year >= _startyear && p.Year <= _endyear)
+                    .Select(p => new { p.ProjectsId, p.ProjectName, p.Year, p.Budget, p.ActualExpenditure })
+                    .GroupBy(p => p.Year)
+                    .Select(g => new
+                    {
+                        Year = g.Key,
+                        Projects = g.OrderBy(p => p.ProjectsId).ToList()
+                    })
+                    .OrderBy(x => x.Year)
+                    .ToList();
+
+                List<(double, string, double, double , double)> dict1 = new List<(double, string , double, double, double)>();
+
+                foreach (var yeargroup in projectExpenditures)
+                {
+                    foreach (var item in yeargroup.Projects)
+                    {
+                        int id = item.ProjectsId;
+                        string name = item.ProjectName;
+                        int year = item.Year.GetValueOrDefault();
+                        double Budget = 0;
+                        double ActualExpenditure = 0;
+
+                        if (double.TryParse(item.ActualExpenditure, out double expenditure))
+                        {
+                            ActualExpenditure = expenditure;
+                        }
+
+                        if (double.TryParse(item.Budget, out double expenditure1))
+                        {
+                            Budget = expenditure1;
+                        }
+                        dict1.Add((id , name , year , Budget , ActualExpenditure));
+
+                    }
+                }
+
+
+                List<double> projectBudget = new();
+                List<double> projectActualExpenditure = new();
+                List<string> projectname = new();
+
+                foreach (var item in dict1)
+                {
+                    projectBudget.Add(item.Item4);
+                    projectActualExpenditure.Add(item.Item5);
+                    projectname.Add(item.Item3.ToString() + item.Item2);
+                }
+                ////Application.Current.Dispatcher.BeginInvoke(new Action(() =>
+                ////{
+                ProjectExpendituresseries =
+                [
+                    new ColumnSeries<double>
+                    {
+                        Name = "预算金额",
+                        Values = projectBudget,
+                        MaxBarWidth = 30,
+                        Fill = new SolidColorPaint(new SKColor(76, 172, 250)),
+                    },
+
+                    new ColumnSeries<double>
+                    {
+                        Name = "实际支出",
+                        Values = projectActualExpenditure,
+                        MaxBarWidth = 30,
+                        Fill = new SolidColorPaint(new SKColor(109, 203, 112)),
+                    }
+
+                ];
+
+                ProjectExpendituresXAxes =
+                [
+                    new Axis
+                    {
+                        Labels = projectname,
+                        LabelsRotation = 0,
+                        SeparatorsPaint = new SolidColorPaint(new SKColor(200, 200, 200)),
+                        SeparatorsAtCenter = false,
+                        TicksPaint = new SolidColorPaint(new SKColor(35, 35, 35)),
+                        TicksAtCenter = true,
+                        ForceStepToMin = true,
+                        MinStep = 1,
+                        LabelsPaint = new SolidColorPaint(SKColors.Black){SKTypeface = SKFontManager.Default.MatchCharacter('汉')}, // 标签颜色
+                    }
+                ];
+            //}));
+
+        }
+        }
+        #endregion
+
 
 
         public ChartsVM(int startyear , int stopyear)
@@ -198,6 +306,11 @@ namespace ProjectCycleManage.ViewModel
             Task.Run(() =>
             {
                 GetAnnualbudget();
+            });
+
+            Task.Run(() =>
+            {
+                GetProjectExpenditures();
             });
         }
 
