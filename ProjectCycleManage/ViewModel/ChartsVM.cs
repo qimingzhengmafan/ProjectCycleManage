@@ -14,18 +14,18 @@ namespace ProjectCycleManage.ViewModel
     public partial class ChartsVM : ObservableObject
     {
         public SolidColorPaint LegendTextPaint { get; set; } =
-    new SolidColorPaint
-    {
-        Color = new SKColor(51, 51, 51),
-        SKTypeface = SKFontManager.Default.MatchCharacter('汉')
-    };
+            new SolidColorPaint
+            {
+                Color = new SKColor(51, 51, 51),
+                SKTypeface = SKFontManager.Default.MatchCharacter('汉')
+            };
 
-        public SolidColorPaint TipTextPaint { get; set; }
-         = new SolidColorPaint()
-         {
-             Color = SKColors.DarkSlateGray,
-             SKTypeface = SKFontManager.Default.MatchCharacter('汉')
-         };
+        public SolidColorPaint TipTextPaint { get; set; } = 
+            new SolidColorPaint()
+             {
+                 Color = SKColors.DarkSlateGray,
+                 SKTypeface = SKFontManager.Default.MatchCharacter('汉')
+             };
         public ISeries[] Series { get; set; } =
         [
             new ColumnSeries<double>
