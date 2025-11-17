@@ -5,6 +5,8 @@ using LiveChartsCore.Kernel.Sketches;
 using LiveChartsCore.SkiaSharpView;
 using LiveChartsCore.SkiaSharpView.Extensions;
 using LiveChartsCore.SkiaSharpView.Painting;
+using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json.Linq;
 using ProjectCycleManage.Model;
 using ProjectManagement.Data;
 using ProjectManagement.Models;
@@ -96,11 +98,11 @@ namespace ProjectCycleManage.ViewModel
                 }
 
 
-                string getdata = "";
-                foreach (var item in dict1)
-                {
-                    getdata += item.Key.ToString() + "--" + item.Value.ToString() + "--";
-                }
+                //string getdata = "";
+                //foreach (var item in dict1)
+                //{
+                //    getdata += item.Key.ToString() + "--" + item.Value.ToString() + "--";
+                //}
                 //MessageBox.Show(getdata);
                 List<double> years = dict2.Values.ToList();
 
@@ -357,6 +359,75 @@ namespace ProjectCycleManage.ViewModel
 
         #endregion
 
+        #region 人员情况
+        [ObservableProperty]
+        private IEnumerable<ISeries> _projectleaderinformation;
+
+        [ObservableProperty] 
+        private IEnumerable<ISeries> _projectfollowpoepleinformation;
+
+        private void GetPeopleInformation()
+        {
+            using (var context = new ProjectContext())
+            {
+                var ProjectleaderNum = context.Projects
+                    .Where(p => p.Year >= _startyear && p.Year <= _endyear)
+                    .Include(p => p.ProjectLeader)
+                    .GroupBy(p => p.ProjectLeader.PeopleName)
+                    .ToList();
+
+                var ProjectFollowpeopleNum = context.Projects
+                    .Where(p => p.Year >= _startyear && p.Year <= _endyear)
+                    .Include(p => p.projectfollowupperson)
+                    .GroupBy(p => p.projectfollowupperson.PeopleName)
+                    .ToList();
+
+                Dictionary<string, double> Leaderinfor = new Dictionary<string, double>();
+                Dictionary<string, double> FollowInfor = new Dictionary<string, double>();
+
+                foreach (var leader in ProjectleaderNum)
+                {
+                    if (leader.Key != null)
+                    {
+                        Leaderinfor.Add(leader.Key, leader.Count());
+                    }
+                    // 如果为空怎么办
+
+                }
+
+                foreach (var followpeople in ProjectFollowpeopleNum)
+                {
+                    if (followpeople.Key != null)
+                    {
+                        FollowInfor.Add(followpeople.Key, followpeople.Count());
+                    }
+                    // 如果为空怎么办
+                }
+
+                int _index_leader = 0;
+                Projectleaderinformation =
+                    Leaderinfor.Values.ToList().AsPieSeries((value, series) =>
+                    {
+                        series.Name = Leaderinfor.Keys.ToList()[_index_leader++ % Leaderinfor.Keys.ToList().Count];
+                        //if (value != 6) return;
+
+                        series.Pushout = 5;
+                    });
+
+                int _index_follow = 0;
+                Projectfollowpoepleinformation =
+                    FollowInfor.Values.ToList().AsPieSeries((value, series) =>
+                    {
+                        series.Name = FollowInfor.Keys.ToList()[_index_follow++ % FollowInfor.Keys.ToList().Count];
+                        //if (value != 6) return;
+
+                        series.Pushout = 5;
+                    });
+            }
+        }
+        
+        #endregion
+
 
 
         public ChartsVM(int startyear , int stopyear)
@@ -377,6 +448,11 @@ namespace ProjectCycleManage.ViewModel
             Task.Run(() =>
             {
                 GetProjectProgressSeries();
+            });
+
+            Task.Run(() =>
+            {
+                GetPeopleInformation();
             });
         }
 
