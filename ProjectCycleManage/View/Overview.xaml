@@ -226,7 +226,7 @@
                                    Text="{Binding TotalProjects}"
                                    FontSize="32"
                                    FontWeight="Bold"
-                                   Foreground="#2D5BD6"
+                                   Foreground="#9C27B0"
                                    HorizontalAlignment="Center"
                                    VerticalAlignment="Center"/>
 
@@ -267,7 +267,7 @@
                                    Text="{Binding CompletedProject}"
                                    FontSize="32"
                                    FontWeight="Bold"
-                                   Foreground="#4CAF50"
+                                   Foreground="#2d5bd6"
                                    HorizontalAlignment="Center"
                                    VerticalAlignment="Center"/>
 
@@ -308,7 +308,7 @@
                                    Text="{Binding InProgress}"
                                    FontSize="32"
                                    FontWeight="Bold"
-                                   Foreground="#FF9800"
+                                   Foreground="#4caf50"
                                    HorizontalAlignment="Center"
                                    VerticalAlignment="Center"/>
 
@@ -389,7 +389,7 @@
                                    Text="{Binding Pause}"
                                    FontSize="24"
                                    FontWeight="Bold"
-                                   Foreground="#9C27B0"
+                                   Foreground="#f44336"
                                    HorizontalAlignment="Center"
                                    VerticalAlignment="Center"/>
 
@@ -429,7 +429,7 @@
                                    Text="{Binding CompletionRate}"
                                    FontSize="24"
                                    FontWeight="Bold"
-                                   Foreground="#9C27B0"
+                                   Foreground="#607d8b"
                                    HorizontalAlignment="Center"
                                    VerticalAlignment="Center"/>
 

@@ -75,7 +75,7 @@ namespace ProjectCycleManage.ViewModel
 
         //CompletionRate
         [ObservableProperty]
-        private int _completionRate;
+        private double _completionRate;
 
         //public ObservableCollection<ProjectCardVM> ProjectShowAreaCard
         //{
@@ -480,7 +480,7 @@ namespace ProjectCycleManage.ViewModel
                     .Where( p => p.Year == DateTime.Now.Year && p.ProjectPhaseStatusId == 104)
                     .Count();
 
-                CompletionRate = CompletedProject / TotalProjects;
+                CompletionRate = Math.Round((double)CompletedProject / (double)TotalProjects * 100.0 , 0);
                 
             });
 
@@ -525,10 +525,10 @@ namespace ProjectCycleManage.ViewModel
                     return "#FF4CAF50"; // 绿色
                 case "已完成":
                     return "#FF2196F3"; // 蓝色
-                case "已暂停":
-                    return "#FFFF9800"; // 橙色
-                case "已取消":
-                    return "#FF9E9E9E"; // 灰色
+                case "暂停":
+                    return "#f44336"; 
+                case "审核中":
+                    return "#FF9800";
                 default:
                     return "#FFE0E0E0"; // 默认浅灰色
             }
