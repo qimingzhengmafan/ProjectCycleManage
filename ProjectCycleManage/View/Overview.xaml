@@ -195,6 +195,7 @@
                     <ColumnDefinition Width="208"/>
                     <ColumnDefinition Width="208"/>
                     <ColumnDefinition Width="208"/>
+                    <ColumnDefinition Width="208"/>
                 </Grid.ColumnDefinitions>
                 
                 <!-- 项目进度卡片 -->
@@ -228,7 +229,7 @@
                                    VerticalAlignment="Center"/>
 
                             <TextBlock Grid.Row="1"
-                                   Text="项目进度"
+                                   Text="项目总数"
                                    FontSize="14"
                                    Foreground="#666666"
                                    HorizontalAlignment="Center"
@@ -269,7 +270,7 @@
                                    VerticalAlignment="Center"/>
 
                             <TextBlock Grid.Row="1"
-                                   Text="文件进度"
+                                   Text="已完成"
                                    FontSize="14"
                                    Foreground="#666666"
                                    HorizontalAlignment="Center"
@@ -310,7 +311,7 @@
                                    VerticalAlignment="Center"/>
 
                             <TextBlock Grid.Row="1"
-                                   Text="剩余文档"
+                                   Text="进行中"
                                    FontSize="14"
                                    Foreground="#666666"
                                    HorizontalAlignment="Center"
@@ -340,6 +341,45 @@
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="*"/>
                                 <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+
+                            <TextBlock Grid.Row="0"
+                                   Text="{Binding CurrentStage}"
+                                   FontSize="24"
+                                   FontWeight="Bold"
+                                   Foreground="#9C27B0"
+                                   HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"/>
+
+                            <TextBlock Grid.Row="1"
+                                   Text="暂停"
+                                   FontSize="14"
+                                   Foreground="#666666"
+                                   HorizontalAlignment="Center"
+                                   Margin="0 5 0 0"/>
+                        </Grid>
+                    </Border>
+
+                </Border>
+
+                <Border Grid.Column="4"
+                        Background="#f44336"
+                        CornerRadius="8"
+                        Margin="10 0 0 0"
+                        Height="116">
+                    <Border.Effect>
+                        <DropShadowEffect BlurRadius="10" 
+                                          ShadowDepth="0" 
+                                          Opacity="0.1" 
+                                          Color="Black"/>
+                    </Border.Effect>
+                    <Border Padding="20"
+                            CornerRadius="8"
+                            Margin="0 5 0 0"
+                            Background="White">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*"/>
                                 <RowDefinition Height="Auto"/>
                             </Grid.RowDefinitions>
 
@@ -351,20 +391,12 @@
                                    HorizontalAlignment="Center"
                                    VerticalAlignment="Center"/>
 
-                            <TextBlock Grid.Row="2"
-                                   Text="当前阶段"
+                            <TextBlock Grid.Row="1"
+                                   Text="完成率"
                                    FontSize="14"
                                    Foreground="#666666"
                                    HorizontalAlignment="Center"
                                    Margin="0 5 0 0"/>
-
-                            <TextBlock Grid.Row="1"
-                                   Text="{Binding CurrentApprover}"
-                                   FontSize="12"
-                                   Foreground="#999999"
-                                   HorizontalAlignment="Center"
-                                   Margin="0 5 0 0"
-                                   Visibility="{Binding IsApprovalStage, Converter={StaticResource BoolToVisibilityConverter}}"/>
                         </Grid>
                     </Border>
 

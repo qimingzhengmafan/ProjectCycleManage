@@ -25,7 +25,7 @@ namespace ProjectCycleManage.ViewModel
         //StartTime
         //ProjectStatus
         //ProjectStatusProgressdouble
-        private ObservableCollection<ProjectCardVM> _projectshowarea = new ObservableCollection<ProjectCardVM>();
+        //private ObservableCollection<ProjectCardVM> _projectshowarea = new ObservableCollection<ProjectCardVM>();
 
 
         private ObservableCollection<InformationCardVM> _informationshowarea = new ObservableCollection<InformationCardVM>();
@@ -55,11 +55,11 @@ namespace ProjectCycleManage.ViewModel
         [ObservableProperty]
         private string _currentProjectId;
 
-        public ObservableCollection<ProjectCardVM> ProjectShowAreaCard
-        {
-            get => _projectshowarea;
-            set => _projectshowarea = value;
-        }
+        //public ObservableCollection<ProjectCardVM> ProjectShowAreaCard
+        //{
+        //    get => _projectshowarea;
+        //    set => _projectshowarea = value;
+        //}
 
         /// <summary>
         /// 左侧项目列表
@@ -360,7 +360,7 @@ namespace ProjectCycleManage.ViewModel
             
             Application.Current.Dispatcher.BeginInvoke(new Action(() =>
             {
-                ProjectShowAreaCard.Clear();
+                //ProjectShowAreaCard.Clear();
                 ProjectList.Clear();
             }));
 
@@ -413,19 +413,19 @@ namespace ProjectCycleManage.ViewModel
                 {
                     Application.Current.Dispatcher.BeginInvoke(new Action(() =>
                     {
-                        ProjectShowAreaCard.Add(new ProjectCardVM()
-                        {
-                            Projectsid = project.ProjectsId.ToString(),
-                            Projectname = project.ProjectName,
-                            Projectleader = project.ProjectLeader.PeopleName,
-                            Projectstatus = project.ProjectStage.ProjectStageName,
-                            Projectstatusprogressdouble = (double)project.FileProgress.GetValueOrDefault(),
-                            Runningstatus = project.ProjectPhaseStatus.ProjectPhaseStatusName,
-                            Starttimme = project.ApplicationTime,
-                            ViewDetailsaction = GetProjectsDatas
-                        });
+                        //ProjectShowAreaCard.Add(new ProjectCardVM()
+                        //{
+                        //    Projectsid = project.ProjectsId.ToString(),
+                        //    Projectname = project.ProjectName,
+                        //    Projectleader = project.ProjectLeader.PeopleName,
+                        //    Projectstatus = project.ProjectStage.ProjectStageName,
+                        //    Projectstatusprogressdouble = (double)project.FileProgress.GetValueOrDefault(),
+                        //    Runningstatus = project.ProjectPhaseStatus.ProjectPhaseStatusName,
+                        //    Starttimme = project.ApplicationTime,
+                        //    ViewDetailsaction = GetProjectsDatas
+                        //});
 
-                        // 同时添加到左侧项目列表
+                        // 添加到左侧项目列表
                         var listItem = new ProjectListItem()
                         {
                             ProjectId = project.ProjectsId.ToString(),
