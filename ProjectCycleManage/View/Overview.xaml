@@ -26,11 +26,14 @@
         
         <!-- 布尔值到边框颜色转换器 -->
         <utilities:BoolToBorderBrushConverter x:Key="BoolToBorderBrushConverter"/>
+        
+        <!-- 布尔值到可见性转换器 -->
+        <utilities:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
     </UserControl.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="65"/>
-            <RowDefinition Height="275"/>
+            <RowDefinition Height="136"/>
             <RowDefinition Height="470"/>
             <RowDefinition/>
             <RowDefinition/>
@@ -180,39 +183,193 @@
                 </Grid>
             </Border>
         </Grid>
-        
+
         <Grid Grid.Row="1"
               Grid.Column="1"
               Margin="20 0 20 0">
-            <!--<ScrollViewer HorizontalScrollBarVisibility="Auto"
-                          VerticalScrollBarVisibility="Disabled">
-                <ItemsControl ItemsSource="{Binding ProjectShowAreaCard}"
-                              HorizontalAlignment="Left"
-                              VerticalAlignment="Center">
-                    <ItemsControl.ItemsPanel>
-                        <ItemsPanelTemplate>
-                            <StackPanel Orientation="Horizontal"/>
-                        </ItemsPanelTemplate>
-                    </ItemsControl.ItemsPanel>
+            
+            <!-- 项目概览卡片区域 -->
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="208"/>
+                    <ColumnDefinition Width="208"/>
+                    <ColumnDefinition Width="208"/>
+                    <ColumnDefinition Width="208"/>
+                </Grid.ColumnDefinitions>
+                
+                <!-- 项目进度卡片 -->
+                <Border Grid.Column="0"
+                        Background="#2d5bd6"
+                        CornerRadius="8"
+                        Margin="0 0 10 0"
+                        Height="116">
+                    <Border.Effect>
+                        <DropShadowEffect BlurRadius="10" 
+                                          ShadowDepth="0" 
+                                          Opacity="0.1" 
+                                          Color="Black"/>
+                    </Border.Effect>
+                    <Border Background="White"
+                            CornerRadius="8"
+                            Margin="0 5 0 0"
+                            Padding="20">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
 
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate>
-                            <local:ProjectCard ProjectName="{Binding Projectname}"
-                                               ProjectLeader="{Binding Projectleader}"
-                                               RunningStatus="{Binding Runningstatus}"
-                                               ProjectStatus="{Binding Projectstatus}"
-                                               StartTime="{Binding Starttimme}"
-                                               ProjectStatusProgressdouble="{Binding Projectstatusprogressdouble}"
-                                               ViewDetails="{Binding ViewDetailsCommand}"
-                                               SuspendProject="{Binding SuspendProjectCommand}"
-                                               RestartProject="{Binding RestartProjectCommand}"
-                                               ProjectsID="{Binding Projectsid}"
-                                               Margin="20 0 0 0"/>
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                </ItemsControl>
+                            <TextBlock Grid.Row="0"
+                                   Text="{Binding ProjectProgress}"
+                                   FontSize="32"
+                                   FontWeight="Bold"
+                                   Foreground="#2D5BD6"
+                                   HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"/>
 
-            </ScrollViewer>-->
+                            <TextBlock Grid.Row="1"
+                                   Text="项目进度"
+                                   FontSize="14"
+                                   Foreground="#666666"
+                                   HorizontalAlignment="Center"
+                                   Margin="0 5 0 0"/>
+                        </Grid>
+                    </Border>
+
+                </Border>
+                
+                <!-- 文件进度卡片 -->
+                <Border Grid.Column="1"
+                        Background="#4caf50"
+                        CornerRadius="8"
+                        Margin="10 0 10 0"
+                        Height="116">
+                    <Border.Effect>
+                        <DropShadowEffect BlurRadius="10" 
+                                          ShadowDepth="0" 
+                                          Opacity="0.1" 
+                                          Color="Black"/>
+                    </Border.Effect>
+                    <Border Padding="20"
+                            CornerRadius="8"
+                            Margin="0 5 0 0"
+                            Background="White">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+
+                            <TextBlock Grid.Row="0"
+                                   Text="{Binding FileProgress}"
+                                   FontSize="32"
+                                   FontWeight="Bold"
+                                   Foreground="#4CAF50"
+                                   HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"/>
+
+                            <TextBlock Grid.Row="1"
+                                   Text="文件进度"
+                                   FontSize="14"
+                                   Foreground="#666666"
+                                   HorizontalAlignment="Center"
+                                   Margin="0 5 0 0"/>
+                        </Grid>
+                    </Border>
+
+                </Border>
+                
+                <!-- 剩余文档卡片 -->
+                <Border Grid.Column="2"
+                        Background="#ff9800"
+                        CornerRadius="8"
+                        Margin="10 0 10 0"
+                        Height="116">
+                    <Border.Effect>
+                        <DropShadowEffect BlurRadius="10" 
+                                          ShadowDepth="0" 
+                                          Opacity="0.1" 
+                                          Color="Black"/>
+                    </Border.Effect>
+                    <Border Padding="20"
+                            CornerRadius="8"
+                            Margin="0 5 0 0"
+                            Background="White">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+
+                            <TextBlock Grid.Row="0"
+                                   Text="{Binding RemainingDocuments}"
+                                   FontSize="32"
+                                   FontWeight="Bold"
+                                   Foreground="#FF9800"
+                                   HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"/>
+
+                            <TextBlock Grid.Row="1"
+                                   Text="剩余文档"
+                                   FontSize="14"
+                                   Foreground="#666666"
+                                   HorizontalAlignment="Center"
+                                   Margin="0 5 0 0"/>
+                        </Grid>
+                    </Border>
+
+                </Border>
+                
+                <!-- 当前阶段卡片 -->
+                <Border Grid.Column="3"
+                        Background="#9c27b0"
+                        CornerRadius="8"
+                        Margin="10 0 0 0"
+                        Height="116">
+                    <Border.Effect>
+                        <DropShadowEffect BlurRadius="10" 
+                                          ShadowDepth="0" 
+                                          Opacity="0.1" 
+                                          Color="Black"/>
+                    </Border.Effect>
+                    <Border Padding="20"
+                            CornerRadius="8"
+                            Margin="0 5 0 0"
+                            Background="White">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+
+                            <TextBlock Grid.Row="0"
+                                   Text="{Binding CurrentStage}"
+                                   FontSize="24"
+                                   FontWeight="Bold"
+                                   Foreground="#9C27B0"
+                                   HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"/>
+
+                            <TextBlock Grid.Row="2"
+                                   Text="当前阶段"
+                                   FontSize="14"
+                                   Foreground="#666666"
+                                   HorizontalAlignment="Center"
+                                   Margin="0 5 0 0"/>
+
+                            <TextBlock Grid.Row="1"
+                                   Text="{Binding CurrentApprover}"
+                                   FontSize="12"
+                                   Foreground="#999999"
+                                   HorizontalAlignment="Center"
+                                   Margin="0 5 0 0"
+                                   Visibility="{Binding IsApprovalStage, Converter={StaticResource BoolToVisibilityConverter}}"/>
+                        </Grid>
+                    </Border>
+
+                </Border>
+            </Grid>
         </Grid>
 
         <Grid Grid.Row="2"
