@@ -11,9 +11,9 @@
              d:DesignHeight="1037" 
              d:DesignWidth="1647">
 
-    <UserControl.DataContext>
+    <!--<UserControl.DataContext>
         <vm:DataChartVM/>
-    </UserControl.DataContext>
+    </UserControl.DataContext>-->
     <Grid>
         <Grid Margin="20 0 20 0">
             <Grid.RowDefinitions>

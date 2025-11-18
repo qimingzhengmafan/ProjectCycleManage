@@ -142,7 +142,7 @@
                                 </Menu:Btn>
 
                                 <Menu:Btn Style="{StaticResource BtnStyle}"
-                                          Command="{Binding TableViewICommand}">
+                                          Command="{Binding DataAnalysisCommand}">
                                     <Grid>
                                         <StackPanel Orientation="Horizontal"
                                                     Margin="30 0 0 0">
@@ -210,17 +210,17 @@
         <Grid Grid.Column="1"
               Grid.Row="1">
             
-            <!--<Grid Visibility="{Binding Vis_overview}">
+            <Grid Visibility="{Binding Vis_overview}">
                 <view:Overview DataContext="{Binding OverView}"/>
             </Grid>
 
 
             <Grid Visibility="{Binding Vis_newproject}">
                 <view:NewProjectView DataContext="{Binding NewProject}"/>
-            </Grid>-->
+            </Grid>
 
-            <Grid Visibility="Visible">
-                <view:DataChartUI/>
+            <Grid Visibility="{Binding Vis_dataanalysis}">
+                <view:DataChartUI DataContext="{Binding DataChart}"/>
             </Grid>
 
         </Grid>

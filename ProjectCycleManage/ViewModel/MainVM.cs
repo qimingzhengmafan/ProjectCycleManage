@@ -50,7 +50,11 @@ namespace ProjectCycleManage.ViewModel
         public DataChartVM DataChart
         {
             get => _datachartvm;
-            set => _datachartvm = value;
+            set
+            {
+                _datachartvm = value;
+                OnPropertyChanged();
+            }
         }
 
         private Timer _monitoringTimer;
@@ -75,8 +79,10 @@ namespace ProjectCycleManage.ViewModel
             // 启动项目监控
             StartProjectMonitoring();
 
-            Vis_overview = Visibility.Visible;
-            Vis_newproject = Visibility.Collapsed;
+            OverViewFun();
+
+            //Vis_overview = Visibility.Visible;
+            //Vis_newproject = Visibility.Collapsed;
         }
 
 
@@ -616,11 +622,15 @@ namespace ProjectCycleManage.ViewModel
         [ObservableProperty]
         private Visibility _vis_newproject;
 
+        [ObservableProperty]
+        private Visibility _vis_dataanalysis;
+
         [RelayCommand]
         private void OverViewFun()
         {
             Vis_overview = Visibility.Visible;
             Vis_newproject = Visibility.Collapsed;
+            Vis_dataanalysis = Visibility.Collapsed;
             
             OverView = new OverviewVM(Loginpersonnamegrade, Loginpersonname);
         }
@@ -630,7 +640,21 @@ namespace ProjectCycleManage.ViewModel
         {
             Vis_overview = Visibility.Collapsed;
             Vis_newproject = Visibility.Visible;
+            Vis_dataanalysis = Visibility.Collapsed;
         }
+
+        [RelayCommand]
+        private void DataAnalysis()
+        {
+            Vis_dataanalysis = Visibility.Visible;
+            
+            Vis_overview = Visibility.Collapsed;
+            Vis_newproject = Visibility.Collapsed;
+            
+            DataChart = new ();
+        }
+
+
         #endregion
 
 
