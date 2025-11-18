@@ -133,35 +133,40 @@ namespace ProjectCycleManage.ViewModel
         private void Stage1Clicked()
         {
             // 处理阶段1点击逻辑
-            UpdateStageColors(1);
+            //UpdateStageColors(1);
+            MessageBox.Show("1");
         }
 
         [RelayCommand]
         private void Stage2Clicked()
         {
             // 处理阶段2点击逻辑
-            UpdateStageColors(2);
+            //UpdateStageColors(2);
+            MessageBox.Show("2");
         }
 
         [RelayCommand]
         private void Stage3Clicked()
         {
             // 处理阶段3点击逻辑
-            UpdateStageColors(3);
+            //UpdateStageColors(3);
+            MessageBox.Show("3");
         }
 
         [RelayCommand]
         private void Stage4Clicked()
         {
             // 处理阶段4点击逻辑
-            UpdateStageColors(4);
+            //UpdateStageColors(4);
+            MessageBox.Show("4");
         }
 
         [RelayCommand]
         private void Stage5Clicked()
         {
             // 处理阶段5点击逻辑
-            UpdateStageColors(5);
+            //UpdateStageColors(5);
+            MessageBox.Show("5");
         }
 
         [RelayCommand]

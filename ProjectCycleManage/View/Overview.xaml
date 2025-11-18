@@ -512,11 +512,34 @@
                                         <Image Source="/Resources/Images/想法.png"
                                                Height="25"
                                                Width="25"/>
-                                        <Button Command="{Binding Stage1Clicked}"
+                                        <Button Command="{Binding Stage1ClickedCommand}"
                                                 Background="Transparent"
                                                 BorderThickness="0"
                                                 Width="50"
-                                                Height="50"/>
+                                                Height="50">
+                                            <Button.Style>
+                                                <Style TargetType="Button">
+                                                    <Setter Property="Background" 
+                                                            Value="Transparent"/>
+                                                    <Setter Property="BorderBrush" 
+                                                            Value="Transparent"/>
+                                                    <Setter Property="BorderThickness" 
+                                                            Value="0"/>
+                                                    <Setter Property="Template">
+                                                        <Setter.Value>
+                                                            <ControlTemplate TargetType="Button">
+                                                                <Border Background="{TemplateBinding Background}"
+                                                                        BorderBrush="{TemplateBinding BorderBrush}"
+                                                                        BorderThickness="{TemplateBinding BorderThickness}">
+                                                                    <ContentPresenter HorizontalAlignment="Center"
+                                                                                      VerticalAlignment="Center"/>
+                                                                </Border>
+                                                            </ControlTemplate>
+                                                        </Setter.Value>
+                                                    </Setter>
+                                                </Style>
+                                            </Button.Style>
+                                        </Button>
                                     </Grid>
                                     <TextBlock Text="{Binding Stage1Name}"
                                                HorizontalAlignment="Center"
@@ -539,11 +562,34 @@
                                         <Image Source="/Resources/Images/采购2.png"
                                                Height="25"
                                                Width="25"/>
-                                        <Button Command="{Binding Stage2Clicked}"
+                                        <Button Command="{Binding Stage2ClickedCommand}"
                                                 Background="Transparent"
                                                 BorderThickness="0"
                                                 Width="50"
-                                                Height="50"/>
+                                                Height="50">
+                                            <Button.Style>
+                                                <Style TargetType="Button">
+                                                    <Setter Property="Background" 
+                                                            Value="Transparent"/>
+                                                    <Setter Property="BorderBrush" 
+                                                            Value="Transparent"/>
+                                                    <Setter Property="BorderThickness" 
+                                                            Value="0"/>
+                                                    <Setter Property="Template">
+                                                        <Setter.Value>
+                                                            <ControlTemplate TargetType="Button">
+                                                                <Border Background="{TemplateBinding Background}"
+                                                                        BorderBrush="{TemplateBinding BorderBrush}"
+                                                                        BorderThickness="{TemplateBinding BorderThickness}">
+                                                                    <ContentPresenter HorizontalAlignment="Center"
+                                                                                      VerticalAlignment="Center"/>
+                                                                </Border>
+                                                            </ControlTemplate>
+                                                        </Setter.Value>
+                                                    </Setter>
+                                                </Style>
+                                            </Button.Style>
+                                        </Button>
                                     </Grid>
                                     <TextBlock Text="{Binding Stage2Name}"
                                                HorizontalAlignment="Center"
@@ -566,11 +612,34 @@
                                         <Image Source="/Resources/Images/预验收.png"
                                                Height="25"
                                                Width="25"/>
-                                        <Button Command="{Binding Stage3Clicked}"
+                                        <Button Command="{Binding Stage3ClickedCommand}"
                                                 Background="Transparent"
                                                 BorderThickness="0"
                                                 Width="50"
-                                                Height="50"/>
+                                                Height="50">
+                                            <Button.Style>
+                                                <Style TargetType="Button">
+                                                    <Setter Property="Background" 
+                                                            Value="Transparent"/>
+                                                    <Setter Property="BorderBrush" 
+                                                            Value="Transparent"/>
+                                                    <Setter Property="BorderThickness" 
+                                                            Value="0"/>
+                                                    <Setter Property="Template">
+                                                        <Setter.Value>
+                                                            <ControlTemplate TargetType="Button">
+                                                                <Border Background="{TemplateBinding Background}"
+                                                                        BorderBrush="{TemplateBinding BorderBrush}"
+                                                                        BorderThickness="{TemplateBinding BorderThickness}">
+                                                                    <ContentPresenter HorizontalAlignment="Center"
+                                                                                      VerticalAlignment="Center"/>
+                                                                </Border>
+                                                            </ControlTemplate>
+                                                        </Setter.Value>
+                                                    </Setter>
+                                                </Style>
+                                            </Button.Style>
+                                        </Button>
                                     </Grid>
                                     <TextBlock Text="{Binding Stage3Name}"
                                                HorizontalAlignment="Center"
@@ -593,11 +662,34 @@
                                         <Image Source="/Resources/Images/验收.png"
                                                Height="25"
                                                Width="25"/>
-                                        <Button Command="{Binding Stage4Clicked}"
+                                        <Button Command="{Binding Stage4ClickedCommand}"
                                                 Background="Transparent"
                                                 BorderThickness="0"
                                                 Width="50"
-                                                Height="50"/>
+                                                Height="50">
+                                            <Button.Style>
+                                                <Style TargetType="Button">
+                                                    <Setter Property="Background" 
+                                                            Value="Transparent"/>
+                                                    <Setter Property="BorderBrush" 
+                                                            Value="Transparent"/>
+                                                    <Setter Property="BorderThickness" 
+                                                            Value="0"/>
+                                                    <Setter Property="Template">
+                                                        <Setter.Value>
+                                                            <ControlTemplate TargetType="Button">
+                                                                <Border Background="{TemplateBinding Background}"
+                                                                        BorderBrush="{TemplateBinding BorderBrush}"
+                                                                        BorderThickness="{TemplateBinding BorderThickness}">
+                                                                    <ContentPresenter HorizontalAlignment="Center"
+                                                                                      VerticalAlignment="Center"/>
+                                                                </Border>
+                                                            </ControlTemplate>
+                                                        </Setter.Value>
+                                                    </Setter>
+                                                </Style>
+                                            </Button.Style>
+                                        </Button>
                                     </Grid>
                                     <TextBlock Text="{Binding Stage4Name}"
                                                HorizontalAlignment="Center"
@@ -620,11 +712,34 @@
                                         <Image Source="/Resources/Images/完成.png"
                                                Height="25"
                                                Width="25"/>
-                                        <Button Command="{Binding Stage5Clicked}"
+                                        <Button Command="{Binding Stage5ClickedCommand}"
                                                 Background="Transparent"
                                                 BorderThickness="0"
                                                 Width="50"
-                                                Height="50"/>
+                                                Height="50">
+                                            <Button.Style>
+                                                <Style TargetType="Button">
+                                                    <Setter Property="Background" 
+                                                            Value="Transparent"/>
+                                                    <Setter Property="BorderBrush" 
+                                                            Value="Transparent"/>
+                                                    <Setter Property="BorderThickness" 
+                                                            Value="0"/>
+                                                    <Setter Property="Template">
+                                                        <Setter.Value>
+                                                            <ControlTemplate TargetType="Button">
+                                                                <Border Background="{TemplateBinding Background}"
+                                                                        BorderBrush="{TemplateBinding BorderBrush}"
+                                                                        BorderThickness="{TemplateBinding BorderThickness}">
+                                                                    <ContentPresenter HorizontalAlignment="Center"
+                                                                                      VerticalAlignment="Center"/>
+                                                                </Border>
+                                                            </ControlTemplate>
+                                                        </Setter.Value>
+                                                    </Setter>
+                                                </Style>
+                                            </Button.Style>
+                                        </Button>
                                     </Grid>
                                     <TextBlock Text="{Binding Stage5Name}"
                                                HorizontalAlignment="Center"
