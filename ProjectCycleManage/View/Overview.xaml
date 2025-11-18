@@ -196,11 +196,13 @@
                     <ColumnDefinition Width="208"/>
                     <ColumnDefinition Width="208"/>
                     <ColumnDefinition Width="208"/>
+                    <ColumnDefinition Width="208"/>
+                    <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
                 
                 <!-- 项目进度卡片 -->
                 <Border Grid.Column="0"
-                        Background="#2d5bd6"
+                        Background="#9C27B0"
                         CornerRadius="8"
                         Margin="0 0 10 0"
                         Height="116">
@@ -241,7 +243,7 @@
                 
                 <!-- 文件进度卡片 -->
                 <Border Grid.Column="1"
-                        Background="#4caf50"
+                        Background="#2d5bd6"
                         CornerRadius="8"
                         Margin="10 0 10 0"
                         Height="116">
@@ -282,7 +284,7 @@
                 
                 <!-- 剩余文档卡片 -->
                 <Border Grid.Column="2"
-                        Background="#ff9800"
+                        Background="#4caf50"
                         CornerRadius="8"
                         Margin="10 0 10 0"
                         Height="116">
@@ -320,10 +322,50 @@
                     </Border>
 
                 </Border>
-                
-                <!-- 当前阶段卡片 -->
+
                 <Border Grid.Column="3"
-                        Background="#9c27b0"
+                        Background="#FF9800"
+                        CornerRadius="8"
+                        Margin="10 0 10 0"
+                        Height="116">
+                    <Border.Effect>
+                        <DropShadowEffect BlurRadius="10" 
+                                          ShadowDepth="0" 
+                                          Opacity="0.1" 
+                                          Color="Black"/>
+                    </Border.Effect>
+                    <Border Padding="20"
+                            CornerRadius="8"
+                            Margin="0 5 0 0"
+                            Background="White">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+
+                            <TextBlock Grid.Row="0"
+                                   Text="{Binding RemainingDocuments}"
+                                   FontSize="32"
+                                   FontWeight="Bold"
+                                   Foreground="#FF9800"
+                                   HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"/>
+
+                            <TextBlock Grid.Row="1"
+                                   Text="审核中"
+                                   FontSize="14"
+                                   Foreground="#666666"
+                                   HorizontalAlignment="Center"
+                                   Margin="0 5 0 0"/>
+                        </Grid>
+                    </Border>
+
+                </Border>
+
+                <!-- 当前阶段卡片 -->
+                <Border Grid.Column="4"
+                        Background="#f44336"
                         CornerRadius="8"
                         Margin="10 0 0 0"
                         Height="116">
@@ -362,8 +404,8 @@
 
                 </Border>
 
-                <Border Grid.Column="4"
-                        Background="#f44336"
+                <Border Grid.Column="5"
+                        Background="#607d8b "
                         CornerRadius="8"
                         Margin="10 0 0 0"
                         Height="116">
