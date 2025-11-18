@@ -30,6 +30,8 @@ namespace ProjectCycleManage.ViewModel
 
         private ObservableCollection<InformationCardVM> _informationshowarea = new ObservableCollection<InformationCardVM>();
 
+        private ObservableCollection<ProjectListItem> _projectList = new ObservableCollection<ProjectListItem>();
+
         [ObservableProperty]
         private string _stageprojectname;
 
@@ -57,6 +59,19 @@ namespace ProjectCycleManage.ViewModel
         {
             get => _projectshowarea;
             set => _projectshowarea = value;
+        }
+
+        /// <summary>
+        /// 左侧项目列表
+        /// </summary>
+        public ObservableCollection<ProjectListItem> ProjectList
+        {
+            get => _projectList;
+            set
+            {
+                _projectList = value;
+                OnPropertyChanged();
+            }
         }
 
         [RelayCommand]
@@ -346,6 +361,7 @@ namespace ProjectCycleManage.ViewModel
             Application.Current.Dispatcher.BeginInvoke(new Action(() =>
             {
                 ProjectShowAreaCard.Clear();
+                ProjectList.Clear();
             }));
 
             Task.Run(() =>
@@ -408,12 +424,85 @@ namespace ProjectCycleManage.ViewModel
                             Starttimme = project.ApplicationTime,
                             ViewDetailsaction = GetProjectsDatas
                         });
+
+                        // 同时添加到左侧项目列表
+                        var listItem = new ProjectListItem()
+                        {
+                            ProjectId = project.ProjectsId.ToString(),
+                            ProjectName = project.ProjectName,
+                            ProjectLeader = project.ProjectLeader.PeopleName,
+                            StartTime = project.ApplicationTime ?? DateTime.MinValue,
+                            StatusText = project.ProjectPhaseStatus.ProjectPhaseStatusName,
+                            StatusBackground = GetStatusBackground(project.ProjectPhaseStatus.ProjectPhaseStatusName),
+                            StatusForeground = GetStatusForeground(project.ProjectPhaseStatus.ProjectPhaseStatusName),
+                            IsSelected = false
+                        };
+                        listItem.OnSelected = SelectProject;
+                        ProjectList.Add(listItem);
                     }));
 
                     
                 }
             });
 
+        }
+
+        /// <summary>
+        /// 根据项目状态获取背景色
+        /// </summary>
+        private string GetStatusBackground(string status)
+        {
+            switch (status)
+            {
+                case "进行中":
+                    return "#FF4CAF50"; // 绿色
+                case "已完成":
+                    return "#FF2196F3"; // 蓝色
+                case "已暂停":
+                    return "#FFFF9800"; // 橙色
+                case "已取消":
+                    return "#FF9E9E9E"; // 灰色
+                default:
+                    return "#FFE0E0E0"; // 默认浅灰色
+            }
+        }
+
+        /// <summary>
+        /// 根据项目状态获取前景色
+        /// </summary>
+        private string GetStatusForeground(string status)
+        {
+            switch (status)
+            {
+                case "进行中":
+                case "已完成":
+                case "已暂停":
+                case "已取消":
+                    return "#FFFFFFFF"; // 白色
+                default:
+                    return "#FF000000"; // 默认黑色
+            }
+        }
+
+        /// <summary>
+        /// 选择项目
+        /// </summary>
+        private void SelectProject(ProjectListItem selectedItem)
+        {
+            // 取消所有项目的选中状态
+            foreach (var item in ProjectList)
+            {
+                item.IsSelected = false;
+            }
+
+            // 设置当前项目为选中状态
+            selectedItem.IsSelected = true;
+
+            // 设置当前项目ID
+            CurrentProjectId = selectedItem.ProjectId;
+
+            // 触发项目详情加载
+            GetProjectsDatas(selectedItem.ProjectId, selectedItem.StatusText);
         }
 
         public void GetProjectsDatas(string data , string projectstage)

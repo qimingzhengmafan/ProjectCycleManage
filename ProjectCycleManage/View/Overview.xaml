@@ -6,10 +6,27 @@
              xmlns:local="clr-namespace:ProjectCycleManage.View"
              xmlns:uc="clr-namespace:ProjectCycleManage.View.UserControls"
              xmlns:vm="clr-namespace:ProjectCycleManage.ViewModel"
+             xmlns:utilities="clr-namespace:ProjectCycleManage.Utilities"
              mc:Ignorable="d" 
              d:DesignHeight="2080"
              d:DataContext="{d:DesignInstance Type=vm:OverviewVM}"
              d:DesignWidth="1664">
+    <UserControl.Resources>
+        <DropShadowEffect x:Key="ShadowEffect" 
+                          BlurRadius="10" 
+                          ShadowDepth="2" 
+                          Color="#1A000000" 
+                          Opacity="0.05"/>
+        
+        <!-- 布尔值到背景颜色转换器 -->
+        <utilities:BoolToBackgroundConverter x:Key="BoolToBackgroundConverter"/>
+        
+        <!-- 布尔值到边框厚度转换器 -->
+        <utilities:BoolToBorderThicknessConverter x:Key="BoolToBorderThicknessConverter"/>
+        
+        <!-- 布尔值到边框颜色转换器 -->
+        <utilities:BoolToBorderBrushConverter x:Key="BoolToBorderBrushConverter"/>
+    </UserControl.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="65"/>
@@ -38,7 +55,130 @@
 
         <Grid Grid.Row="1"
               Grid.RowSpan="4">
-            
+            <Border Background="White"
+                    BorderBrush="#E0E0E0"
+                    BorderThickness="0 0 1 0"
+                    Effect="{StaticResource ShadowEffect}">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    
+                    <!-- 项目侧边栏头部 -->
+                    <Border Grid.Row="0"
+                            Background="#F9F9F9"
+                            BorderBrush="#E0E0E0"
+                            BorderThickness="0 0 0 1"
+                            Padding="20">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            
+                            <TextBlock Grid.Column="0"
+                                       Text="所有项目"
+                                       Foreground="#2D5BD6"
+                                       FontWeight="SemiBold"
+                                       FontSize="16"
+                                       VerticalAlignment="Center"/>
+                            
+                            <Button Grid.Column="1"
+                                    Width="28"
+                                    Height="28"
+                                    Background="#2D5BD6"
+                                    BorderThickness="0"
+                                    ToolTip="新建项目">
+                                <TextBlock Text="+"
+                                           Foreground="White"
+                                           FontSize="12"
+                                           FontWeight="Bold"/>
+                            </Button>
+                        </Grid>
+                    </Border>
+                    
+                    <!-- 项目列表 -->
+                    <ScrollViewer Grid.Row="1"
+                                  VerticalScrollBarVisibility="Auto">
+                        <ItemsControl ItemsSource="{Binding ProjectList}">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <Border Padding="16 16 16 16"
+                                            BorderBrush="#F5F5F5"
+                                            Background="{Binding IsSelected, Converter={StaticResource BoolToBackgroundConverter}}"
+                                            Cursor="Hand">
+                                        <Border.Style>
+                                            <Style TargetType="Border">
+                                                <Setter Property="BorderThickness" Value="0 0 0 1"/>
+                                                <Setter Property="BorderBrush" Value="#F5F5F5"/>
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding IsSelected}" Value="True">
+                                                        <Setter Property="BorderThickness" Value="3 0 0 1"/>
+                                                        <Setter Property="BorderBrush" Value="{Binding IsSelected, Converter={StaticResource BoolToBorderBrushConverter}}"/>
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </Border.Style>
+                                        <Border.InputBindings>
+                                            <MouseBinding MouseAction="LeftClick" Command="{Binding SelectCommand}"/>
+                                        </Border.InputBindings>
+                                        <Grid>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="Auto"/>
+                                                <RowDefinition Height="Auto"/>
+                                            </Grid.RowDefinitions>
+                                            
+                                            <!-- 项目标题和状态 -->
+                                            <Grid Grid.Row="0"
+                                                  Margin="0 0 0 6">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition/>
+                                                    <ColumnDefinition Width="Auto"/>
+                                                </Grid.ColumnDefinitions>
+                                                
+                                                <TextBlock Grid.Column="0"
+                                                           Text="{Binding ProjectName}"
+                                                           FontWeight="SemiBold"
+                                                           FontSize="14"
+                                                           Foreground="#333333"
+                                                           TextWrapping="Wrap"
+                                                           Margin="0 0 10 0"/>
+                                                
+                                                <Border Grid.Column="1"
+                                                        Background="{Binding StatusBackground}"
+                                                        CornerRadius="10"
+                                                        Padding="3 3 8 3">
+                                                    <TextBlock Text="{Binding StatusText}"
+                                                               FontSize="11"
+                                                               Foreground="{Binding StatusForeground}"
+                                                               FontWeight="SemiBold"/>
+                                                </Border>
+                                            </Grid>
+                                            
+                                            <!-- 项目元信息 -->
+                                            <StackPanel Grid.Row="1"
+                                                        Orientation="Horizontal"
+                                                        VerticalAlignment="Center">
+                                                <TextBlock Text="{Binding ProjectLeader}"
+                                                           FontSize="12"
+                                                           Foreground="#666666"/>
+                                                <TextBlock Text=" | "
+                                                           FontSize="12"
+                                                           Foreground="#CCCCCC"
+                                                           Margin="8 0 8 0"/>
+                                                <TextBlock Text="{Binding StartTime, StringFormat='yyyy-MM-dd'}"
+                                                           FontSize="12"
+                                                           Foreground="#666666"/>
+                                            </StackPanel>
+                                        </Grid>
+                                    </Border>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </ScrollViewer>
+                </Grid>
+            </Border>
         </Grid>
         
         <Grid Grid.Row="1"
