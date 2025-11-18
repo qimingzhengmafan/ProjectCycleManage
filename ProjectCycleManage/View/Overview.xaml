@@ -34,7 +34,7 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="65"/>
             <RowDefinition Height="136"/>
-            <RowDefinition Height="470"/>
+            <RowDefinition Height="Auto"/>
             <RowDefinition/>
             <RowDefinition/>
         </Grid.RowDefinitions>
@@ -455,7 +455,7 @@
                     <Grid.RowDefinitions>
                         <RowDefinition Height="55"/>
                         <RowDefinition Height="110"/>
-                        <RowDefinition/>
+                        <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
 
                     <Grid>
@@ -622,8 +622,8 @@
                             <Grid>
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="48"/>
-                                    <RowDefinition Height="117"/>
-                                    <RowDefinition/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
                                 </Grid.RowDefinitions>
 
                                 <StackPanel Margin="30 0 0 5"
@@ -648,20 +648,23 @@
                                         BorderThickness=" 0 0 0 1"
                                         BorderBrush="#BBBBBB"
                                         Margin="30 0 30 0">
-                                    <ScrollViewer HorizontalScrollBarVisibility="Auto"
-                                                  VerticalScrollBarVisibility="Disabled">
+                                    <ScrollViewer HorizontalScrollBarVisibility="Disabled"
+                                                  VerticalScrollBarVisibility="Auto">
                                         <ItemsControl ItemsSource="{Binding InformationCardArea}"
-                                                      HorizontalAlignment="Left"
-                                                      VerticalAlignment="Center">
+                                                      HorizontalAlignment="Stretch"
+                                                      VerticalAlignment="Top">
                                             <ItemsControl.ItemsPanel>
                                                 <ItemsPanelTemplate>
-                                                    <StackPanel Orientation="Horizontal"/>
+                                                    <WrapPanel Orientation="Horizontal" 
+                                                               HorizontalAlignment="Left"
+                                                               VerticalAlignment="Top"
+                                                               Width="{Binding RelativeSource={RelativeSource AncestorType=ScrollViewer}, Path=ActualWidth}"/>
                                                 </ItemsPanelTemplate>
                                             </ItemsControl.ItemsPanel>
 
                                             <ItemsControl.ItemTemplate>
                                                 <DataTemplate>
-                                                    <uc:InformationCard Margin="20 0 0 0"
+                                                    <uc:InformationCard Margin="20 20 0 0"
                                                                         Loginpersonnamegrade="{Binding Loginpersonnamegrade}"
                                                                         InformationTag="{Binding Taginfor}"
                                                                         InformationTypes="{Binding Infortype,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
