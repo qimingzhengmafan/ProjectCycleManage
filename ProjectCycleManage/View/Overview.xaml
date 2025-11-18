@@ -184,7 +184,7 @@
         <Grid Grid.Row="1"
               Grid.Column="1"
               Margin="20 0 20 0">
-            <ScrollViewer HorizontalScrollBarVisibility="Auto"
+            <!--<ScrollViewer HorizontalScrollBarVisibility="Auto"
                           VerticalScrollBarVisibility="Disabled">
                 <ItemsControl ItemsSource="{Binding ProjectShowAreaCard}"
                               HorizontalAlignment="Left"
@@ -212,7 +212,7 @@
                     </ItemsControl.ItemTemplate>
                 </ItemsControl>
 
-            </ScrollViewer>
+            </ScrollViewer>-->
         </Grid>
 
         <Grid Grid.Row="2"
