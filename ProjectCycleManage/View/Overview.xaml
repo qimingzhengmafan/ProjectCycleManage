@@ -18,7 +18,13 @@
             <RowDefinition/>
             <RowDefinition/>
         </Grid.RowDefinitions>
-        <Border>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="279"/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+
+        <Border Grid.ColumnSpan="2">
             <Label FontSize="25"
                    Foreground="#2D5BD6"
                    Margin="20 0 20 0"
@@ -31,6 +37,12 @@
         </Border>
 
         <Grid Grid.Row="1"
+              Grid.RowSpan="4">
+            
+        </Grid>
+        
+        <Grid Grid.Row="1"
+              Grid.Column="1"
               Margin="20 0 20 0">
             <ScrollViewer HorizontalScrollBarVisibility="Auto"
                           VerticalScrollBarVisibility="Disabled">
@@ -63,7 +75,8 @@
             </ScrollViewer>
         </Grid>
 
-        <Grid Grid.Row="2">
+        <Grid Grid.Row="2"
+              Grid.Column="1">
             <Border Margin="20 0 20 0"
                     Background="White"
                     CornerRadius="15">
@@ -370,7 +383,8 @@
             </Border>
         </Grid>
 
-        <Grid Grid.Row="3">
+        <Grid Grid.Row="3"
+              Grid.Column="1">
             
         </Grid>
     </Grid>
