@@ -508,17 +508,22 @@
                                           Height="50">
                                         <Ellipse Height="50"
                                                  Width="50"
-                                                 Fill="#4CAF50"/>
+                                                 Fill="{Binding Stage1Color}"/>
                                         <Image Source="/Resources/Images/想法.png"
                                                Height="25"
                                                Width="25"/>
 
                                     </Grid>
-                                    <TextBlock Text="项目评审"
+                                    <TextBlock Text="{Binding Stage1Name}"
                                                HorizontalAlignment="Center"
                                                FontSize="12"/>
                                 </StackPanel>
                             </Border>
+                            <Button Command="{Binding Stage1Clicked}"
+                                    Background="Transparent"
+                                    BorderThickness="0"
+                                    HorizontalAlignment="Stretch"
+                                    VerticalAlignment="Stretch"/>
                         </Grid>
 
                         <Grid Grid.Column="1">
@@ -531,17 +536,22 @@
                                           Height="50">
                                         <Ellipse Height="50"
                                                  Width="50"
-                                                 Fill="#4CAF50"/>
+                                                 Fill="{Binding Stage2Color}"/>
                                         <Image Source="/Resources/Images/采购2.png"
                                                Height="25"
                                                Width="25"/>
 
                                     </Grid>
-                                    <TextBlock Text="设备采购"
+                                    <TextBlock Text="{Binding Stage2Name}"
                                                HorizontalAlignment="Center"
                                                FontSize="12"/>
                                 </StackPanel>
                             </Border>
+                            <Button Command="{Binding Stage2Clicked}"
+                                    Background="Transparent"
+                                    BorderThickness="0"
+                                    HorizontalAlignment="Stretch"
+                                    VerticalAlignment="Stretch"/>
                         </Grid>
 
                         <Grid Grid.Column="2">
@@ -554,17 +564,22 @@
                                           Height="50">
                                         <Ellipse Height="50"
                                                  Width="50"
-                                                 Fill="#4CAF50"/>
+                                                 Fill="{Binding Stage3Color}"/>
                                         <Image Source="/Resources/Images/预验收.png"
                                                Height="25"
                                                Width="25"/>
 
                                     </Grid>
-                                    <TextBlock Text="预验收"
+                                    <TextBlock Text="{Binding Stage3Name}"
                                                HorizontalAlignment="Center"
                                                FontSize="12"/>
                                 </StackPanel>
                             </Border>
+                            <Button Command="{Binding Stage3Clicked}"
+                                    Background="Transparent"
+                                    BorderThickness="0"
+                                    HorizontalAlignment="Stretch"
+                                    VerticalAlignment="Stretch"/>
                         </Grid>
 
                         <Grid Grid.Column="3">
@@ -577,17 +592,22 @@
                                           Height="50">
                                         <Ellipse Height="50"
                                                  Width="50"
-                                                 Fill="#4CAF50"/>
+                                                 Fill="{Binding Stage4Color}"/>
                                         <Image Source="/Resources/Images/验收.png"
                                                Height="25"
                                                Width="25"/>
 
                                     </Grid>
-                                    <TextBlock Text="验收"
+                                    <TextBlock Text="{Binding Stage4Name}"
                                                HorizontalAlignment="Center"
                                                FontSize="12"/>
                                 </StackPanel>
                             </Border>
+                            <Button Command="{Binding Stage4Clicked}"
+                                    Background="Transparent"
+                                    BorderThickness="0"
+                                    HorizontalAlignment="Stretch"
+                                    VerticalAlignment="Stretch"/>
                         </Grid>
 
                         <Grid Grid.Column="4">
@@ -600,17 +620,22 @@
                                           Height="50">
                                         <Ellipse Height="50"
                                                  Width="50"
-                                                 Fill="#4CAF50"/>
+                                                 Fill="{Binding Stage5Color}"/>
                                         <Image Source="/Resources/Images/完成.png"
                                                Height="25"
                                                Width="25"/>
 
                                     </Grid>
-                                    <TextBlock Text="完成"
+                                    <TextBlock Text="{Binding Stage5Name}"
                                                HorizontalAlignment="Center"
                                                FontSize="12"/>
                                 </StackPanel>
                             </Border>
+                            <Button Command="{Binding Stage5Clicked}"
+                                    Background="Transparent"
+                                    BorderThickness="0"
+                                    HorizontalAlignment="Stretch"
+                                    VerticalAlignment="Stretch"/>
                         </Grid>
 
                     </Grid>

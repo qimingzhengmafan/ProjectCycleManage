@@ -41,6 +41,38 @@ namespace ProjectCycleManage.ViewModel
         [ObservableProperty]
         private string _stagename;
 
+        // 阶段图标颜色状态
+        [ObservableProperty]
+        private string _stage1Color = "#E0E0E0";
+
+        [ObservableProperty]
+        private string _stage2Color = "#E0E0E0";
+
+        [ObservableProperty]
+        private string _stage3Color = "#E0E0E0";
+
+        [ObservableProperty]
+        private string _stage4Color = "#E0E0E0";
+
+        [ObservableProperty]
+        private string _stage5Color = "#E0E0E0";
+
+        // 阶段名称
+        [ObservableProperty]
+        private string _stage1Name = "项目评审";
+
+        [ObservableProperty]
+        private string _stage2Name = "设备采购";
+
+        [ObservableProperty]
+        private string _stage3Name = "预验收";
+
+        [ObservableProperty]
+        private string _stage4Name = "验收";
+
+        [ObservableProperty]
+        private string _stage5Name = "完成";
+
         [ObservableProperty]
         private string _loginpersonname;
 
@@ -94,6 +126,42 @@ namespace ProjectCycleManage.ViewModel
                 _projectList = value;
                 OnPropertyChanged();
             }
+        }
+
+        // 阶段图标点击命令
+        [RelayCommand]
+        private void Stage1Clicked()
+        {
+            // 处理阶段1点击逻辑
+            UpdateStageColors(1);
+        }
+
+        [RelayCommand]
+        private void Stage2Clicked()
+        {
+            // 处理阶段2点击逻辑
+            UpdateStageColors(2);
+        }
+
+        [RelayCommand]
+        private void Stage3Clicked()
+        {
+            // 处理阶段3点击逻辑
+            UpdateStageColors(3);
+        }
+
+        [RelayCommand]
+        private void Stage4Clicked()
+        {
+            // 处理阶段4点击逻辑
+            UpdateStageColors(4);
+        }
+
+        [RelayCommand]
+        private void Stage5Clicked()
+        {
+            // 处理阶段5点击逻辑
+            UpdateStageColors(5);
         }
 
         [RelayCommand]
@@ -552,6 +620,40 @@ namespace ProjectCycleManage.ViewModel
         }
 
         /// <summary>
+        /// 更新阶段图标颜色
+        /// </summary>
+        /// <param name="clickedStage">被点击的阶段编号（0表示初始化）</param>
+        private void UpdateStageColors(int clickedStage)
+        {
+            // 根据进度条位置确定哪些阶段应该显示为绿色
+            var currentProgress = Stageprogress;
+            
+            // 重置所有阶段颜色为灰色
+            Stage1Color = "#E0E0E0";
+            Stage2Color = "#E0E0E0";
+            Stage3Color = "#E0E0E0";
+            Stage4Color = "#E0E0E0";
+            Stage5Color = "#E0E0E0";
+            
+            // 根据进度条位置设置绿色阶段
+            if (currentProgress >= 10) Stage1Color = "#4CAF50";
+            if (currentProgress >= 30) Stage2Color = "#4CAF50";
+            if (currentProgress >= 50) Stage3Color = "#4CAF50";
+            if (currentProgress >= 70) Stage4Color = "#4CAF50";
+            if (currentProgress >= 90) Stage5Color = "#4CAF50";
+            
+            // 如果点击的阶段在当前进度之前，将其设置为绿色（仅在点击时）
+            if (clickedStage > 0)
+            {
+                if (clickedStage == 1 && currentProgress >= 10) Stage1Color = "#4CAF50";
+                if (clickedStage == 2 && currentProgress >= 30) Stage2Color = "#4CAF50";
+                if (clickedStage == 3 && currentProgress >= 50) Stage3Color = "#4CAF50";
+                if (clickedStage == 4 && currentProgress >= 70) Stage4Color = "#4CAF50";
+                if (clickedStage == 5 && currentProgress >= 90) Stage5Color = "#4CAF50";
+            }
+        }
+
+        /// <summary>
         /// 选择项目
         /// </summary>
         private void SelectProject(ProjectListItem selectedItem)
@@ -616,6 +718,9 @@ namespace ProjectCycleManage.ViewModel
                             Stageprogress = 0.0;
                             break;
                     }
+
+                    // 初始化阶段图标颜色
+                    UpdateStageColors(0);
 
                     // 查询该项目阶段所需的文档
                     var requiredDocuments = context.EquipTypeStageDocTable
