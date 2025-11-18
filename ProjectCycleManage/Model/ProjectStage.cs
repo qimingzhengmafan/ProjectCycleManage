@@ -17,5 +17,7 @@ namespace ProjectManagement.Models
     {
         public int ProjectStageId { get; set; }
         public string ProjectStageName { get; set; }
+        [Comment("每个阶段所对应的进度")]
+        public int ProjectProgress { get; set; }
     }
 }
