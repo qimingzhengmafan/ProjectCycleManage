@@ -223,7 +223,7 @@
                             </Grid.RowDefinitions>
 
                             <TextBlock Grid.Row="0"
-                                   Text="{Binding ProjectProgress}"
+                                   Text="{Binding TotalProjects}"
                                    FontSize="32"
                                    FontWeight="Bold"
                                    Foreground="#2D5BD6"
@@ -264,7 +264,7 @@
                             </Grid.RowDefinitions>
 
                             <TextBlock Grid.Row="0"
-                                   Text="{Binding FileProgress}"
+                                   Text="{Binding CompletedProject}"
                                    FontSize="32"
                                    FontWeight="Bold"
                                    Foreground="#4CAF50"
@@ -305,7 +305,7 @@
                             </Grid.RowDefinitions>
 
                             <TextBlock Grid.Row="0"
-                                   Text="{Binding RemainingDocuments}"
+                                   Text="{Binding InProgress}"
                                    FontSize="32"
                                    FontWeight="Bold"
                                    Foreground="#FF9800"
@@ -345,7 +345,7 @@
                             </Grid.RowDefinitions>
 
                             <TextBlock Grid.Row="0"
-                                   Text="{Binding RemainingDocuments}"
+                                   Text="{Binding UnderReview}"
                                    FontSize="32"
                                    FontWeight="Bold"
                                    Foreground="#FF9800"
@@ -386,7 +386,7 @@
                             </Grid.RowDefinitions>
 
                             <TextBlock Grid.Row="0"
-                                   Text="{Binding CurrentStage}"
+                                   Text="{Binding Pause}"
                                    FontSize="24"
                                    FontWeight="Bold"
                                    Foreground="#9C27B0"
@@ -426,7 +426,7 @@
                             </Grid.RowDefinitions>
 
                             <TextBlock Grid.Row="0"
-                                   Text="{Binding CurrentStage}"
+                                   Text="{Binding CompletionRate}"
                                    FontSize="24"
                                    FontWeight="Bold"
                                    Foreground="#9C27B0"

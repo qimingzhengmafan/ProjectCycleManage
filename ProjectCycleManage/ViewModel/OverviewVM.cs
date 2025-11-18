@@ -55,6 +55,28 @@ namespace ProjectCycleManage.ViewModel
         [ObservableProperty]
         private string _currentProjectId;
 
+        [ObservableProperty]
+        private int _totalProjects;
+
+        [ObservableProperty]
+        private int _completedProject;
+
+        //InProgress
+        [ObservableProperty]
+        private int _inProgress;
+
+        //UnderReview
+        [ObservableProperty]
+        private int _underReview;
+
+        //Pause
+        [ObservableProperty]
+        private int _pause;
+
+        //CompletionRate
+        [ObservableProperty]
+        private int _completionRate;
+
         //public ObservableCollection<ProjectCardVM> ProjectShowAreaCard
         //{
         //    get => _projectshowarea;
@@ -440,9 +462,54 @@ namespace ProjectCycleManage.ViewModel
                         listItem.OnSelected = SelectProject;
                         ProjectList.Add(listItem);
                     }));
-
                     
                 }
+            });
+
+
+            Task.Run(() =>
+            {
+                using var context = new ProjectContext();
+                var TotalProjectNum = context.Projects
+                    .Where(p => p.Year == DateTime.Now.Year)
+                    .Count();
+
+                TotalProjects = TotalProjectNum;
+                
+                CompletedProject = context.Projects
+                    .Where( p => p.Year == DateTime.Now.Year && p.ProjectPhaseStatusId == 104)
+                    .Count();
+
+                CompletionRate = CompletedProject / TotalProjects;
+                
+            });
+
+            Task.Run(() =>
+            {
+                using var context = new ProjectContext();
+                var excludedIds = new HashSet<int> { 101, 103, 105, 107, 109, 111 };
+                var currentYear = DateTime.Now.Year;
+
+                //InProgress = context.Projects
+                //    .Where(p => p.Year == currentYear && !excludedIds.Contains(p.ProjInforId.GetValueOrDefault()))
+                //    .Count();
+
+                InProgress = context.Projects
+                    .Where(p => p.Year == currentYear && p.ProjectPhaseStatusId == 102)
+                    .Count();
+
+                //UnderReview = context.Projects
+                //    .Where(p => p.Year == currentYear && excludedIds.Contains(p.ProjInforId.GetValueOrDefault()))
+                //    .Count();
+
+
+                UnderReview = context.Projects
+                    .Where(p => p.Year == currentYear && p.ProjectPhaseStatusId == 105)
+                    .Count();
+                Pause = context.Projects
+                    .Where(p => p.Year == currentYear && p.ProjectPhaseStatusId == 103)
+                    .Count();
+
             });
 
         }
