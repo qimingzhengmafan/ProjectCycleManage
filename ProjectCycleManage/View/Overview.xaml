@@ -876,6 +876,7 @@
                                                         BorderThickness="0"
                                                         FontSize="14"
                                                         Background="#9E9E9E"
+                                                        IsEnabled="{Binding Failurebutton}"
                                                         Command="{Binding FailureCommand}"/>
 
                                                 <Grid Width="96"
@@ -888,6 +889,8 @@
                                                             BorderThickness="0"
                                                             FontSize="14"
                                                             Background="#FF9800"
+                                                            IsEnabled="{Binding Pausebutton}"
+                                                            Visibility="{Binding Pausebuttonvisib}"
                                                             Command="{Binding PauseProjectCommand}"/>
 
                                                     <Button Width="96"
@@ -897,6 +900,8 @@
                                                             BorderThickness="0"
                                                             FontSize="14"
                                                             Background="#4CAF50 "
+                                                            IsEnabled="{Binding Restartbutton}"
+                                                            Visibility="{Binding Restartbuttonvisib}"
                                                             Command="{Binding RestartCommand}"/>
 
                                                 </Grid>
@@ -911,6 +916,7 @@
                                                         Foreground="White"
                                                         FontSize="14"
                                                         Background="#2D5BD6"
+                                                        IsEnabled="{Binding SubmitApprovalbutton}"
                                                         Command="{Binding SubmitApprovalCommand}"/>
 
                                                 <Button Width="96"
@@ -921,6 +927,7 @@
                                                         BorderThickness="0"
                                                         FontSize="14"
                                                         Background="#F44336"
+                                                        IsEnabled="{Binding RejectApprovalbutton}"
                                                         Command="{Binding RejectApprovalCommand}"/>
 
                                                 <!--<Button Width="161"

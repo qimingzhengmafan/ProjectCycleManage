@@ -109,6 +109,27 @@ namespace ProjectCycleManage.ViewModel
         [ObservableProperty]
         private double _completionRate;
 
+        [ObservableProperty]
+        private bool _failurebutton;
+
+        [ObservableProperty]
+        private bool _restartbutton;
+
+        [ObservableProperty]
+        private bool _pausebutton;
+
+        [ObservableProperty]
+        private bool _submitApprovalbutton;
+
+        [ObservableProperty]
+        private bool _rejectApprovalbutton;
+
+        [ObservableProperty]
+        private Visibility _restartbuttonvisib;
+
+        [ObservableProperty]
+        private Visibility _pausebuttonvisib;
+
         //public ObservableCollection<ProjectCardVM> ProjectShowAreaCard
         //{
         //    get => _projectshowarea;
@@ -818,6 +839,63 @@ namespace ProjectCycleManage.ViewModel
                     .Include(p => p.ProjectPhaseStatus)
                     .Include(p => p.ProjectLeader)
                     .FirstOrDefault();
+
+                    if (projectinfor == null)
+                    {
+                        return;
+                    }
+
+                    if (projectinfor.ProjectPhaseStatusId == 106 || projectinfor.ProjectPhaseStatusId == 103)
+                    {
+                        RejectApprovalbutton = false;
+                        SubmitApprovalbutton = false;
+
+                        //失败
+                        if (projectinfor.ProjectPhaseStatusId == 106)
+                        {
+                            Failurebutton = true;
+
+                            Pausebutton = false;
+                            Restartbutton = false;
+                            Pausebuttonvisib = Visibility.Visible;
+                            Restartbuttonvisib = Visibility.Collapsed;
+                        }
+                        //暂停
+                        else if (projectinfor.ProjectPhaseStatusId == 103)
+                        {
+                            Failurebutton = true;
+                            Restartbutton = true;
+
+                            Pausebutton = false;
+                            Pausebuttonvisib = Visibility.Collapsed;
+                            Restartbuttonvisib = Visibility.Visible;
+                        }
+                    }
+                    else if (projectinfor.ProjectPhaseStatusId == 104)
+                    {
+                        RejectApprovalbutton = false;
+                        SubmitApprovalbutton = false;
+                        Failurebutton = false;
+                        Pausebutton = false;
+                        Restartbutton = false;
+
+                        Pausebuttonvisib = Visibility.Visible;
+                        Restartbuttonvisib = Visibility.Collapsed;
+
+                    }
+                    else
+                    {
+                        RejectApprovalbutton = true;
+                        SubmitApprovalbutton = true;
+                        Failurebutton = true;
+                        Pausebutton = true;
+                        Pausebuttonvisib = Visibility.Visible;
+
+                        Restartbutton = false;
+                        Restartbuttonvisib = Visibility.Collapsed;
+                    }
+
+
                     Stageprojectname = projectinfor.ProjectName;
                     if (projectinfor.ProjectPhaseStatusId == 104)
                     {
