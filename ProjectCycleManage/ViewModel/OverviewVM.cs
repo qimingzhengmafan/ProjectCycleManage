@@ -289,6 +289,128 @@ namespace ProjectCycleManage.ViewModel
         }
 
         [RelayCommand]
+        private async Task PauseProject()
+        {
+            if (string.IsNullOrEmpty(CurrentProjectId))
+            {
+                MessageBox.Show("请先选择项目");
+                return;
+            }
+
+            using var context = new ProjectContext();
+
+            var projectId = Convert.ToInt32(CurrentProjectId);
+
+            // 获取当前项目信息
+            var project = await context.Projects
+                .Include(p => p.ProjectPhaseStatus)
+                .FirstOrDefaultAsync(p => p.ProjectsId == projectId);
+
+            if (project == null)
+            {
+                return;
+            }
+            if (project.ProjectPhaseStatusId == 102 || project.ProjectPhaseStatusId == 105)
+            {
+                project.ProjectPhaseStatusId = 103;
+                await context.SaveChangesAsync();
+                MessageBox.Show("已暂停");
+            }
+            else
+            {
+                MessageBox.Show("无需暂停");
+            }
+        }
+
+        [RelayCommand]
+        private async Task Restart()
+        {
+            if (string.IsNullOrEmpty(CurrentProjectId))
+            {
+                MessageBox.Show("请先选择项目");
+                return;
+            }
+
+            using var context = new ProjectContext();
+
+            var projectId = Convert.ToInt32(CurrentProjectId);
+
+            // 获取当前项目信息
+            var project = await context.Projects
+                .Include(p => p.ProjInforId)
+                .Include(p => p.ProjectPhaseStatus)
+                .FirstOrDefaultAsync(p => p.ProjectsId == projectId);
+
+            if (project == null)
+            {
+                return;
+            }
+
+            if (project.ProjectPhaseStatusId == 103)
+            {
+                if (project.ProjInforId == 101 || project.ProjInforId == 103 || project.ProjInforId == 105 ||
+                        project.ProjInforId == 107 || project.ProjInforId == 109 || project.ProjInforId == 111)
+                {
+                    project.ProjectPhaseStatusId = 105;
+                }
+                else
+                {
+                    project.ProjectPhaseStatusId = 102;
+                }
+                
+                await context.SaveChangesAsync();
+                MessageBox.Show("已恢复");
+            }
+            else
+            {
+                MessageBox.Show("无需恢复");
+            }
+        }
+
+        [RelayCommand]
+        private async Task Failure()
+        {
+
+            if (string.IsNullOrEmpty(CurrentProjectId))
+            {
+                MessageBox.Show("请先选择项目");
+                return;
+            }
+
+            using var context = new ProjectContext();
+
+            var projectId = Convert.ToInt32(CurrentProjectId);
+
+            MessageBoxResult result = MessageBox.Show(
+                "注意!   " + "此操作不可逆，确认需要将其标记为失败么？",
+                "注意",
+                MessageBoxButton.YesNo,
+                MessageBoxImage.Question);
+
+            if (result == MessageBoxResult.Yes)
+            {
+               var project = await context.Projects
+                   .Include(p => p.ProjectPhaseStatus)
+                   .FirstOrDefaultAsync(p => p.ProjectsId == projectId);
+
+                if (project == null)
+                {
+                    MessageBox.Show("未找到此项目");
+                    return;
+                }
+
+                project.ProjectPhaseStatusId = 106;
+                await context.SaveChangesAsync();
+                MessageBox.Show("已标记为失败");
+
+            }
+            else
+            {
+                MessageBox.Show("已取消");
+            }
+        }
+
+        [RelayCommand]
         private async Task TestWriteApprovalRecord()
         {
             if (string.IsNullOrEmpty(CurrentProjectId))
