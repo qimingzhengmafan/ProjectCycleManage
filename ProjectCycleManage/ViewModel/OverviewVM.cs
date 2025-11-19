@@ -697,33 +697,39 @@ namespace ProjectCycleManage.ViewModel
                     .Include(p => p.ProjectLeader)
                     .FirstOrDefault();
                     Stageprojectname = projectinfor.ProjectName;
-                    switch (projectinfor.ProjectStageId)
+                    if (projectinfor.ProjectPhaseStatusId == 104)
                     {
-                        case 101:
-                            Stageprogress = 10.0;
-                            break;
-
-                        case 102:
-                            Stageprogress = 30.0;
-                            break;
-
-                        case 103:
-                            Stageprogress = 50.0;
-                            break;
-
-                        case 104:
-                            Stageprogress = 70.0;
-                            break;
-
-                        case 105:
-                            Stageprogress = 90.0;
-                            break;
-
-                        default:
-                            Stageprogress = 0.0;
-                            break;
+                        Stageprogress = 100.0;
                     }
+                    else
+                    {
+                        switch (projectinfor.ProjectStageId)
+                        {
+                            case 101:
+                                Stageprogress = 10.0;
+                                break;
 
+                            case 102:
+                                Stageprogress = 30.0;
+                                break;
+
+                            case 103:
+                                Stageprogress = 50.0;
+                                break;
+
+                            case 104:
+                                Stageprogress = 70.0;
+                                break;
+
+                            case 105:
+                                Stageprogress = 90.0;
+                                break;
+
+                            default:
+                                Stageprogress = 0.0;
+                                break;
+                        }
+                    }
                     // 初始化阶段图标颜色
                     UpdateStageColors(0);
 
