@@ -68,7 +68,7 @@ namespace ProjectCycleManage.ViewModel
         private string _stage3Name = "预验收";
 
         [ObservableProperty]
-        private string _stage4Name = "验收";
+        private string _stage4Name = "设备验收";
 
         [ObservableProperty]
         private string _stage5Name = "完成";
@@ -154,40 +154,71 @@ namespace ProjectCycleManage.ViewModel
         private void Stage1Clicked()
         {
             // 处理阶段1点击逻辑
-            //UpdateStageColors(1);
-            MessageBox.Show("1");
+            if (Stageprogress >= 10)
+            {
+                GetProjectsDatas(CurrentProjectId, Stage1Name);
+            }
+            else
+            {
+                MessageBox.Show("项目未到执行阶段");
+            }
+            
         }
 
         [RelayCommand]
         private void Stage2Clicked()
         {
             // 处理阶段2点击逻辑
-            //UpdateStageColors(2);
-            MessageBox.Show("2");
+            if (Stageprogress >= 30)
+            {
+                GetProjectsDatas(CurrentProjectId, Stage2Name);
+            }
+            else
+            {
+                MessageBox.Show("项目未到执行阶段");
+            }
         }
 
         [RelayCommand]
         private void Stage3Clicked()
         {
             // 处理阶段3点击逻辑
-            //UpdateStageColors(3);
-            MessageBox.Show("3");
+            if (Stageprogress >= 50)
+            {
+                GetProjectsDatas(CurrentProjectId, Stage3Name);
+            }
+            else
+            {
+                MessageBox.Show("项目未到执行阶段");
+            }
         }
 
         [RelayCommand]
         private void Stage4Clicked()
         {
             // 处理阶段4点击逻辑
-            //UpdateStageColors(4);
-            MessageBox.Show("4");
+            if (Stageprogress >= 70)
+            {
+                GetProjectsDatas(CurrentProjectId, Stage4Name);
+            }
+            else
+            {
+                MessageBox.Show("项目未到执行阶段");
+            }
         }
 
         [RelayCommand]
         private void Stage5Clicked()
         {
             // 处理阶段5点击逻辑
-            //UpdateStageColors(5);
-            MessageBox.Show("5");
+            if (Stageprogress >= 90)
+            {
+                GetProjectsDatas(CurrentProjectId, Stage5Name);
+            }
+            else
+            {
+                MessageBox.Show("项目未到执行阶段");
+            }
         }
 
         [RelayCommand]
@@ -1231,6 +1262,238 @@ namespace ProjectCycleManage.ViewModel
                 }
             });
             
+
+
+        }
+
+        public void GetProjectsDatas(string data , string stage)
+        {
+            InformationCardArea.Clear();
+
+            Task.Run(() =>
+            {
+                using (var context = new ProjectContext())
+                {
+                    var projectinfor = context.Projects
+                    .Where(p => p.ProjectsId == Convert.ToInt32(data))
+                    .Include(p => p.ProjectStage)
+                    .Include(p => p.type)
+                    .Include(p => p.ProjectPhaseStatus)
+                    .Include(p => p.ProjectLeader)
+                    .FirstOrDefault();
+
+                    if (projectinfor == null)
+                    {
+                        return;
+                    }
+
+                    Projectstage = stage;
+
+                    // 查询该项目阶段所需的文档
+                    var requiredDocuments = context.EquipTypeStageDocTable
+                        .Where(etsd => etsd.equipmenttypeId == projectinfor.equipmenttypeId
+                                    && etsd.ProjectStage.ProjectStageName == stage)
+                        .Include(etsd => etsd.documenttype)
+                        .Select(etsd => new
+                        {
+                            //projectid = etsd.
+                            DocumentTypeId = etsd.documenttype.DocumentTypeId,
+                            DocumentTypeName = etsd.documenttype.DocumentTypeName,
+                            Permission = etsd.documenttype.Permission,
+                            FileTypesDataname = etsd.documenttype.FileTypesData.FileTypesName
+                        })
+                        .ToList();
+
+                    // 查询该项目阶段所需的信息
+                    var requiredInformation = context.EquipTypeStageInfoTable
+                        .Where(etsi => etsi.equipmenttypeId == projectinfor.equipmenttypeId
+                                     && etsi.ProjectStage.ProjectStageName == stage)
+                        .Include(etsi => etsi.Information)
+                        .ThenInclude(info => info.InforTypesData)
+                        .Select(etsi => new
+                        {
+                            InformationId = etsi.Information.Id,
+                            InformationName = etsi.Information.Reamrks,
+                            Permission = etsi.Information.Permission,
+                            //Remarks = etsi.Information.Reamrks,
+                            InformationType = etsi.Information.InforTypesData.FileTypesName
+                        })
+                        .ToList();
+
+                    if (requiredDocuments.Count != 0)
+                    {
+                        foreach (var item in requiredDocuments)
+                        {
+
+                            switch (item.FileTypesDataname)
+                            {
+                                case "文档":
+                                    Application.Current.Dispatcher.BeginInvoke(new Action(() =>
+                                    {
+                                        InformationCardArea.Add(new InformationCardVM()
+                                        {
+                                            Inforprojectid = data,
+                                            Filename = item.DocumentTypeName,
+                                            Loginpersonnamegrade = Loginpersonnamegrade,
+                                            Taginfor = item.Permission,
+
+                                            Infortype = item.FileTypesDataname,
+                                        });
+                                    }));
+                                    break;
+
+                                case "文档-OA":
+                                    Application.Current.Dispatcher.BeginInvoke(new Action(() =>
+                                    {
+                                        InformationCardArea.Add(new InformationCardVM()
+                                        {
+                                            Inforprojectid = data,
+                                            File_oa_indata = item.DocumentTypeName,
+                                            Loginpersonnamegrade = Loginpersonnamegrade,
+                                            Taginfor = item.Permission,
+                                            Infortype = item.FileTypesDataname,
+                                        });
+                                    }));
+                                    break;
+
+                                default:
+                                    break;
+                            }
+
+
+
+                        }
+                    }
+
+                    if (requiredInformation.Count != 0)
+                    {
+                        foreach (var item in requiredInformation)
+                        {
+
+                            switch (item.InformationType)
+                            {
+
+                                case "信息-下拉框":
+                                    switch (item.InformationName)
+                                    {
+                                        case string value when (value == "项目负责人" || value == "跟进人"):
+                                            Application.Current.Dispatcher.BeginInvoke(new Action(() =>
+                                            {
+                                                InformationCardArea.Add(new InformationCardVM()
+                                                {
+                                                    Inforprojectid = data,
+                                                    Infor_people = item.InformationName,
+                                                    Loginpersonnamegrade = Loginpersonnamegrade,
+                                                    Taginfor = item.Permission,
+                                                    Infortype = item.InformationType,
+
+                                                });
+                                            }));
+                                            break;
+
+                                        case "设备类型":
+                                            Application.Current.Dispatcher.BeginInvoke(new Action(() =>
+                                            {
+                                                InformationCardArea.Add(new InformationCardVM()
+                                                {
+                                                    Inforprojectid = data,
+                                                    Infor_equipmenttype = item.InformationName,
+                                                    Loginpersonnamegrade = Loginpersonnamegrade,
+                                                    Taginfor = item.Permission,
+                                                    Infortype = item.InformationType,
+
+                                                });
+                                            }));
+                                            break;
+
+                                        case "类型":
+                                            Application.Current.Dispatcher.BeginInvoke(new Action(() =>
+                                            {
+                                                InformationCardArea.Add(new InformationCardVM()
+                                                {
+                                                    Inforprojectid = data,
+                                                    Infor_type = item.InformationName,
+                                                    Loginpersonnamegrade = Loginpersonnamegrade,
+                                                    Taginfor = item.Permission,
+                                                    Infortype = item.InformationType,
+
+                                                });
+                                            }));
+                                            break;
+
+                                        case "项目阶段":
+                                            Application.Current.Dispatcher.BeginInvoke(new Action(() =>
+                                            {
+                                                InformationCardArea.Add(new InformationCardVM()
+                                                {
+                                                    Inforprojectid = data,
+                                                    Infor_projectstage = item.InformationName,
+                                                    Loginpersonnamegrade = Loginpersonnamegrade,
+                                                    Taginfor = item.Permission,
+                                                    Infortype = item.InformationType,
+
+                                                });
+                                            }));
+                                            break;
+
+                                        case " 当前进度（例：进行中）":
+                                            Application.Current.Dispatcher.BeginInvoke(new Action(() =>
+                                            {
+                                                InformationCardArea.Add(new InformationCardVM()
+                                                {
+                                                    Inforprojectid = data,
+                                                    Infor_projectphasestatus = item.InformationName,
+                                                    Loginpersonnamegrade = Loginpersonnamegrade,
+                                                    Taginfor = item.Permission,
+                                                    Infortype = item.InformationType,
+
+                                                });
+                                            }));
+                                            break;
+
+                                    }
+
+                                    break;
+
+                                case "信息-填写":
+                                    Application.Current.Dispatcher.BeginInvoke(new Action(() =>
+                                    {
+                                        InformationCardArea.Add(new InformationCardVM()
+                                        {
+                                            Inforprojectid = data,
+                                            Infor_text_in = item.InformationName,
+                                            Loginpersonnamegrade = Loginpersonnamegrade,
+                                            Taginfor = item.Permission,
+                                            Infortype = item.InformationType,
+                                        });
+                                    }));
+                                    break;
+
+                                case "信息-日期":
+                                    Application.Current.Dispatcher.BeginInvoke(new Action(() =>
+                                    {
+                                        InformationCardArea.Add(new InformationCardVM()
+                                        {
+                                            Inforprojectid = data,
+                                            Infor_date_in = item.InformationName,
+                                            Loginpersonnamegrade = Loginpersonnamegrade,
+                                            Taginfor = item.Permission,
+                                            Infortype = item.InformationType,
+                                        });
+                                    }));
+                                    break;
+
+                                default:
+                                    break;
+                            }
+
+
+
+                        }
+                    }
+                }
+            });
+
 
 
         }
