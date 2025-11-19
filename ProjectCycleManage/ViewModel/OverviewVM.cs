@@ -502,11 +502,17 @@ namespace ProjectCycleManage.ViewModel
                     .Include(p => p.ProjectLeader)
                     .ToList();
 
+                
+                Application.Current.Dispatcher.BeginInvoke(new Action(() =>
+                {
+                    ProjectList.Clear();
+                }));
                 // 输出结果
                 foreach (var project in projectsdata)
                 {
                     Application.Current.Dispatcher.BeginInvoke(new Action(() =>
                     {
+                        
                         //ProjectShowAreaCard.Add(new ProjectCardVM()
                         //{
                         //    Projectsid = project.ProjectsId.ToString(),
