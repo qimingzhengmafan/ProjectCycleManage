@@ -911,14 +911,14 @@ namespace ProjectCycleManage.ViewModel
             CurrentProjectId = selectedItem.ProjectId;
 
             // 触发项目详情加载
-            GetProjectsDatas(selectedItem.ProjectId, selectedItem.StatusText);
+            GetProjectsDatas(selectedItem.ProjectId);
         }
 
-        public void GetProjectsDatas(string data , string projectstage)
+        public void GetProjectsDatas(string data)
         {
             InformationCardArea.Clear();
             CurrentProjectId = data;
-            Projectstage = projectstage;
+            
             //MessageBox.Show("overviewvm" + data);
             Task.Run(() =>
             {
@@ -932,6 +932,7 @@ namespace ProjectCycleManage.ViewModel
                     .Include(p => p.ProjectLeader)
                     .FirstOrDefault();
 
+                    Projectstage = projectinfor.ProjectStage.ProjectStageName;
                     if (projectinfor == null)
                     {
                         return;

@@ -793,73 +793,72 @@
                                         </StackPanel>
 
                                         <Border Grid.Row="1"
-                            BorderThickness=" 0 0 0 1"
-                            BorderBrush="#BBBBBB"
-                            Margin="30 0 30 0">
-                                            <ScrollViewer HorizontalScrollBarVisibility="Disabled"
-                                      VerticalScrollBarVisibility="Auto">
-                                                <ItemsControl ItemsSource="{Binding InformationCardArea}"
-                                          HorizontalAlignment="Stretch"
-                                          VerticalAlignment="Top">
-                                                    <ItemsControl.ItemsPanel>
-                                                        <ItemsPanelTemplate>
-                                                            <WrapPanel Orientation="Horizontal" 
-                                                   HorizontalAlignment="Left"
-                                                   VerticalAlignment="Top"
-                                                   Width="{Binding RelativeSource={RelativeSource AncestorType=ScrollViewer}, Path=ActualWidth}"/>
-                                                        </ItemsPanelTemplate>
-                                                    </ItemsControl.ItemsPanel>
+                                                BorderThickness=" 0 0 0 1"
+                                                BorderBrush="#BBBBBB"
+                                                Margin="30 0 30 0">
 
-                                                    <ItemsControl.ItemTemplate>
-                                                        <DataTemplate>
-                                                            <uc:InformationCard Margin="20 20 30 20"
-                                                            Loginpersonnamegrade="{Binding Loginpersonnamegrade}"
-                                                            InformationTag="{Binding Taginfor}"
-                                                            InformationTypes="{Binding Infortype,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
-                                                            FileIsExist="{Binding Fileisexist,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
-                                                            FileName="{Binding Filename}"
-                                                            CheckCommand="{Binding checkcommandCommand}"
-                                                            File_OA_InData="{Binding File_oa_indata}"
-                                                            File_OA_WriteData="{Binding File_oa_writedata,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
-                                                            File_OA_BtnCommand="{Binding File_OA_BtnFunCommand}"
+                                            <ItemsControl ItemsSource="{Binding InformationCardArea}"
+                                                            HorizontalAlignment="Stretch"
+                                                            VerticalAlignment="Top">
+                                                <ItemsControl.ItemsPanel>
+                                                    <ItemsPanelTemplate>
+                                                        <WrapPanel Orientation="Horizontal" 
+                                                                    HorizontalAlignment="Left"
+                                                                    VerticalAlignment="Top"
+                                                                    Width="{Binding RelativeSource={RelativeSource AncestorType=ScrollViewer}, Path=ActualWidth}"/>
+                                                    </ItemsPanelTemplate>
+                                                </ItemsControl.ItemsPanel>
+
+                                                <ItemsControl.ItemTemplate>
+                                                    <DataTemplate>
+                                                        <uc:InformationCard Margin="20 20 30 20"
+                                                                            Loginpersonnamegrade="{Binding Loginpersonnamegrade}"
+                                                                            InformationTag="{Binding Taginfor}"
+                                                                            InformationTypes="{Binding Infortype,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                                                                            FileIsExist="{Binding Fileisexist,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                                                                            FileName="{Binding Filename}"
+                                                                            CheckCommand="{Binding checkcommandCommand}"
+                                                                            File_OA_InData="{Binding File_oa_indata}"
+                                                                            File_OA_WriteData="{Binding File_oa_writedata,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                                                                            File_OA_BtnCommand="{Binding File_OA_BtnFunCommand}"
                                                             
-                                                            Infor_Prople="{Binding Infor_people,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
-                                                            Infor_People_Ob="{Binding Infor_people_ob}"
-                                                            Infor_Sele_People="{Binding Infor_sele_people,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
-                                                            Infor_People_BtnCom="{Binding Infor_People_BtnFunCommand}"
+                                                                            Infor_Prople="{Binding Infor_people,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                                                                            Infor_People_Ob="{Binding Infor_people_ob}"
+                                                                            Infor_Sele_People="{Binding Infor_sele_people,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                                                                            Infor_People_BtnCom="{Binding Infor_People_BtnFunCommand}"
                                                             
-                                                            Infor_Text_In="{Binding Infor_text_in}"
-                                                            Infor_Text_Write="{Binding Infor_text_write,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
-                                                            Infor_Text_BtnCom="{Binding Infor_text_btnFunCommand}"
-                                                            Infor_Data_Text_In="{Binding Infor_date_in}"
-                                                            Infor_Date_SelectTime="{Binding Infor_date_selecttime,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
-                                                            Infor_Date_Btn_Com="{Binding Infor_Data_BtnFunCommand}"
+                                                                            Infor_Text_In="{Binding Infor_text_in}"
+                                                                            Infor_Text_Write="{Binding Infor_text_write,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                                                                            Infor_Text_BtnCom="{Binding Infor_text_btnFunCommand}"
+                                                                            Infor_Data_Text_In="{Binding Infor_date_in}"
+                                                                            Infor_Date_SelectTime="{Binding Infor_date_selecttime,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                                                                            Infor_Date_Btn_Com="{Binding Infor_Data_BtnFunCommand}"
                                                             
-                                                            Infor_Equipmenttype="{Binding Infor_equipmenttype,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
-                                                            Infor_Equipments_Ob="{Binding Infor_EquipmentTypes}"
-                                                            Infor_Sele_Equipment="{Binding SelectedEquipmentType,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
-                                                            Inofor_Equipment_BtnCom="{Binding Infor_Equipment_BtnFunCommand}"
+                                                                            Infor_Equipmenttype="{Binding Infor_equipmenttype,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                                                                            Infor_Equipments_Ob="{Binding Infor_EquipmentTypes}"
+                                                                            Infor_Sele_Equipment="{Binding SelectedEquipmentType,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                                                                            Inofor_Equipment_BtnCom="{Binding Infor_Equipment_BtnFunCommand}"
                                                             
-                                                            Infor_Types="{Binding Infor_type,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
-                                                            Infor_Types_Ob="{Binding Types}"
-                                                            Infor_Sele_Types="{Binding SelectedType,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
-                                                            Infor_Types_Btncom="{Binding Infor_Type_BtnFunCommand}"
+                                                                            Infor_Types="{Binding Infor_type,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                                                                            Infor_Types_Ob="{Binding Types}"
+                                                                            Infor_Sele_Types="{Binding SelectedType,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                                                                            Infor_Types_Btncom="{Binding Infor_Type_BtnFunCommand}"
                                                             
-                                                            Infor_ProjectsStage="{Binding Infor_projectstage}"
-                                                            Infor_ProjectStage_Ob="{Binding Projectstage}"
-                                                            Infor_Sele_ProjectStage="{Binding Selectedprojectstage,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
-                                                            Infor_ProjectStage_Btncom="{Binding Infor_ProjectStage_BtnFunCommand}"
+                                                                            Infor_ProjectsStage="{Binding Infor_projectstage}"
+                                                                            Infor_ProjectStage_Ob="{Binding Projectstage}"
+                                                                            Infor_Sele_ProjectStage="{Binding Selectedprojectstage,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                                                                            Infor_ProjectStage_Btncom="{Binding Infor_ProjectStage_BtnFunCommand}"
                                                             
-                                                            Infor_ProjectPha="{Binding Infor_projectphasestatus}"
-                                                            Infor_ProjectPha_Ob="{Binding Projectphasestatus}"
-                                                            Infor_Sele_ProjectPha="{Binding Selectedprojectphasestatus,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
-                                                            Infor_Project_BtnCom="{Binding Infor_projectphase_BtnFunCommand}"
+                                                                            Infor_ProjectPha="{Binding Infor_projectphasestatus}"
+                                                                            Infor_ProjectPha_Ob="{Binding Projectphasestatus}"
+                                                                            Infor_Sele_ProjectPha="{Binding Selectedprojectphasestatus,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                                                                            Infor_Project_BtnCom="{Binding Infor_projectphase_BtnFunCommand}"
                                                             
-                                                            />
-                                                        </DataTemplate>
-                                                    </ItemsControl.ItemTemplate>
-                                                </ItemsControl>
-                                            </ScrollViewer>
+                                                                            />
+                                                    </DataTemplate>
+                                                </ItemsControl.ItemTemplate>
+                                            </ItemsControl>
+
                                         </Border>
 
                                         <Grid Grid.Row="2"
