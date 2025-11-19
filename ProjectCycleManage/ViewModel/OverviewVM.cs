@@ -226,6 +226,7 @@ namespace ProjectCycleManage.ViewModel
             }
 
             await ExecuteApprovalProcessAsync();
+            GetProjectsOverviewList();
         }
 
         [RelayCommand]
@@ -307,6 +308,7 @@ namespace ProjectCycleManage.ViewModel
             await WriteRejectionResultAsync(context);
             
             MessageBox.Show("项目已驳回！");
+            GetProjectsOverviewList();
         }
 
         [RelayCommand]
@@ -341,6 +343,7 @@ namespace ProjectCycleManage.ViewModel
             {
                 MessageBox.Show("无需暂停");
             }
+            GetProjectsOverviewList();
         }
 
         [RelayCommand]
@@ -386,6 +389,7 @@ namespace ProjectCycleManage.ViewModel
             {
                 MessageBox.Show("无需恢复");
             }
+            GetProjectsOverviewList();
         }
 
         [RelayCommand]
@@ -429,6 +433,7 @@ namespace ProjectCycleManage.ViewModel
             {
                 MessageBox.Show("已取消");
             }
+            GetProjectsOverviewList();
         }
 
         [RelayCommand]
@@ -451,7 +456,88 @@ namespace ProjectCycleManage.ViewModel
                 MessageBox.Show($"测试审批记录写入失败：{ex.Message}");
             }
         }
+        private void GetProjectsOverviewList()
+        {
+            Task.Run(() =>
+            {
+                // 创建数据库上下文
+                using var context = new ProjectContext();
 
+                // 获取当前登录人的ID
+                var currentUser = context.PeopleTable
+                    .FirstOrDefault(p => p.PeopleName == Loginpersonname);
+
+                if (currentUser == null)
+                {
+                    // 如果找不到当前用户，不加载任何项目
+                    return;
+                }
+
+                // 检查当前用户是否在typeapprflowpersseqtable的ReviewerPeopleId中
+                var isReviewer = context.TypeApprFlowPersSeqTable
+                    .Any(t => t.ReviewerPeopleId == currentUser.PeopleId && t.Mark != "Dele");
+
+                IQueryable<Projects> projectsQuery;
+
+                if (isReviewer)
+                {
+                    // 如果是审核人，显示当前年份全部项目
+                    projectsQuery = context.Projects
+                        .Where(p => p.Year == DateTime.Now.Year);
+                }
+                else
+                {
+                    // 如果不是审核人，只显示当前用户负责或跟进的项目
+                    projectsQuery = context.Projects
+                        .Where(p => p.Year == DateTime.Now.Year &&
+                                  (p.ProjectLeaderId == currentUser.PeopleId ||
+                                   p.projectfollowuppersonId == currentUser.PeopleId));
+                }
+
+                // 执行查询
+                var projectsdata = projectsQuery
+                    .Include(p => p.ProjectStage)
+                    .Include(p => p.type)
+                    .Include(p => p.ProjectPhaseStatus)
+                    .Include(p => p.ProjectLeader)
+                    .ToList();
+
+                // 输出结果
+                foreach (var project in projectsdata)
+                {
+                    Application.Current.Dispatcher.BeginInvoke(new Action(() =>
+                    {
+                        //ProjectShowAreaCard.Add(new ProjectCardVM()
+                        //{
+                        //    Projectsid = project.ProjectsId.ToString(),
+                        //    Projectname = project.ProjectName,
+                        //    Projectleader = project.ProjectLeader.PeopleName,
+                        //    Projectstatus = project.ProjectStage.ProjectStageName,
+                        //    Projectstatusprogressdouble = (double)project.FileProgress.GetValueOrDefault(),
+                        //    Runningstatus = project.ProjectPhaseStatus.ProjectPhaseStatusName,
+                        //    Starttimme = project.ApplicationTime,
+                        //    ViewDetailsaction = GetProjectsDatas
+                        //});
+
+                        // 添加到左侧项目列表
+                        var listItem = new ProjectListItem()
+                        {
+                            ProjectId = project.ProjectsId.ToString(),
+                            ProjectName = project.ProjectName,
+                            ProjectLeader = project.ProjectLeader.PeopleName,
+                            StartTime = project.ApplicationTime ?? DateTime.MinValue,
+                            StatusText = project.ProjectPhaseStatus.ProjectPhaseStatusName,
+                            StatusBackground = GetStatusBackground(project.ProjectPhaseStatus.ProjectPhaseStatusName),
+                            StatusForeground = GetStatusForeground(project.ProjectPhaseStatus.ProjectPhaseStatusName),
+                            IsSelected = false
+                        };
+                        listItem.OnSelected = SelectProject;
+                        ProjectList.Add(listItem);
+                    }));
+
+                }
+            });
+        }
         private async Task ExecuteApprovalProcessAsync()
         {
             try
