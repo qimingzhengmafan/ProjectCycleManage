@@ -538,65 +538,18 @@ namespace ProjectCycleManage.ViewModel
                     .Include(p => p.ProjectLeader)
                     .ToList();
 
-                // 清空待审批项目列表
-                _pendingApprovalProjects.Clear();
 
-                // 如果是审核人，检查哪些项目需要审批
-                var pendingApprovalList = new List<Projects>();
-                var normalProjectList = new List<Projects>();
 
-                if (isReviewer)
-                {
-                    foreach (var project in projectsdata)
-                    {
-                        var needsApproval = await CheckIfProjectNeedsApprovalAsync(project.ProjectsId, currentUser.PeopleId);
-                        if (needsApproval)
-                        {
-                            pendingApprovalList.Add(project);
-                            _pendingApprovalProjects.Add(project.ProjectsId);
-                        }
-                        else
-                        {
-                            normalProjectList.Add(project);
-                        }
-                    }
-                }
-                else
-                {
-                    normalProjectList = projectsdata;
-                }
-
-                Application.Current.Dispatcher.BeginInvoke(new Action(() =>
+                await Application.Current.Dispatcher.BeginInvoke(new Action(() =>
                 {
                     ProjectList.Clear();
                 }));
 
-                // 先添加待审批项目（按ProjectsId排序）
-                foreach (var project in pendingApprovalList.OrderBy(p => p.ProjectsId))
-                {
-                    Application.Current.Dispatcher.BeginInvoke(new Action(() =>
-                    {
-                        var listItem = new ProjectListItem()
-                        {
-                            ProjectId = project.ProjectsId.ToString(),
-                            ProjectName = project.ProjectName,
-                            ProjectLeader = project.ProjectLeader.PeopleName,
-                            StartTime = project.ApplicationTime ?? DateTime.MinValue,
-                            StatusText = project.ProjectPhaseStatus.ProjectPhaseStatusName,
-                            StatusBackground = GetStatusBackground(project.ProjectPhaseStatus.ProjectPhaseStatusName),
-                            StatusForeground = GetStatusForeground(project.ProjectPhaseStatus.ProjectPhaseStatusName),
-                            IsSelected = false,
-                            NeedsApproval = true // 标记为需要审批
-                        };
-                        listItem.OnSelected = SelectProject;
-                        ProjectList.Add(listItem);
-                    }));
-                }
 
                 // 再添加普通项目（按ProjectsId排序）
-                foreach (var project in normalProjectList.OrderBy(p => p.ProjectsId))
+                foreach (var project in projectsdata)
                 {
-                    Application.Current.Dispatcher.BeginInvoke(new Action(() =>
+                    await Application.Current.Dispatcher.BeginInvoke(new Action(() =>
                     {
                         var listItem = new ProjectListItem()
                         {
@@ -608,8 +561,10 @@ namespace ProjectCycleManage.ViewModel
                             StatusBackground = GetStatusBackground(project.ProjectPhaseStatus.ProjectPhaseStatusName),
                             StatusForeground = GetStatusForeground(project.ProjectPhaseStatus.ProjectPhaseStatusName),
                             IsSelected = false,
-                            NeedsApproval = false
                         };
+
+                        listItem.NeedsApproval = _pendingApprovalProjects.Contains(project.ProjectsId);
+
                         listItem.OnSelected = SelectProject;
                         ProjectList.Add(listItem);
                     }));
@@ -2015,6 +1970,14 @@ namespace ProjectCycleManage.ViewModel
                 {
                     if (int.TryParse(projectItem.ProjectId, out int id))
                     {
+                        //if (_pendingApprovalProjects.Contains(id))
+                        //{
+                        //    projectItem.NeedsApproval = true;
+                        //}
+                        //else
+                        //{
+                        //    projectItem.NeedsApproval = false;
+                        //}
                         projectItem.NeedsApproval = _pendingApprovalProjects.Contains(id);
                     }
                 }

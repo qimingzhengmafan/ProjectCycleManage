@@ -526,6 +526,7 @@ namespace ProjectCycleManage.ViewModel
                         StatusName = p.ProjectPhaseStatus.ProjectPhaseStatusName,
                         ProjectType = p.type.TypeName,
                         ApplicationTime = p.ApplicationTime,
+                        ProjectPhaseStatusId = p.ProjectPhaseStatusId ?? 0,
                     })
                     .ToListAsync();
 
@@ -536,21 +537,26 @@ namespace ProjectCycleManage.ViewModel
                     // 对每个项目进行完整的审批流程检查
                     foreach (var project in alertProjects)
                     {
-                        // 检查审批权限和流程条件
-                        var canApprove = await CheckApprovalPermissionAsync(project.ProjectId, currentUserId.Value);
-
-                        if (canApprove)
+                        
+                        if (project.ProjectPhaseStatusId != 103 && project.ProjectPhaseStatusId != 104 && project.ProjectPhaseStatusId != 106)
                         {
-                            // 检查是否需要提醒
-                            bool needsAlert = await CheckIfNeedsAlertAsync(project.ProjectId, currentUserId.Value);
-                            
-                            if (needsAlert)
+                            // 检查审批权限和流程条件
+                            var canApprove = await CheckApprovalPermissionAsync(project.ProjectId, currentUserId.Value);
+
+                            if (canApprove)
                             {
-                                validAlertProjects.Add(project);
-                                // 设置提醒时间为当前时间
-                                UpdateAlertTime(project.ProjectId, DateTime.Now);
+                                // 检查是否需要提醒
+                                bool needsAlert = await CheckIfNeedsAlertAsync(project.ProjectId, currentUserId.Value);
+
+                                if (needsAlert)
+                                {
+                                    validAlertProjects.Add(project);
+                                    // 设置提醒时间为当前时间
+                                    UpdateAlertTime(project.ProjectId, DateTime.Now);
+                                }
                             }
                         }
+
                     }
 
                     if (validAlertProjects.Any())

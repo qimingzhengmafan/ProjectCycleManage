@@ -238,6 +238,7 @@ namespace ProjectCycleManage.Model
         public string StatusName { get; set; }
         public string ProjectType { get; set; }
         public DateTime? ApplicationTime { get; set; }
+        public int ProjectPhaseStatusId { get; set; }
     }
 
     /// <summary>
