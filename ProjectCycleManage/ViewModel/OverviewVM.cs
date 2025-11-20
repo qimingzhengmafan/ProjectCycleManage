@@ -538,7 +538,31 @@ namespace ProjectCycleManage.ViewModel
                     .Include(p => p.ProjectLeader)
                     .ToList();
 
-
+                // 按照指定顺序排序项目
+                var sortedProjects = projectsdata.OrderBy(p => 
+                {
+                    var needsApproval = _pendingApprovalProjects.Contains(p.ProjectsId);
+                    var statusName = p.ProjectPhaseStatus?.ProjectPhaseStatusName ?? "";
+                    
+                    // 排序优先级：
+                    // 1. 待审核标记的项目（最前面）
+                    // 2. 进行中项目
+                    // 3. 不需要当前登录人员审批的项目（即没有待审核标记且不是进行中、完成、暂停、失败状态的项目）
+                    // 4. 完成项目
+                    // 5. 暂停项目
+                    // 6. 失败项目
+                    // 7. 其他状态项目
+                    
+                    if (needsApproval) return 1;
+                    else if (statusName.Contains("进行中")) return 2;
+                    else if (!needsApproval && statusName.Contains("审核中")) return 3;
+                    else if (statusName.Contains("已完成")) return 4;
+                    else if (statusName.Contains("暂停")) return 5;
+                    else if (statusName.Contains("失败")) return 6;
+                    else return 7;
+                })
+                .ThenBy(p => p.ProjectsId) // 在每个优先级内按ProjectsId排序
+                .ToList();
 
                 await Application.Current.Dispatcher.BeginInvoke(new Action(() =>
                 {
@@ -546,8 +570,8 @@ namespace ProjectCycleManage.ViewModel
                 }));
 
 
-                // 再添加普通项目（按ProjectsId排序）
-                foreach (var project in projectsdata)
+                // 按照排序后的顺序添加项目
+                foreach (var project in sortedProjects)
                 {
                     await Application.Current.Dispatcher.BeginInvoke(new Action(() =>
                     {
@@ -1957,31 +1981,24 @@ namespace ProjectCycleManage.ViewModel
                 return;
 
             // 更新待审批项目列表
-            _pendingApprovalProjects.Clear();
+            //_pendingApprovalProjects.Clear();
             foreach (var projectId in projectIds)
             {
                 _pendingApprovalProjects.Add(projectId);
             }
+            GetProjectsOverviewList();
+            //// 更新UI中的项目标记
+            //Application.Current.Dispatcher.BeginInvoke(new Action(() =>
+            //{
+            //    foreach (var projectItem in ProjectList)
+            //    {
+            //        if (int.TryParse(projectItem.ProjectId, out int id))
+            //        {
 
-            // 更新UI中的项目标记
-            Application.Current.Dispatcher.BeginInvoke(new Action(() =>
-            {
-                foreach (var projectItem in ProjectList)
-                {
-                    if (int.TryParse(projectItem.ProjectId, out int id))
-                    {
-                        //if (_pendingApprovalProjects.Contains(id))
-                        //{
-                        //    projectItem.NeedsApproval = true;
-                        //}
-                        //else
-                        //{
-                        //    projectItem.NeedsApproval = false;
-                        //}
-                        projectItem.NeedsApproval = _pendingApprovalProjects.Contains(id);
-                    }
-                }
-            }));
+            //            projectItem.NeedsApproval = _pendingApprovalProjects.Contains(id);
+            //        }
+            //    }
+            //}));
         }
 
         /// <summary>
