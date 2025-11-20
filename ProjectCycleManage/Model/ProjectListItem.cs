@@ -55,6 +55,12 @@ namespace ProjectCycleManage.Model
         private bool _isSelected;
 
         /// <summary>
+        /// 是否需要审批标记
+        /// </summary>
+        [ObservableProperty]
+        private bool _needsApproval;
+
+        /// <summary>
         /// 选择命令
         /// </summary>
         public RelayCommand SelectCommand { get; }
@@ -67,7 +73,7 @@ namespace ProjectCycleManage.Model
         /// <summary>
         /// 构造函数
         /// </summary>
-        public ProjectListItem(string projectId, string projectName, string projectLeader, DateTime startTime, string statusText, string statusBackground, string statusForeground)
+        public ProjectListItem(string projectId, string projectName, string projectLeader, DateTime startTime, string statusText, string statusBackground, string statusForeground, bool needsApproval = false)
         {
             ProjectId = projectId;
             ProjectName = projectName;
@@ -77,6 +83,7 @@ namespace ProjectCycleManage.Model
             StatusBackground = statusBackground;
             StatusForeground = statusForeground;
             IsSelected = false;
+            NeedsApproval = needsApproval;
             
             SelectCommand = new RelayCommand(Select);
         }

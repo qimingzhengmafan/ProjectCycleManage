@@ -590,7 +590,20 @@ namespace ProjectCycleManage.ViewModel
             }
 
             MessageBox.Show(message.ToString(), "审批提醒", MessageBoxButton.OK, MessageBoxImage.Information);
-            OverView = new OverviewVM(Loginpersonnamegrade, Loginpersonname);
+            
+            // 提取项目ID列表
+            var projectIds = alertProjects.Select(p => p.ProjectId).ToList();
+            
+            // 如果OverviewVM已经存在，更新其待审批项目列表
+            if (OverView != null)
+            {
+                OverView.UpdatePendingApprovalProjects(projectIds);
+            }
+            else
+            {
+                // 如果不存在，创建新的实例
+                OverView = new OverviewVM(Loginpersonnamegrade, Loginpersonname);
+            }
         }
 
         /// <summary>
@@ -626,13 +639,22 @@ namespace ProjectCycleManage.ViewModel
         private Visibility _vis_dataanalysis;
 
         [RelayCommand]
-        private void OverViewFun()
+        private async void OverViewFun()
         {
             Vis_overview = Visibility.Visible;
             Vis_newproject = Visibility.Collapsed;
             Vis_dataanalysis = Visibility.Collapsed;
             
-            OverView = new OverviewVM(Loginpersonnamegrade, Loginpersonname);
+            // 如果OverviewVM已经存在，刷新其项目列表
+            if (OverView != null)
+            {
+                await OverView.RefreshProjectsListAsync();
+            }
+            else
+            {
+                // 如果不存在，创建新的实例
+                OverView = new OverviewVM(Loginpersonnamegrade, Loginpersonname);
+            }
         }
 
         [RelayCommand]

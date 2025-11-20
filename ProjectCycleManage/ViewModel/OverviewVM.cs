@@ -32,6 +32,11 @@ namespace ProjectCycleManage.ViewModel
 
         private ObservableCollection<ProjectListItem> _projectList = new ObservableCollection<ProjectListItem>();
 
+        /// <summary>
+        /// 待审批项目列表
+        /// </summary>
+        private HashSet<int> _pendingApprovalProjects = new HashSet<int>();
+
         [ObservableProperty]
         private string _stageprojectname;
 
@@ -487,9 +492,9 @@ namespace ProjectCycleManage.ViewModel
                 MessageBox.Show($"测试审批记录写入失败：{ex.Message}");
             }
         }
-        private void GetProjectsOverviewList()
+        private async void GetProjectsOverviewList()
         {
-            Task.Run(() =>
+            await Task.Run(async () =>
             {
                 // 创建数据库上下文
                 using var context = new ProjectContext();
@@ -533,30 +538,44 @@ namespace ProjectCycleManage.ViewModel
                     .Include(p => p.ProjectLeader)
                     .ToList();
 
-                
+                // 清空待审批项目列表
+                _pendingApprovalProjects.Clear();
+
+                // 如果是审核人，检查哪些项目需要审批
+                var pendingApprovalList = new List<Projects>();
+                var normalProjectList = new List<Projects>();
+
+                if (isReviewer)
+                {
+                    foreach (var project in projectsdata)
+                    {
+                        var needsApproval = await CheckIfProjectNeedsApprovalAsync(project.ProjectsId, currentUser.PeopleId);
+                        if (needsApproval)
+                        {
+                            pendingApprovalList.Add(project);
+                            _pendingApprovalProjects.Add(project.ProjectsId);
+                        }
+                        else
+                        {
+                            normalProjectList.Add(project);
+                        }
+                    }
+                }
+                else
+                {
+                    normalProjectList = projectsdata;
+                }
+
                 Application.Current.Dispatcher.BeginInvoke(new Action(() =>
                 {
                     ProjectList.Clear();
                 }));
-                // 输出结果
-                foreach (var project in projectsdata)
+
+                // 先添加待审批项目（按ProjectsId排序）
+                foreach (var project in pendingApprovalList.OrderBy(p => p.ProjectsId))
                 {
                     Application.Current.Dispatcher.BeginInvoke(new Action(() =>
                     {
-                        
-                        //ProjectShowAreaCard.Add(new ProjectCardVM()
-                        //{
-                        //    Projectsid = project.ProjectsId.ToString(),
-                        //    Projectname = project.ProjectName,
-                        //    Projectleader = project.ProjectLeader.PeopleName,
-                        //    Projectstatus = project.ProjectStage.ProjectStageName,
-                        //    Projectstatusprogressdouble = (double)project.FileProgress.GetValueOrDefault(),
-                        //    Runningstatus = project.ProjectPhaseStatus.ProjectPhaseStatusName,
-                        //    Starttimme = project.ApplicationTime,
-                        //    ViewDetailsaction = GetProjectsDatas
-                        //});
-
-                        // 添加到左侧项目列表
                         var listItem = new ProjectListItem()
                         {
                             ProjectId = project.ProjectsId.ToString(),
@@ -566,12 +585,34 @@ namespace ProjectCycleManage.ViewModel
                             StatusText = project.ProjectPhaseStatus.ProjectPhaseStatusName,
                             StatusBackground = GetStatusBackground(project.ProjectPhaseStatus.ProjectPhaseStatusName),
                             StatusForeground = GetStatusForeground(project.ProjectPhaseStatus.ProjectPhaseStatusName),
-                            IsSelected = false
+                            IsSelected = false,
+                            NeedsApproval = true // 标记为需要审批
                         };
                         listItem.OnSelected = SelectProject;
                         ProjectList.Add(listItem);
                     }));
+                }
 
+                // 再添加普通项目（按ProjectsId排序）
+                foreach (var project in normalProjectList.OrderBy(p => p.ProjectsId))
+                {
+                    Application.Current.Dispatcher.BeginInvoke(new Action(() =>
+                    {
+                        var listItem = new ProjectListItem()
+                        {
+                            ProjectId = project.ProjectsId.ToString(),
+                            ProjectName = project.ProjectName,
+                            ProjectLeader = project.ProjectLeader.PeopleName,
+                            StartTime = project.ApplicationTime ?? DateTime.MinValue,
+                            StatusText = project.ProjectPhaseStatus.ProjectPhaseStatusName,
+                            StatusBackground = GetStatusBackground(project.ProjectPhaseStatus.ProjectPhaseStatusName),
+                            StatusForeground = GetStatusForeground(project.ProjectPhaseStatus.ProjectPhaseStatusName),
+                            IsSelected = false,
+                            NeedsApproval = false
+                        };
+                        listItem.OnSelected = SelectProject;
+                        ProjectList.Add(listItem);
+                    }));
                 }
             });
         }
@@ -891,6 +932,89 @@ namespace ProjectCycleManage.ViewModel
         }
 
         /// <summary>
+        /// 检查项目是否需要审批
+        /// </summary>
+        private async Task<bool> CheckIfProjectNeedsApprovalAsync(int projectId, int currentUserId)
+        {
+            try
+            {
+                using var context = new ProjectContext();
+                
+                // 获取项目信息
+                var project = await context.Projects
+                    .Where(p => p.ProjectsId == projectId)
+                    .Select(p => new { p.LastSubmitTime, p.ProjInforId })
+                    .FirstOrDefaultAsync();
+
+                if (project == null) return false;
+
+                // 获取当前用户对该项目的最后一次审批记录
+                var lastApproval = await context.InspectionRecord
+                    .Where(ir => ir.ProjectsId == projectId && ir.CheckPeopleId == currentUserId)
+                    .OrderByDescending(ir => ir.CheckTime)
+                    .FirstOrDefaultAsync();
+
+                // 检查项目状态是否在审批流程中
+                var approvalStatuses = new[] { 101, 103, 105, 107, 109, 111 };
+                if (!approvalStatuses.Contains(project.ProjInforId ?? 0)) return false;
+
+                // 检查审批权限
+                var hasPermission = await CheckApprovalPermissionAsync(context, projectId, currentUserId);
+                if (!hasPermission) return false;
+
+                // 如果项目从未被提醒过，需要审批
+                if (!_pendingApprovalProjects.Contains(projectId))
+                {
+                    return true;
+                }
+
+                // 如果项目已经被提醒过，检查是否被重新提交
+                if (lastApproval != null && lastApproval.CheckResult == "Rejection")
+                {
+                    // 如果项目有重新提交时间，并且重新提交时间晚于最后一次驳回时间
+                    if (project.LastSubmitTime.HasValue && project.LastSubmitTime > lastApproval.CheckTime)
+                    {
+                        return true; // 需要重新审批
+                    }
+                }
+
+                return false;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"检查审批需求出错: {ex.Message}");
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// 检查审批权限
+        /// </summary>
+        private async Task<bool> CheckApprovalPermissionAsync(ProjectContext context, int projectId, int currentUserId)
+        {
+            try
+            {
+                // 获取项目信息
+                var project = await context.Projects
+                    .Include(p => p.type)
+                    .FirstOrDefaultAsync(p => p.ProjectsId == projectId);
+
+                if (project == null) return false;
+
+                // 检查审批权限 - 查询 typeapprflowpersseqtable 表
+                var hasPermission = await context.TypeApprFlowPersSeqTable
+                    .AnyAsync(x => x.equipmenttypeId == project.equipmenttypeId && x.ReviewerPeopleId == currentUserId);
+
+                return hasPermission;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"检查审批权限出错: {ex.Message}");
+                return false;
+            }
+        }
+
+        /// <summary>
         /// 更新阶段图标颜色
         /// </summary>
         /// <param name="clickedStage">被点击的阶段编号（0表示初始化）</param>
@@ -937,6 +1061,17 @@ namespace ProjectCycleManage.ViewModel
 
             // 设置当前项目为选中状态
             selectedItem.IsSelected = true;
+
+            // 如果该项目需要审批，清除待审批标记
+            if (selectedItem.NeedsApproval)
+            {
+                selectedItem.NeedsApproval = false;
+                // 从待审批列表中移除
+                if (int.TryParse(selectedItem.ProjectId, out int projectId))
+                {
+                    _pendingApprovalProjects.Remove(projectId);
+                }
+            }
 
             // 设置当前项目ID
             CurrentProjectId = selectedItem.ProjectId;
@@ -1856,6 +1991,42 @@ namespace ProjectCycleManage.ViewModel
             }
             project.ProjectPhaseStatusId = 105;
             await context.SaveChangesAsync();
+        }
+
+        /// <summary>
+        /// 从MainVM接收审批提醒并更新待审批项目列表
+        /// </summary>
+        public void UpdatePendingApprovalProjects(List<int> projectIds)
+        {
+            if (projectIds == null || !projectIds.Any())
+                return;
+
+            // 更新待审批项目列表
+            _pendingApprovalProjects.Clear();
+            foreach (var projectId in projectIds)
+            {
+                _pendingApprovalProjects.Add(projectId);
+            }
+
+            // 更新UI中的项目标记
+            Application.Current.Dispatcher.BeginInvoke(new Action(() =>
+            {
+                foreach (var projectItem in ProjectList)
+                {
+                    if (int.TryParse(projectItem.ProjectId, out int id))
+                    {
+                        projectItem.NeedsApproval = _pendingApprovalProjects.Contains(id);
+                    }
+                }
+            }));
+        }
+
+        /// <summary>
+        /// 刷新项目列表，重新加载所有项目数据
+        /// </summary>
+        public async Task RefreshProjectsListAsync()
+        {
+            GetProjectsOverviewList();
         }
 
     }
