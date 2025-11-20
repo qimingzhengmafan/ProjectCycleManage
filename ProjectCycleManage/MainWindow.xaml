@@ -11,8 +11,8 @@
         mc:Ignorable="d"
         Title="MainWindow"
         d:DataContext="{d:DesignInstance Type=vm:MainVM}"
-        Height="1080" 
-        Width="1920">
+        d:Height="1080" 
+        d:Width="1920">
     <!--<Window.DataContext>
         <vm:MainVM/>
     </Window.DataContext>-->
