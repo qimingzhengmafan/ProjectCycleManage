@@ -1007,6 +1007,77 @@
                             CornerRadius="15"
                             Margin="20 10 20 0">
                         <Grid Margin="20">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="55"/>
+                                <RowDefinition Height="136"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+
+                            <Grid>
+                                <StackPanel HorizontalAlignment="Left"
+                                            VerticalAlignment="Center"
+                                            Orientation="Horizontal"
+                                            Margin="0 0 0 0">
+                                    <Image Source="/Resources/Images/history.png" 
+                                           Width="25"
+                                           Height="25"/>
+
+                                    <Label Margin="5 0 0 0"
+                                           Content="审批历史 - "
+                                           Foreground="#2D5BD6"
+                                           FontSize="18"
+                                           FontWeight="Bold"/>
+                                    <TextBlock Text="{Binding Stageprojectname}"
+                                               VerticalAlignment="Center"
+                                               FontSize="18"
+                                               Foreground="#2D5BD6"
+                                               FontWeight="Bold"/>
+                                </StackPanel>
+                            </Grid>
+
+                            <Grid Grid.Row="1">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="22"/>
+                                    <RowDefinition />
+                                    <RowDefinition Height="20"/>
+                                </Grid.RowDefinitions>
+
+                                <Grid Grid.Row="0"
+                                      VerticalAlignment="Center">
+                                    <TextBlock Text="当前审批人"
+                                               FontSize="14"
+                                               Foreground="#666666"
+                                               HorizontalAlignment="Left"/>
+
+                                    <Grid Width="100"
+                                          HorizontalAlignment="Right">
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock Text="审批进度"
+                                                       FontSize="14"
+                                                       Foreground="#666666"/>
+                                            <TextBlock Text="("
+                                                       FontSize="14"
+                                                       Foreground="#666666"/>
+                                            <TextBlock Text="3"
+                                                       FontSize="14"
+                                                       Foreground="#666666"/>
+                                            <TextBlock Text=" / "
+                                                       FontSize="14"
+                                                       Foreground="#666666"/>
+                                            <TextBlock Text="5"
+                                                       FontSize="14"
+                                                       Foreground="#666666"/>
+                                            <TextBlock Text=")"
+                                                       FontSize="14"
+                                                       Foreground="#666666"/>
+                                        </StackPanel>
+                                    </Grid>
+                                </Grid>
+
+                                <Grid Grid.Row="1">
+                                    
+                                </Grid>
+                            </Grid>
                             
                         </Grid>
                     </Border>
