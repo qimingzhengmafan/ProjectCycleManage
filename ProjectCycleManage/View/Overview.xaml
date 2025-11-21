@@ -1060,13 +1060,7 @@
                                             <TextBlock Text="("
                                                        FontSize="14"
                                                        Foreground="#666666"/>
-                                            <TextBlock Text="3"
-                                                       FontSize="14"
-                                                       Foreground="#666666"/>
-                                            <TextBlock Text=" / "
-                                                       FontSize="14"
-                                                       Foreground="#666666"/>
-                                            <TextBlock Text="5"
+                                            <TextBlock Text="{Binding ApprovalProgress}"
                                                        FontSize="14"
                                                        Foreground="#666666"/>
                                             <TextBlock Text=")"
@@ -1095,7 +1089,7 @@
                                                     Background="#2D5BD6"
                                                     CornerRadius="20"
                                                     VerticalAlignment="Center">
-                                                    <TextBlock Text="王"
+                                                    <TextBlock Text="{Binding CurrentApproverName, StringFormat={}{0:0}}"
                                                            Foreground="White"
                                                            FontWeight="Bold"
                                                            FontSize="16"
@@ -1104,9 +1098,12 @@
                                                 </Border>
                                                 <StackPanel Margin="10 0 0 0"
                                                         VerticalAlignment="Center">
-                                                    <TextBlock Text="王总监"
+                                                    <TextBlock Text="{Binding CurrentApproverName}"
                                                            FontWeight="Bold"
                                                            FontSize="14"/>
+                                                    <TextBlock Text="{Binding CurrentApproverPosition}"
+                                                           FontSize="12"
+                                                           Foreground="#666666"/>
                                                 </StackPanel>
                                             </StackPanel>
                                         </Border>
@@ -1118,34 +1115,14 @@
                                             Height="40">
                                             <StackPanel Orientation="Horizontal"
                                                     VerticalAlignment="Center">
-                                                <StackPanel Orientation="Horizontal"
-                                                        Margin="0 0 10 0">
-                                                    <Border Width="12"
-                                                        Height="12"
-                                                        Background="#4CAF50"
-                                                        CornerRadius="6"/>
-                                                    <Border Width="12"
-                                                        Height="12"
-                                                        Background="#4CAF50"
-                                                        CornerRadius="6"
-                                                        Margin="5 0 0 0"/>
-                                                    <Border Width="12"
-                                                        Height="12"
-                                                        Background="#4CAF50"
-                                                        CornerRadius="6"
-                                                        Margin="5 0 0 0"/>
-                                                    <Border Width="12"
-                                                        Height="12"
-                                                        Background="#2D5BD6"
-                                                        CornerRadius="6"
-                                                        Margin="5 0 0 0"/>
-                                                    <Border Width="12"
-                                                        Height="12"
-                                                        Background="#E0E0E0"
-                                                        CornerRadius="6"
-                                                        Margin="5 0 0 0"/>
-                                                </StackPanel>
-                                                <TextBlock Text="60%"
+                                                <ProgressBar Width="100"
+                                                         Height="8"
+                                                         Value="{Binding ApprovalProgressPercentage}"
+                                                         Maximum="100"
+                                                         Background="#E0E0E0"
+                                                         Foreground="#2D5BD6"
+                                                         Margin="0 0 10 0"/>
+                                                <TextBlock Text="{Binding ApprovalProgressPercentage, StringFormat={}{0}%}"
                                                        FontSize="14"
                                                        Foreground="#666666"/>
                                             </StackPanel>
@@ -1178,306 +1155,73 @@
                                 </Grid>
 
                                 <!-- 时间线内容 -->
-                                <StackPanel Grid.Row="1"
-                                            Orientation="Vertical">
-
-                                    <!-- 已完成的审批项1 -->
-                                    <Grid Margin="0 0 0 15">
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="30"/>
-                                            <ColumnDefinition Width="*"/>
-                                        </Grid.ColumnDefinitions>
-
-                                        <!-- 时间线标记 -->
-                                        <Border Grid.Column="0"
-                                                Width="20"
-                                                Height="20"
-                                                Background="#4CAF50"
-                                                CornerRadius="10"
-                                                HorizontalAlignment="Center"
-                                                VerticalAlignment="Top">
-                                            <TextBlock Text="✓"
-                                                       Foreground="White"
-                                                       FontSize="10"
-                                                       HorizontalAlignment="Center"
-                                                       VerticalAlignment="Center"/>
-                                        </Border>
-
-                                        <!-- 时间线内容 -->
-                                        <Border Grid.Column="1"
-                                                Background="#F9F9F9"
-                                                CornerRadius="8"
-                                                Padding="15">
-                                            <Grid>
+                                <ItemsControl Grid.Row="1"
+                                              ItemsSource="{Binding ApprovalHistoryItems}"
+                                              Margin="0 10 0 0">
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate>
+                                            <Grid Margin="0 0 0 15">
                                                 <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="30"/>
                                                     <ColumnDefinition Width="*"/>
-                                                    <ColumnDefinition Width="Auto"/>
                                                 </Grid.ColumnDefinitions>
 
-                                                <StackPanel Grid.Column="0">
-                                                    <StackPanel Orientation="Horizontal"
-                                                                Margin="0 0 0 8">
-                                                        <TextBlock Text="张经理"
-                                                                   FontWeight="Bold"
-                                                                   FontSize="14"/>
-                                                        <Border Background="#E8F5E9"
-                                                                CornerRadius="4"
-                                                                Padding="3 1"
-                                                                Margin="10 0 0 0">
-                                                            <TextBlock Text="已批准"
-                                                                       FontSize="12"
-                                                                       Foreground="#4CAF50"/>
-                                                        </Border>
-                                                    </StackPanel>
-                                                    <TextBlock Text="项目立项材料齐全，目标明确，同意立项。"
-                                                               FontSize="14"
-                                                               Foreground="#666666"/>
-                                                </StackPanel>
+                                                <!-- 时间线标记 -->
+                                                <Border Grid.Column="0"
+                                                        Width="20"
+                                                        Height="20"
+                                                        Background="{Binding StatusColor}"
+                                                        CornerRadius="10"
+                                                        HorizontalAlignment="Center"
+                                                        VerticalAlignment="Top">
+                                                    <TextBlock Text="{Binding StatusIcon}"
+                                                               Foreground="White"
+                                                               FontSize="10"
+                                                               HorizontalAlignment="Center"
+                                                               VerticalAlignment="Center"/>
+                                                </Border>
 
-                                                <TextBlock Grid.Column="1"
-                                                           Text="2023-07-20 09:30"
-                                                           FontSize="12"
-                                                           Foreground="#666666"/>
-                                            </Grid>
-                                        </Border>
-                                    </Grid>
+                                                <!-- 时间线内容 -->
+                                                <Border Grid.Column="1"
+                                                        Background="#F9F9F9"
+                                                        CornerRadius="8"
+                                                        Padding="15">
+                                                    <Grid>
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="*"/>
+                                                            <ColumnDefinition Width="Auto"/>
+                                                        </Grid.ColumnDefinitions>
 
-                                    <!-- 已完成的审批项2 -->
-                                    <Grid Margin="0 0 0 15">
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="30"/>
-                                            <ColumnDefinition Width="*"/>
-                                        </Grid.ColumnDefinitions>
-
-                                        <Border Grid.Column="0"
-                                                Width="20"
-                                                Height="20"
-                                                Background="#4CAF50"
-                                                CornerRadius="10"
-                                                HorizontalAlignment="Center"
-                                                VerticalAlignment="Top">
-                                            <TextBlock Text="✓"
-                                                       Foreground="White"
-                                                       FontSize="10"
-                                                       HorizontalAlignment="Center"
-                                                       VerticalAlignment="Center"/>
-                                        </Border>
-
-                                        <Border Grid.Column="1"
-                                                Background="#F9F9F9"
-                                                CornerRadius="8"
-                                                Padding="15">
-                                            <Grid>
-                                                <Grid.ColumnDefinitions>
-                                                    <ColumnDefinition Width="*"/>
-                                                    <ColumnDefinition Width="Auto"/>
-                                                </Grid.ColumnDefinitions>
-
-                                                <StackPanel Grid.Column="0">
-                                                    <StackPanel Orientation="Horizontal"
-                                                                Margin="0 0 0 8">
-                                                        <TextBlock Text="李经理"
-                                                                   FontWeight="Bold"
-                                                                   FontSize="14"/>
-                                                        <Border Background="#E8F5E9"
-                                                                CornerRadius="4"
-                                                                Padding="3 1"
-                                                                Margin="10 0 0 0">
-                                                            <TextBlock Text="已批准"
-                                                                       FontSize="12"
-                                                                       Foreground="#4CAF50"/>
-                                                        </Border>
-                                                    </StackPanel>
-                                                    <TextBlock Text="项目预算合理，资源分配到位，同意进入规划阶段。"
-                                                               FontSize="14"
-                                                               Foreground="#666666"/>
-                                                </StackPanel>
-
-                                                <TextBlock Grid.Column="1"
-                                                           Text="2023-08-20 10:15"
-                                                           FontSize="12"
-                                                           Foreground="#666666"/>
-                                            </Grid>
-                                        </Border>
-                                    </Grid>
-
-                                    <!-- 已完成的审批项3 -->
-                                    <Grid Margin="0 0 0 15">
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="30"/>
-                                            <ColumnDefinition Width="*"/>
-                                        </Grid.ColumnDefinitions>
-
-                                        <Border Grid.Column="0"
-                                                Width="20"
-                                                Height="20"
-                                                Background="#4CAF50"
-                                                CornerRadius="10"
-                                                HorizontalAlignment="Center"
-                                                VerticalAlignment="Top">
-                                            <TextBlock Text="✓"
-                                                       Foreground="White"
-                                                       FontSize="10"
-                                                       HorizontalAlignment="Center"
-                                                       VerticalAlignment="Center"/>
-                                        </Border>
-
-                                        <Border Grid.Column="1"
-                                                Background="#F9F9F9"
-                                                CornerRadius="8"
-                                                Padding="15">
-                                            <Grid>
-                                                <Grid.ColumnDefinitions>
-                                                    <ColumnDefinition Width="*"/>
-                                                    <ColumnDefinition Width="Auto"/>
-                                                </Grid.ColumnDefinitions>
-
-                                                <StackPanel Grid.Column="0">
-                                                    <StackPanel Orientation="Horizontal"
-                                                                Margin="0 0 0 8">
-                                                        <TextBlock Text="王总监"
-                                                                   FontWeight="Bold"
-                                                                   FontSize="14"/>
-                                                        <Border Background="#E8F5E9"
-                                                                CornerRadius="4"
-                                                                Padding="3 1"
-                                                                Margin="10 0 0 0">
-                                                            <TextBlock Text="已批准"
-                                                                       FontSize="12"
-                                                                       Foreground="#4CAF50"/>
-                                                        </Border>
-                                                    </StackPanel>
-                                                    <TextBlock Text="规划阶段文档齐全，目标明确，同意进入执行阶段。"
-                                                               FontSize="14"
-                                                               Foreground="#666666"/>
-                                                </StackPanel>
-
-                                                <TextBlock Grid.Column="1"
-                                                           Text="2023-08-25 14:30"
-                                                           FontSize="12"
-                                                           Foreground="#666666"/>
-                                            </Grid>
-                                        </Border>
-                                    </Grid>
-
-                                    <!-- 当前审批项 -->
-                                    <Grid Margin="0 0 0 15">
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="30"/>
-                                            <ColumnDefinition Width="*"/>
-                                        </Grid.ColumnDefinitions>
-
-                                        <Border Grid.Column="0"
-                                                Width="20"
-                                                Height="20"
-                                                Background="#2D5BD6"
-                                                CornerRadius="10"
-                                                HorizontalAlignment="Center"
-                                                VerticalAlignment="Top">
-                                            <TextBlock Text="👤"
-                                                       Foreground="White"
-                                                       FontSize="10"
-                                                       HorizontalAlignment="Center"
-                                                       VerticalAlignment="Center"/>
-                                        </Border>
-
-                                        <Border Grid.Column="1"
-                                                Background="#F9F9F9"
-                                                CornerRadius="8"
-                                                Padding="15">
-                                            <Grid>
-                                                <Grid.ColumnDefinitions>
-                                                    <ColumnDefinition Width="*"/>
-                                                    <ColumnDefinition Width="Auto"/>
-                                                </Grid.ColumnDefinitions>
-
-                                                <StackPanel Grid.Column="0">
-                                                    <StackPanel Orientation="Horizontal"
-                                                                Margin="0 0 0 8">
-                                                        <TextBlock Text="王总监"
-                                                                   FontWeight="Bold"
-                                                                   FontSize="14"/>
-                                                        <Border Background="#FFF8E1"
-                                                                CornerRadius="4"
-                                                                Padding="3 1"
-                                                                Margin="10 0 0 0">
-                                                            <TextBlock Text="待审批"
-                                                                       FontSize="12"
-                                                                       Foreground="#FF9800"/>
-                                                        </Border>
-                                                    </StackPanel>
-                                                    <TextBlock Text="执行阶段中期审核，等待技术总监审批。"
-                                                               FontSize="14"
-                                                               Foreground="#666666"/>
-                                                </StackPanel>
-
-                                                <TextBlock Grid.Column="1"
-                                                           Text="等待审批"
-                                                           FontSize="12"
-                                                           Foreground="#666666"/>
-                                            </Grid>
-                                        </Border>
-                                    </Grid>
-
-                                    <!-- 待处理审批项 -->
-                                    <Grid Margin="0 0 0 15">
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="30"/>
-                                            <ColumnDefinition Width="*"/>
-                                        </Grid.ColumnDefinitions>
-
-                                        <Border Grid.Column="0"
-                                                Width="20"
-                                                Height="20"
-                                                Background="#E0E0E0"
-                                                CornerRadius="10"
-                                                HorizontalAlignment="Center"
-                                                VerticalAlignment="Top">
-                                            <TextBlock Text="⏰"
-                                                       Foreground="White"
-                                                       FontSize="10"
-                                                       HorizontalAlignment="Center"
-                                                       VerticalAlignment="Center"/>
-                                        </Border>
-
-                                        <Border Grid.Column="1"
-                                                Background="#F9F9F9"
-                                                CornerRadius="8"
-                                                Padding="15">
-                                            <Grid>
-                                                <Grid.ColumnDefinitions>
-                                                    <ColumnDefinition Width="*"/>
-                                                    <ColumnDefinition Width="Auto"/>
-                                                </Grid.ColumnDefinitions>
-
-                                                <StackPanel Grid.Column="0">
-                                                    <StackPanel Orientation="Horizontal"
-                                                                Margin="0 0 0 8">
-                                                        <TextBlock Text="陈总监"
-                                                                   FontWeight="Bold"
-                                                                   FontSize="14"/>
-                                                        <Border Background="#F5F5F5"
-                                                                CornerRadius="4"
-                                                                Padding="3 1"
-                                                                Margin="10 0 0 0">
-                                                            <TextBlock Text="待处理"
-                                                                       FontSize="12"
+                                                        <StackPanel Grid.Column="0">
+                                                            <StackPanel Orientation="Horizontal"
+                                                                        Margin="0 0 0 8">
+                                                                <TextBlock Text="{Binding ApproverName}"
+                                                                           FontWeight="Bold"
+                                                                           FontSize="14"/>
+                                                                <Border Background="{Binding StatusBackground}"
+                                                                        CornerRadius="4"
+                                                                        Padding="3 1"
+                                                                        Margin="10 0 0 0">
+                                                                    <TextBlock Text="{Binding StatusText}"
+                                                                               FontSize="12"
+                                                                               Foreground="{Binding StatusForeground}"/>
+                                                                </Border>
+                                                            </StackPanel>
+                                                            <TextBlock Text="{Binding Comments}"
+                                                                       FontSize="14"
                                                                        Foreground="#666666"/>
-                                                        </Border>
-                                                    </StackPanel>
-                                                    <TextBlock Text="项目收尾阶段，需要财务总监审批。"
-                                                               FontSize="14"
-                                                               Foreground="#666666"/>
-                                                </StackPanel>
+                                                        </StackPanel>
 
-                                                <TextBlock Grid.Column="1"
-                                                           Text="未开始"
-                                                           FontSize="12"
-                                                           Foreground="#666666"/>
+                                                        <TextBlock Grid.Column="1"
+                                                                   Text="{Binding ApprovalTime, StringFormat='yyyy-MM-dd HH:mm'}"
+                                                                   FontSize="12"
+                                                                   Foreground="#666666"/>
+                                                    </Grid>
+                                                </Border>
                                             </Grid>
-                                        </Border>
-                                    </Grid>
-                                </StackPanel>
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
                             </Grid>
 
 
