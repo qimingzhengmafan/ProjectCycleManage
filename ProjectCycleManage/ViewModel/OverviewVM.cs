@@ -110,6 +110,9 @@ namespace ProjectCycleManage.ViewModel
         [ObservableProperty]
         private int _pause;
 
+        [ObservableProperty]
+        private int _failureNum;
+
         //CompletionRate
         [ObservableProperty]
         private double _completionRate;
@@ -829,13 +832,18 @@ namespace ProjectCycleManage.ViewModel
             Task.Run(() =>
             {
                 using var context = new ProjectContext();
-                var TotalProjectNum = context.Projects
+
+                var projectnums = context.Projects
+                    .Where(p => p.Year == DateTime.Now.Year)
+                    .ToList();
+
+                var TotalProjectNum = projectnums
                     .Where(p => p.Year == DateTime.Now.Year)
                     .Count();
 
                 TotalProjects = TotalProjectNum;
                 
-                CompletedProject = context.Projects
+                CompletedProject = projectnums
                     .Where( p => p.Year == DateTime.Now.Year && p.ProjectPhaseStatusId == 104)
                     .Count();
 
@@ -852,8 +860,12 @@ namespace ProjectCycleManage.ViewModel
                 //InProgress = context.Projects
                 //    .Where(p => p.Year == currentYear && !excludedIds.Contains(p.ProjInforId.GetValueOrDefault()))
                 //    .Count();
+                var projectnums = context.Projects
+                    .Where(p => p.Year == currentYear)
+                    .ToList();
 
-                InProgress = context.Projects
+
+                InProgress = projectnums
                     .Where(p => p.Year == currentYear && p.ProjectPhaseStatusId == 102)
                     .Count();
 
@@ -862,13 +874,17 @@ namespace ProjectCycleManage.ViewModel
                 //    .Count();
 
 
-                UnderReview = context.Projects
+                UnderReview = projectnums
                     .Where(p => p.Year == currentYear && p.ProjectPhaseStatusId == 105)
                     .Count();
-                Pause = context.Projects
+
+                Pause = projectnums
                     .Where(p => p.Year == currentYear && p.ProjectPhaseStatusId == 103)
                     .Count();
 
+                FailureNum = projectnums
+                .Where(p => p.Year == currentYear && p.ProjectPhaseStatusId == 106)
+                .Count();
             });
 
         }

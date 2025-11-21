@@ -207,12 +207,12 @@
             <!-- 项目概览卡片区域 -->
             <Grid>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="208"/>
-                    <ColumnDefinition Width="208"/>
-                    <ColumnDefinition Width="208"/>
-                    <ColumnDefinition Width="208"/>
-                    <ColumnDefinition Width="208"/>
-                    <ColumnDefinition Width="208"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
                 
@@ -422,6 +422,46 @@
 
                 <Border Grid.Column="5"
                         Background="#607d8b "
+                        CornerRadius="8"
+                        Margin="10 0 0 0"
+                        Height="116">
+                    <Border.Effect>
+                        <DropShadowEffect BlurRadius="10" 
+                                          ShadowDepth="0" 
+                                          Opacity="0.1" 
+                                          Color="Black"/>
+                    </Border.Effect>
+                    <Border Padding="20"
+                            CornerRadius="8"
+                            Margin="0 5 0 0"
+                            Background="White">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+
+                            <TextBlock Grid.Row="0"
+                                   Text="{Binding FailureNum}"
+                                   FontSize="24"
+                                   FontWeight="Bold"
+                                   Foreground="#607d8b"
+                                   HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"/>
+
+                            <TextBlock Grid.Row="1"
+                                   Text="失败"
+                                   FontSize="14"
+                                   Foreground="#666666"
+                                   HorizontalAlignment="Center"
+                                   Margin="0 5 0 0"/>
+                        </Grid>
+                    </Border>
+
+                </Border>
+
+                <Border Grid.Column="6"
+                        Background="#faf3e0"
                         CornerRadius="8"
                         Margin="10 0 0 0"
                         Height="116">
