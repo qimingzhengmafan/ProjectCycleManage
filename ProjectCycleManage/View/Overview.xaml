@@ -527,28 +527,28 @@
 
                             <Grid>
                                 <StackPanel HorizontalAlignment="Left"
-                        VerticalAlignment="Center"
-                        Orientation="Horizontal"
-                        Margin="20 0 0 0">
+                                            VerticalAlignment="Center"
+                                            Orientation="Horizontal"
+                                            Margin="20 0 0 0">
                                     <Image Source="/Resources/Images/组织架构.png" 
-                       Width="25"
-                       Height="25"/>
+                                           Width="25"
+                                           Height="25"/>
 
                                     <Label Margin="5 0 0 0"
-                       Content="阶段管理 - "
-                       Foreground="#2D5BD6"
-                       FontSize="18"
-                       FontWeight="Bold"/>
+                                           Content="阶段管理 - "
+                                           Foreground="#2D5BD6"
+                                           FontSize="18"
+                                           FontWeight="Bold"/>
                                     <TextBlock Text="{Binding Stageprojectname}"
-                           VerticalAlignment="Center"
-                           FontSize="18"
-                           Foreground="#2D5BD6"
-                           FontWeight="Bold"/>
+                                               VerticalAlignment="Center"
+                                               FontSize="18"
+                                               Foreground="#2D5BD6"
+                                               FontWeight="Bold"/>
                                 </StackPanel>
                             </Grid>
 
                             <Grid Grid.Row="1"
-              Margin="20 0 20 0">
+                                  Margin="20 0 20 0">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="*"/>
                                     <ColumnDefinition Width="2*"/>
@@ -559,47 +559,47 @@
                                 </Grid.ColumnDefinitions>
 
                                 <ProgressBar Grid.ColumnSpan="6"
-                         Value="{Binding Stageprogress}"
-                         Height="5"
-                         Margin="0"
-                         BorderThickness="0"
-                         Foreground="#1684FC"/>
+                                             Value="{Binding Stageprogress}"
+                                             Height="5"
+                                             Margin="0"
+                                             BorderThickness="0"
+                                             Foreground="#1684FC"/>
 
                                 <Grid Grid.Column="0">
                                     <Border Height="73"
-                        Width="50"
-                        Margin="0 27 0 0"
-                        HorizontalAlignment="Right">
+                                            Width="50"
+                                            Margin="0 27 0 0"
+                                            HorizontalAlignment="Right">
                                         <StackPanel>
                                             <Grid Width="50"
-                              Height="50">
+                                                  Height="50">
                                                 <Ellipse Height="50"
-                                     Width="50"
-                                     Fill="{Binding Stage1Color}"/>
+                                                         Width="50"
+                                                         Fill="{Binding Stage1Color}"/>
                                                 <Image Source="/Resources/Images/想法.png"
-                                   Height="25"
-                                   Width="25"/>
+                                                       Height="25"
+                                                       Width="25"/>
                                                 <Button Command="{Binding Stage1ClickedCommand}"
-                                    Background="Transparent"
-                                    BorderThickness="0"
-                                    Width="50"
-                                    Height="50">
+                                                        Background="Transparent"
+                                                        BorderThickness="0"
+                                                        Width="50"
+                                                        Height="50">
                                                     <Button.Style>
                                                         <Style TargetType="Button">
                                                             <Setter Property="Background" 
-                                                Value="Transparent"/>
+                                                                    Value="Transparent"/>
                                                             <Setter Property="BorderBrush" 
-                                                Value="Transparent"/>
+                                                                    Value="Transparent"/>
                                                             <Setter Property="BorderThickness" 
-                                                Value="0"/>
+                                                                    Value="0"/>
                                                             <Setter Property="Template">
                                                                 <Setter.Value>
                                                                     <ControlTemplate TargetType="Button">
                                                                         <Border Background="{TemplateBinding Background}"
-                                                            BorderBrush="{TemplateBinding BorderBrush}"
-                                                            BorderThickness="{TemplateBinding BorderThickness}">
+                                                                                BorderBrush="{TemplateBinding BorderBrush}"
+                                                                                BorderThickness="{TemplateBinding BorderThickness}">
                                                                             <ContentPresenter HorizontalAlignment="Center"
-                                                                          VerticalAlignment="Center"/>
+                                                                                              VerticalAlignment="Center"/>
                                                                         </Border>
                                                                     </ControlTemplate>
                                                                 </Setter.Value>
@@ -609,45 +609,45 @@
                                                 </Button>
                                             </Grid>
                                             <TextBlock Text="{Binding Stage1Name}"
-                                   HorizontalAlignment="Center"
-                                   FontSize="12"/>
+                                                       HorizontalAlignment="Center"
+                                                       FontSize="12"/>
                                         </StackPanel>
                                     </Border>
                                 </Grid>
 
                                 <Grid Grid.Column="1">
                                     <Border Height="73"
-                        Width="50"
-                        Margin="0 27 0 0"
-                        HorizontalAlignment="Right">
+                                            Width="50"
+                                            Margin="0 27 0 0"
+                                            HorizontalAlignment="Right">
                                         <StackPanel>
                                             <Grid Width="50"
-                              Height="50">
+                                                  Height="50">
                                                 <Ellipse Height="50"
-                                     Width="50"
-                                     Fill="{Binding Stage2Color}"/>
+                                                         Width="50"
+                                                         Fill="{Binding Stage2Color}"/>
                                                 <Image Source="/Resources/Images/采购2.png"
-                                   Height="25"
-                                   Width="25"/>
+                                                       Height="25"
+                                                       Width="25"/>
                                                 <Button Command="{Binding Stage2ClickedCommand}"
-                                    Background="Transparent"
-                                    BorderThickness="0"
-                                    Width="50"
-                                    Height="50">
+                                                        Background="Transparent"
+                                                        BorderThickness="0"
+                                                        Width="50"
+                                                        Height="50">
                                                     <Button.Style>
                                                         <Style TargetType="Button">
                                                             <Setter Property="Background" 
-                                                Value="Transparent"/>
+                                                                    Value="Transparent"/>
                                                             <Setter Property="BorderBrush" 
-                                                Value="Transparent"/>
+                                                                    Value="Transparent"/>
                                                             <Setter Property="BorderThickness" 
-                                                Value="0"/>
+                                                                    Value="0"/>
                                                             <Setter Property="Template">
                                                                 <Setter.Value>
                                                                     <ControlTemplate TargetType="Button">
                                                                         <Border Background="{TemplateBinding Background}"
-                                                            BorderBrush="{TemplateBinding BorderBrush}"
-                                                            BorderThickness="{TemplateBinding BorderThickness}">
+                                                                                BorderBrush="{TemplateBinding BorderBrush}"
+                                                                                BorderThickness="{TemplateBinding BorderThickness}">
                                                                             <ContentPresenter HorizontalAlignment="Center"
                                                                           VerticalAlignment="Center"/>
                                                                         </Border>
@@ -1001,8 +1001,15 @@
                     </Border>
                 </Grid>
 
+                <!--审批历史-->
                 <Grid Grid.Row="1">
-                    
+                    <Border Background="White"
+                            CornerRadius="15"
+                            Margin="20 10 20 0">
+                        <Grid Margin="20">
+                            
+                        </Grid>
+                    </Border>
                 </Grid>
                 
             </Grid>
