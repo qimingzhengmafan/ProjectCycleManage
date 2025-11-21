@@ -1107,9 +1107,6 @@
                                                     <TextBlock Text="王总监"
                                                            FontWeight="Bold"
                                                            FontSize="14"/>
-                                                    <TextBlock Text="技术总监"
-                                                           FontSize="12"
-                                                           Foreground="#666666"/>
                                                 </StackPanel>
                                             </StackPanel>
                                         </Border>
