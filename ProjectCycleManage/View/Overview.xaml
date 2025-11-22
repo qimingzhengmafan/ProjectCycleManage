@@ -1101,9 +1101,6 @@
                                                     <TextBlock Text="{Binding CurrentApproverName}"
                                                            FontWeight="Bold"
                                                            FontSize="14"/>
-                                                    <TextBlock Text="{Binding CurrentApproverPosition}"
-                                                           FontSize="12"
-                                                           Foreground="#666666"/>
                                                 </StackPanel>
                                             </StackPanel>
                                         </Border>

@@ -2097,7 +2097,7 @@ namespace ProjectCycleManage.ViewModel
 
                     // 获取当前阶段的审批流程信息
                     var approvalFlow = await context.TypeApprFlowPersSeqTable
-                        .Where(t => t.equipmenttypeId == project.equipmenttypeId && t.Mark != "Dele")
+                        .Where(t => t.equipmenttypeId == project.equipmenttypeId && t.Mark != "Dele" && t.projectflowId == project.ProjInforId)
                         .OrderBy(t => t.Sequence)
                         .Include(t => t.Reviewer) // 关联审批人信息
                         .ToListAsync();
@@ -2115,7 +2115,7 @@ namespace ProjectCycleManage.ViewModel
 
                             // 设置审批进度
                             ApprovalProgress = $"{completedApprovals}/{totalApprovers}";
-                            ApprovalProgressPercentage = totalApprovers > 0 ? (double)completedApprovals / totalApprovers * 100 : 0;
+                            ApprovalProgressPercentage = totalApprovers > 0 ? Math.Round((double)completedApprovals / totalApprovers * 100 , 0) : 0;
 
                             // 设置当前审批人信息
                             if (currentApproverIndex < totalApprovers)
