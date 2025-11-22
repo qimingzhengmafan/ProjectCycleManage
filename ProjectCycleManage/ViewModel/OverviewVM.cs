@@ -1826,7 +1826,7 @@ namespace ProjectCycleManage.ViewModel
             // 查询前一顺位审批人的审批结果（按时间降序排序，获取最新记录）
             var previousApproval = await context.InspectionRecord
                 .Where(ir => ir.ProjectsId == projectId 
-                          && ir.projId == project.ProjInforId
+                          && ir.projId == project.ProjInforId + 1
                           && ir.CheckPeopleId == previousApprover.ReviewerPeopleId)
                 .OrderByDescending(ir => ir.CheckTime) // 按审批时间降序排序
                 .FirstOrDefaultAsync();
@@ -2088,19 +2088,52 @@ namespace ProjectCycleManage.ViewModel
                         return;
                     }
 
-                    // 使用ProjInforId和projectsid查询inspectionrecord表
-                    var approvalRecords = await context.InspectionRecord
-                        .Where(ir => ir.ProjectsId == Convert.ToInt32(projectId) && ir.projId == project.ProjInforId)
-                        .Include(ir => ir.CheckPeople) // 关联审批人信息
-                        .OrderBy(ir => ir.Sequence) // 按审批顺序排序
-                        .ToListAsync();
+                    List<InspectionRecord>? approvalRecords = new();
 
-                    // 获取当前阶段的审批流程信息
-                    var approvalFlow = await context.TypeApprFlowPersSeqTable
-                        .Where(t => t.equipmenttypeId == project.equipmenttypeId && t.Mark != "Dele" && t.projectflowId == project.ProjInforId)
-                        .OrderBy(t => t.Sequence)
-                        .Include(t => t.Reviewer) // 关联审批人信息
-                        .ToListAsync();
+                    List<TypeApprFlowPersSeqTable>? approvalFlow = new();
+
+                    if (project.ProjInforId == 100 || project.ProjInforId == 102 || project.ProjInforId == 104
+                         || project.ProjInforId == 106 || project.ProjInforId == 108 || project.ProjInforId == 110)
+                    {
+                        // 使用ProjInforId和projectsid查询inspectionrecord表
+                        var approvalRecords1 = await context.InspectionRecord
+                            .Where(ir => ir.ProjectsId == Convert.ToInt32(projectId) && ir.projId == project.ProjInforId + 1)
+                            .Include(ir => ir.CheckPeople) // 关联审批人信息
+                            .OrderBy(ir => ir.Sequence) // 按审批顺序排序
+                            .ThenBy(ir => ir.CheckTime)
+                            .ToListAsync();
+
+                        // 获取当前阶段的审批流程信息
+                        var approvalFlow1 = await context.TypeApprFlowPersSeqTable
+                            .Where(t => t.equipmenttypeId == project.equipmenttypeId && t.Mark != "Dele" && t.projectflowId == project.ProjInforId + 1)
+                            .OrderBy(t => t.Sequence)
+                            .Include(t => t.Reviewer) // 关联审批人信息
+                            .ToListAsync();
+
+                        approvalRecords = approvalRecords1;
+                        approvalFlow = approvalFlow1;
+                    }
+                    else
+                    {
+                        // 使用ProjInforId和projectsid查询inspectionrecord表
+                        var approvalRecords2 = await context.InspectionRecord
+                            .Where(ir => ir.ProjectsId == Convert.ToInt32(projectId) && ir.projId == project.ProjInforId)
+                            .Include(ir => ir.CheckPeople) // 关联审批人信息
+                            .OrderBy(ir => ir.Sequence) // 按审批顺序排序
+                            .ThenBy(ir => ir.CheckTime)
+                            .ToListAsync();
+
+                        // 获取当前阶段的审批流程信息
+                        var approvalFlow2 = await context.TypeApprFlowPersSeqTable
+                            .Where(t => t.equipmenttypeId == project.equipmenttypeId && t.Mark != "Dele" && t.projectflowId == project.ProjInforId)
+                            .OrderBy(t => t.Sequence)
+                            .Include(t => t.Reviewer) // 关联审批人信息
+                            .ToListAsync();
+
+                        approvalRecords = approvalRecords2;
+                        approvalFlow = approvalFlow2;
+                    }
+                    
 
                     await Application.Current.Dispatcher.BeginInvoke(new Action(() =>
                     {
