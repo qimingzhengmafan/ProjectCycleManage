@@ -2166,17 +2166,40 @@ namespace ProjectCycleManage.ViewModel
                             for (int i = 0; i < totalApprovers; i++)
                             {
                                 var approver = approvalFlow[i];
-                                var approvalRecord = approvalRecords.FirstOrDefault(ar => ar.Sequence == approver.Sequence);
+                                var approvalRecord = approvalRecords
+                                    .Where(ar => ar.Sequence == approver.Sequence)
+                                    .ToList();
 
-                                var historyItem = new ApprovalHistoryItem
+                                if (approvalRecord.Count != 0)
                                 {
-                                    ApproverName = approver.Reviewer?.PeopleName ?? "",
-                                    ApprovalTime = approvalRecord?.CheckTime,
-                                    ApprovalStatus = GetApprovalStatus(approvalRecord, i, completedApprovals),
-                                    ApprovalComment = approvalRecord?.CheckOpinion ?? ""
-                                };
+                                    foreach (var item in approvalRecord)
+                                    {
+                                        var historyItem = new ApprovalHistoryItem
+                                        {
+                                            ApproverName = approver.Reviewer?.PeopleName ?? "",
+                                            ApprovalTime = item?.CheckTime,
+                                            ApprovalStatus = GetApprovalStatus(item, i, completedApprovals),
+                                            ApprovalComment = item?.CheckOpinion ?? ""
+                                        };
 
-                                ApprovalHistoryItems.Add(historyItem);
+                                        ApprovalHistoryItems.Add(historyItem);
+                                    }
+                                }
+                                else
+                                {
+                                    var approvalRecord1 = approvalRecords.FirstOrDefault(ar => ar.Sequence == approver.Sequence);
+
+                                    var historyItem = new ApprovalHistoryItem
+                                    {
+                                        ApproverName = approver.Reviewer?.PeopleName ?? "",
+                                        ApprovalTime = approvalRecord1?.CheckTime,
+                                        ApprovalStatus = GetApprovalStatus(approvalRecord1, i, completedApprovals),
+                                        ApprovalComment = approvalRecord1?.CheckOpinion ?? ""
+                                    };
+
+                                    ApprovalHistoryItems.Add(historyItem);
+                                }
+
                             }
                         }
                         else
