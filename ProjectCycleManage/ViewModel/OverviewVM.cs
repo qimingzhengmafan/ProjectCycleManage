@@ -2058,6 +2058,10 @@ namespace ProjectCycleManage.ViewModel
             GetProjectsOverviewList();
         }
 
+
+        #region 审批历史
+
+
         /// <summary>
         /// 加载审批历史数据
         /// </summary>
@@ -2133,7 +2137,7 @@ namespace ProjectCycleManage.ViewModel
                         approvalRecords = approvalRecords2;
                         approvalFlow = approvalFlow2;
                     }
-                    
+
 
                     await Application.Current.Dispatcher.BeginInvoke(new Action(() =>
                     {
@@ -2148,7 +2152,7 @@ namespace ProjectCycleManage.ViewModel
 
                             // 设置审批进度
                             ApprovalProgress = $"{completedApprovals}/{totalApprovers}";
-                            ApprovalProgressPercentage = totalApprovers > 0 ? Math.Round((double)completedApprovals / totalApprovers * 100 , 0) : 0;
+                            ApprovalProgressPercentage = totalApprovers > 0 ? Math.Round((double)completedApprovals / totalApprovers * 100, 0) : 0;
 
                             // 设置当前审批人信息
                             if (currentApproverIndex < totalApprovers)
@@ -2233,7 +2237,7 @@ namespace ProjectCycleManage.ViewModel
         private ApprovalHistoryItem CreateApprovalHistoryItem(TypeApprFlowPersSeqTable approver, InspectionRecord record, int sequence, int completedCount)
         {
             var index = sequence - 1; // 转换为0-based索引
-            
+
             return new ApprovalHistoryItem
             {
                 ApproverName = approver.Reviewer?.PeopleName ?? "",
@@ -2242,6 +2246,8 @@ namespace ProjectCycleManage.ViewModel
                 ApprovalComment = record?.CheckOpinion ?? ""
             };
         }
+
+        #endregion
 
     }
 }
