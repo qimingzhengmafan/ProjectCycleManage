@@ -2162,44 +2162,26 @@ namespace ProjectCycleManage.ViewModel
                                 CurrentApproverPosition = "";
                             }
 
-                            // 创建审批历史项
-                            for (int i = 0; i < totalApprovers; i++)
+                            // 创建审批历史项 - 优化后的写法
+                            foreach (var approver in approvalFlow)
                             {
-                                var approver = approvalFlow[i];
-                                var approvalRecord = approvalRecords
+                                var sequenceRecords = approvalRecords
                                     .Where(ar => ar.Sequence == approver.Sequence)
                                     .ToList();
 
-                                if (approvalRecord.Count != 0)
+                                // 如果该审批人有多个记录（多次审批），为每个记录创建历史项
+                                if (sequenceRecords.Any())
                                 {
-                                    foreach (var item in approvalRecord)
+                                    foreach (var record in sequenceRecords)
                                     {
-                                        var historyItem = new ApprovalHistoryItem
-                                        {
-                                            ApproverName = approver.Reviewer?.PeopleName ?? "",
-                                            ApprovalTime = item?.CheckTime,
-                                            ApprovalStatus = GetApprovalStatus(item, i, completedApprovals),
-                                            ApprovalComment = item?.CheckOpinion ?? ""
-                                        };
-
-                                        ApprovalHistoryItems.Add(historyItem);
+                                        ApprovalHistoryItems.Add(CreateApprovalHistoryItem(approver, record, approver.Sequence.GetValueOrDefault(), completedApprovals));
                                     }
                                 }
                                 else
                                 {
-                                    var approvalRecord1 = approvalRecords.FirstOrDefault(ar => ar.Sequence == approver.Sequence);
-
-                                    var historyItem = new ApprovalHistoryItem
-                                    {
-                                        ApproverName = approver.Reviewer?.PeopleName ?? "",
-                                        ApprovalTime = approvalRecord1?.CheckTime,
-                                        ApprovalStatus = GetApprovalStatus(approvalRecord1, i, completedApprovals),
-                                        ApprovalComment = approvalRecord1?.CheckOpinion ?? ""
-                                    };
-
-                                    ApprovalHistoryItems.Add(historyItem);
+                                    // 如果没有记录，创建默认的历史项
+                                    ApprovalHistoryItems.Add(CreateApprovalHistoryItem(approver, null, approver.Sequence.GetValueOrDefault(), completedApprovals));
                                 }
-
                             }
                         }
                         else
@@ -2243,6 +2225,22 @@ namespace ProjectCycleManage.ViewModel
             }
 
             return record.CheckResult == "PASS" ? "已批准" : "已驳回";
+        }
+
+        /// <summary>
+        /// 创建审批历史项
+        /// </summary>
+        private ApprovalHistoryItem CreateApprovalHistoryItem(TypeApprFlowPersSeqTable approver, InspectionRecord record, int sequence, int completedCount)
+        {
+            var index = sequence - 1; // 转换为0-based索引
+            
+            return new ApprovalHistoryItem
+            {
+                ApproverName = approver.Reviewer?.PeopleName ?? "",
+                ApprovalTime = record?.CheckTime,
+                ApprovalStatus = GetApprovalStatus(record, index, completedCount),
+                ApprovalComment = record?.CheckOpinion ?? ""
+            };
         }
 
     }
