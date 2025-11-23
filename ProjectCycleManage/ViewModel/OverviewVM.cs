@@ -1846,7 +1846,7 @@ namespace ProjectCycleManage.ViewModel
             // 查询前一顺位审批人的审批结果（按时间降序排序，获取最新记录）
             var previousApproval = await context.InspectionRecord
                 .Where(ir => ir.ProjectsId == projectId 
-                          && ir.projId == project.ProjInforId + 1
+                          && ir.projId == project.ProjInforId
                           && ir.CheckPeopleId == previousApprover.ReviewerPeopleId)
                 .OrderByDescending(ir => ir.CheckTime) // 按审批时间降序排序
                 .FirstOrDefaultAsync();
