@@ -195,6 +195,10 @@ namespace ProjectCycleManage.ViewModel
             if (Stageprogress >= 10)
             {
                 GetProjectsDatas(CurrentProjectId, Stage1Name);
+                Task.Run(() =>
+                {
+                    _ = LoadApprovalHistoryAsync(CurrentProjectId , 103);
+                });
             }
             else
             {
@@ -210,6 +214,10 @@ namespace ProjectCycleManage.ViewModel
             if (Stageprogress >= 30)
             {
                 GetProjectsDatas(CurrentProjectId, Stage2Name);
+                Task.Run(() =>
+                {
+                    _ = LoadApprovalHistoryAsync(CurrentProjectId, 105);
+                });
             }
             else
             {
@@ -224,6 +232,10 @@ namespace ProjectCycleManage.ViewModel
             if (Stageprogress >= 50)
             {
                 GetProjectsDatas(CurrentProjectId, Stage3Name);
+                Task.Run(() =>
+                {
+                    _ = LoadApprovalHistoryAsync(CurrentProjectId, 107);
+                });
             }
             else
             {
@@ -238,6 +250,10 @@ namespace ProjectCycleManage.ViewModel
             if (Stageprogress >= 70)
             {
                 GetProjectsDatas(CurrentProjectId, Stage4Name);
+                Task.Run(() =>
+                {
+                    _ = LoadApprovalHistoryAsync(CurrentProjectId, 109);
+                });
             }
             else
             {
@@ -252,6 +268,10 @@ namespace ProjectCycleManage.ViewModel
             if (Stageprogress >= 90)
             {
                 GetProjectsDatas(CurrentProjectId, Stage5Name);
+                Task.Run(() =>
+                {
+                    _ = LoadApprovalHistoryAsync(CurrentProjectId, 111);
+                });
             }
             else
             {
@@ -1218,7 +1238,7 @@ namespace ProjectCycleManage.ViewModel
                     UpdateStageColors(0);
 
                     // 加载审批历史数据
-                    _ = LoadApprovalHistoryAsync(data, projectinfor.ProjectStageId);
+                    _ = LoadApprovalHistoryAsync(data);
 
                     // 查询该项目阶段所需的文档
                     var requiredDocuments = context.EquipTypeStageDocTable
@@ -2067,7 +2087,7 @@ namespace ProjectCycleManage.ViewModel
         /// </summary>
         /// <param name="projectId">项目ID</param>
         /// <param name="stageId">阶段ID</param>
-        private async Task LoadApprovalHistoryAsync(string projectId, int stageId)
+        private async Task LoadApprovalHistoryAsync(string projectId)
         {
             try
             {
@@ -2130,6 +2150,152 @@ namespace ProjectCycleManage.ViewModel
                         // 获取当前阶段的审批流程信息
                         var approvalFlow2 = await context.TypeApprFlowPersSeqTable
                             .Where(t => t.equipmenttypeId == project.equipmenttypeId && t.Mark != "Dele" && t.projectflowId == project.ProjInforId)
+                            .OrderBy(t => t.Sequence)
+                            .Include(t => t.Reviewer) // 关联审批人信息
+                            .ToListAsync();
+
+                        approvalRecords = approvalRecords2;
+                        approvalFlow = approvalFlow2;
+                    }
+
+
+                    await Application.Current.Dispatcher.BeginInvoke(new Action(() =>
+                    {
+                        // 清空现有数据
+                        ApprovalHistoryItems.Clear();
+
+                        if (approvalRecords.Any() || approvalFlow.Any())
+                        {
+                            var totalApprovers = approvalFlow.Count;
+                            var completedApprovals = approvalRecords.Count(ar => ar.CheckResult == "PASS");
+                            var currentApproverIndex = completedApprovals;
+
+                            // 设置审批进度
+                            ApprovalProgress = $"{completedApprovals}/{totalApprovers}";
+                            ApprovalProgressPercentage = totalApprovers > 0 ? Math.Round((double)completedApprovals / totalApprovers * 100, 0) : 0;
+
+                            // 设置当前审批人信息
+                            if (currentApproverIndex < totalApprovers)
+                            {
+                                var currentApprover = approvalFlow[currentApproverIndex];
+                                CurrentApproverName = currentApprover.Reviewer?.PeopleName ?? "";
+                            }
+                            else
+                            {
+                                CurrentApproverName = "审批完成";
+                                CurrentApproverPosition = "";
+                            }
+
+                            // 创建审批历史项 - 优化后的写法
+                            foreach (var approver in approvalFlow)
+                            {
+                                var sequenceRecords = approvalRecords
+                                    .Where(ar => ar.Sequence == approver.Sequence)
+                                    .ToList();
+
+                                // 如果该审批人有多个记录（多次审批），为每个记录创建历史项
+                                if (sequenceRecords.Any())
+                                {
+                                    foreach (var record in sequenceRecords)
+                                    {
+                                        ApprovalHistoryItems.Add(CreateApprovalHistoryItem(approver, record, approver.Sequence.GetValueOrDefault(), completedApprovals));
+                                    }
+                                }
+                                else
+                                {
+                                    // 如果没有记录，创建默认的历史项
+                                    ApprovalHistoryItems.Add(CreateApprovalHistoryItem(approver, null, approver.Sequence.GetValueOrDefault(), completedApprovals));
+                                }
+                            }
+                        }
+                        else
+                        {
+                            // 没有审批记录
+                            CurrentApproverName = "";
+                            CurrentApproverPosition = "";
+                            ApprovalProgress = "0/0";
+                            ApprovalProgressPercentage = 0;
+                        }
+                    }));
+                }
+            }
+            catch (Exception ex)
+            {
+                // 处理异常
+                await Application.Current.Dispatcher.BeginInvoke(new Action(() =>
+                {
+                    ApprovalHistoryItems.Clear();
+                    CurrentApproverName = "加载失败";
+                    CurrentApproverPosition = "";
+                    ApprovalProgress = "0/0";
+                    ApprovalProgressPercentage = 0;
+                }));
+            }
+        }
+
+        private async Task LoadApprovalHistoryAsync(string projectId, int stageId)
+        {
+            try
+            {
+                using (var context = new ProjectContext())
+                {
+                    // 根据projectsid查找项目，获取ProjInforId
+                    var project = await context.Projects
+                        .Where(p => p.ProjectsId == Convert.ToInt32(projectId))
+                        .FirstOrDefaultAsync();
+
+                    if (project == null)
+                    {
+                        // 清空审批历史数据
+                        await Application.Current.Dispatcher.BeginInvoke(new Action(() =>
+                        {
+                            ApprovalHistoryItems.Clear();
+                            CurrentApproverName = "";
+                            CurrentApproverPosition = "";
+                            ApprovalProgress = "0/0";
+                            ApprovalProgressPercentage = 0;
+                        }));
+                        return;
+                    }
+
+                    List<InspectionRecord>? approvalRecords = new();
+
+                    List<TypeApprFlowPersSeqTable>? approvalFlow = new();
+
+                    if (stageId == 100 || stageId == 102 || stageId == 104
+                         || stageId == 106 || stageId == 108 || stageId == 110)
+                    {
+                        // 使用ProjInforId和projectsid查询inspectionrecord表
+                        var approvalRecords1 = await context.InspectionRecord
+                            .Where(ir => ir.ProjectsId == Convert.ToInt32(projectId) && ir.projId == stageId + 1)
+                            .Include(ir => ir.CheckPeople) // 关联审批人信息
+                            .OrderBy(ir => ir.Sequence) // 按审批顺序排序
+                            .ThenBy(ir => ir.CheckTime)
+                            .ToListAsync();
+
+                        // 获取当前阶段的审批流程信息
+                        var approvalFlow1 = await context.TypeApprFlowPersSeqTable
+                            .Where(t => t.equipmenttypeId == project.equipmenttypeId && t.Mark != "Dele" && t.projectflowId == stageId + 1)
+                            .OrderBy(t => t.Sequence)
+                            .Include(t => t.Reviewer) // 关联审批人信息
+                            .ToListAsync();
+
+                        approvalRecords = approvalRecords1;
+                        approvalFlow = approvalFlow1;
+                    }
+                    else
+                    {
+                        // 使用ProjInforId和projectsid查询inspectionrecord表
+                        var approvalRecords2 = await context.InspectionRecord
+                            .Where(ir => ir.ProjectsId == Convert.ToInt32(projectId) && ir.projId == stageId)
+                            .Include(ir => ir.CheckPeople) // 关联审批人信息
+                            .OrderBy(ir => ir.Sequence) // 按审批顺序排序
+                            .ThenBy(ir => ir.CheckTime)
+                            .ToListAsync();
+
+                        // 获取当前阶段的审批流程信息
+                        var approvalFlow2 = await context.TypeApprFlowPersSeqTable
+                            .Where(t => t.equipmenttypeId == project.equipmenttypeId && t.Mark != "Dele" && t.projectflowId == stageId)
                             .OrderBy(t => t.Sequence)
                             .Include(t => t.Reviewer) // 关联审批人信息
                             .ToListAsync();
