@@ -161,8 +161,9 @@
                     
                     <!-- 销售额/年度预算卡片 -->
                     <Border Style="{StaticResource SettingCardStyle}"
-                            Width="320" Height="220" 
-                            Margin="0,0,20,20"
+                            Width="320" 
+                            Height="220" 
+                            Margin="0,0,100,20"
                             BorderThickness="4,0,0,0" 
                             BorderBrush="#4CAF50">
                         <Grid>
@@ -220,7 +221,7 @@
                     <Border Style="{StaticResource SettingCardStyle}" 
                             Width="320"
                             Height="220" 
-                            Margin="0,0,20,20"
+                            Margin="0,0,100,20"
                             BorderThickness="4,0,0,0" 
                             BorderBrush="#FF9800">
                         <Grid>
@@ -280,7 +281,7 @@
                     <Border Style="{StaticResource SettingCardStyle}" 
                             Width="320" 
                             Height="220" 
-                            Margin="0,0,20,20" 
+                            Margin="0,0,100,20" 
                             BorderThickness="4,0,0,0" 
                             BorderBrush="#E0E0E0">
                         <Grid>
@@ -348,7 +349,7 @@
                                 <RowDefinition Height="*"/>
                                 <RowDefinition Height="Auto"/>
                             </Grid.RowDefinitions>
-                            
+
                             <!-- 卡片头部 -->
                             <Grid Grid.Row="0" 
                                   Margin="0,0,0,15">
@@ -356,18 +357,18 @@
                                     <ColumnDefinition Width="*"/>
                                     <ColumnDefinition Width="Auto"/>
                                 </Grid.ColumnDefinitions>
-                                
+
                                 <TextBlock Grid.Column="0"
                                            Text="阶段信息文档修改" 
                                            Style="{StaticResource CardTitleStyle}"/>
-                                
+
                                 <Border Grid.Column="1"
                                         Style="{StaticResource StatusLabelStyle}">
                                     <TextBlock Text="未配置"
                                                Style="{StaticResource StatusTextStyle}"/>
                                 </Border>
                             </Grid>
-                            
+
                             <!-- 卡片内容 -->
                             <StackPanel Grid.Row="1" 
                                         Orientation="Vertical" 
@@ -384,7 +385,7 @@
                                            Foreground="#999" 
                                            HorizontalAlignment="Center"/>
                             </StackPanel>
-                            
+
                             <!-- 操作按钮 -->
                             <Button Grid.Row="2"
                                     Content="管理文档" 
