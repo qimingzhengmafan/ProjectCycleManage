@@ -224,7 +224,7 @@
             </Grid>-->
 
             <Grid>
-                <view:SettingView/>
+                <view:ApprovalAuthorityView/>
             </Grid>
 
         </Grid>
