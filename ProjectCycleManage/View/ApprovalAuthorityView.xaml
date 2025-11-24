@@ -186,6 +186,9 @@
                 </DataTrigger>
             </Style.Triggers>
         </Style>
+        
+        <!-- 转换器定义 -->
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
     </UserControl.Resources>
     
     <Grid Background="{StaticResource BackgroundColor}">
@@ -249,90 +252,188 @@
             </ItemsControl.ItemTemplate>
         </ItemsControl>
         
-        <!-- 审批人卡片容器 -->
-        <ScrollViewer Grid.Row="2" VerticalScrollBarVisibility="Auto" Margin="20">
-            <ItemsControl ItemsSource="{Binding SelectedProjectType.ApprovalStages}">
-                <ItemsControl.ItemsPanel>
-                    <ItemsPanelTemplate>
-                        <WrapPanel Orientation="Horizontal"/>
-                    </ItemsPanelTemplate>
-                </ItemsControl.ItemsPanel>
-                
-                <ItemsControl.ItemTemplate>
-                    <DataTemplate>
-                        <!-- 审批人卡片模板 -->
-                        <Border Margin="0,0,0,20" Style="{StaticResource ResponsiveCardStyle}">
-                            <Grid>
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="Auto"/>
-                                    <RowDefinition Height="*"/>
-                                    <RowDefinition Height="Auto"/>
-                                </Grid.RowDefinitions>
-                                
-                                <!-- 卡片头部 -->
-                                <Grid Grid.Row="0" Margin="0,0,0,15">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="*"/>
-                                        <ColumnDefinition Width="Auto"/>
-                                    </Grid.ColumnDefinitions>
+        <!-- 主内容区域 -->
+        <Grid Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            
+            <!-- 审批人卡片容器 -->
+            <ScrollViewer Grid.Column="0" VerticalScrollBarVisibility="Auto" Margin="20">
+                <ItemsControl ItemsSource="{Binding SelectedProjectType.ApprovalStages}">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <UniformGrid Columns="4" HorizontalAlignment="Left"/>
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <!-- 审批人卡片模板 -->
+                            <Border Margin="0,0,0,20" Style="{StaticResource ResponsiveCardStyle}">
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="*"/>
+                                        <RowDefinition Height="Auto"/>
+                                    </Grid.RowDefinitions>
                                     
-                                    <TextBlock Grid.Column="0" Text="{Binding StageName}" FontSize="18" FontWeight="SemiBold"/>
+                                    <!-- 卡片头部 -->
+                                    <Grid Grid.Row="0" Margin="0,0,0,15">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="Auto"/>
+                                        </Grid.ColumnDefinitions>
+                                        
+                                        <TextBlock Grid.Column="0" Text="{Binding StageName}" FontSize="18" FontWeight="SemiBold"/>
+                                        
+                                        <Border Grid.Column="1" Style="{StaticResource ApproverCountStyle}">
+                                            <TextBlock Text="{Binding ApproverCount, StringFormat={}{0}人}" FontSize="12" FontWeight="Medium" Foreground="#2196F3"/>
+                                        </Border>
+                                    </Grid>
                                     
-                                    <Border Grid.Column="1" Style="{StaticResource ApproverCountStyle}">
-                                        <TextBlock Text="{Binding ApproverCount, StringFormat={}{0}人}" FontSize="12" FontWeight="Medium" Foreground="#2196F3"/>
+                                    <!-- 审批人列表 -->
+                                    <ItemsControl Grid.Row="1" ItemsSource="{Binding Approvers}" Margin="0,0,0,15">
+                                        <ItemsControl.ItemTemplate>
+                                            <DataTemplate>
+                                                <Border Margin="0,0,0,8" Padding="0,8" BorderBrush="#F0F0F0" BorderThickness="0,0,0,1">
+                                                    <Grid>
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="Auto"/>
+                                                            <ColumnDefinition Width="Auto"/>
+                                                            <ColumnDefinition Width="*"/>
+                                                        </Grid.ColumnDefinitions>
+                                                        
+                                                        <!-- 序号 -->
+                                                        <Border Grid.Column="0" Style="{StaticResource OrderNumberStyle}" Margin="0,0,10,0">
+                                                            <TextBlock Text="{Binding Order}" Foreground="White" FontSize="12" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                                        </Border>
+                                                        
+                                                        <!-- 头像 -->
+                                                        <Border Grid.Column="1" Style="{StaticResource AvatarStyle}" Margin="0,0,10,0">
+                                                            <TextBlock Text="{Binding Initial}" Foreground="#666" FontWeight="Bold" FontSize="14" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                                        </Border>
+                                                        
+                                                        <!-- 审批人信息 -->
+                                                        <StackPanel Grid.Column="2" Orientation="Vertical">
+                                                            <TextBlock Text="{Binding Name}" FontSize="14" FontWeight="Medium"/>
+                                                            <TextBlock Text="{Binding Department}" FontSize="12" Foreground="#999"/>
+                                                        </StackPanel>
+                                                    </Grid>
+                                                </Border>
+                                            </DataTemplate>
+                                        </ItemsControl.ItemTemplate>
+                                    </ItemsControl>
+                                    
+                                    <!-- 空状态显示 -->
+                                    <Border Grid.Row="1" Visibility="{Binding Approvers.Count, Converter={x:Static local:CollectionCountToVisibilityConverter.Instance}, ConverterParameter='inverse'}" Margin="0,0,0,15">
+                                        <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                            <TextBlock Text="" FontFamily="Segoe MDL2 Assets" FontSize="40" Foreground="#E0E0E0" HorizontalAlignment="Center" Margin="0,0,0,10"/>
+                                            <TextBlock Text="暂无审批人" Foreground="#999" HorizontalAlignment="Center"/>
+                                        </StackPanel>
                                     </Border>
-                                </Grid>
-                                
-                                <!-- 审批人列表 -->
-                                <ItemsControl Grid.Row="1" ItemsSource="{Binding Approvers}" Margin="0,0,0,15">
-                                    <ItemsControl.ItemTemplate>
-                                        <DataTemplate>
-                                            <Border Margin="0,0,0,8" Padding="0,8" BorderBrush="#F0F0F0" BorderThickness="0,0,0,1">
-                                                <Grid>
-                                                    <Grid.ColumnDefinitions>
-                                                        <ColumnDefinition Width="Auto"/>
-                                                        <ColumnDefinition Width="Auto"/>
-                                                        <ColumnDefinition Width="*"/>
-                                                    </Grid.ColumnDefinitions>
-                                                    
-                                                    <!-- 序号 -->
-                                                    <Border Grid.Column="0" Style="{StaticResource OrderNumberStyle}" Margin="0,0,10,0">
-                                                        <TextBlock Text="{Binding Order}" Foreground="White" FontSize="12" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                                    </Border>
-                                                    
-                                                    <!-- 头像 -->
-                                                    <Border Grid.Column="1" Style="{StaticResource AvatarStyle}" Margin="0,0,10,0">
-                                                        <TextBlock Text="{Binding Initial}" Foreground="#666" FontWeight="Bold" FontSize="14" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                                    </Border>
-                                                    
-                                                    <!-- 审批人信息 -->
-                                                    <StackPanel Grid.Column="2" Orientation="Vertical">
-                                                        <TextBlock Text="{Binding Name}" FontSize="14" FontWeight="Medium"/>
-                                                        <TextBlock Text="{Binding Department}" FontSize="12" Foreground="#999"/>
-                                                    </StackPanel>
-                                                </Grid>
-                                            </Border>
-                                        </DataTemplate>
-                                    </ItemsControl.ItemTemplate>
-                                </ItemsControl>
-                                
-                                <!-- 空状态显示 -->
-                                <Border Grid.Row="1" Visibility="{Binding Approvers.Count, Converter={x:Static local:CollectionCountToVisibilityConverter.Instance}, ConverterParameter='inverse'}" Margin="0,0,0,15">
-                                    <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center">
-                                        <TextBlock Text="" FontFamily="Segoe MDL2 Assets" FontSize="40" Foreground="#E0E0E0" HorizontalAlignment="Center" Margin="0,0,0,10"/>
-                                        <TextBlock Text="暂无审批人" Foreground="#999" HorizontalAlignment="Center"/>
+                                    
+                                    <!-- 操作按钮 -->
+                                    <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right">
+                                        <Button Content="编辑审批人" Style="{StaticResource PrimaryButtonStyle}" Command="{Binding DataContext.EditApproversCommand, RelativeSource={RelativeSource AncestorType=UserControl}}" CommandParameter="{Binding}"/>
                                     </StackPanel>
-                                </Border>
-                                
-                                <!-- 操作按钮 -->
-                                <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right">
-                                    <Button Content="编辑审批人" Style="{StaticResource PrimaryButtonStyle}" Command="{Binding DataContext.EditApproversCommand, RelativeSource={RelativeSource AncestorType=UserControl}}" CommandParameter="{Binding}"/>
+                                </Grid>
+                            </Border>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </ScrollViewer>
+            
+            <!-- 右侧编辑侧边栏 -->
+            <Border Grid.Column="1" Width="400" Background="White" BorderBrush="{StaticResource BorderColor}" BorderThickness="1,0,0,0"
+                    Visibility="{Binding IsEditing, Converter={StaticResource BooleanToVisibilityConverter}}">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    
+                    <!-- 侧边栏标题 -->
+                    <Border Grid.Row="0" Background="#F8F9FA" Padding="20,15" BorderBrush="{StaticResource BorderColor}" BorderThickness="0,0,0,1">
+                        <TextBlock Text="编辑审批人" FontSize="16" FontWeight="SemiBold" Foreground="#333333"/>
+                    </Border>
+                    
+                    <!-- 编辑表单区域 -->
+                    <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" Padding="20">
+                        <StackPanel>
+                            <!-- 阶段名称 -->
+                            <TextBlock Text="阶段名称" FontSize="14" FontWeight="Medium" Margin="0,0,0,8"/>
+                            <TextBox Text="{Binding SelectedStage.StageName}" FontSize="14" Padding="10" BorderBrush="{StaticResource BorderColor}" BorderThickness="1" Margin="0,0,0,20"/>
+                            
+                            <!-- 审批人列表 -->
+                            <TextBlock Text="审批人列表" FontSize="14" FontWeight="Medium" Margin="0,0,0,8"/>
+                            <ItemsControl ItemsSource="{Binding SelectedStage.Approvers}">
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <Border Margin="0,0,0,10" Padding="15" Background="#F8F9FA" CornerRadius="6">
+                                            <Grid>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="*"/>
+                                                    <ColumnDefinition Width="Auto"/>
+                                                </Grid.ColumnDefinitions>
+                                                
+                                                <StackPanel Grid.Column="0">
+                                                    <TextBlock Text="{Binding Name}" FontSize="14" FontWeight="Medium" Margin="0,0,0,5"/>
+                                                    <TextBlock Text="{Binding Department}" FontSize="12" Foreground="#666666"/>
+                                                </StackPanel>
+                                                
+                                                <Button Grid.Column="1" Content="删除" Style="{StaticResource PrimaryButtonStyle}" 
+                                                        Command="{Binding DataContext.RemoveApproverCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                        CommandParameter="{Binding}" Margin="10,0,0,0"/>
+                                            </Grid>
+                                        </Border>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                            
+                            <!-- 添加新审批人 -->
+                            <Border Margin="0,20,0,0" Padding="15" Background="#F0F8FF" CornerRadius="6">
+                                <StackPanel>
+                                    <TextBlock Text="添加新审批人" FontSize="14" FontWeight="Medium" Margin="0,0,0,10"/>
+                                    
+                                    <Grid>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="Auto"/>
+                                            <RowDefinition Height="Auto"/>
+                                            <RowDefinition Height="Auto"/>
+                                        </Grid.RowDefinitions>
+                                        
+                                        <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="0,0,0,10">
+                                            <TextBlock Text="姓名：" Width="60" VerticalAlignment="Center"/>
+                                            <TextBox Text="{Binding NewApproverName}" Width="200" Padding="8" BorderBrush="{StaticResource BorderColor}" BorderThickness="1"/>
+                                        </StackPanel>
+                                        
+                                        <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="0,0,0,10">
+                                            <TextBlock Text="部门：" Width="60" VerticalAlignment="Center"/>
+                                            <TextBox Text="{Binding NewApproverDepartment}" Width="200" Padding="8" BorderBrush="{StaticResource BorderColor}" BorderThickness="1"/>
+                                        </StackPanel>
+                                        
+                                        <Button Grid.Row="2" Content="添加审批人" Style="{StaticResource PrimaryButtonStyle}" 
+                                                Command="{Binding AddApproverCommand}" HorizontalAlignment="Right"/>
+                                    </Grid>
                                 </StackPanel>
-                            </Grid>
-                        </Border>
-                    </DataTemplate>
-                </ItemsControl.ItemTemplate>
-            </ItemsControl>
-        </ScrollViewer>
+                            </Border>
+                        </StackPanel>
+                    </ScrollViewer>
+                    
+                    <!-- 底部操作按钮 -->
+                    <Border Grid.Row="2" Background="#F8F9FA" Padding="20" BorderBrush="{StaticResource BorderColor}" BorderThickness="0,1,0,0">
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                            <Button Content="取消" Style="{StaticResource PrimaryButtonStyle}" Background="#666666" 
+                                    Command="{Binding CancelEditCommand}" Margin="0,0,10,0"/>
+                            <Button Content="保存" Style="{StaticResource PrimaryButtonStyle}" 
+                                    Command="{Binding SaveApproversCommand}"/>
+                        </StackPanel>
+                    </Border>
+                </Grid>
+            </Border>
+        </Grid>
     </Grid>
 </UserControl>

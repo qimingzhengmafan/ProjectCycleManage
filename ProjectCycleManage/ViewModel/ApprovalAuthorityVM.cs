@@ -87,9 +87,71 @@ namespace ProjectCycleManage.ViewModel
         [RelayCommand]
         private void EditApprovers(ApprovalStageVM stage)
         {
-            // 编辑审批人逻辑
-            MessageBox.Show($"编辑 {stage.StageName} 的审批人设置");
+            SelectedStage = stage;
+            IsEditing = true;
         }
+
+        [RelayCommand]
+        private void CancelEdit()
+        {
+            IsEditing = false;
+            SelectedStage = null;
+            NewApproverName = string.Empty;
+            NewApproverDepartment = string.Empty;
+        }
+
+        [RelayCommand]
+        private void AddApprover()
+        {
+            if (string.IsNullOrWhiteSpace(NewApproverName) || SelectedStage == null)
+                return;
+
+            var newOrder = SelectedStage.Approvers.Count + 1;
+            var newApprover = new ApproverVM(newOrder, NewApproverName.Substring(0, 1), NewApproverName, NewApproverDepartment);
+            SelectedStage.Approvers.Add(newApprover);
+            SelectedStage.ApproverCount = SelectedStage.Approvers.Count;
+            
+            NewApproverName = string.Empty;
+            NewApproverDepartment = string.Empty;
+        }
+
+        [RelayCommand]
+        private void RemoveApprover(ApproverVM approver)
+        {
+            if (SelectedStage == null || !SelectedStage.Approvers.Contains(approver))
+                return;
+
+            SelectedStage.Approvers.Remove(approver);
+            
+            // 重新排序
+            for (int i = 0; i < SelectedStage.Approvers.Count; i++)
+            {
+                SelectedStage.Approvers[i].Order = i + 1;
+            }
+            
+            SelectedStage.ApproverCount = SelectedStage.Approvers.Count;
+        }
+
+        [RelayCommand]
+        private void SaveApprovers()
+        {
+            // 保存审批人设置逻辑
+            MessageBox.Show($"已保存 {SelectedStage?.StageName} 的审批人设置");
+            IsEditing = false;
+            SelectedStage = null;
+        }
+
+        [ObservableProperty]
+        private bool _isEditing;
+
+        [ObservableProperty]
+        private ApprovalStageVM _selectedStage;
+
+        [ObservableProperty]
+        private string _newApproverName = string.Empty;
+
+        [ObservableProperty]
+        private string _newApproverDepartment = string.Empty;
     }
 
     public partial class ProjectTypeVM : ObservableObject
