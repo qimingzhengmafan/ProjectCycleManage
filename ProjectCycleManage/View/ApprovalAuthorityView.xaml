@@ -15,9 +15,14 @@
     
     <UserControl.Resources>
         <!-- 动画资源 -->
-        <Storyboard x:Key="CardHoverAnimation" Duration="0:0:0.2">
-            <DoubleAnimation Storyboard.TargetProperty="RenderTransform.ScaleX" To="1.02" Duration="0:0:0.1"/>
-            <DoubleAnimation Storyboard.TargetProperty="RenderTransform.ScaleY" To="1.02" Duration="0:0:0.1"/>
+        <Storyboard x:Key="CardHoverAnimation" 
+                    Duration="0:0:0.2">
+            <DoubleAnimation Storyboard.TargetProperty="RenderTransform.ScaleX" 
+                             To="1.02" 
+                             Duration="0:0:0.1"/>
+            <DoubleAnimation Storyboard.TargetProperty="RenderTransform.ScaleY"
+                             To="1.02"
+                             Duration="0:0:0.1"/>
         </Storyboard>
         
         <Storyboard x:Key="CardLeaveAnimation" Duration="0:0:0.2">
@@ -32,7 +37,7 @@
         
         <!-- 颜色资源 -->
 
-        <SolidColorBrush  x:Key="PrimaryColor">#2196F3</SolidColorBrush>
+        <SolidColorBrush  x:Key="PrimaryColor">#2d5bd6</SolidColorBrush>
         <SolidColorBrush  x:Key="SecondaryColor">#666666</SolidColorBrush>
         <SolidColorBrush  x:Key="BackgroundColor">#F8F9FA</SolidColorBrush>
         <SolidColorBrush  x:Key="CardBackgroundColor">#FFFFFF</SolidColorBrush>
@@ -46,22 +51,22 @@
         </Style>
         
         <Style x:Key="TypeLabelStyle" TargetType="Border">
-            <Setter Property="Background" Value="#F0F0F0"/>
-            <Setter Property="CornerRadius" Value="15"/>
-            <Setter Property="Padding" Value="12,6"/>
+            <Setter Property="Background" Value="#F5F5F5"/>
+            <Setter Property="CornerRadius" Value="6"/>
+            <Setter Property="Padding" Value="16,8"/>
             <Setter Property="Cursor" Value="Hand"/>
             <Style.Triggers>
                 <Trigger Property="IsMouseOver" Value="True">
-                    <Setter Property="Background" Value="#E0E0E0"/>
+                    <Setter Property="Background" Value="#E8E8E8"/>
                 </Trigger>
             </Style.Triggers>
         </Style>
         
         <Style x:Key="SelectedTypeLabelStyle" TargetType="Border" BasedOn="{StaticResource TypeLabelStyle}">
-            <Setter Property="Background" Value="#2196F3"/>
+            <Setter Property="Background" Value="#2d5bd6"/>
             <Style.Triggers>
                 <Trigger Property="IsMouseOver" Value="True">
-                    <Setter Property="Background" Value="#1976D2"/>
+                    <Setter Property="Background" Value="#1a3a8f"/>
                 </Trigger>
             </Style.Triggers>
         </Style>
@@ -69,7 +74,7 @@
         <Style x:Key="TypeTextStyle" TargetType="TextBlock">
             <Setter Property="FontSize" Value="14"/>
             <Setter Property="FontWeight" Value="Medium"/>
-            <Setter Property="Foreground" Value="#666666"/>
+            <Setter Property="Foreground" Value="#333333"/>
         </Style>
         
         <Style x:Key="SelectedTypeTextStyle" TargetType="TextBlock" BasedOn="{StaticResource TypeTextStyle}">
@@ -78,13 +83,13 @@
         
         <Style x:Key="ApproverCardStyle" TargetType="Border">
             <Setter Property="Background" Value="#FFFFFF"/>
-            <Setter Property="CornerRadius" Value="8"/>
+            <Setter Property="CornerRadius" Value="6"/>
             <Setter Property="Padding" Value="20"/>
             <Setter Property="BorderBrush" Value="#E0E0E0"/>
             <Setter Property="BorderThickness" Value="1"/>
             <Setter Property="Effect">
                 <Setter.Value>
-                    <DropShadowEffect BlurRadius="10" ShadowDepth="2" Opacity="0.1"/>
+                    <DropShadowEffect BlurRadius="12" ShadowDepth="4" Opacity="0.15"/>
                 </Setter.Value>
             </Setter>
             <Setter Property="RenderTransform">
@@ -119,32 +124,36 @@
         </Style>
         
         <Style x:Key="OrderNumberStyle" TargetType="Border">
-            <Setter Property="Background" Value="#2196F3"/>
-            <Setter Property="CornerRadius" Value="10"/>
-            <Setter Property="Width" Value="20"/>
-            <Setter Property="Height" Value="20"/>
+            <Setter Property="Background" Value="#2d5bd6"/>
+            <Setter Property="CornerRadius" Value="12"/>
+            <Setter Property="Width" Value="24"/>
+            <Setter Property="Height" Value="24"/>
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
         </Style>
         
         <Style x:Key="AvatarStyle" TargetType="Border">
-            <Setter Property="Background" Value="#F5F5F5"/>
-            <Setter Property="CornerRadius" Value="15"/>
-            <Setter Property="Width" Value="30"/>
-            <Setter Property="Height" Value="30"/>
+            <Setter Property="Background" Value="#E8E8E8"/>
+            <Setter Property="CornerRadius" Value="20"/>
+            <Setter Property="Width" Value="40"/>
+            <Setter Property="Height" Value="40"/>
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
         </Style>
         
         <Style x:Key="PrimaryButtonStyle" TargetType="Button">
-            <Setter Property="Background" Value="#2196F3"/>
+            <Setter Property="Background" Value="#2d5bd6"/>
             <Setter Property="Foreground" Value="#FFFFFF"/>
             <Setter Property="BorderThickness" Value="0"/>
-            <Setter Property="Padding" Value="12,8"/>
-            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="Padding" Value="20,10"/>
+            <Setter Property="FontSize" Value="14"/>
             <Setter Property="FontWeight" Value="Medium"/>
             <Setter Property="Cursor" Value="Hand"/>
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="Button">
                         <Border Background="{TemplateBinding Background}" 
-                                CornerRadius="4">
+                                CornerRadius="6">
                             <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
                         </Border>
                     </ControlTemplate>
@@ -152,13 +161,44 @@
             </Setter>
             <Style.Triggers>
                 <Trigger Property="IsMouseOver" Value="True">
-                    <Setter Property="Background" Value="#1976D2"/>
+                    <Setter Property="Background" Value="#1a3a8f"/>
                 </Trigger>
                 <Trigger Property="IsPressed" Value="True">
-                    <Setter Property="Background" Value="#1565C0"/>
+                    <Setter Property="Background" Value="#0f2a6b"/>
                 </Trigger>
             </Style.Triggers>
         </Style>
+        
+        <Style x:Key="SecondaryButtonStyle" TargetType="Button">
+            <Setter Property="Background" Value="#F5F5F5"/>
+            <Setter Property="Foreground" Value="#333333"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Padding" Value="20,10"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="FontWeight" Value="Medium"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}" 
+                                CornerRadius="6">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#E8E8E8"/>
+                </Trigger>
+                <Trigger Property="IsPressed" Value="True">
+                    <Setter Property="Background" Value="#D8D8D8"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+        
+        <!-- 阴影效果资源 -->
+        <DropShadowEffect x:Key="EditSidebarShadowEffect" BlurRadius="16" ShadowDepth="6" Opacity="0.2"/>
         
         <!-- 响应式布局触发器 -->
         <Style x:Key="ResponsiveGridStyle" TargetType="Grid">
@@ -347,7 +387,8 @@
             
             <!-- 右侧编辑侧边栏 -->
             <Border Grid.Column="1" Width="400" Background="White" BorderBrush="{StaticResource BorderColor}" BorderThickness="1,0,0,0"
-                    Visibility="{Binding IsEditing, Converter={StaticResource BooleanToVisibilityConverter}}">
+                    Visibility="{Binding IsEditing, Converter={StaticResource BooleanToVisibilityConverter}}"
+                    Effect="{StaticResource EditSidebarShadowEffect}">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
