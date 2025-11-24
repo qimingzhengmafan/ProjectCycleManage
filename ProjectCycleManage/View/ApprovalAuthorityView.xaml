@@ -25,14 +25,22 @@
                              Duration="0:0:0.1"/>
         </Storyboard>
         
-        <Storyboard x:Key="CardLeaveAnimation" Duration="0:0:0.2">
-            <DoubleAnimation Storyboard.TargetProperty="RenderTransform.ScaleX" To="1.0" Duration="0:0:0.1"/>
-            <DoubleAnimation Storyboard.TargetProperty="RenderTransform.ScaleY" To="1.0" Duration="0:0:0.1"/>
+        <Storyboard x:Key="CardLeaveAnimation" 
+                    Duration="0:0:0.2">
+            <DoubleAnimation Storyboard.TargetProperty="RenderTransform.ScaleX" 
+                             To="1.0" 
+                             Duration="0:0:0.1"/>
+            <DoubleAnimation Storyboard.TargetProperty="RenderTransform.ScaleY"
+                             To="1.0"
+                             Duration="0:0:0.1"/>
         </Storyboard>
         
-        <Storyboard x:Key="TypeSelectionAnimation" Duration="0:0:0.3">
-            <ColorAnimation Storyboard.TargetProperty="Background.Color" Duration="0:0:0.3"/>
-            <ColorAnimation Storyboard.TargetProperty="(TextBlock.Foreground).Color" Duration="0:0:0.3"/>
+        <Storyboard x:Key="TypeSelectionAnimation" 
+                    Duration="0:0:0.3">
+            <ColorAnimation Storyboard.TargetProperty="Background.Color" 
+                            Duration="0:0:0.3"/>
+            <ColorAnimation Storyboard.TargetProperty="(TextBlock.Foreground).Color" 
+                            Duration="0:0:0.3"/>
         </Storyboard>
         
         <!-- 颜色资源 -->
@@ -50,133 +58,206 @@
             <Setter Property="Foreground" Value="#333333"/>
         </Style>
         
-        <Style x:Key="TypeLabelStyle" TargetType="Border">
-            <Setter Property="Background" Value="#F5F5F5"/>
-            <Setter Property="CornerRadius" Value="6"/>
-            <Setter Property="Padding" Value="16,8"/>
-            <Setter Property="Cursor" Value="Hand"/>
+        <Style x:Key="TypeLabelStyle" 
+               TargetType="Border">
+            <Setter Property="Background" 
+                    Value="#F5F5F5"/>
+            <Setter Property="CornerRadius" 
+                    Value="6"/>
+            <Setter Property="Padding" 
+                    Value="16,8"/>
+            <Setter Property="Cursor" 
+                    Value="Hand"/>
             <Style.Triggers>
-                <Trigger Property="IsMouseOver" Value="True">
-                    <Setter Property="Background" Value="#E8E8E8"/>
+                <Trigger Property="IsMouseOver" 
+                         Value="True">
+                    <Setter Property="Background" 
+                            Value="#E8E8E8"/>
                 </Trigger>
             </Style.Triggers>
         </Style>
         
-        <Style x:Key="SelectedTypeLabelStyle" TargetType="Border" BasedOn="{StaticResource TypeLabelStyle}">
-            <Setter Property="Background" Value="#2d5bd6"/>
+        <Style x:Key="SelectedTypeLabelStyle" 
+               TargetType="Border" 
+               BasedOn="{StaticResource TypeLabelStyle}">
+            <Setter Property="Background" 
+                    Value="#2d5bd6"/>
             <Style.Triggers>
-                <Trigger Property="IsMouseOver" Value="True">
-                    <Setter Property="Background" Value="#1a3a8f"/>
+                <Trigger Property="IsMouseOver" 
+                         Value="True">
+                    <Setter Property="Background" 
+                            Value="#1a3a8f"/>
                 </Trigger>
             </Style.Triggers>
         </Style>
         
-        <Style x:Key="TypeTextStyle" TargetType="TextBlock">
-            <Setter Property="FontSize" Value="14"/>
-            <Setter Property="FontWeight" Value="Medium"/>
-            <Setter Property="Foreground" Value="#333333"/>
+        <Style x:Key="TypeTextStyle" 
+               TargetType="TextBlock">
+            <Setter Property="FontSize" 
+                    Value="14"/>
+            <Setter Property="FontWeight" 
+                    Value="Medium"/>
+            <Setter Property="Foreground" 
+                    Value="#333333"/>
         </Style>
         
-        <Style x:Key="SelectedTypeTextStyle" TargetType="TextBlock" BasedOn="{StaticResource TypeTextStyle}">
-            <Setter Property="Foreground" Value="#FFFFFF"/>
+        <Style x:Key="SelectedTypeTextStyle" 
+               TargetType="TextBlock" 
+               BasedOn="{StaticResource TypeTextStyle}">
+            <Setter Property="Foreground" 
+                    Value="#FFFFFF"/>
         </Style>
         
-        <Style x:Key="ApproverCardStyle" TargetType="Border">
-            <Setter Property="Background" Value="#FFFFFF"/>
-            <Setter Property="CornerRadius" Value="6"/>
-            <Setter Property="Padding" Value="20"/>
-            <Setter Property="BorderBrush" Value="#E0E0E0"/>
-            <Setter Property="BorderThickness" Value="1"/>
+        <Style x:Key="ApproverCardStyle" 
+               TargetType="Border">
+            <Setter Property="Background" 
+                    Value="#FFFFFF"/>
+            <Setter Property="CornerRadius" 
+                    Value="6"/>
+            <Setter Property="Padding" 
+                    Value="20"/>
+            <Setter Property="BorderBrush" 
+                    Value="#E0E0E0"/>
+            <Setter Property="BorderThickness" 
+                    Value="1"/>
             <Setter Property="Effect">
                 <Setter.Value>
-                    <DropShadowEffect BlurRadius="12" ShadowDepth="4" Opacity="0.15"/>
+                    <DropShadowEffect BlurRadius="12" 
+                                      ShadowDepth="4" 
+                                      Opacity="0.15"/>
                 </Setter.Value>
             </Setter>
             <Setter Property="RenderTransform">
                 <Setter.Value>
-                    <ScaleTransform ScaleX="1" ScaleY="1"/>
+                    <ScaleTransform ScaleX="1" 
+                                    ScaleY="1"/>
                 </Setter.Value>
             </Setter>
-            <Setter Property="RenderTransformOrigin" Value="0.5,0.5"/>
+            <Setter Property="RenderTransformOrigin" 
+                    Value="0.5,0.5"/>
             <Style.Triggers>
-                <Trigger Property="IsMouseOver" Value="True">
+                <Trigger Property="IsMouseOver" 
+                         Value="True">
                     <Trigger.EnterActions>
                         <BeginStoryboard Storyboard="{StaticResource CardHoverAnimation}"/>
                     </Trigger.EnterActions>
                     <Trigger.ExitActions>
                         <BeginStoryboard Storyboard="{StaticResource CardLeaveAnimation}"/>
                     </Trigger.ExitActions>
-                    <Setter Property="BorderBrush" Value="#2196F3"/>
-                    <Setter Property="BorderThickness" Value="2"/>
+                    <Setter Property="BorderBrush" 
+                            Value="#2196F3"/>
+                    <Setter Property="BorderThickness" 
+                            Value="2"/>
                     <Setter Property="Effect">
                         <Setter.Value>
-                            <DropShadowEffect BlurRadius="15" ShadowDepth="3" Opacity="0.15"/>
+                            <DropShadowEffect BlurRadius="15" 
+                                              ShadowDepth="3" 
+                                              Opacity="0.15"/>
                         </Setter.Value>
                     </Setter>
                 </Trigger>
             </Style.Triggers>
         </Style>
         
-        <Style x:Key="ApproverCountStyle" TargetType="Border">
-            <Setter Property="Background" Value="#E3F2FD"/>
-            <Setter Property="CornerRadius" Value="10"/>
-            <Setter Property="Padding" Value="6,2"/>
+        <Style x:Key="ApproverCountStyle" 
+               TargetType="Border">
+            <Setter Property="Background" 
+                    Value="#E3F2FD"/>
+            <Setter Property="CornerRadius" 
+                    Value="10"/>
+            <Setter Property="Padding" 
+                    Value="6,2"/>
         </Style>
         
-        <Style x:Key="OrderNumberStyle" TargetType="Border">
-            <Setter Property="Background" Value="#2d5bd6"/>
-            <Setter Property="CornerRadius" Value="12"/>
-            <Setter Property="Width" Value="24"/>
-            <Setter Property="Height" Value="24"/>
-            <Setter Property="HorizontalAlignment" Value="Center"/>
-            <Setter Property="VerticalAlignment" Value="Center"/>
+        <Style x:Key="OrderNumberStyle" 
+               TargetType="Border">
+            <Setter Property="Background" 
+                    Value="#2d5bd6"/>
+            <Setter Property="CornerRadius" 
+                    Value="12"/>
+            <Setter Property="Width" 
+                    Value="24"/>
+            <Setter Property="Height" 
+                    Value="24"/>
+            <Setter Property="HorizontalAlignment" 
+                    Value="Center"/>
+            <Setter Property="VerticalAlignment" 
+                    Value="Center"/>
         </Style>
         
-        <Style x:Key="AvatarStyle" TargetType="Border">
-            <Setter Property="Background" Value="#E8E8E8"/>
-            <Setter Property="CornerRadius" Value="20"/>
-            <Setter Property="Width" Value="40"/>
-            <Setter Property="Height" Value="40"/>
-            <Setter Property="HorizontalAlignment" Value="Center"/>
-            <Setter Property="VerticalAlignment" Value="Center"/>
+        <Style x:Key="AvatarStyle" 
+               TargetType="Border">
+            <Setter Property="Background" 
+                    Value="#E8E8E8"/>
+            <Setter Property="CornerRadius" 
+                    Value="20"/>
+            <Setter Property="Width" 
+                    Value="40"/>
+            <Setter Property="Height" 
+                    Value="40"/>
+            <Setter Property="HorizontalAlignment" 
+                    Value="Center"/>
+            <Setter Property="VerticalAlignment" 
+                    Value="Center"/>
         </Style>
         
-        <Style x:Key="PrimaryButtonStyle" TargetType="Button">
-            <Setter Property="Background" Value="#2d5bd6"/>
-            <Setter Property="Foreground" Value="#FFFFFF"/>
-            <Setter Property="BorderThickness" Value="0"/>
-            <Setter Property="Padding" Value="20,10"/>
-            <Setter Property="FontSize" Value="14"/>
-            <Setter Property="FontWeight" Value="Medium"/>
-            <Setter Property="Cursor" Value="Hand"/>
+        <Style x:Key="PrimaryButtonStyle" 
+               TargetType="Button">
+            <Setter Property="Background" 
+                    Value="#2d5bd6"/>
+            <Setter Property="Foreground" 
+                    Value="#FFFFFF"/>
+            <Setter Property="BorderThickness" 
+                    Value="0"/>
+            <Setter Property="Padding" 
+                    Value="20,10"/>
+            <Setter Property="FontSize" 
+                    Value="14"/>
+            <Setter Property="FontWeight" 
+                    Value="Medium"/>
+            <Setter Property="Cursor" 
+                    Value="Hand"/>
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="Button">
                         <Border Background="{TemplateBinding Background}" 
                                 CornerRadius="6">
-                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            <ContentPresenter HorizontalAlignment="Center" 
+                                              VerticalAlignment="Center"/>
                         </Border>
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
             <Style.Triggers>
-                <Trigger Property="IsMouseOver" Value="True">
-                    <Setter Property="Background" Value="#1a3a8f"/>
+                <Trigger Property="IsMouseOver" 
+                         Value="True">
+                    <Setter Property="Background" 
+                            Value="#1a3a8f"/>
                 </Trigger>
-                <Trigger Property="IsPressed" Value="True">
-                    <Setter Property="Background" Value="#0f2a6b"/>
+                <Trigger Property="IsPressed" 
+                         Value="True">
+                    <Setter Property="Background" 
+                            Value="#0f2a6b"/>
                 </Trigger>
             </Style.Triggers>
         </Style>
         
-        <Style x:Key="SecondaryButtonStyle" TargetType="Button">
-            <Setter Property="Background" Value="#F5F5F5"/>
-            <Setter Property="Foreground" Value="#333333"/>
-            <Setter Property="BorderThickness" Value="0"/>
-            <Setter Property="Padding" Value="20,10"/>
-            <Setter Property="FontSize" Value="14"/>
-            <Setter Property="FontWeight" Value="Medium"/>
-            <Setter Property="Cursor" Value="Hand"/>
+        <Style x:Key="SecondaryButtonStyle" 
+               TargetType="Button">
+            <Setter Property="Background" 
+                    Value="#F5F5F5"/>
+            <Setter Property="Foreground" 
+                    Value="#333333"/>
+            <Setter Property="BorderThickness" 
+                    Value="0"/>
+            <Setter Property="Padding" 
+                    Value="20,10"/>
+            <Setter Property="FontSize" 
+                    Value="14"/>
+            <Setter Property="FontWeight" 
+                    Value="Medium"/>
+            <Setter Property="Cursor" 
+                    Value="Hand"/>
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="Button">
@@ -188,41 +269,61 @@
                 </Setter.Value>
             </Setter>
             <Style.Triggers>
-                <Trigger Property="IsMouseOver" Value="True">
-                    <Setter Property="Background" Value="#E8E8E8"/>
+                <Trigger Property="IsMouseOver" 
+                         Value="True">
+                    <Setter Property="Background" 
+                            Value="#E8E8E8"/>
                 </Trigger>
-                <Trigger Property="IsPressed" Value="True">
-                    <Setter Property="Background" Value="#D8D8D8"/>
+                <Trigger Property="IsPressed" 
+                         Value="True">
+                    <Setter Property="Background" 
+                            Value="#D8D8D8"/>
                 </Trigger>
             </Style.Triggers>
         </Style>
         
         <!-- 阴影效果资源 -->
-        <DropShadowEffect x:Key="EditSidebarShadowEffect" BlurRadius="16" ShadowDepth="6" Opacity="0.2"/>
+        <DropShadowEffect x:Key="EditSidebarShadowEffect" 
+                          BlurRadius="16" 
+                          ShadowDepth="6" 
+                          Opacity="0.2"/>
         
         <!-- 响应式布局触发器 -->
-        <Style x:Key="ResponsiveGridStyle" TargetType="Grid">
+        <Style x:Key="ResponsiveGridStyle" 
+               TargetType="Grid">
             <Style.Triggers>
-                <DataTrigger Binding="{Binding RelativeSource={RelativeSource Self}, Path=ActualWidth}" Value="800">
-                    <Setter Property="Margin" Value="10"/>
+                <DataTrigger Binding="{Binding RelativeSource={RelativeSource Self}, Path=ActualWidth}" 
+                             Value="800">
+                    <Setter Property="Margin" 
+                            Value="10"/>
                 </DataTrigger>
-                <DataTrigger Binding="{Binding RelativeSource={RelativeSource Self}, Path=ActualWidth}" Value="600">
-                    <Setter Property="Margin" Value="5"/>
+                <DataTrigger Binding="{Binding RelativeSource={RelativeSource Self}, Path=ActualWidth}" 
+                             Value="600">
+                    <Setter Property="Margin" 
+                            Value="5"/>
                 </DataTrigger>
             </Style.Triggers>
         </Style>
         
         <!-- 响应式卡片宽度 -->
-        <Style x:Key="ResponsiveCardStyle" TargetType="Border" BasedOn="{StaticResource ApproverCardStyle}">
+        <Style x:Key="ResponsiveCardStyle" 
+               TargetType="Border" 
+               BasedOn="{StaticResource ApproverCardStyle}">
             <Style.Triggers>
-                <DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType=ScrollViewer}, Path=ActualWidth}" Value="1000">
-                    <Setter Property="Width" Value="300"/>
+                <DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType=ScrollViewer}, Path=ActualWidth}" 
+                             Value="1000">
+                    <Setter Property="Width" 
+                            Value="300"/>
                 </DataTrigger>
-                <DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType=ScrollViewer}, Path=ActualWidth}" Value="800">
-                    <Setter Property="Width" Value="280"/>
+                <DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType=ScrollViewer}, Path=ActualWidth}" 
+                             Value="800">
+                    <Setter Property="Width" 
+                            Value="280"/>
                 </DataTrigger>
-                <DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType=ScrollViewer}, Path=ActualWidth}" Value="600">
-                    <Setter Property="Width" Value="260"/>
+                <DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType=ScrollViewer}, Path=ActualWidth}" 
+                             Value="600">
+                    <Setter Property="Width" 
+                            Value="260"/>
                 </DataTrigger>
             </Style.Triggers>
         </Style>
@@ -239,19 +340,26 @@
         </Grid.RowDefinitions>
         
         <!-- 标题栏 -->
-        <Border Grid.Row="0" Background="White" Padding="20,15" BorderBrush="{StaticResource BorderColor}" BorderThickness="0,0,0,1">
+        <Border Grid.Row="0"
+                Background="White"
+                Padding="20,15"
+                BorderBrush="{StaticResource BorderColor}"
+                BorderThickness="0,0,0,1">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
 
-                <TextBlock Grid.Column="0" Text="审批人设置"/>
+                <TextBlock Grid.Column="0"
+                           Text="审批人设置"/>
             </Grid>
         </Border>
         
         <!-- 项目类型选择器 -->
-        <ItemsControl Grid.Row="1" ItemsSource="{Binding ProjectTypes}" Margin="20,25,20,0">
+        <ItemsControl Grid.Row="1"
+                      ItemsSource="{Binding ProjectTypes}" 
+                      Margin="20,25,20,0">
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
                     <StackPanel Orientation="Horizontal"/>
@@ -259,29 +367,42 @@
             </ItemsControl.ItemsPanel>
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
-                    <Border CornerRadius="20" Padding="15,8" Margin="10,0,0,0">
+                    <Border CornerRadius="20"
+                            Padding="15,8" 
+                            Margin="10,0,0,0">
                         <Border.Style>
                             <Style TargetType="Border">
-                                <Setter Property="Background" Value="#F5F5F5"/>
+                                <Setter Property="Background"
+                                        Value="#F5F5F5"/>
                                 <Style.Triggers>
-                                    <DataTrigger Binding="{Binding IsSelected}" Value="True">
-                                        <Setter Property="Background" Value="{StaticResource PrimaryColor}"/>
+                                    <DataTrigger Binding="{Binding IsSelected}" 
+                                                 Value="True">
+                                        <Setter Property="Background" 
+                                                Value="{StaticResource PrimaryColor}"/>
                                     </DataTrigger>
                                 </Style.Triggers>
                             </Style>
                         </Border.Style>
                         <Border.InputBindings>
-                            <MouseBinding MouseAction="LeftClick" Command="{Binding DataContext.SelectProjectTypeCommand, RelativeSource={RelativeSource AncestorType=UserControl}}" CommandParameter="{Binding}"/>
+                            <MouseBinding MouseAction="LeftClick"
+                                          Command="{Binding DataContext.SelectProjectTypeCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                          CommandParameter="{Binding}"/>
                         </Border.InputBindings>
-                        <TextBlock Text="{Binding TypeName}" Cursor="Hand">
+                        <TextBlock Text="{Binding TypeName}" 
+                                   Cursor="Hand">
                             <TextBlock.Style>
                                 <Style TargetType="TextBlock">
-                                    <Setter Property="Foreground" Value="#666666"/>
-                                    <Setter Property="FontWeight" Value="Normal"/>
+                                    <Setter Property="Foreground"
+                                            Value="#666666"/>
+                                    <Setter Property="FontWeight" 
+                                            Value="Normal"/>
                                     <Style.Triggers>
-                                        <DataTrigger Binding="{Binding IsSelected}" Value="True">
-                                            <Setter Property="Foreground" Value="White"/>
-                                            <Setter Property="FontWeight" Value="Bold"/>
+                                        <DataTrigger Binding="{Binding IsSelected}" 
+                                                     Value="True">
+                                            <Setter Property="Foreground" 
+                                                    Value="White"/>
+                                            <Setter Property="FontWeight" 
+                                                    Value="Bold"/>
                                         </DataTrigger>
                                     </Style.Triggers>
                                 </Style>
@@ -300,18 +421,22 @@
             </Grid.ColumnDefinitions>
             
             <!-- 审批人卡片容器 -->
-            <ScrollViewer Grid.Column="0" VerticalScrollBarVisibility="Auto" Margin="20">
+            <ScrollViewer Grid.Column="0"
+                          VerticalScrollBarVisibility="Auto"
+                          Margin="20">
                 <ItemsControl ItemsSource="{Binding SelectedProjectType.ApprovalStages}">
                     <ItemsControl.ItemsPanel>
                         <ItemsPanelTemplate>
-                            <UniformGrid Columns="4" HorizontalAlignment="Left"/>
+                            <UniformGrid Columns="4" 
+                                         HorizontalAlignment="Left"/>
                         </ItemsPanelTemplate>
                     </ItemsControl.ItemsPanel>
                     
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
                             <!-- 审批人卡片模板 -->
-                            <Border Margin="0,0,0,20" Style="{StaticResource ResponsiveCardStyle}">
+                            <Border Margin="0,0,0,20"
+                                    Style="{StaticResource ResponsiveCardStyle}">
                                 <Grid>
                                     <Grid.RowDefinitions>
                                         <RowDefinition Height="Auto"/>
@@ -326,18 +451,29 @@
                                             <ColumnDefinition Width="Auto"/>
                                         </Grid.ColumnDefinitions>
                                         
-                                        <TextBlock Grid.Column="0" Text="{Binding StageName}" FontSize="18" FontWeight="SemiBold"/>
+                                        <TextBlock Grid.Column="0" 
+                                                   Text="{Binding StageName}" 
+                                                   FontSize="18" 
+                                                   FontWeight="SemiBold"/>
                                         
-                                        <Border Grid.Column="1" Style="{StaticResource ApproverCountStyle}">
-                                            <TextBlock Text="{Binding ApproverCount, StringFormat={}{0}人}" FontSize="12" FontWeight="Medium" Foreground="#2196F3"/>
+                                        <Border Grid.Column="1" 
+                                                Style="{StaticResource ApproverCountStyle}">
+                                            <TextBlock Text="{Binding ApproverCount, StringFormat={}{0}人}" 
+                                                       FontSize="12" FontWeight="Medium" 
+                                                       Foreground="#2196F3"/>
                                         </Border>
                                     </Grid>
                                     
                                     <!-- 审批人列表 -->
-                                    <ItemsControl Grid.Row="1" ItemsSource="{Binding Approvers}" Margin="0,0,0,15">
+                                    <ItemsControl Grid.Row="1" 
+                                                  ItemsSource="{Binding Approvers}" 
+                                                  Margin="0,0,0,15">
                                         <ItemsControl.ItemTemplate>
                                             <DataTemplate>
-                                                <Border Margin="0,0,0,8" Padding="0,8" BorderBrush="#F0F0F0" BorderThickness="0,0,0,1">
+                                                <Border Margin="0,0,0,8" 
+                                                        Padding="0,8" 
+                                                        BorderBrush="#F0F0F0"
+                                                        BorderThickness="0,0,0,1">
                                                     <Grid>
                                                         <Grid.ColumnDefinitions>
                                                             <ColumnDefinition Width="Auto"/>
@@ -346,19 +482,37 @@
                                                         </Grid.ColumnDefinitions>
                                                         
                                                         <!-- 序号 -->
-                                                        <Border Grid.Column="0" Style="{StaticResource OrderNumberStyle}" Margin="0,0,10,0">
-                                                            <TextBlock Text="{Binding Order}" Foreground="White" FontSize="12" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                                        <Border Grid.Column="0" 
+                                                                Style="{StaticResource OrderNumberStyle}"
+                                                                Margin="0,0,10,0">
+                                                            <TextBlock Text="{Binding Order}"
+                                                                       Foreground="White" 
+                                                                       FontSize="12"
+                                                                       HorizontalAlignment="Center"
+                                                                       VerticalAlignment="Center"/>
                                                         </Border>
                                                         
                                                         <!-- 头像 -->
-                                                        <Border Grid.Column="1" Style="{StaticResource AvatarStyle}" Margin="0,0,10,0">
-                                                            <TextBlock Text="{Binding Initial}" Foreground="#666" FontWeight="Bold" FontSize="14" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                                        <Border Grid.Column="1" 
+                                                                Style="{StaticResource AvatarStyle}"
+                                                                Margin="0,0,10,0">
+                                                            <TextBlock Text="{Binding Initial}" 
+                                                                       Foreground="#666"
+                                                                       FontWeight="Bold"
+                                                                       FontSize="14" 
+                                                                       HorizontalAlignment="Center" 
+                                                                       VerticalAlignment="Center"/>
                                                         </Border>
                                                         
                                                         <!-- 审批人信息 -->
-                                                        <StackPanel Grid.Column="2" Orientation="Vertical">
-                                                            <TextBlock Text="{Binding Name}" FontSize="14" FontWeight="Medium"/>
-                                                            <TextBlock Text="{Binding Department}" FontSize="12" Foreground="#999"/>
+                                                        <StackPanel Grid.Column="2" 
+                                                                    Orientation="Vertical">
+                                                            <TextBlock Text="{Binding Name}" 
+                                                                       FontSize="14" 
+                                                                       FontWeight="Medium"/>
+                                                            <TextBlock Text="{Binding Department}"
+                                                                       FontSize="12" 
+                                                                       Foreground="#999"/>
                                                         </StackPanel>
                                                     </Grid>
                                                 </Border>
@@ -367,16 +521,32 @@
                                     </ItemsControl>
                                     
                                     <!-- 空状态显示 -->
-                                    <Border Grid.Row="1" Visibility="{Binding Approvers.Count, Converter={x:Static local:CollectionCountToVisibilityConverter.Instance}, ConverterParameter='inverse'}" Margin="0,0,0,15">
-                                        <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center">
-                                            <TextBlock Text="" FontFamily="Segoe MDL2 Assets" FontSize="40" Foreground="#E0E0E0" HorizontalAlignment="Center" Margin="0,0,0,10"/>
-                                            <TextBlock Text="暂无审批人" Foreground="#999" HorizontalAlignment="Center"/>
+                                    <Border Grid.Row="1"
+                                            Visibility="{Binding Approvers.Count, Converter={x:Static local:CollectionCountToVisibilityConverter.Instance}, ConverterParameter='inverse'}" 
+                                            Margin="0,0,0,15">
+                                        <StackPanel Orientation="Vertical" 
+                                                    HorizontalAlignment="Center" 
+                                                    VerticalAlignment="Center">
+                                            <TextBlock Text="" 
+                                                       FontFamily="Segoe MDL2 Assets" 
+                                                       FontSize="40" 
+                                                       Foreground="#E0E0E0"
+                                                       HorizontalAlignment="Center" 
+                                                       Margin="0,0,0,10"/>
+                                            <TextBlock Text="暂无审批人" 
+                                                       Foreground="#999" 
+                                                       HorizontalAlignment="Center"/>
                                         </StackPanel>
                                     </Border>
                                     
                                     <!-- 操作按钮 -->
-                                    <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right">
-                                        <Button Content="编辑审批人" Style="{StaticResource PrimaryButtonStyle}" Command="{Binding DataContext.EditApproversCommand, RelativeSource={RelativeSource AncestorType=UserControl}}" CommandParameter="{Binding}"/>
+                                    <StackPanel Grid.Row="2" 
+                                                Orientation="Horizontal"
+                                                HorizontalAlignment="Right">
+                                        <Button Content="编辑审批人" 
+                                                Style="{StaticResource PrimaryButtonStyle}" 
+                                                Command="{Binding DataContext.EditApproversCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                CommandParameter="{Binding}"/>
                                     </StackPanel>
                                 </Grid>
                             </Border>
@@ -386,7 +556,11 @@
             </ScrollViewer>
             
             <!-- 右侧编辑侧边栏 -->
-            <Border Grid.Column="1" Width="400" Background="White" BorderBrush="{StaticResource BorderColor}" BorderThickness="1,0,0,0"
+            <Border Grid.Column="1"
+                    Width="400"
+                    Background="White"
+                    BorderBrush="{StaticResource BorderColor}" 
+                    BorderThickness="1,0,0,0"
                     Visibility="{Binding IsEditing, Converter={StaticResource BooleanToVisibilityConverter}}"
                     Effect="{StaticResource EditSidebarShadowEffect}">
                 <Grid>
@@ -397,23 +571,46 @@
                     </Grid.RowDefinitions>
                     
                     <!-- 侧边栏标题 -->
-                    <Border Grid.Row="0" Background="#F8F9FA" Padding="20,15" BorderBrush="{StaticResource BorderColor}" BorderThickness="0,0,0,1">
-                        <TextBlock Text="编辑审批人" FontSize="16" FontWeight="SemiBold" Foreground="#333333"/>
+                    <Border Grid.Row="0"
+                            Background="#F8F9FA" 
+                            Padding="20,15" 
+                            BorderBrush="{StaticResource BorderColor}"
+                            BorderThickness="0,0,0,1">
+                        <TextBlock Text="编辑审批人" 
+                                   FontSize="16"
+                                   FontWeight="SemiBold" 
+                                   Foreground="#333333"/>
                     </Border>
                     
                     <!-- 编辑表单区域 -->
-                    <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" Padding="20">
+                    <ScrollViewer Grid.Row="1"
+                                  VerticalScrollBarVisibility="Auto"
+                                  Padding="20">
                         <StackPanel>
                             <!-- 阶段名称 -->
-                            <TextBlock Text="阶段名称" FontSize="14" FontWeight="Medium" Margin="0,0,0,8"/>
-                            <TextBox Text="{Binding SelectedStage.StageName}" FontSize="14" Padding="10" BorderBrush="{StaticResource BorderColor}" BorderThickness="1" Margin="0,0,0,20"/>
+                            <TextBlock Text="阶段名称"
+                                       FontSize="14" 
+                                       FontWeight="Medium" 
+                                       Margin="0,0,0,8"/>
+                            <TextBox Text="{Binding SelectedStage.StageName}"
+                                     FontSize="14" 
+                                     Padding="10" 
+                                     BorderBrush="{StaticResource BorderColor}" 
+                                     BorderThickness="1"
+                                     Margin="0,0,0,20"/>
                             
                             <!-- 审批人列表 -->
-                            <TextBlock Text="审批人列表" FontSize="14" FontWeight="Medium" Margin="0,0,0,8"/>
+                            <TextBlock Text="审批人列表" 
+                                       FontSize="14" 
+                                       FontWeight="Medium"
+                                       Margin="0,0,0,8"/>
                             <ItemsControl ItemsSource="{Binding SelectedStage.Approvers}">
                                 <ItemsControl.ItemTemplate>
                                     <DataTemplate>
-                                        <Border Margin="0,0,0,10" Padding="15" Background="#F8F9FA" CornerRadius="6">
+                                        <Border Margin="0,0,0,10"
+                                                Padding="15" 
+                                                Background="#F8F9FA" 
+                                                CornerRadius="6">
                                             <Grid>
                                                 <Grid.ColumnDefinitions>
                                                     <ColumnDefinition Width="*"/>
@@ -421,11 +618,16 @@
                                                 </Grid.ColumnDefinitions>
                                                 
                                                 <StackPanel Grid.Column="0">
-                                                    <TextBlock Text="{Binding Name}" FontSize="14" FontWeight="Medium" Margin="0,0,0,5"/>
+                                                    <TextBlock Text="{Binding Name}"
+                                                               FontSize="14" 
+                                                               FontWeight="Medium" 
+                                                               Margin="0,0,0,5"/>
                                                     <TextBlock Text="{Binding Department}" FontSize="12" Foreground="#666666"/>
                                                 </StackPanel>
                                                 
-                                                <Button Grid.Column="1" Content="删除" Style="{StaticResource PrimaryButtonStyle}" 
+                                                <Button Grid.Column="1"
+                                                        Content="删除" 
+                                                        Style="{StaticResource PrimaryButtonStyle}" 
                                                         Command="{Binding DataContext.RemoveApproverCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
                                                         CommandParameter="{Binding}" Margin="10,0,0,0"/>
                                             </Grid>
@@ -435,9 +637,15 @@
                             </ItemsControl>
                             
                             <!-- 添加新审批人 -->
-                            <Border Margin="0,20,0,0" Padding="15" Background="#F0F8FF" CornerRadius="6">
+                            <Border Margin="0,20,0,0" 
+                                    Padding="15" 
+                                    Background="#F0F8FF" 
+                                    CornerRadius="6">
                                 <StackPanel>
-                                    <TextBlock Text="添加新审批人" FontSize="14" FontWeight="Medium" Margin="0,0,0,10"/>
+                                    <TextBlock Text="添加新审批人" 
+                                               FontSize="14" 
+                                               FontWeight="Medium" 
+                                               Margin="0,0,0,10"/>
                                     
                                     <Grid>
                                         <Grid.RowDefinitions>
@@ -446,18 +654,37 @@
                                             <RowDefinition Height="Auto"/>
                                         </Grid.RowDefinitions>
                                         
-                                        <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="0,0,0,10">
-                                            <TextBlock Text="姓名：" Width="60" VerticalAlignment="Center"/>
-                                            <TextBox Text="{Binding NewApproverName}" Width="200" Padding="8" BorderBrush="{StaticResource BorderColor}" BorderThickness="1"/>
+                                        <StackPanel Grid.Row="0" 
+                                                    Orientation="Horizontal" 
+                                                    Margin="0,0,0,10">
+                                            <TextBlock Text="姓名：" 
+                                                       Width="60" 
+                                                       VerticalAlignment="Center"/>
+                                            <TextBox Text="{Binding NewApproverName}" 
+                                                     Width="200" 
+                                                     Padding="8" 
+                                                     BorderBrush="{StaticResource BorderColor}" 
+                                                     BorderThickness="1"/>
                                         </StackPanel>
                                         
-                                        <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="0,0,0,10">
-                                            <TextBlock Text="部门：" Width="60" VerticalAlignment="Center"/>
-                                            <TextBox Text="{Binding NewApproverDepartment}" Width="200" Padding="8" BorderBrush="{StaticResource BorderColor}" BorderThickness="1"/>
+                                        <StackPanel Grid.Row="1" 
+                                                    Orientation="Horizontal" 
+                                                    Margin="0,0,0,10">
+                                            <TextBlock Text="部门：" 
+                                                       Width="60" 
+                                                       VerticalAlignment="Center"/>
+                                            <TextBox Text="{Binding NewApproverDepartment}" 
+                                                     Width="200" 
+                                                     Padding="8" 
+                                                     BorderBrush="{StaticResource BorderColor}" 
+                                                     BorderThickness="1"/>
                                         </StackPanel>
                                         
-                                        <Button Grid.Row="2" Content="添加审批人" Style="{StaticResource PrimaryButtonStyle}" 
-                                                Command="{Binding AddApproverCommand}" HorizontalAlignment="Right"/>
+                                        <Button Grid.Row="2" 
+                                                Content="添加审批人" 
+                                                Style="{StaticResource PrimaryButtonStyle}" 
+                                                Command="{Binding AddApproverCommand}" 
+                                                HorizontalAlignment="Right"/>
                                     </Grid>
                                 </StackPanel>
                             </Border>
@@ -465,11 +692,20 @@
                     </ScrollViewer>
                     
                     <!-- 底部操作按钮 -->
-                    <Border Grid.Row="2" Background="#F8F9FA" Padding="20" BorderBrush="{StaticResource BorderColor}" BorderThickness="0,1,0,0">
-                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                            <Button Content="取消" Style="{StaticResource PrimaryButtonStyle}" Background="#666666" 
-                                    Command="{Binding CancelEditCommand}" Margin="0,0,10,0"/>
-                            <Button Content="保存" Style="{StaticResource PrimaryButtonStyle}" 
+                    <Border Grid.Row="2" 
+                            Background="#F8F9FA" 
+                            Padding="20" 
+                            BorderBrush="{StaticResource BorderColor}" 
+                            BorderThickness="0,1,0,0">
+                        <StackPanel Orientation="Horizontal" 
+                                    HorizontalAlignment="Right">
+                            <Button Content="取消" 
+                                    Style="{StaticResource PrimaryButtonStyle}" 
+                                    Background="#666666" 
+                                    Command="{Binding CancelEditCommand}" 
+                                    Margin="0,0,10,0"/>
+                            <Button Content="保存" 
+                                    Style="{StaticResource PrimaryButtonStyle}" 
                                     Command="{Binding SaveApproversCommand}"/>
                         </StackPanel>
                     </Border>
