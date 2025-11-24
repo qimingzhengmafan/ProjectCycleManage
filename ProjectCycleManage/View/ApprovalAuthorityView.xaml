@@ -52,6 +52,16 @@
         <SolidColorBrush  x:Key="ConfiguredBorderColor">#4caf50</SolidColorBrush>
         <SolidColorBrush  x:Key="PartialBorderColor">#ff9800</SolidColorBrush>
         <SolidColorBrush  x:Key="DefaultBorderColor">#E0E0E0</SolidColorBrush>
+        <SolidColorBrush  x:Key="ActiveBackgroundColor">#e8edff</SolidColorBrush>
+        <Color  x:Key="HoverBackgroundColor">#f0f4ff</Color>
+        <SolidColorBrush  x:Key="TextColor">#333333</SolidColorBrush>
+        
+        <!-- 阴影效果 -->
+        <DropShadowEffect x:Key="CardShadow" 
+                          BlurRadius="5" 
+                          ShadowDepth="0" 
+                          Opacity="0.1" 
+                          Color="Black"/>
         
         <!-- 样式定义 -->
         <Style x:Key="TitleTextStyle" TargetType="TextBlock">
@@ -344,6 +354,7 @@
         
         <!-- 转换器定义 -->
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+        <local:SelectedToBackgroundConverter x:Key="SelectedToBackgroundConverter"/>
     </UserControl.Resources>
     
     <Grid Background="{StaticResource BackgroundColor}">
@@ -356,65 +367,66 @@
         <!-- 标题栏 -->
         <Border Grid.Row="0"
                 Background="White"
-                Padding="20,15"
-                BorderBrush="{StaticResource BorderColor}"
-                BorderThickness="0,0,0,1">
+                Padding="20,15">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
 
-                <TextBlock Grid.Column="0"
-                           Text="审批人设置"/>
+                <!--<TextBlock Grid.Column="0"
+                           Text="审批人设置"/>-->
+                <Border BorderThickness="0 0 0 1"
+                        BorderBrush="#BBBBBB">
+                    <StackPanel Orientation="Horizontal">
+                        <Image Source="/Resources/Images/数据分析.png" 
+                               Height="25"/>
+                        <TextBlock Text=" 数据分析"
+                                   VerticalAlignment="Center"
+                                   FontSize="25"
+                                   FontWeight="Bold"
+                                   Foreground="#2D5BD5"/>
+                    </StackPanel>
+                </Border>
+                
             </Grid>
         </Border>
         
         <!-- 项目类型选择器 -->
-        <ItemsControl Grid.Row="1"
-                      ItemsSource="{Binding ProjectTypes}" 
-                      Margin="20,25,20,0">
+        <ItemsControl Grid.Row="1" ItemsSource="{Binding ProjectTypes}" Margin="20,0,20,0">
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
-                    <WrapPanel Orientation="Horizontal" 
-                               HorizontalAlignment="Stretch"/>
+                    <WrapPanel Orientation="Horizontal" Margin="0,0,10,10"/>
                 </ItemsPanelTemplate>
             </ItemsControl.ItemsPanel>
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
-                    <Border CornerRadius="8"
+                    <Border x:Name="TypeBorder" 
+                            CornerRadius="8" 
                             Padding="20,10" 
-                            Margin="10,0,0,0">
+                            Margin="0 10 10 0"
+                            Background="{StaticResource CardBackgroundColor}"
+                            BorderBrush="Transparent"
+                            BorderThickness="2"
+                            Cursor="Hand">
                         <Border.Style>
                             <Style TargetType="Border">
-                                <Setter Property="Background"
-                                        Value="#FFFFFF"/>
-                                <Setter Property="BorderThickness" 
-                                        Value="2"/>
-                                <Setter Property="BorderBrush" 
-                                        Value="Transparent"/>
+                                <Setter Property="Background" Value="{StaticResource CardBackgroundColor}"/>
+                                <Setter Property="BorderBrush" Value="Transparent"/>
                                 <Setter Property="Effect">
                                     <Setter.Value>
-                                        <DropShadowEffect BlurRadius="2" 
-                                                          ShadowDepth="0" 
-                                                          Opacity="0.05"/>
+                                        <DropShadowEffect BlurRadius="5" ShadowDepth="0" Opacity="0.1" Color="Black"/>
                                     </Setter.Value>
                                 </Setter>
                                 <Style.Triggers>
-                                    <DataTrigger Binding="{Binding IsSelected}" 
-                                                 Value="True">
-                                        <Setter Property="Background" 
-                                                Value="#e8edff"/>
-                                        <Setter Property="BorderBrush" 
-                                                Value="{StaticResource PrimaryColor}"/>
+                                    <DataTrigger Binding="{Binding IsSelected}" Value="True">
+                                        <Setter Property="Background" Value="{StaticResource PrimaryColor}"/>
+                                        <Setter Property="BorderBrush" Value="{StaticResource PrimaryColor}"/>
                                     </DataTrigger>
-                                    <Trigger Property="IsMouseOver" 
-                                             Value="True">
+                                    <Trigger Property="IsMouseOver" Value="True">
                                         <Setter Property="Effect">
                                             <Setter.Value>
-                                                <DropShadowEffect BlurRadius="4" 
-                                                                  ShadowDepth="0" 
-                                                                  Opacity="0.1"/>
+                                                <DropShadowEffect BlurRadius="8" ShadowDepth="0" Opacity="0.2" Color="Black"/>
                                             </Setter.Value>
                                         </Setter>
                                     </Trigger>
@@ -427,20 +439,14 @@
                                           CommandParameter="{Binding}"/>
                         </Border.InputBindings>
                         <TextBlock Text="{Binding TypeName}" 
-                                   Cursor="Hand">
+                                   FontSize="14" 
+                                   FontWeight="SemiBold">
                             <TextBlock.Style>
                                 <Style TargetType="TextBlock">
-                                    <Setter Property="Foreground"
-                                            Value="#333333"/>
-                                    <Setter Property="FontWeight" 
-                                            Value="Normal"/>
+                                    <Setter Property="Foreground" Value="{StaticResource TextColor}"/>
                                     <Style.Triggers>
-                                        <DataTrigger Binding="{Binding IsSelected}" 
-                                                     Value="True">
-                                            <Setter Property="Foreground" 
-                                                    Value="{StaticResource PrimaryColor}"/>
-                                            <Setter Property="FontWeight" 
-                                                    Value="Bold"/>
+                                        <DataTrigger Binding="{Binding IsSelected}" Value="True">
+                                            <Setter Property="Foreground" Value="White"/>
                                         </DataTrigger>
                                     </Style.Triggers>
                                 </Style>
@@ -461,7 +467,7 @@
             <!-- 审批人卡片容器 -->
             <ScrollViewer Grid.Column="0"
                           VerticalScrollBarVisibility="Auto"
-                          Margin="20">
+                          Margin="20 0 20 20">
                 <ItemsControl ItemsSource="{Binding SelectedProjectType.ApprovalStages}">
                     <ItemsControl.ItemsPanel>
                         <ItemsPanelTemplate>

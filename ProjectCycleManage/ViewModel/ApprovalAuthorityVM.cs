@@ -81,6 +81,14 @@ namespace ProjectCycleManage.ViewModel
         [RelayCommand]
         private void SelectProjectType(ProjectTypeVM projectType)
         {
+            // 清除所有项目类型的选中状态
+            foreach (var type in ProjectTypes)
+            {
+                type.IsSelected = false;
+            }
+            
+            // 设置选中的项目类型
+            projectType.IsSelected = true;
             SelectedProjectType = projectType;
         }
 

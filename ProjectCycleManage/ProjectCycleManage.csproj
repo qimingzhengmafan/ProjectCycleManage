@@ -27,6 +27,7 @@
     <None Remove="Resources\Images\图标.ico" />
     <None Remove="Resources\Images\基本信息.png" />
     <None Remove="Resources\Images\完成.png" />
+    <None Remove="Resources\Images\审批人.png" />
     <None Remove="Resources\Images\年份.png" />
     <None Remove="Resources\Images\想法.png" />
     <None Remove="Resources\Images\折线图.png" />
@@ -68,6 +69,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Resources\Images\tasks.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\审批人.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Resources\Images\折线图.png">
