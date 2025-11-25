@@ -44,7 +44,8 @@
         </Storyboard>
         
         <!-- 颜色资源 -->
-        <SolidColorBrush  x:Key="PrimaryColor">#2d5bd6</SolidColorBrush>
+        <SolidColorBrush  x:Key="PrimaryColor" 
+                          Color="#2d5bd6"/>
         <SolidColorBrush  x:Key="SecondaryColor">#666666</SolidColorBrush>
         <SolidColorBrush  x:Key="BackgroundColor">#f5f7fa</SolidColorBrush>
         <SolidColorBrush  x:Key="CardBackgroundColor">#FFFFFF</SolidColorBrush>
@@ -305,6 +306,118 @@
                 </Trigger>
             </Style.Triggers>
         </Style>
+
+        <!-- 改进的主按钮样式 - 基于HTML效果 -->
+        <Style x:Key="ImprovedPrimaryButtonStyle" 
+               TargetType="Button">
+            <Setter Property="Background" 
+                    Value="#2d5bd6"/>
+            <Setter Property="Foreground" 
+                    Value="#FFFFFF"/>
+            <Setter Property="BorderThickness" 
+                    Value="0"/>
+            <Setter Property="Padding" 
+                    Value="12,8"/>
+            <Setter Property="FontSize" 
+                    Value="14"/>
+            <Setter Property="FontWeight" 
+                    Value="Medium"/>
+            <Setter Property="Cursor" 
+                    Value="Hand"/>
+            <Setter Property="BorderBrush" 
+                    Value="Transparent"/>
+            <Setter Property="BorderThickness" 
+                    Value="1"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="Border" 
+                                Background="{TemplateBinding Background}" 
+                                CornerRadius="4"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}">
+                            <ContentPresenter HorizontalAlignment="Center" 
+                                              VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" 
+                                     Value="True">
+                                <Setter TargetName="Border" 
+                                        Property="Background" 
+                                        Value="#1a3a8f"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" 
+                                     Value="True">
+                                <Setter TargetName="Border" 
+                                        Property="Background" 
+                                        Value="#0f2a6b"/>
+                                <Setter TargetName="Border" 
+                                        Property="RenderTransform">
+                                    <Setter.Value>
+                                        <ScaleTransform ScaleX="0.98" ScaleY="0.98"/>
+                                    </Setter.Value>
+                                </Setter>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- 改进的次要按钮样式 - 基于HTML效果 -->
+        <Style x:Key="ImprovedSecondaryButtonStyle" 
+               TargetType="Button">
+            <Setter Property="Background" 
+                    Value="#f5f7fa"/>
+            <Setter Property="Foreground" 
+                    Value="#666666"/>
+            <Setter Property="BorderThickness" 
+                    Value="1"/>
+            <Setter Property="BorderBrush" 
+                    Value="#e0e0e0"/>
+            <Setter Property="Padding" 
+                    Value="12,8"/>
+            <Setter Property="FontSize" 
+                    Value="14"/>
+            <Setter Property="FontWeight" 
+                    Value="Medium"/>
+            <Setter Property="Cursor" 
+                    Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="Border" 
+                                Background="{TemplateBinding Background}" 
+                                CornerRadius="4"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}">
+                            <ContentPresenter HorizontalAlignment="Center" 
+                                              VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" 
+                                     Value="True">
+                                <Setter TargetName="Border" 
+                                        Property="Background" 
+                                        Value="#e0e0e0"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" 
+                                     Value="True">
+                                <Setter TargetName="Border" 
+                                        Property="Background" 
+                                        Value="#d0d0d0"/>
+                                <Setter TargetName="Border" 
+                                        Property="RenderTransform">
+                                    <Setter.Value>
+                                        <ScaleTransform ScaleX="0.98" ScaleY="0.98"/>
+                                    </Setter.Value>
+                                </Setter>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
         
         <!-- 阴影效果资源 -->
         <DropShadowEffect x:Key="EditSidebarShadowEffect" 
@@ -400,61 +513,70 @@
                 </ItemsPanelTemplate>
             </ItemsControl.ItemsPanel>
             <ItemsControl.ItemTemplate>
-                <DataTemplate>
-                    <Border x:Name="TypeBorder" 
-                            CornerRadius="8" 
-                            Padding="20,10" 
-                            Margin="0 10 10 0"
-                            Background="{StaticResource CardBackgroundColor}"
-                            BorderBrush="Transparent"
-                            BorderThickness="2"
-                            Cursor="Hand">
-                        <Border.Style>
-                            <Style TargetType="Border">
-                                <Setter Property="Background" Value="{StaticResource CardBackgroundColor}"/>
-                                <Setter Property="BorderBrush" Value="Transparent"/>
-                                <Setter Property="Effect">
-                                    <Setter.Value>
-                                        <DropShadowEffect BlurRadius="5" ShadowDepth="0" Opacity="0.1" Color="Black"/>
-                                    </Setter.Value>
-                                </Setter>
-                                <Style.Triggers>
-                                    <DataTrigger Binding="{Binding IsSelected}" Value="True">
-                                        <Setter Property="Background" Value="{StaticResource PrimaryColor}"/>
-                                        <Setter Property="BorderBrush" Value="{StaticResource PrimaryColor}"/>
-                                    </DataTrigger>
-                                    <Trigger Property="IsMouseOver" Value="True">
-                                        <Setter Property="Effect">
-                                            <Setter.Value>
-                                                <DropShadowEffect BlurRadius="8" ShadowDepth="0" Opacity="0.2" Color="Black"/>
-                                            </Setter.Value>
-                                        </Setter>
-                                    </Trigger>
-                                </Style.Triggers>
-                            </Style>
-                        </Border.Style>
-                        <Border.InputBindings>
-                            <MouseBinding MouseAction="LeftClick"
-                                          Command="{Binding DataContext.SelectProjectTypeCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
-                                          CommandParameter="{Binding}"/>
-                        </Border.InputBindings>
-                        <TextBlock Text="{Binding TypeName}" 
-                                   FontSize="14" 
-                                   FontWeight="SemiBold">
-                            <TextBlock.Style>
-                                <Style TargetType="TextBlock">
-                                    <Setter Property="Foreground" Value="{StaticResource TextColor}"/>
+                    <DataTemplate>
+                        <Button x:Name="TypeButton"
+                                Padding="20,10"
+                                Margin="0 10 10 0"
+                                BorderThickness="0"
+                                Command="{Binding DataContext.SelectProjectTypeCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                CommandParameter="{Binding}">
+                            <Button.Style>
+                                <Style TargetType="Button">
+                                    <Setter Property="Background" Value="{StaticResource CardBackgroundColor}"/>
+                                    <Setter Property="BorderBrush" Value="Transparent"/>
+                                    <Setter Property="Effect">
+                                        <Setter.Value>
+                                            <DropShadowEffect BlurRadius="5" ShadowDepth="0" Opacity="0.1" Color="Black"/>
+                                        </Setter.Value>
+                                    </Setter>
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate TargetType="Button">
+                                                <Border Background="{TemplateBinding Background}"
+                                                        BorderBrush="{TemplateBinding BorderBrush}"
+                                                        BorderThickness="{TemplateBinding BorderThickness}"
+                                                        Effect="{TemplateBinding Effect}">
+                                                    <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                                </Border>
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
                                     <Style.Triggers>
                                         <DataTrigger Binding="{Binding IsSelected}" Value="True">
-                                            <Setter Property="Foreground" Value="White"/>
+                                            <Setter Property="Background" Value="{StaticResource PrimaryColor}"/>
+                                            <Setter Property="BorderBrush" Value="{StaticResource PrimaryColor}"/>
                                         </DataTrigger>
+                                        <Trigger Property="IsMouseOver" Value="True">
+                                            <Setter Property="Effect">
+                                                <Setter.Value>
+                                                    <DropShadowEffect BlurRadius="8" ShadowDepth="0" Opacity="0.2" Color="Black"/>
+                                                </Setter.Value>
+                                            </Setter>
+                                        </Trigger>
+                                        <Trigger Property="IsPressed" Value="True">
+                                            <Setter Property="Background" Value="#1a3a8f"/>
+                                            <Setter Property="BorderBrush" Value="#1a3a8f"/>
+                                        </Trigger>
                                     </Style.Triggers>
                                 </Style>
-                            </TextBlock.Style>
-                        </TextBlock>
-                    </Border>
-                </DataTemplate>
-            </ItemsControl.ItemTemplate>
+                            </Button.Style>
+                            <TextBlock Text="{Binding TypeName}" 
+                                       FontSize="14" 
+                                       FontWeight="SemiBold">
+                                <TextBlock.Style>
+                                    <Style TargetType="TextBlock">
+                                        <Setter Property="Foreground" Value="{StaticResource TextColor}"/>
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding IsSelected}" Value="True">
+                                                <Setter Property="Foreground" Value="White"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </TextBlock.Style>
+                            </TextBlock>
+                        </Button>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
         </ItemsControl>
         
         <!-- 主内容区域 -->
@@ -609,7 +731,7 @@
                                                 Orientation="Horizontal"
                                                 HorizontalAlignment="Right">
                                         <Button Content="编辑审批人" 
-                                                Style="{StaticResource PrimaryButtonStyle}" 
+                                                Style="{StaticResource ImprovedPrimaryButtonStyle}" 
                                                 Command="{Binding DataContext.EditApproversCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
                                                 CommandParameter="{Binding}"/>
                                     </StackPanel>
@@ -702,7 +824,7 @@
 
                                                     <Button Grid.Column="1"
                                                         Content="删除" 
-                                                        Style="{StaticResource PrimaryButtonStyle}" 
+                                                        Style="{StaticResource ImprovedSecondaryButtonStyle}" 
                                                         Command="{Binding DataContext.RemoveApproverCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
                                                         CommandParameter="{Binding}" Margin="10,0,0,0"/>
                                                 </Grid>
@@ -757,7 +879,7 @@
 
                                             <Button Grid.Row="2" 
                                                 Content="添加审批人" 
-                                                Style="{StaticResource PrimaryButtonStyle}" 
+                                                Style="{StaticResource ImprovedPrimaryButtonStyle}" 
                                                 Command="{Binding AddApproverCommand}" 
                                                 HorizontalAlignment="Right"/>
                                         </Grid>
@@ -775,12 +897,11 @@
                             <StackPanel Orientation="Horizontal" 
                                     HorizontalAlignment="Right">
                                 <Button Content="取消" 
-                                    Style="{StaticResource PrimaryButtonStyle}" 
-                                    Background="#666666" 
+                                    Style="{StaticResource ImprovedSecondaryButtonStyle}" 
                                     Command="{Binding CancelEditCommand}" 
                                     Margin="0,0,10,0"/>
                                 <Button Content="保存" 
-                                    Style="{StaticResource PrimaryButtonStyle}" 
+                                    Style="{StaticResource ImprovedPrimaryButtonStyle}" 
                                     Command="{Binding SaveApproversCommand}"/>
                             </StackPanel>
                         </Border>
