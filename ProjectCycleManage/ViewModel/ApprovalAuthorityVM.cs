@@ -1,6 +1,7 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.EntityFrameworkCore;
+using ProjectCycleManage.Utilities;
 using ProjectManagement.Data;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -64,7 +65,7 @@ namespace ProjectCycleManage.ViewModel
                     foreach (var item in flowgroup.SortedItems)
                     {
 
-                        data.Add(new ApproverVM(item.Sequence.GetValueOrDefault(), item.Reviewer.PeopleName, item.Reviewer.PeopleName));
+                        data.Add(new ApproverVM(item.Sequence.GetValueOrDefault(), StringHelper.GetFirstCharOrN(item.Reviewer.PeopleName), item.Reviewer.PeopleName));
                     }
 
                     projectType.ApprovalStages.Add(new ApprovalStageVM(flowgroup.GroupName, flowgroup.itemcount)
