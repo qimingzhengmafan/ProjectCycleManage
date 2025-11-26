@@ -57,6 +57,17 @@ namespace ProjectCycleManage.ViewModel
             }
         }
 
+        private SettingVM _settingvm;
+        public SettingVM SettingVM
+        {
+            get => _settingvm;
+            set
+            {
+                _settingvm = value;
+                OnPropertyChanged();
+            }
+        }
+
         private Timer _monitoringTimer;
         private readonly HashSet<int> _alertedProjects;
         private readonly Dictionary<int, DateTime> _alertTimes;

@@ -224,7 +224,7 @@
             </Grid>-->
 
             <Grid>
-                <view:ApprovalAuthorityView/>
+                <view:SettingView DataContext="{Binding SettingVM}"/>
             </Grid>
 
         </Grid>
