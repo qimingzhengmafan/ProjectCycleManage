@@ -149,6 +149,55 @@ namespace ProjectCycleManage.ViewModel
             SelectedStage = null;
         }
 
+        [RelayCommand]
+        private void IncreaseOrder(ApproverVM approver)
+        {
+            if (SelectedStage == null || approver == null)
+                return;
+
+            var currentIndex = SelectedStage.Approvers.IndexOf(approver);
+            if (currentIndex > 0) // 不是第一个
+            {
+                // 交换位置
+                SelectedStage.Approvers.Move(currentIndex, currentIndex - 1);
+                
+                // 更新序号
+                UpdateApproverOrders();
+            }
+        }
+
+        [RelayCommand]
+        private void DecreaseOrder(ApproverVM approver)
+        {
+            if (SelectedStage == null || approver == null)
+                return;
+
+            var currentIndex = SelectedStage.Approvers.IndexOf(approver);
+            if (currentIndex < SelectedStage.Approvers.Count - 1) // 不是最后一个
+            {
+                // 交换位置
+                SelectedStage.Approvers.Move(currentIndex, currentIndex + 1);
+                
+                // 更新序号
+                UpdateApproverOrders();
+            }
+        }
+
+        [RelayCommand]
+        private void SearchUser()
+        {
+            // 模拟搜索用户逻辑
+            HasSearchResults = !string.IsNullOrWhiteSpace(SearchKeyword);
+        }
+
+        private void UpdateApproverOrders()
+        {
+            for (int i = 0; i < SelectedStage.Approvers.Count; i++)
+            {
+                SelectedStage.Approvers[i].Order = i + 1;
+            }
+        }
+
         [ObservableProperty]
         private bool _isEditing;
 
@@ -160,6 +209,12 @@ namespace ProjectCycleManage.ViewModel
 
         [ObservableProperty]
         private string _newApproverDepartment = string.Empty;
+
+        [ObservableProperty]
+        private string _searchKeyword = string.Empty;
+
+        [ObservableProperty]
+        private bool _hasSearchResults = false;
     }
 
     public partial class ProjectTypeVM : ObservableObject
