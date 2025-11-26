@@ -1,5 +1,7 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using Microsoft.EntityFrameworkCore;
+using ProjectManagement.Data;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Windows;
@@ -22,58 +24,57 @@ namespace ProjectCycleManage.ViewModel
         private void InitializeData()
         {
             // 初始化项目类型数据
+
+            using var context = new ProjectContext();
+            var projects = context.EquipmentType.Select(p => p.EquipmentName).ToList();
+            var projectstage = context.ProjectStage.ToList();
+
             ProjectTypes.Clear();
-            
-            var projectTypeA = new ProjectTypeVM("项目类型A");
-            projectTypeA.ApprovalStages.Add(new ApprovalStageVM("立项阶段", 3)
+            if (projects == null)
             {
-                Approvers = new ObservableCollection<ApproverVM>
-                {
-                    new ApproverVM(1, "王", "王总监", "战略规划部"),
-                    new ApproverVM(2, "李", "李经理", "项目管理部"),
-                    new ApproverVM(3, "赵", "赵主管", "财务部")
-                }
-            });
+                return;
+            }
             
-            projectTypeA.ApprovalStages.Add(new ApprovalStageVM("规划阶段", 2)
+            //var projectTypeA = new ProjectTypeVM("项目类型A");
+            for ( var i = 0; i < projects.Count; i++)
             {
-                Approvers = new ObservableCollection<ApproverVM>
+
+                var projectType = new ProjectTypeVM(projects[i]);
+                var typeapprflowpersseq = context.TypeApprFlowPersSeqTable
+                    .Include(p => p.equipmenttype)
+                    .Include(p => p.projectflow)
+                    .Include(p => p.Reviewer)
+                    .Where(p => p.equipmenttype.EquipmentName == projects[i] && p.Mark != "Dele")
+                    .ToList();
+
+                var typeapprflowpersseqGroup = typeapprflowpersseq
+                    .GroupBy(p => p.projectflow.ProjFlowInfor)
+                    .Select( p => new
+                    {
+                        GroupName = p.Key,
+                        SortedItems = p.OrderBy(p => p.Sequence),
+                        itemcount = p.Count()
+                    })
+                    .ToList();
+
+                foreach (var flowgroup in typeapprflowpersseqGroup)
                 {
-                    new ApproverVM(1, "周", "周总监", "技术研发部"),
-                    new ApproverVM(2, "吴", "吴经理", "项目管理部")
+                    ObservableCollection<ApproverVM> data = new ();
+
+                    foreach (var item in flowgroup.SortedItems)
+                    {
+
+                        data.Add(new ApproverVM(item.Sequence.GetValueOrDefault(), item.Reviewer.PeopleName, item.Reviewer.PeopleName));
+                    }
+
+                    projectType.ApprovalStages.Add(new ApprovalStageVM(flowgroup.GroupName, flowgroup.itemcount)
+                    {
+                        Approvers = data
+                    });
                 }
-            });
-            
-            projectTypeA.ApprovalStages.Add(new ApprovalStageVM("执行阶段", 1)
-            {
-                Approvers = new ObservableCollection<ApproverVM>
-                {
-                    new ApproverVM(1, "郑", "郑主管", "质量管理部")
-                }
-            });
-            
-            projectTypeA.ApprovalStages.Add(new ApprovalStageVM("监控阶段", 0));
-            projectTypeA.ApprovalStages.Add(new ApprovalStageVM("收尾阶段", 0));
-            
-            ProjectTypes.Add(projectTypeA);
-            
-            var projectTypeB = new ProjectTypeVM("项目类型B");
-            projectTypeB.ApprovalStages.Add(new ApprovalStageVM("立项阶段", 0));
-            projectTypeB.ApprovalStages.Add(new ApprovalStageVM("规划阶段", 0));
-            projectTypeB.ApprovalStages.Add(new ApprovalStageVM("执行阶段", 0));
-            projectTypeB.ApprovalStages.Add(new ApprovalStageVM("监控阶段", 0));
-            projectTypeB.ApprovalStages.Add(new ApprovalStageVM("收尾阶段", 0));
-            
-            ProjectTypes.Add(projectTypeB);
-            
-            var projectTypeC = new ProjectTypeVM("项目类型C");
-            projectTypeC.ApprovalStages.Add(new ApprovalStageVM("立项阶段", 0));
-            projectTypeC.ApprovalStages.Add(new ApprovalStageVM("规划阶段", 0));
-            projectTypeC.ApprovalStages.Add(new ApprovalStageVM("执行阶段", 0));
-            projectTypeC.ApprovalStages.Add(new ApprovalStageVM("监控阶段", 0));
-            projectTypeC.ApprovalStages.Add(new ApprovalStageVM("收尾阶段", 0));
-            
-            ProjectTypes.Add(projectTypeC);
+                ProjectTypes.Add(projectType);
+                
+            }
             
             SelectedProjectType = ProjectTypes[0];
         }
@@ -115,7 +116,7 @@ namespace ProjectCycleManage.ViewModel
                 return;
 
             var newOrder = SelectedStage.Approvers.Count + 1;
-            var newApprover = new ApproverVM(newOrder, NewApproverName.Substring(0, 1), NewApproverName, NewApproverDepartment);
+            var newApprover = new ApproverVM(newOrder, NewApproverName.Substring(0, 1), NewApproverName);
             SelectedStage.Approvers.Add(newApprover);
             SelectedStage.ApproverCount = SelectedStage.Approvers.Count;
             
@@ -298,15 +299,12 @@ namespace ProjectCycleManage.ViewModel
         [ObservableProperty]
         private string _name;
 
-        [ObservableProperty]
-        private string _department;
 
-        public ApproverVM(int order, string initial, string name, string department)
+        public ApproverVM(int order, string initial, string name)
         {
             Order = order;
             Initial = initial;
             Name = name;
-            Department = department;
         }
     }
 }
