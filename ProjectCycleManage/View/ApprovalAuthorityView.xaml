@@ -983,14 +983,13 @@
                                             </Grid.ColumnDefinitions>
                                             <TextBox Grid.Column="0" 
                                                      HorizontalAlignment="Left"
-                                                     Width="341"
+                                                     Width="338"
                                                      Text="{Binding SearchKeyword}" 
                                                      Padding="10" 
                                                      BorderBrush="#e0e0e0" 
                                                      BorderThickness="1"
                                                      FontSize="14"
-                                                     VerticalContentAlignment="Center"
-                                                     />
+                                                     VerticalContentAlignment="Center"/>
                                             <Button Grid.Column="1" 
                                                     Width="43"
                                                     Content="搜索" 
@@ -1006,61 +1005,39 @@
                                                 CornerRadius="4"
                                                 MaxHeight="200"
                                                 Visibility="{Binding ShowDefaultSuggestions, Converter={StaticResource BooleanToVisibilityConverter}}">
+                                            <ScrollViewer>
+                                                <ItemsControl ItemsSource="{Binding DefaultSuggestions}">
+                                                    <ItemsControl.ItemTemplate>
+                                                        <DataTemplate>
+                                                            <Border Padding="10,15" 
+                                                                Height="66"
+                                                                Background="#f9f9f9" 
+                                                                BorderBrush="#e0e0e0" 
+                                                                BorderThickness="0,0,0,1">
+                                                                <Grid>
+                                                                    <Grid.ColumnDefinitions>
+                                                                        <ColumnDefinition Width="*"/>
+                                                                        <ColumnDefinition Width="Auto"/>
+                                                                    </Grid.ColumnDefinitions>
+                                                                    <TextBlock Grid.Column="0"
+                                                                           Text="{Binding PeopleName}" 
+                                                                           FontSize="14" 
+                                                                           VerticalAlignment="Center"/>
+                                                                    <Button Grid.Column="1" 
+                                                                        Width="43"
+                                                                        Content="添加" 
+                                                                        Style="{StaticResource ImprovedPrimaryButtonStyle}" 
+                                                                        Padding="8,4"
+                                                                        FontSize="12"
+                                                                        Command="{Binding DataContext.AddApproverCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                                        CommandParameter="{Binding}"/>
+                                                                </Grid>
+                                                            </Border>
+                                                        </DataTemplate>
+                                                    </ItemsControl.ItemTemplate>
+                                                </ItemsControl>
+                                            </ScrollViewer>
 
-                                            <StackPanel Orientation="Vertical">
-                                                <Border Padding="10,15" 
-                                                        Height="66"
-                                                            Background="#f9f9f9" 
-                                                            BorderBrush="#e0e0e0" 
-                                                            BorderThickness="0,0,0,1">
-                                                    <Grid>
-                                                        <Grid.ColumnDefinitions>
-                                                            <ColumnDefinition Width="*"/>
-                                                            <ColumnDefinition Width="Auto"/>
-                                                        </Grid.ColumnDefinitions>
-                                                        <TextBlock Grid.Column="0"
-                                                                   Text="钱工程师" 
-                                                                   FontSize="14" 
-                                                                   VerticalAlignment="Center"
-                                                                   FontWeight="Medium"/>
-                                                        <Button Grid.Column="1" 
-                                                                Width="43"
-                                                                Content="添加" 
-                                                                Style="{StaticResource ImprovedPrimaryButtonStyle}" 
-                                                                Padding="8,4"
-                                                                FontSize="12"
-                                                                Command="{Binding DataContext.AddApproverCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
-                                                                CommandParameter="{Binding}"/>
-                                                    </Grid>
-                                                </Border>
-                                                <Border Padding="10,15" 
-                                                        Height="66"
-                                                            Background="#f9f9f9" 
-                                                            BorderBrush="#e0e0e0" 
-                                                            BorderThickness="0,0,0,1">
-                                                    <Grid>
-                                                        <Grid.ColumnDefinitions>
-                                                            <ColumnDefinition Width="*"/>
-                                                            <ColumnDefinition Width="Auto"/>
-                                                        </Grid.ColumnDefinitions>
-      
-                                                        <TextBlock Grid.Column="0"
-                                                                   Text="孙设计师" 
-                                                                   FontSize="14" 
-                                                                   VerticalAlignment="Center"
-                                                                   FontWeight="Medium"/>
-                                                      
-                                                        <Button Grid.Column="1" 
-                                                                Width="43"
-                                                                Content="添加" 
-                                                                Style="{StaticResource ImprovedPrimaryButtonStyle}" 
-                                                                Padding="8,4"
-                                                                FontSize="12"
-                                                                Command="{Binding DataContext.AddApproverCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
-                                                                CommandParameter="{Binding}"/>
-                                                    </Grid>
-                                                </Border>
-                                            </StackPanel>
                                         </Border>
 
                                         <!-- 搜索结果列表 -->
@@ -1071,60 +1048,37 @@
                                                 Margin="0,10,0,0"
                                                 Visibility="{Binding HasSearchResults, Converter={StaticResource BooleanToVisibilityConverter}}">
 
-                                            <StackPanel Orientation="Vertical">
-                                                <Border Padding="10,15" 
-                                                        Height="66"
-                                                            Background="#f9f9f9" 
-                                                            BorderBrush="#e0e0e0" 
-                                                            BorderThickness="0,0,0,1">
-                                                    <Grid>
-                                                        <Grid.ColumnDefinitions>
-                                                            <ColumnDefinition Width="*"/>
-                                                            <ColumnDefinition Width="Auto"/>
-                                                        </Grid.ColumnDefinitions>
-                                                        <TextBlock Grid.Column="0"
-                                                                   Text="钱工程师" 
-                                                                   FontSize="14" 
-                                                                   VerticalAlignment="Center"
-                                                                   FontWeight="Medium"/>
-                                                        <Button Grid.Column="1" 
-                                                                Width="43"
-                                                                Content="添加" 
-                                                                Style="{StaticResource ImprovedPrimaryButtonStyle}" 
-                                                                Padding="8,4"
-                                                                FontSize="12"
-                                                                Command="{Binding DataContext.AddApproverCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
-                                                                CommandParameter="{Binding}"/>
-                                                    </Grid>
-                                                </Border>
-                                                <Border Padding="10,15" 
-                                                        Height="66"
-                                                            Background="#f9f9f9" 
-                                                            BorderBrush="#e0e0e0" 
-                                                            BorderThickness="0,0,0,1">
-                                                    <Grid>
-                                                        <Grid.ColumnDefinitions>
-                                                            <ColumnDefinition Width="*"/>
-                                                            <ColumnDefinition Width="Auto"/>
-                                                        </Grid.ColumnDefinitions>
-      
-                                                        <TextBlock Grid.Column="0"
-                                                                   Text="孙设计师" 
-                                                                   FontSize="14" 
-                                                                   VerticalAlignment="Center"
-                                                                   FontWeight="Medium"/>
-                                                      
-                                                        <Button Grid.Column="1" 
-                                                                Width="43"
-                                                                Content="添加" 
-                                                                Style="{StaticResource ImprovedPrimaryButtonStyle}" 
-                                                                Padding="8,4"
-                                                                FontSize="12"
-                                                                Command="{Binding DataContext.AddApproverCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
-                                                                CommandParameter="{Binding}"/>
-                                                    </Grid>
-                                                </Border>
-                                            </StackPanel>
+                                            <ItemsControl ItemsSource="{Binding SearchResults}">
+                                                <ItemsControl.ItemTemplate>
+                                                    <DataTemplate>
+                                                        <Border Padding="10,15" 
+                                                                Height="66"
+                                                                Background="#f9f9f9" 
+                                                                BorderBrush="#e0e0e0" 
+                                                                BorderThickness="0,0,0,1">
+                                                            <Grid>
+                                                                <Grid.ColumnDefinitions>
+                                                                    <ColumnDefinition Width="*"/>
+                                                                    <ColumnDefinition Width="Auto"/>
+                                                                </Grid.ColumnDefinitions>
+                                                                <TextBlock Grid.Column="0"
+                                                                           Text="{Binding PeopleName}" 
+                                                                           FontSize="14" 
+                                                                           VerticalAlignment="Center"
+                                                                           FontWeight="Medium"/>
+                                                                <Button Grid.Column="1" 
+                                                                        Width="43"
+                                                                        Content="添加" 
+                                                                        Style="{StaticResource ImprovedPrimaryButtonStyle}" 
+                                                                        Padding="8,4"
+                                                                        FontSize="12"
+                                                                        Command="{Binding DataContext.AddApproverCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                                        CommandParameter="{Binding}"/>
+                                                            </Grid>
+                                                        </Border>
+                                                    </DataTemplate>
+                                                </ItemsControl.ItemTemplate>
+                                            </ItemsControl>
                                         </Border>
                                     </StackPanel>
                                 </Border>

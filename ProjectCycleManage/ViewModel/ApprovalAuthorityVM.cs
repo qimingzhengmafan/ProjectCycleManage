@@ -3,6 +3,7 @@ using CommunityToolkit.Mvvm.Input;
 using Microsoft.EntityFrameworkCore;
 using ProjectCycleManage.Utilities;
 using ProjectManagement.Data;
+using ProjectManagement.Models;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Windows;
@@ -111,16 +112,40 @@ namespace ProjectCycleManage.ViewModel
         }
 
         [RelayCommand]
-        private void AddApprover()
+        private void AddApprover(object parameter)
         {
-            if (string.IsNullOrWhiteSpace(NewApproverName) || SelectedStage == null)
+            if (SelectedStage == null)
                 return;
 
+            string approverName = string.Empty;
+            
+            // 处理不同的参数类型
+            if (parameter is PeopleTable person)
+            {
+                // 从默认建议列表添加
+                approverName = person.PeopleName;
+            }
+            else if (parameter is string name && !string.IsNullOrWhiteSpace(name))
+            {
+                // 从手动输入添加
+                approverName = name;
+            }
+            else if (!string.IsNullOrWhiteSpace(NewApproverName))
+            {
+                // 从NewApproverName属性添加（向后兼容）
+                approverName = NewApproverName;
+            }
+            else
+            {
+                return;
+            }
+
             var newOrder = SelectedStage.Approvers.Count + 1;
-            var newApprover = new ApproverVM(newOrder, NewApproverName.Substring(0, 1), NewApproverName);
+            var newApprover = new ApproverVM(newOrder, approverName.Substring(0, 1), approverName);
             SelectedStage.Approvers.Add(newApprover);
             SelectedStage.ApproverCount = SelectedStage.Approvers.Count;
             
+            // 清空输入框
             NewApproverName = string.Empty;
             NewApproverDepartment = string.Empty;
         }
@@ -188,17 +213,41 @@ namespace ProjectCycleManage.ViewModel
         [RelayCommand]
         private void SearchUser()
         {
-            // 模拟搜索用户逻辑
-            // 搜索功能与用户建议列表共存，搜索时显示搜索结果，否则显示默认建议列表
+            // 搜索用户逻辑
             if (string.IsNullOrWhiteSpace(SearchKeyword))
             {
                 // 搜索关键词为空时，显示默认用户建议列表
                 ShowDefaultSuggestions = true;
+                HasSearchResults = false;
+                SearchResults.Clear();
             }
             else
             {
-                // 有搜索关键词时，显示搜索结果
+                // 有搜索关键词时，从数据库搜索在职人员
                 ShowDefaultSuggestions = false;
+                SearchResults.Clear();
+                
+                try
+                {
+                    using var context = new ProjectContext();
+                    var searchResults = context.PeopleTable
+                        .Where(p => p.IsEmployed == "True" && 
+                                   (p.PeopleName.Contains(SearchKeyword) || 
+                                    p.PeopleId.ToString().Contains(SearchKeyword)))
+                        .ToList();
+                    
+                    foreach (var person in searchResults)
+                    {
+                        SearchResults.Add(person);
+                    }
+                    
+                    HasSearchResults = SearchResults.Count > 0;
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"搜索人员失败: {ex.Message}");
+                    HasSearchResults = false;
+                }
             }
         }
 
@@ -234,9 +283,45 @@ namespace ProjectCycleManage.ViewModel
         [ObservableProperty]
         private bool _hasApprovers = false;
 
+        [ObservableProperty]
+        private ObservableCollection<PeopleTable> _defaultSuggestions = new ObservableCollection<PeopleTable>();
+
+        [ObservableProperty]
+        private ObservableCollection<PeopleTable> _searchResults = new ObservableCollection<PeopleTable>();
+
         partial void OnSelectedStageChanged(ApprovalStageVM? value)
         {
             HasApprovers = value?.Approvers?.Count > 0;
+        }
+
+        partial void OnIsEditingChanged(bool value)
+        {
+            if (value)
+            {
+                // 当开始编辑时，从数据库加载在职人员
+                LoadDefaultSuggestions();
+            }
+        }
+
+        private void LoadDefaultSuggestions()
+        {
+            try
+            {
+                using var context = new ProjectContext();
+                var employedPeople = context.PeopleTable
+                    .Where(p => p.IsEmployed == "True")
+                    .ToList();
+
+                DefaultSuggestions.Clear();
+                foreach (var person in employedPeople)
+                {
+                    DefaultSuggestions.Add(person);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"加载人员数据失败: {ex.Message}");
+            }
         }
     }
 
