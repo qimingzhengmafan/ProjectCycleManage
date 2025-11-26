@@ -20,5 +20,8 @@ namespace ProjectManagement.Models
 
         [Comment("权限信息")]
         public string? Permission { get; set; }
+
+        [Comment("在职,True在职，False，离职")]
+        public string? IsEmployed { get; set; }
     }
 }
