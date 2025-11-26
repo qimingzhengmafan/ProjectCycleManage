@@ -6,13 +6,13 @@
              xmlns:local="clr-namespace:ProjectCycleManage.Utilities"
              xmlns:vm="clr-namespace:ProjectCycleManage.ViewModel"
              mc:Ignorable="d" 
+             
              d:DesignHeight="800" 
              d:DesignWidth="1664">
-    
+
     <UserControl.DataContext>
         <vm:ApprovalAuthorityVM/>
     </UserControl.DataContext>
-    
     <UserControl.Resources>
         <!-- 动画资源 -->
         <Storyboard x:Key="CardHoverAnimation" 

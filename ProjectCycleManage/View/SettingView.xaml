@@ -145,6 +145,7 @@
         
         <!-- 主内容区域 -->
         <ScrollViewer Grid.Row="1" 
+                      Visibility="{Binding Mainareavisilib}"
                       VerticalScrollBarVisibility="Auto"
                       Padding="20">
             <Grid>
@@ -152,14 +153,14 @@
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
-                
+
                 <!-- 设置卡片网格 -->
                 <WrapPanel Grid.Row="1" 
                            Orientation="Horizontal"
                            HorizontalAlignment="Stretch" 
                            VerticalAlignment="Top" 
                            Margin="0,20,0,0">
-                    
+
                     <!-- 销售额/年度预算卡片 -->
                     <Button Style="{StaticResource SettingCardStyle_Button}"
                             Width="320" 
@@ -202,7 +203,7 @@
                             </Grid>
                         </Button.Content>
                     </Button>
-                    
+
                     <!-- 人员变动卡片 -->
                     <Button Style="{StaticResource SettingCardStyle_Button}"
                             Width="320" 
@@ -245,7 +246,7 @@
                             </Grid>
                         </Button.Content>
                     </Button>
-                    
+
                     <!-- 审批权限修改卡片 -->
                     <Button Style="{StaticResource SettingCardStyle_Button}"
                             Width="320" 
@@ -288,7 +289,7 @@
                             </Grid>
                         </Button.Content>
                     </Button>
-                    
+
                     <!-- 阶段信息文档修改卡片 -->
                     <Button Style="{StaticResource SettingCardStyle_Button}"
                             Width="320" 
@@ -333,6 +334,32 @@
                     </Button>
                 </WrapPanel>
             </Grid>
+
+
         </ScrollViewer>
+
+        
+        <Grid Grid.Row="1" 
+              Visibility="{Binding ApprovalVilib}">
+            <local:ApprovalAuthorityView/>
+        </Grid>
+
+        
+        <Grid Grid.Row="1"
+              Visibility="Collapsed">
+
+        </Grid>
+
+        
+        <Grid Grid.Row="1"
+              Visibility="Collapsed">
+
+        </Grid>
+
+        
+        <Grid Grid.Row="1"
+              Visibility="Collapsed">
+
+        </Grid>
     </Grid>
 </UserControl>

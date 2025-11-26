@@ -11,11 +11,54 @@ namespace ProjectCycleManage.ViewModel
 {
     public partial class SettingVM: ObservableObject
     {
+        #region UIVisibility
+        [ObservableProperty]
+        private Visibility _approvalVilib;
+
+        [ObservableProperty]
+        private Visibility _mainareavisilib;
+
+
+        #endregion
+
+
+
+
+
+
+        private ApprovalAuthorityVM _approvalauthorityvm;
+        public ApprovalAuthorityVM ApprovalauthorityVM
+        {
+            get => _approvalauthorityvm;
+            set
+            {
+                _approvalauthorityvm = value;
+                OnPropertyChanged();
+            }
+        }
+
+
+        public SettingVM()
+        {
+            Mainareavisilib = Visibility.Visible;
+            ApprovalVilib = Visibility.Collapsed;
+        }
+
+
+        #region ClickFun
 
         [RelayCommand]
         private void AmountCard()
         {
-            MessageBox.Show("Amount Click!");
+            ApprovalauthorityVM = new ApprovalAuthorityVM();
+            ApprovalVilib = Visibility.Visible;
+
+            Mainareavisilib = Visibility.Collapsed;
+
+            //MessageBox.Show("Amount Click!");
         }
+
+        #endregion
+
     }
 }
