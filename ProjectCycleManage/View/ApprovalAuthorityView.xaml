@@ -801,8 +801,8 @@
                     </ItemsControl.ItemTemplate>
                 </ItemsControl>
             </ScrollViewer>
-            
-            <!-- 右侧编辑侧边栏 - 模拟抽屉效果 -->
+
+            <!-- 右侧编辑侧边栏 - 模拟抽屉效果 Visibility="{Binding IsEditing, Converter={StaticResource BooleanToVisibilityConverter}}"-->
             <Grid Grid.Column="1" 
                   Visibility="{Binding IsEditing, Converter={StaticResource BooleanToVisibilityConverter}}">
                 <!-- 遮罩层 -->
@@ -859,23 +859,6 @@
                                   VerticalScrollBarVisibility="Auto"
                                   Padding="20">
                             <StackPanel>
-                                <!-- 阶段名称 -->
-                                <TextBlock Text="阶段名称"
-                                       FontSize="14" 
-                                       FontWeight="Medium" 
-                                       Margin="0,0,0,8"/>
-                                <TextBox Text="{Binding SelectedStage.StageName}"
-                                     FontSize="14" 
-                                     Padding="10" 
-                                     BorderBrush="{StaticResource BorderColor}" 
-                                     BorderThickness="1"
-                                     Margin="0,0,0,20"/>
-
-                                <!-- 审批人列表 -->
-                                <TextBlock Text="审批人列表" 
-                                       FontSize="14" 
-                                       FontWeight="Medium"
-                                       Margin="0,0,0,8"/>
                                 <ItemsControl ItemsSource="{Binding SelectedStage.Approvers}">
                                     <ItemsControl.ItemTemplate>
                                         <DataTemplate>
@@ -904,14 +887,20 @@
                                                                    VerticalAlignment="Center"/>
                                                     </Border>
 
+                                                    <TextBlock Grid.Column="1"
+                                                               VerticalAlignment="Center"
+                                                               Text="{Binding Name}"
+                                                               FontSize="14" 
+                                                               FontWeight="Medium" 
+                                                               Margin="0,0,0,2"/>
+
                                                     <!-- 审批人信息 -->
-                                                    <StackPanel Grid.Column="1">
+                                                    <!--<StackPanel Grid.Column="1">
                                                         <TextBlock Text="{Binding Name}"
                                                                FontSize="14" 
                                                                FontWeight="Medium" 
                                                                Margin="0,0,0,2"/>
-                                                        <TextBlock Text="{Binding Department}" FontSize="12" Foreground="#999999"/>
-                                                    </StackPanel>
+                                                    </StackPanel>-->
 
                                                     <!-- 删除按钮 -->
                                                     <Button Grid.Column="2"
@@ -931,12 +920,10 @@
 
                                 <!-- 添加新审批人 -->
                                 <Border Margin="0,20,0,0" 
-                                    Padding="15" 
-                                    Background="#f5f7fa" 
                                     CornerRadius="6">
                                     <StackPanel>
                                         <TextBlock Text="添加审批人" 
-                                               FontSize="14" 
+                                               FontSize="16" 
                                                FontWeight="Medium" 
                                                Margin="0,0,0,10"/>
 
@@ -947,6 +934,8 @@
                                                 <ColumnDefinition Width="Auto"/>
                                             </Grid.ColumnDefinitions>
                                             <TextBox Grid.Column="0" 
+                                                     HorizontalAlignment="Left"
+                                                     Width="341"
                                                      Text="{Binding SearchKeyword}" 
                                                      Padding="10" 
                                                      BorderBrush="#e0e0e0" 
@@ -955,6 +944,7 @@
                                                      VerticalContentAlignment="Center"
                                                      />
                                             <Button Grid.Column="1" 
+                                                    Width="43"
                                                     Content="搜索" 
                                                     Style="{StaticResource ImprovedPrimaryButtonStyle}" 
                                                     Command="{Binding SearchUserCommand}"
@@ -968,104 +958,58 @@
                                                 CornerRadius="4"
                                                 MaxHeight="200"
                                                 Visibility="{Binding HasSearchResults, Converter={StaticResource BooleanToVisibilityConverter}}">
-                                            <ScrollViewer VerticalScrollBarVisibility="Auto">
-                                                <StackPanel>
-                                                    <Border Padding="10,15" 
+
+                                            <StackPanel Orientation="Vertical">
+                                                <Border Padding="10,15" 
+                                                        Height="66"
                                                             Background="#f9f9f9" 
                                                             BorderBrush="#e0e0e0" 
                                                             BorderThickness="0,0,0,1">
-                                                        <Grid>
-                                                            <Grid.ColumnDefinitions>
-                                                                <ColumnDefinition Width="*"/>
-                                                                <ColumnDefinition Width="Auto"/>
-                                                            </Grid.ColumnDefinitions>
-                                                            <StackPanel Grid.Column="0">
-                                                                <TextBlock Text="钱工程师" FontSize="14" FontWeight="Medium"/>
-                                                                <TextBlock Text="技术研发部" FontSize="12" Foreground="#999999"/>
-                                                            </StackPanel>
-                                                            <Button Grid.Column="1" 
-                                                                    Content="添加" 
-                                                                    Style="{StaticResource ImprovedPrimaryButtonStyle}" 
-                                                                    Padding="8,4"
-                                                                    FontSize="12"/>
-                                                        </Grid>
-                                                    </Border>
-                                                    <Border Padding="10,15" 
+                                                    <Grid>
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="*"/>
+                                                            <ColumnDefinition Width="Auto"/>
+                                                        </Grid.ColumnDefinitions>
+                                                        <TextBlock Grid.Column="0"
+                                                                   Text="钱工程师" 
+                                                                   FontSize="14" 
+                                                                   VerticalAlignment="Center"
+                                                                   FontWeight="Medium"/>
+                                                        <Button Grid.Column="1" 
+                                                                Width="43"
+                                                                Content="添加" 
+                                                                Style="{StaticResource ImprovedPrimaryButtonStyle}" 
+                                                                Padding="8,4"
+                                                                FontSize="12"/>
+                                                    </Grid>
+                                                </Border>
+                                                <Border Padding="10,15" 
+                                                        Height="66"
                                                             Background="#f9f9f9" 
                                                             BorderBrush="#e0e0e0" 
                                                             BorderThickness="0,0,0,1">
-                                                        <Grid>
-                                                            <Grid.ColumnDefinitions>
-                                                                <ColumnDefinition Width="*"/>
-                                                                <ColumnDefinition Width="Auto"/>
-                                                            </Grid.ColumnDefinitions>
-                                                            <StackPanel Grid.Column="0">
-                                                                <TextBlock Text="孙设计师" FontSize="14" FontWeight="Medium"/>
-                                                                <TextBlock Text="产品设计部" FontSize="12" Foreground="#999999"/>
-                                                            </StackPanel>
-                                                            <Button Grid.Column="1" 
-                                                                    Content="添加" 
-                                                                    Style="{StaticResource ImprovedPrimaryButtonStyle}" 
-                                                                    Padding="8,4"
-                                                                    FontSize="12"/>
-                                                        </Grid>
-                                                    </Border>
-                                                </StackPanel>
-                                            </ScrollViewer>
+                                                    <Grid>
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="*"/>
+                                                            <ColumnDefinition Width="Auto"/>
+                                                        </Grid.ColumnDefinitions>
+      
+                                                        <TextBlock Grid.Column="0"
+                                                                   Text="孙设计师" 
+                                                                   FontSize="14" 
+                                                                   VerticalAlignment="Center"
+                                                                   FontWeight="Medium"/>
+                                                      
+                                                        <Button Grid.Column="1" 
+                                                                Width="43"
+                                                                Content="添加" 
+                                                                Style="{StaticResource ImprovedPrimaryButtonStyle}" 
+                                                                Padding="8,4"
+                                                                FontSize="12"/>
+                                                    </Grid>
+                                                </Border>
+                                            </StackPanel>
                                         </Border>
-
-                                        <!-- 手动添加表单 -->
-                                        <TextBlock Text="或手动添加" 
-                                                   FontSize="12" 
-                                                   FontWeight="Medium" 
-                                                   Margin="0,15,0,10"
-                                                   Foreground="#666666"/>
-                                        
-                                        <Grid>
-                                            <Grid.RowDefinitions>
-                                                <RowDefinition Height="Auto"/>
-                                                <RowDefinition Height="Auto"/>
-                                                <RowDefinition Height="Auto"/>
-                                            </Grid.RowDefinitions>
-
-                                            <StackPanel Grid.Row="0" 
-                                                    Orientation="Horizontal" 
-                                                    Margin="0,0,0,10">
-                                                <TextBlock Text="姓名：" 
-                                                       Width="60" 
-                                                       VerticalAlignment="Center"
-                                                       FontSize="14"/>
-                                                <TextBox Text="{Binding NewApproverName}" 
-                                                     Width="200" 
-                                                     Padding="8" 
-                                                     BorderBrush="#e0e0e0" 
-                                                     BorderThickness="1"
-                                                     FontSize="14"/>
-                                            </StackPanel>
-
-                                            <StackPanel Grid.Row="1" 
-                                                    Orientation="Horizontal" 
-                                                    Margin="0,0,0,10">
-                                                <TextBlock Text="部门：" 
-                                                       Width="60" 
-                                                       VerticalAlignment="Center"
-                                                       FontSize="14"/>
-                                                <TextBox Text="{Binding NewApproverDepartment}" 
-                                                     Width="200" 
-                                                     Padding="8" 
-                                                     BorderBrush="#e0e0e0" 
-                                                     BorderThickness="1"
-                                                     FontSize="14"/>
-                                            </StackPanel>
-
-                                            <Button Grid.Row="2" 
-                                                    Width="100"
-                                                    Height="35"
-                                                    Content="添加审批人" 
-                                                    Style="{StaticResource ImprovedPrimaryButtonStyle}" 
-                                                    Command="{Binding AddApproverCommand}" 
-                                                    HorizontalAlignment="Right"/>
-                                        </Grid>
                                     </StackPanel>
                                 </Border>
                             </StackPanel>
