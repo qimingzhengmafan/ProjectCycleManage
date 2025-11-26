@@ -187,7 +187,17 @@ namespace ProjectCycleManage.ViewModel
         private void SearchUser()
         {
             // 模拟搜索用户逻辑
-            HasSearchResults = !string.IsNullOrWhiteSpace(SearchKeyword);
+            // 搜索功能与用户建议列表共存，搜索时显示搜索结果，否则显示默认建议列表
+            if (string.IsNullOrWhiteSpace(SearchKeyword))
+            {
+                // 搜索关键词为空时，显示默认用户建议列表
+                ShowDefaultSuggestions = true;
+            }
+            else
+            {
+                // 有搜索关键词时，显示搜索结果
+                ShowDefaultSuggestions = false;
+            }
         }
 
         private void UpdateApproverOrders()
@@ -215,6 +225,9 @@ namespace ProjectCycleManage.ViewModel
 
         [ObservableProperty]
         private bool _hasSearchResults = false;
+
+        [ObservableProperty]
+        private bool _showDefaultSuggestions = true;
     }
 
     public partial class ProjectTypeVM : ObservableObject
