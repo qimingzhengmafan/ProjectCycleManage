@@ -79,7 +79,12 @@ namespace ProjectCycleManage.ViewModel
                 
             }
             
-            SelectedProjectType = ProjectTypes[0];
+            // 设置默认选中的项目类型
+            if (ProjectTypes.Count > 0)
+            {
+                SelectedProjectType = ProjectTypes[0];
+                SelectedProjectType.IsSelected = true;
+            }
         }
 
         [RelayCommand]
@@ -182,6 +187,12 @@ namespace ProjectCycleManage.ViewModel
                 // 获取当前编辑的审批人列表
                 var currentApprovers = SelectedStage.Approvers.ToList();
                 
+                // 验证审批人列表数据
+                if (!ValidateApproversList(currentApprovers))
+                {
+                    return;
+                }
+                
                 // 同步数据到数据库
                 SyncApproversToDatabase(currentApprovers);
                 
@@ -196,6 +207,56 @@ namespace ProjectCycleManage.ViewModel
             {
                 MessageBox.Show($"保存失败: {ex.Message}");
             }
+        }
+
+        /// <summary>
+        /// 验证审批人列表数据
+        /// </summary>
+        /// <param name="approvers">审批人列表</param>
+        /// <returns>验证是否通过</returns>
+        private bool ValidateApproversList(List<ApproverVM> approvers)
+        {
+            // 检查列表是否为空
+            if (approvers.Count == 0)
+            {
+                MessageBox.Show("审批人列表不能为空，请至少添加一个审批人");
+                return false;
+            }
+            
+            // 检查顺序是否连续（没有跳过）
+            var expectedOrder = 1;
+            foreach (var approver in approvers.OrderBy(a => a.Order))
+            {
+                if (approver.Order != expectedOrder)
+                {
+                    MessageBox.Show($"审批人顺序不连续，请检查第{expectedOrder}个位置");
+                    return false;
+                }
+                expectedOrder++;
+            }
+            
+            // 检查是否有重复的审批人
+            var duplicateApprovers = approvers
+                .GroupBy(a => a.Name)
+                .Where(g => g.Count() > 1)
+                .Select(g => g.Key)
+                .ToList();
+                
+            if (duplicateApprovers.Any())
+            {
+                MessageBox.Show($"存在重复的审批人: {string.Join(", ", duplicateApprovers)}");
+                return false;
+            }
+            
+            // 检查是否有空值
+            var emptyApprovers = approvers.Where(a => string.IsNullOrWhiteSpace(a.Name)).ToList();
+            if (emptyApprovers.Any())
+            {
+                MessageBox.Show("存在姓名为空的审批人，请检查并修正");
+                return false;
+            }
+            
+            return true;
         }
 
         /// <summary>

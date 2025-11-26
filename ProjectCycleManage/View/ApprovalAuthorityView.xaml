@@ -990,7 +990,11 @@
                                                      BorderBrush="#e0e0e0" 
                                                      BorderThickness="1"
                                                      FontSize="14"
-                                                     VerticalContentAlignment="Center"/>
+                                                     VerticalContentAlignment="Center">
+                                                <TextBox.InputBindings>
+                                                    <KeyBinding Key="Enter" Command="{Binding SearchUserCommand}"/>
+                                                </TextBox.InputBindings>
+                                            </TextBox>
                                             <Button Grid.Column="1" 
                                                     Width="43"
                                                     Content="搜索" 
