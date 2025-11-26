@@ -1,6 +1,7 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.EntityFrameworkCore;
+using ProjectCycleManage.Model;
 using ProjectCycleManage.Utilities;
 using ProjectManagement.Data;
 using ProjectManagement.Models;
@@ -170,10 +171,169 @@ namespace ProjectCycleManage.ViewModel
         [RelayCommand]
         private void SaveApprovers()
         {
-            // 保存审批人设置逻辑
-            MessageBox.Show($"已保存 {SelectedStage?.StageName} 的审批人设置");
-            IsEditing = false;
-            SelectedStage = null;
+            if (SelectedProjectType == null || SelectedStage == null)
+            {
+                MessageBox.Show("请选择项目类型和阶段");
+                return;
+            }
+
+            try
+            {
+                // 获取当前编辑的审批人列表
+                var currentApprovers = SelectedStage.Approvers.ToList();
+                
+                // 同步数据到数据库
+                SyncApproversToDatabase(currentApprovers);
+                
+                // 重新加载数据以刷新页面显示
+                InitializeData();
+                
+                MessageBox.Show($"已保存 {SelectedStage?.StageName} 的审批人设置");
+                IsEditing = false;
+                SelectedStage = null;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"保存失败: {ex.Message}");
+            }
+        }
+
+        /// <summary>
+        /// 获取现有审批流程人员记录（包括已标记删除的记录）
+        /// </summary>
+        /// <param name="equipmentTypeName">设备类型名称</param>
+        /// <param name="stageName">阶段名称</param>
+        /// <param name="includeDeleted">是否包含已标记删除的记录</param>
+        /// <returns>现有的审批人记录列表</returns>
+        private List<TypeApprFlowPersSeqTable> GetExistingApprovers(string equipmentTypeName, string stageName, bool includeDeleted = false)
+        {
+            using var context = new ProjectContext();
+            
+            var query = context.TypeApprFlowPersSeqTable
+                .Include(t => t.equipmenttype)
+                .Include(t => t.projectflow)
+                .Include(t => t.Reviewer)
+                .Where(t => t.equipmenttype.EquipmentName == equipmentTypeName &&
+                           t.projectflow.ProjFlowInfor == stageName);
+            
+            // 如果不包含已删除记录，则过滤掉标记为删除的记录
+            if (!includeDeleted)
+            {
+                query = query.Where(t => t.Mark == null || t.Mark != "Dele");
+            }
+            
+            return query.OrderBy(t => t.Sequence).ToList();
+        }
+
+        /// <summary>
+        /// 根据人员姓名查找人员ID
+        /// </summary>
+        /// <param name="personName">人员姓名</param>
+        /// <returns>人员ID，如果找不到返回null</returns>
+        private int? FindPersonIdByName(string personName)
+        {
+            using var context = new ProjectContext();
+            var person = context.PeopleTable
+                .FirstOrDefault(p => p.PeopleName == personName && p.IsEmployed == "True");
+            
+            return person?.PeopleId;
+        }
+
+        /// <summary>
+        /// 同步审批人数据到数据库
+        /// </summary>
+        /// <param name="currentApprovers">当前编辑的审批人列表</param>
+        private void SyncApproversToDatabase(List<ApproverVM> currentApprovers)
+        {
+            using var context = new ProjectContext();
+            
+            // 获取现有数据库记录（包含已标记删除的记录，这样才能正确进行软删除操作）
+            var existingRecords = GetExistingApprovers(SelectedProjectType.TypeName, SelectedStage.StageName, true);
+            
+            // 处理新增和修改的记录
+            for (int i = 0; i < currentApprovers.Count; i++)
+            {
+                var currentApprover = currentApprovers[i];
+                var personId = FindPersonIdByName(currentApprover.Name);
+                
+                if (personId == null)
+                {
+                    MessageBox.Show($"找不到人员: {currentApprover.Name}，请确保该人员存在且在职");
+                    continue;
+                }
+                
+                // 查找对应的现有记录（包含已标记删除的记录）
+                var existingRecord = existingRecords.FirstOrDefault(r => 
+                    r.ReviewerPeopleId == personId);
+                
+                if (existingRecord != null)
+                {
+                    // 更新现有记录的序号和标记
+                    existingRecord.Sequence = i + 1;
+                    existingRecord.Mark = null; // 确保标记为空
+                    
+                    // 标记为已修改，确保Entity Framework跟踪更改
+                    context.Entry(existingRecord).State = EntityState.Modified;
+                }
+                else
+                {
+                    // 创建新记录
+                    var newRecord = new TypeApprFlowPersSeqTable
+                    {
+                        equipmenttypeId = GetEquipmentTypeIdByName(SelectedProjectType.TypeName),
+                        projectflowId = GetProjectFlowIdByName(SelectedStage.StageName),
+                        ReviewerPeopleId = personId.Value,
+                        Sequence = i + 1,
+                        Mark = null
+                    };
+                    
+                    context.TypeApprFlowPersSeqTable.Add(newRecord);
+                }
+            }
+            
+            // 处理需要标记为删除的记录（在数据库中存在但不在当前列表中）
+            foreach (var existingRecord in existingRecords)
+            {
+                var isInCurrentList = currentApprovers.Any(a => 
+                    FindPersonIdByName(a.Name) == existingRecord.ReviewerPeopleId);
+                
+                if (!isInCurrentList)
+                {
+                    existingRecord.Mark = "Dele";
+                    // 显式标记为已修改，确保Entity Framework跟踪更改
+                    context.Entry(existingRecord).State = EntityState.Modified;
+                }
+            }
+            
+            context.SaveChanges();
+        }
+
+        /// <summary>
+        /// 根据设备类型名称获取设备类型ID
+        /// </summary>
+        /// <param name="equipmentTypeName">设备类型名称</param>
+        /// <returns>设备类型ID</returns>
+        private int? GetEquipmentTypeIdByName(string equipmentTypeName)
+        {
+            using var context = new ProjectContext();
+            var equipmentType = context.EquipmentType
+                .FirstOrDefault(e => e.EquipmentName == equipmentTypeName);
+            
+            return equipmentType?.EquipmentTypeId;
+        }
+
+        /// <summary>
+        /// 根据流程名称获取流程ID
+        /// </summary>
+        /// <param name="flowName">流程名称</param>
+        /// <returns>流程ID</returns>
+        private int? GetProjectFlowIdByName(string flowName)
+        {
+            using var context = new ProjectContext();
+            var projectFlow = context.ProjFlowTable
+                .FirstOrDefault(p => p.ProjFlowInfor == flowName);
+            
+            return projectFlow?.Id;
         }
 
         [RelayCommand]
