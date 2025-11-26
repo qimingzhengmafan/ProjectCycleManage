@@ -146,5 +146,79 @@
         </Setter>
     </Style>
 
+    <Style x:Key="SettingCardStyle_Button" 
+               TargetType="Button">
+        <Setter Property="Background" 
+                    Value="White"/>
+        <!--<Setter Property="CornerRadius" 
+                    Value="10"/>-->
+        <Setter Property="BorderThickness"
+                    Value="0"/>
+        <Setter Property="Padding" 
+                    Value="20"/>
+        <Setter Property="BorderBrush"
+                    Value="Transparent"/>
+
+
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Border x:Name="border"
+                Background="{TemplateBinding Background}"
+                BorderBrush="{TemplateBinding BorderBrush}"
+                BorderThickness="{TemplateBinding BorderThickness}"
+                CornerRadius="10"
+                SnapsToDevicePixels="True">
+                        <ContentPresenter x:Name="contentPresenter"
+                              HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                              RecognizesAccessKey="True"/>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" 
+                     Value="True">
+                            <Setter TargetName="border" 
+                        Property="Background"
+                        Value="#E0E0E0"/>
+                        </Trigger>
+                        <Trigger Property="IsPressed" 
+                     Value="True">
+                            <Setter TargetName="border" 
+                        Property="Background" 
+                        Value="#D0D0D0"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+
+
+
+
+        <Setter Property="Effect">
+            <Setter.Value>
+                <DropShadowEffect BlurRadius="12" 
+                                      ShadowDepth="4" 
+                                      Opacity="0.05"/>
+            </Setter.Value>
+        </Setter>
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" 
+                         Value="True">
+                <Setter Property="Effect">
+                    <Setter.Value>
+                        <DropShadowEffect BlurRadius="16" 
+                                              ShadowDepth="8" Opacity="0.1"/>
+                    </Setter.Value>
+                </Setter>
+                <Setter Property="RenderTransform">
+                    <Setter.Value>
+                        <TranslateTransform Y="-5"/>
+                    </Setter.Value>
+                </Setter>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
 
 </ResourceDictionary>

@@ -162,7 +162,7 @@
                                 </Menu:Btn>
 
                                 <Menu:Btn Style="{StaticResource BtnStyle}"
-                                          Command="{Binding SettingViewICommand}">
+                                          Command="{Binding SettingViewCommand}">
                                     <Grid>
                                         <StackPanel Orientation="Horizontal"
                                                     Margin="30 0 0 0">

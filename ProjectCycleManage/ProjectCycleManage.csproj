@@ -11,6 +11,8 @@
 
   <ItemGroup>
     <None Remove="Resources\Images\edit-编辑.png" />
+    <None Remove="Resources\Images\fa-chart-line.png" />
+    <None Remove="Resources\Images\fas fa-users.png" />
     <None Remove="Resources\Images\history.png" />
     <None Remove="Resources\Images\home-copy-copy.png" />
     <None Remove="Resources\Images\logo.png" />
@@ -31,11 +33,13 @@
     <None Remove="Resources\Images\年份.png" />
     <None Remove="Resources\Images\想法.png" />
     <None Remove="Resources\Images\折线图.png" />
+    <None Remove="Resources\Images\授权管理.png" />
     <None Remove="Resources\Images\数据分析.png" />
     <None Remove="Resources\Images\文档.png" />
     <None Remove="Resources\Images\申请人.png" />
     <None Remove="Resources\Images\申请日期.png" />
     <None Remove="Resources\Images\登录.png" />
+    <None Remove="Resources\Images\空订单.png" />
     <None Remove="Resources\Images\签名.png" />
     <None Remove="Resources\Images\组织架构.png" />
     <None Remove="Resources\Images\表格.png" />
@@ -59,6 +63,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Resource Include="Resources\Images\fa-chart-line.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\fas fa-users.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="Resources\Images\history.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
@@ -75,6 +85,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Resources\Images\折线图.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\授权管理.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Resources\Images\数据分析.png">
@@ -164,6 +177,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Resources\Images\登录.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\空订单.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Resources\Images\签名.png">

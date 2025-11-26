@@ -693,6 +693,11 @@ namespace ProjectCycleManage.ViewModel
             DataChart = new ();
         }
 
+        [RelayCommand]
+        private void SettingView()
+        {
+            SettingVM = new SettingVM();
+        }
 
         #endregion
 
