@@ -804,7 +804,7 @@
 
             <!-- 右侧编辑侧边栏 - 模拟抽屉效果 Visibility="{Binding IsEditing, Converter={StaticResource BooleanToVisibilityConverter}}"-->
             <Grid Grid.Column="1" 
-                  Visibility="Visible">
+                  Visibility="{Binding IsEditing, Converter={StaticResource BooleanToVisibilityConverter}}">
                 <!-- 遮罩层 -->
                 <Grid Grid.Column="0" 
                       Background="#80000000" 
