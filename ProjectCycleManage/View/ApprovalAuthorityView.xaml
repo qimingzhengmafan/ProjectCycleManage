@@ -525,6 +525,7 @@
         
         <!-- 转换器定义 -->
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+        <local:BooleanToVisibilityInverseConverter x:Key="BooleanToVisibilityInverseConverter"/>
     </UserControl.Resources>
     
     <Grid Background="{StaticResource BackgroundColor}">
@@ -709,7 +710,8 @@
                                     <!-- 审批人列表 -->
                                     <ItemsControl Grid.Row="1" 
                                                   ItemsSource="{Binding Approvers}" 
-                                                  Margin="0,0,0,15">
+                                                  Margin="0,0,0,15"
+                                                  Visibility="{Binding HasApprovers, Converter={StaticResource BooleanToVisibilityConverter}}">
                                         <ItemsControl.ItemTemplate>
                                             <DataTemplate>
                                                 <Border Margin="0,0,0,8" 
@@ -751,15 +753,17 @@
                                                         </Border>
                                                         
                                                         <!-- 审批人信息 -->
-                                                        <StackPanel Grid.Column="2" 
+                                                        <TextBlock Text="{Binding Name}" 
+                                                                   Grid.Column="2"
+                                                                   VerticalAlignment="Center"
+                                                                   FontSize="14" 
+                                                                   FontWeight="Medium"/>
+                                                        <!--<StackPanel Grid.Column="2" 
                                                                     Orientation="Vertical">
                                                             <TextBlock Text="{Binding Name}" 
                                                                        FontSize="14" 
                                                                        FontWeight="Medium"/>
-                                                            <TextBlock Text="{Binding Department}"
-                                                                       FontSize="12" 
-                                                                       Foreground="#999"/>
-                                                        </StackPanel>
+                                                        </StackPanel>-->
                                                     </Grid>
                                                 </Border>
                                             </DataTemplate>
@@ -768,7 +772,8 @@
                                     
                                     <!-- 空状态显示 -->
                                     <Border Grid.Row="1"
-                                            Margin="0,0,0,15">
+                                            Margin="0,0,0,15"
+                                            Visibility="{Binding HasApprovers, Converter={StaticResource BooleanToVisibilityInverseConverter}}">
                                         <StackPanel Orientation="Vertical" 
                                                     HorizontalAlignment="Center" 
                                                     VerticalAlignment="Center">

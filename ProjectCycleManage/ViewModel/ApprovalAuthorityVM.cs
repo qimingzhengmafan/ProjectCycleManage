@@ -228,6 +228,14 @@ namespace ProjectCycleManage.ViewModel
 
         [ObservableProperty]
         private bool _showDefaultSuggestions = true;
+
+        [ObservableProperty]
+        private bool _hasApprovers = false;
+
+        partial void OnSelectedStageChanged(ApprovalStageVM? value)
+        {
+            HasApprovers = value?.Approvers?.Count > 0;
+        }
     }
 
     public partial class ProjectTypeVM : ObservableObject
@@ -258,10 +266,24 @@ namespace ProjectCycleManage.ViewModel
         [ObservableProperty]
         private ObservableCollection<ApproverVM> _approvers = new ObservableCollection<ApproverVM>();
 
+        [ObservableProperty]
+        private bool _hasApprovers = false;
+
         public ApprovalStageVM(string stageName, int approverCount = 0)
         {
             StageName = stageName;
             ApproverCount = approverCount;
+            HasApprovers = approverCount > 0;
+        }
+
+        partial void OnApproversChanged(ObservableCollection<ApproverVM>? value)
+        {
+            HasApprovers = value?.Count > 0;
+        }
+
+        partial void OnApproverCountChanged(int value)
+        {
+            HasApprovers = value > 0;
         }
     }
 
