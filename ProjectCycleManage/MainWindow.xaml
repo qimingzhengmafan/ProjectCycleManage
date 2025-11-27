@@ -210,7 +210,7 @@
         <Grid Grid.Column="1"
               Grid.Row="1">
             
-            <!--<Grid Visibility="{Binding Vis_overview}">
+            <Grid Visibility="{Binding Vis_overview}">
                 <view:Overview DataContext="{Binding OverView}"/>
             </Grid>
 
@@ -221,9 +221,9 @@
 
             <Grid Visibility="{Binding Vis_dataanalysis}">
                 <view:DataChartUI DataContext="{Binding DataChart}"/>
-            </Grid>-->
+            </Grid>
 
-            <Grid>
+            <Grid Visibility="{Binding Vis_settingvisib}">
                 <view:SettingView DataContext="{Binding SettingVM}"/>
             </Grid>
 

@@ -49,12 +49,36 @@
                 
             </ItemsControl>
             <StackPanel Orientation="Horizontal">
-                <RadioButton Content="2022年" 
-                             Width="96"
-                             Height="50" 
-                             Style="{StaticResource YearTabStyle}"
-                             GroupName="YearTabs"/>
+                <ItemsControl ItemsSource="{Binding}">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <WrapPanel Orientation="Horizontal" 
+                                       Margin="0,0,10,10"/>
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+
+
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <RadioButton Content="2022年" 
+                                         Width="96"
+                                         Height="50" 
+                                         Style="{StaticResource YearTabStyle}"
+                                         GroupName="YearTabs"/>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+                
+                
+                
+
             </StackPanel>
+        </Grid>
+
+
+        <Grid DataContext="{Binding test}">
+            <TextBlock Text="{Binding test1}"/>
+
         </Grid>
     </Grid>
 </UserControl>

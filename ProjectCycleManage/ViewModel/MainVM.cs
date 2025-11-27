@@ -82,7 +82,6 @@ namespace ProjectCycleManage.ViewModel
 
             _overviewvm = new OverviewVM(Loginpersonnamegrade , Loginpersonname);
             _newprojectvm= new NewProjectVM(Loginpersonnamegrade, Loginpersonname);
-            SettingVM = new SettingVM();
 
 
             _alertedProjects = new HashSet<int>();
@@ -94,8 +93,11 @@ namespace ProjectCycleManage.ViewModel
 
             OverViewFun();
 
-            //Vis_overview = Visibility.Visible;
-            //Vis_newproject = Visibility.Collapsed;
+            Vis_overview = Visibility.Visible;
+            Vis_newproject = Visibility.Collapsed;
+            Vis_settingvisib = Visibility.Collapsed;
+            Vis_dataanalysis = Visibility.Collapsed;
+
         }
 
 
@@ -657,13 +659,17 @@ namespace ProjectCycleManage.ViewModel
         [ObservableProperty]
         private Visibility _vis_dataanalysis;
 
+        [ObservableProperty]
+        private Visibility _vis_settingvisib;
+
         [RelayCommand]
         private async void OverViewFun()
         {
             Vis_overview = Visibility.Visible;
             Vis_newproject = Visibility.Collapsed;
             Vis_dataanalysis = Visibility.Collapsed;
-            
+            Vis_settingvisib = Visibility.Collapsed;
+
             // 如果OverviewVM已经存在，刷新其项目列表
             if (OverView != null)
             {
@@ -682,6 +688,7 @@ namespace ProjectCycleManage.ViewModel
             Vis_overview = Visibility.Collapsed;
             Vis_newproject = Visibility.Visible;
             Vis_dataanalysis = Visibility.Collapsed;
+            Vis_settingvisib = Visibility.Collapsed;
         }
 
         [RelayCommand]
@@ -691,13 +698,21 @@ namespace ProjectCycleManage.ViewModel
             
             Vis_overview = Visibility.Collapsed;
             Vis_newproject = Visibility.Collapsed;
-            
+            Vis_settingvisib = Visibility.Collapsed;
+
             DataChart = new ();
         }
 
         [RelayCommand]
         private void SettingView()
         {
+            Vis_settingvisib = Visibility.Visible;
+
+            Vis_dataanalysis = Visibility.Collapsed;
+            Vis_overview = Visibility.Collapsed;
+            Vis_newproject = Visibility.Collapsed;
+
+
             SettingVM = new SettingVM();
         }
 
