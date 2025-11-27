@@ -411,197 +411,215 @@
                         BorderThickness="0,0,0,1"
                         Padding="0,0,0,20"
                         Margin="0,20,0,20">
-                    <Grid>
+                    <Grid Background="{StaticResource BackgroundBrush}">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
                         </Grid.RowDefinitions>
-                        
-                        <!-- 投入资产设置头部 -->
-                        <Grid Grid.Row="0"
-                              Margin="0,0,0,20">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="Auto"/>
-                            </Grid.ColumnDefinitions>
-                            
-                            <StackPanel Grid.Column="0"
-                                        Orientation="Horizontal">
-                                <TextBlock Text="📊" 
-                                           FontSize="16" 
-                                           Margin="0,0,8,0"/>
-                                <TextBlock Text="投入资产设置"
-                                           FontSize="16"
-                                           FontWeight="Bold"
-                                           Foreground="#2D5BD5"/>
-                            </StackPanel>
-                            
-                            <StackPanel Grid.Column="1"
-                                        Orientation="Horizontal"
-                                        HorizontalAlignment="Right">
-                                <Button Style="{StaticResource SecondaryButtonStyle}"
-                                        Margin="0,0,10,0"
-                                        Command="{Binding ResetInvestmentCommand}">
-                                    <StackPanel Orientation="Horizontal">
-                                        <TextBlock Text="🔄" 
-                                                   Margin="0,0,5,0"/>
-                                        <TextBlock Text="重置数据"/>
-                                    </StackPanel>
-                                </Button>
-                                <Button Style="{StaticResource PrimaryButtonStyle}"
-                                        Command="{Binding SaveInvestmentCommand}">
-                                    <StackPanel Orientation="Horizontal">
-                                        <TextBlock Text="💾" 
-                                                   Margin="0,0,5,0"/>
-                                        <TextBlock Text="保存设置"/>
-                                    </StackPanel>
-                                </Button>
-                            </StackPanel>
-                        </Grid>
-                        
-                        <!-- 年度投入资产设置 -->
-                        <Border Grid.Row="1"
-                                Background="#F9F9F9"
-                                CornerRadius="8"
-                                Padding="15"
-                                Margin="0,0,0,15">
-                            <StackPanel>
-                                <StackPanel Orientation="Horizontal"
-                                            Margin="0,0,0,10">
-                                    <TextBlock Text="📅" 
-                                               FontSize="14" 
-                                               Margin="0,0,8,0"/>
-                                    <TextBlock Text="年度投入资产设置 - "
-                                               FontWeight="Bold"
-                                               Foreground="#2D5BD5"/>
-                                    <TextBlock Text="{Binding CurrentYear}"
-                                               FontWeight="Bold"
-                                               Foreground="#2D5BD5"/>
-                                    <TextBlock Text="年"
-                                               FontWeight="Bold"
-                                               Foreground="#2D5BD5"/>
+
+                        <!-- 标题栏 -->
+                        <Border Grid.Row="0" Background="{StaticResource CardBackgroundBrush}" 
+                Padding="20,15" Margin="0,0,0,10" 
+                BorderThickness="0,0,0,1" BorderBrush="{StaticResource BorderBrush}">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+
+                                <StackPanel Grid.Column="0" Orientation="Horizontal" VerticalAlignment="Center">
+                                    <Path Data="M10,20L20,10L30,20" Stroke="{StaticResource PrimaryBrush}" StrokeThickness="2" 
+                          Width="20" Height="20" VerticalAlignment="Center" Margin="0,0,8,0"/>
+                                    <TextBlock Text="投入资产设置" Style="{StaticResource SectionTitleStyle}" VerticalAlignment="Center"/>
                                 </StackPanel>
-                                
-                                <Grid>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="*"/>
-                                        <ColumnDefinition Width="10"/>
-                                        <ColumnDefinition Width="*"/>
-                                        <ColumnDefinition Width="10"/>
-                                        <ColumnDefinition Width="*"/>
-                                        <ColumnDefinition Width="Auto"/>
-                                    </Grid.ColumnDefinitions>
-                                    
-                                    <!-- 投入资产数量 -->
-                                    <StackPanel Grid.Column="0">
-                                        <TextBlock Text="投入资产数量"
-                                                   FontWeight="Medium"
-                                                   Foreground="#666666"
-                                                   Margin="0,0,0,5"/>
-                                        <TextBox Text="{Binding InvestmentQuantity}"
-                                                 Style="{StaticResource FormInputStyle}"
-                                                 Width="120"/>
-                                    </StackPanel>
-                                    
-                                    <!-- 年度销售预测 -->
-                                    <StackPanel Grid.Column="2">
-                                        <TextBlock Text="年度销售预测"
-                                                   FontWeight="Medium"
-                                                   Foreground="#666666"
-                                                   Margin="0,0,0,5"/>
-                                        <TextBox Text="{Binding SalesForecast, StringFormat='¥ {0:N0}'}"
-                                                 Style="{StaticResource FormInputStyle}"
-                                                 Width="150"/>
-                                    </StackPanel>
-                                    
-                                    <!-- 年度预算 -->
-                                    <StackPanel Grid.Column="4">
-                                        <TextBlock Text="年度预算"
-                                                   FontWeight="Medium"
-                                                   Foreground="#666666"
-                                                   Margin="0,0,0,5"/>
-                                        <TextBox Text="{Binding InvestmentBudget, StringFormat='¥ {0:N0}'}"
-                                                 Style="{StaticResource FormInputStyle}"
-                                                 Width="150"/>
-                                    </StackPanel>
-                                    
-                                    <!-- 操作按钮 -->
-                                    <StackPanel Grid.Column="5"
-                                                Orientation="Horizontal"
-                                                VerticalAlignment="Bottom"
-                                                Margin="10,0,0,0">
-                                        <Button Style="{StaticResource IconButtonStyle}"
-                                                Command="{Binding EditInvestmentCommand}">
-                                            <TextBlock Text="✏️"/>
-                                        </Button>
-                                        <Button Style="{StaticResource IconButtonStyle}"
-                                                Command="{Binding DeleteInvestmentCommand}"
-                                                Visibility="Collapsed">
-                                            <TextBlock Text="🗑️"/>
-                                        </Button>
-                                    </StackPanel>
-                                </Grid>
-                            </StackPanel>
+
+                                <StackPanel Grid.Column="2" Orientation="Horizontal" HorizontalAlignment="Right">
+                                    <Button Content="重置数据" Style="{StaticResource SecondaryButtonStyle}">
+                                        <Button.ToolTip>
+                                            <ToolTip Content="重置所有投入资产数据"/>
+                                        </Button.ToolTip>
+                                    </Button>
+                                    <Button Content="保存设置" Style="{StaticResource PrimaryButtonStyle}">
+                                        <Button.ToolTip>
+                                            <ToolTip Content="保存投入资产设置"/>
+                                        </Button.ToolTip>
+                                    </Button>
+                                </StackPanel>
+                            </Grid>
                         </Border>
-                        
-                        <!-- 月度数据详情 -->
-                        <Border Grid.Row="2"
-                                Background="#F5F7FA"
-                                CornerRadius="8"
-                                Padding="15">
-                            <StackPanel>
-                                <Button Style="{StaticResource SecondaryButtonStyle}"
-                                        Background="Transparent"
-                                        BorderThickness="0"
-                                        Command="{Binding ToggleMonthlyDataCommand}">
-                                    <StackPanel Orientation="Horizontal">
-                                        <TextBlock Text="{Binding MonthlyDataToggleIcon}" 
-                                                   Margin="0,0,8,0"/>
-                                        <TextBlock Text="月度数据详情"/>
-                                    </StackPanel>
-                                </Button>
-                                
-                                <DataGrid Grid.Row="1"
-                                          ItemsSource="{Binding MonthlyDataList}"
-                                          AutoGenerateColumns="False"
-                                          IsReadOnly="True"
-                                          HeadersVisibility="Column"
-                                          BorderBrush="#E0E0E0"
-                                          BorderThickness="1"
-                                          Visibility="{Binding MonthlyDataVisibility}"
-                                          Margin="0,10,0,0">
-                                    <DataGrid.Columns>
-                                        <DataGridTextColumn Header="月份"
-                                                            Binding="{Binding Month}"
-                                                            Width="*"/>
-                                        <DataGridTextColumn Header="投入资产数量"
-                                                            Binding="{Binding Quantity}"
-                                                            Width="*"/>
-                                        <DataGridTextColumn Header="月度销售预测"
-                                                            Binding="{Binding SalesForecast, StringFormat='¥ {0:N0}'}"
-                                                            Width="*"/>
-                                        <DataGridTextColumn Header="月度预算"
-                                                            Binding="{Binding Budget, StringFormat='¥ {0:N0}'}"
-                                                            Width="*"/>
-                                        <DataGridTemplateColumn Header="操作"
-                                                              Width="*">
-                                            <DataGridTemplateColumn.CellTemplate>
-                                                <DataTemplate>
-                                                    <StackPanel Orientation="Horizontal">
-                                                        <Button Style="{StaticResource IconButtonStyle}"
-                                                                Command="{Binding DataContext.EditMonthlyDataCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
-                                                                CommandParameter="{Binding}">
-                                                            <TextBlock Text="✏️"/>
+
+                        <!-- 内容区域 -->
+                        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+                            <StackPanel Margin="20,0">
+                                <!-- 年度投入资产设置 -->
+                                <Border Background="{StaticResource CardBackgroundBrush}" 
+                        CornerRadius="4" Padding="20" Margin="0,0,0,15"
+                        BorderThickness="1" BorderBrush="{StaticResource BorderBrush}">
+                                    <StackPanel>
+                                        <TextBlock Style="{StaticResource DataCardTitleStyle}">
+                            <Run Text="年度投入资产设置 - "/>
+                            <Run x:Name="InvestmentYearTitle" Text="2024年"/>
+                                        </TextBlock>
+
+                                        <!-- 年度数据表格 -->
+                                        <Grid Margin="0,10,0,0">
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="Auto"/>
+                                                <RowDefinition Height="*"/>
+                                            </Grid.RowDefinitions>
+
+                                            <!-- 表头 -->
+                                            <Border Grid.Row="0" Background="{StaticResource BackgroundBrush}" 
+                                    BorderThickness="0,0,0,1" BorderBrush="{StaticResource BorderBrush}"
+                                    Padding="12,10">
+                                                <Grid>
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="*"/>
+                                                        <ColumnDefinition Width="*"/>
+                                                        <ColumnDefinition Width="*"/>
+                                                        <ColumnDefinition Width="100"/>
+                                                    </Grid.ColumnDefinitions>
+
+                                                    <TextBlock Grid.Column="0" Text="投入资产数量" Style="{StaticResource TableHeaderStyle}"/>
+                                                    <TextBlock Grid.Column="1" Text="年度销售预测" Style="{StaticResource TableHeaderStyle}"/>
+                                                    <TextBlock Grid.Column="2" Text="年度预算" Style="{StaticResource TableHeaderStyle}"/>
+                                                    <TextBlock Grid.Column="3" Text="操作" Style="{StaticResource TableHeaderStyle}"/>
+                                                </Grid>
+                                            </Border>
+
+                                            <!-- 表格数据 -->
+                                            <Border Grid.Row="1" Padding="12,10" BorderThickness="0,0,0,1" BorderBrush="{StaticResource BorderBrush}">
+                                                <Grid>
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="*"/>
+                                                        <ColumnDefinition Width="*"/>
+                                                        <ColumnDefinition Width="*"/>
+                                                        <ColumnDefinition Width="100"/>
+                                                    </Grid.ColumnDefinitions>
+
+                                                    <TextBox Grid.Column="0" Text="156" Style="{StaticResource FormInputStyle}" 
+                                             VerticalAlignment="Center" HorizontalAlignment="Stretch"/>
+                                                    <TextBox Grid.Column="1" Text="9560000" Style="{StaticResource FormInputStyle}" 
+                                             VerticalAlignment="Center" HorizontalAlignment="Stretch"/>
+                                                    <TextBox Grid.Column="2" Text="8450000" Style="{StaticResource FormInputStyle}" 
+                                             VerticalAlignment="Center" HorizontalAlignment="Stretch"/>
+
+                                                    <StackPanel Grid.Column="3" Orientation="Horizontal" HorizontalAlignment="Left">
+                                                        <Button Style="{StaticResource SecondaryButtonStyle}" Padding="6,4" 
+                                                ToolTip="编辑">
+                                                            <Path Data="M3,17.25V21H6.75L17.81,9.94L14.06,6.19L3,17.25ZM20.71,7.04C21.1,6.65 21.1,6 20.71,5.63L18.37,3.29C18,2.9 17.35,2.9 16.96,3.29L15.13,5.12L18.88,8.87L20.71,7.04Z" 
+                                                Fill="{StaticResource SecondaryTextBrush}" Stretch="Uniform" Width="16" Height="16"/>
+                                                        </Button>
+                                                        <Button Style="{StaticResource SecondaryButtonStyle}" Padding="6,4" 
+                                                ToolTip="删除" Margin="5,0,0,0">
+                                                            <Path Data="M6,19A2,2 0 0,0 8,21H16A2,2 0 0,0 18,19V7H6V19M8,9H16V19H8V9M15.5,4L14.5,3H9.5L8.5,4H5V6H19V4H15.5Z" 
+                                                Fill="{StaticResource NegativeBrush}" Stretch="Uniform" Width="16" Height="16"/>
                                                         </Button>
                                                     </StackPanel>
-                                                </DataTemplate>
-                                            </DataGridTemplateColumn.CellTemplate>
-                                        </DataGridTemplateColumn>
-                                    </DataGrid.Columns>
-                                </DataGrid>
+                                                </Grid>
+                                            </Border>
+                                        </Grid>
+
+                                        <!-- 月度数据详情 -->
+                                        <Border Background="{StaticResource BackgroundBrush}" CornerRadius="4" 
+                                Padding="15" Margin="0,15,0,0">
+                                            <StackPanel>
+                                                <!-- 切换按钮 -->
+                                                <Button x:Name="MonthlyToggleButton" Background="Transparent" BorderThickness="0" 
+                                        HorizontalAlignment="Left" Padding="0" Cursor="Hand">
+                                                    <StackPanel Orientation="Horizontal">
+                                                        <Path x:Name="MonthlyToggleIcon" Data="M8.59,16.58L13.17,12L8.59,7.41L10,6L16,12L10,18L8.59,16.58Z" 
+                                              Fill="{StaticResource PrimaryBrush}" Stretch="Uniform" Width="16" Height="16" 
+                                              RenderTransformOrigin="0.5,0.5">
+                                                            <Path.RenderTransform>
+                                                                <RotateTransform Angle="0"/>
+                                                            </Path.RenderTransform>
+                                                        </Path>
+                                                        <TextBlock Text="月度数据详情" Margin="8,0,0,0" 
+                                                   Foreground="{StaticResource PrimaryBrush}" 
+                                                   FontWeight="SemiBold" VerticalAlignment="Center"/>
+                                                    </StackPanel>
+                                                </Button>
+
+                                                <!-- 月度数据表格 -->
+                                                <Grid x:Name="MonthlyDataGrid" Margin="0,10,0,0" Visibility="Collapsed">
+                                                    <Grid.RowDefinitions>
+                                                        <RowDefinition Height="Auto"/>
+                                                        <RowDefinition Height="*"/>
+                                                    </Grid.RowDefinitions>
+
+                                                    <!-- 月度表头 -->
+                                                    <Border Grid.Row="0" Background="{StaticResource BackgroundBrush}" 
+                                            BorderThickness="0,0,0,1" BorderBrush="{StaticResource BorderBrush}"
+                                            Padding="12,10">
+                                                        <Grid>
+                                                            <Grid.ColumnDefinitions>
+                                                                <ColumnDefinition Width="*"/>
+                                                                <ColumnDefinition Width="*"/>
+                                                                <ColumnDefinition Width="*"/>
+                                                                <ColumnDefinition Width="*"/>
+                                                                <ColumnDefinition Width="100"/>
+                                                            </Grid.ColumnDefinitions>
+
+                                                            <TextBlock Grid.Column="0" Text="月份" Style="{StaticResource TableHeaderStyle}"/>
+                                                            <TextBlock Grid.Column="1" Text="投入资产数量" Style="{StaticResource TableHeaderStyle}"/>
+                                                            <TextBlock Grid.Column="2" Text="月度销售预测" Style="{StaticResource TableHeaderStyle}"/>
+                                                            <TextBlock Grid.Column="3" Text="月度预算" Style="{StaticResource TableHeaderStyle}"/>
+                                                            <TextBlock Grid.Column="4" Text="操作" Style="{StaticResource TableHeaderStyle}"/>
+                                                        </Grid>
+                                                    </Border>
+
+                                                    <!-- 月度数据 -->
+                                                    <ItemsControl Grid.Row="1" x:Name="MonthlyDataItems">
+                                                        <ItemsControl.ItemTemplate>
+                                                            <DataTemplate>
+                                                                <Border Padding="12,10" BorderThickness="0,0,0,1" BorderBrush="{StaticResource BorderBrush}">
+                                                                    <Grid>
+                                                                        <Grid.ColumnDefinitions>
+                                                                            <ColumnDefinition Width="*"/>
+                                                                            <ColumnDefinition Width="*"/>
+                                                                            <ColumnDefinition Width="*"/>
+                                                                            <ColumnDefinition Width="*"/>
+                                                                            <ColumnDefinition Width="100"/>
+                                                                        </Grid.ColumnDefinitions>
+
+                                                                        <TextBlock Grid.Column="0" Text="{Binding Month}" 
+                                                                   VerticalAlignment="Center" HorizontalAlignment="Left"/>
+                                                                        <TextBox Grid.Column="1" Text="{Binding Quantity}" 
+                                                                 Style="{StaticResource FormInputStyle}" 
+                                                                 VerticalAlignment="Center" HorizontalAlignment="Stretch"/>
+                                                                        <TextBox Grid.Column="2" Text="{Binding SalesForecast}" 
+                                                                 Style="{StaticResource FormInputStyle}" 
+                                                                 VerticalAlignment="Center" HorizontalAlignment="Stretch"/>
+                                                                        <TextBox Grid.Column="3" Text="{Binding Budget}" 
+                                                                 Style="{StaticResource FormInputStyle}" 
+                                                                 VerticalAlignment="Center" HorizontalAlignment="Stretch"/>
+
+                                                                        <StackPanel Grid.Column="4" Orientation="Horizontal" HorizontalAlignment="Left">
+                                                                            <Button Style="{StaticResource SecondaryButtonStyle}" Padding="6,4" 
+                                                                    ToolTip="编辑">
+                                                                                <Path Data="M3,17.25V21H6.75L17.81,9.94L14.06,6.19L3,17.25ZM20.71,7.04C21.1,6.65 21.1,6 20.71,5.63L18.37,3.29C18,2.9 17.35,2.9 16.96,3.29L15.13,5.12L18.88,8.87L20.71,7.04Z" 
+                                                                      Fill="{StaticResource SecondaryTextBrush}" Stretch="Uniform" Width="16" Height="16"/>
+                                                                            </Button>
+                                                                            <Button Style="{StaticResource SecondaryButtonStyle}" Padding="6,4" 
+                                                                    ToolTip="删除" Margin="5,0,0,0">
+                                                                                <Path Data="M6,19A2,2 0 0,0 8,21H16A2,2 0 0,0 18,19V7H6V19M8,9H16V19H8V9M15.5,4L14.5,3H9.5L8.5,4H5V6H19V4H15.5Z" 
+                                                                      Fill="{StaticResource NegativeBrush}" Stretch="Uniform" Width="16" Height="16"/>
+                                                                            </Button>
+                                                                        </StackPanel>
+                                                                    </Grid>
+                                                                </Border>
+                                                            </DataTemplate>
+                                                        </ItemsControl.ItemTemplate>
+                                                    </ItemsControl>
+                                                </Grid>
+                                            </StackPanel>
+                                        </Border>
+                                    </StackPanel>
+                                </Border>
                             </StackPanel>
-                        </Border>
+                        </ScrollViewer>
                     </Grid>
                 </Border>
             </Grid>
