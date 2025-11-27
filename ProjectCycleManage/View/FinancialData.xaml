@@ -276,7 +276,7 @@
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
-                
+
                 <!-- 预算头部 -->
                 <Border Grid.Row="0"
                         BorderBrush="#E0E0E0"
@@ -288,13 +288,13 @@
                             <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="Auto"/>
                         </Grid.ColumnDefinitions>
-                        
+
                         <TextBlock Grid.Column="0"
                                    Text="2024年预算数据"
                                    FontSize="18"
                                    FontWeight="Bold"
                                    Foreground="#2D5BD5"/>
-                        
+
                         <StackPanel Grid.Column="1"
                                     Orientation="Horizontal"
                                     HorizontalAlignment="Right">
@@ -318,7 +318,7 @@
                         </StackPanel>
                     </Grid>
                 </Border>
-                
+
                 <!-- 数据展示卡片 -->
                 <Grid Grid.Row="1"
                       Margin="0,0,0,30">
@@ -329,7 +329,7 @@
                         <ColumnDefinition Width="10"/>
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
-                    
+
                     <Border Grid.Column="0"
                             Style="{StaticResource DataCardStyle}">
                         <StackPanel>
@@ -356,7 +356,7 @@
                             </StackPanel>
                         </StackPanel>
                     </Border>
-                    
+
                     <!-- 已使用预算卡片 -->
                     <Border Grid.Column="2"
                             Style="{StaticResource DataCardStyle}">
@@ -380,7 +380,7 @@
 
                         </StackPanel>
                     </Border>
-                    
+
                     <!-- 预算执行率卡片 -->
                     <Border Grid.Column="4"
                             Style="{StaticResource DataCardStyle}">
@@ -404,7 +404,7 @@
                         </StackPanel>
                     </Border>
                 </Grid>
-                
+
                 <!-- 投入资产设置区域 -->
                 <Border Grid.Row="2"
                         BorderBrush="#E0E0E0"
@@ -624,142 +624,5 @@
                 </Border>
             </Grid>
         </Border>
-
-        <!-- 投入资产统计信息 -->
-        <!--<Border Grid.Row="4"
-                Background="White"
-                Margin="20,0,20,20"
-                CornerRadius="12"
-                Padding="25">
-            <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                </Grid.RowDefinitions>
-                
-                --><!-- 统计信息头部 --><!--
-                <Grid Grid.Row="0"
-                      Margin="0,0,0,20">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="Auto"/>
-                    </Grid.ColumnDefinitions>
-                    
-                    <StackPanel Grid.Column="0"
-                                Orientation="Horizontal">
-                        <TextBlock Text="📈" 
-                                   FontSize="18" 
-                                   Margin="0,0,8,0"/>
-                        <TextBlock Text="投入资产统计"
-                                   FontSize="18"
-                                   FontWeight="Bold"
-                                   Foreground="#2D5BD5"/>
-                    </StackPanel>
-                    
-                    <Button Grid.Column="1"
-                            Style="{StaticResource SecondaryButtonStyle}"
-                            Command="{Binding ExportStatisticsCommand}">
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="📊" 
-                                       Margin="0,0,5,0"/>
-                            <TextBlock Text="导出统计"/>
-                        </StackPanel>
-                    </Button>
-                </Grid>
-                
-                --><!-- 统计信息网格 --><!--
-                <Grid Grid.Row="1">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="10"/>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="10"/>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="10"/>
-                        <ColumnDefinition Width="*"/>
-                    </Grid.ColumnDefinitions>
-                    
-                    --><!-- 总投入资产数量 --><!--
-                    <Border Grid.Column="0"
-                            Background="#F0F7FF"
-                            CornerRadius="8"
-                            Padding="15">
-                        <StackPanel>
-                            <TextBlock Text="总投入资产数量"
-                                       FontWeight="Medium"
-                                       Foreground="#2D5BD5"
-                                       Margin="0,0,0,5"/>
-                            <TextBlock Text="{Binding TotalInvestmentQuantity}"
-                                       FontSize="20"
-                                       FontWeight="Bold"
-                                       Foreground="#2D5BD5"/>
-                            <TextBlock Text="台"
-                                       FontWeight="Medium"
-                                       Foreground="#666666"/>
-                        </StackPanel>
-                    </Border>
-                    
-                    --><!-- 年度销售预测总额 --><!--
-                    <Border Grid.Column="2"
-                            Background="#F0F7FF"
-                            CornerRadius="8"
-                            Padding="15">
-                        <StackPanel>
-                            <TextBlock Text="年度销售预测总额"
-                                       FontWeight="Medium"
-                                       Foreground="#2D5BD5"
-                                       Margin="0,0,0,5"/>
-                            <TextBlock Text="{Binding TotalSalesForecast, StringFormat='¥ {0:N0}'}"
-                                       FontSize="20"
-                                       FontWeight="Bold"
-                                       Foreground="#2D5BD5"/>
-                            <TextBlock Text="元"
-                                       FontWeight="Medium"
-                                       Foreground="#666666"/>
-                        </StackPanel>
-                    </Border>
-                    
-                    --><!-- 年度预算总额 --><!--
-                    <Border Grid.Column="4"
-                            Background="#F0F7FF"
-                            CornerRadius="8"
-                            Padding="15">
-                        <StackPanel>
-                            <TextBlock Text="年度预算总额"
-                                       FontWeight="Medium"
-                                       Foreground="#2D5BD5"
-                                       Margin="0,0,0,5"/>
-                            <TextBlock Text="{Binding TotalInvestmentBudget, StringFormat='¥ {0:N0}'}"
-                                       FontSize="20"
-                                       FontWeight="Bold"
-                                       Foreground="#2D5BD5"/>
-                            <TextBlock Text="元"
-                                       FontWeight="Medium"
-                                       Foreground="#666666"/>
-                        </StackPanel>
-                    </Border>
-                    
-                    --><!-- 投入资产状态 --><!--
-                    <Border Grid.Column="6"
-                            Background="#F0F7FF"
-                            CornerRadius="8"
-                            Padding="15">
-                        <StackPanel>
-                            <TextBlock Text="投入资产状态"
-                                       FontWeight="Medium"
-                                       Foreground="#2D5BD5"
-                                       Margin="0,0,0,5"/>
-                            <TextBlock Text="{Binding InvestmentStatus}"
-                                       FontSize="16"
-                                       FontWeight="Bold"
-                                       Foreground="#4CAF50"/>
-                            <TextBlock Text="{Binding InvestmentStatusDescription}"
-                                       FontWeight="Medium"
-                                       Foreground="#666666"/>
-                        </StackPanel>
-                    </Border>
-                </Grid>
-            </Grid>
-        </Border>-->
     </Grid>
 </UserControl>
