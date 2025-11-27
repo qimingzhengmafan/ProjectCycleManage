@@ -37,9 +37,16 @@ namespace ProjectCycleManage.ViewModel
         [ObservableProperty]
         private int relatedProjectsCount = 24;
 
+        [ObservableProperty]
+        private bool isMonthlyDataVisible = false;
+
+        [ObservableProperty]
+        private List<MonthlyData> monthlyDataList;
+
         public FinancialData()
         {
             InitializeQuarterlyData();
+            InitializeMonthlyData();
         }
 
         private void InitializeQuarterlyData()
@@ -86,6 +93,31 @@ namespace ProjectCycleManage.ViewModel
         {
             // 添加信息逻辑
         }
+
+        [RelayCommand]
+        private void ToggleMonthlyData()
+        {
+            IsMonthlyDataVisible = !IsMonthlyDataVisible;
+        }
+
+        private void InitializeMonthlyData()
+        {
+            MonthlyDataList = new List<MonthlyData>
+            {
+                new MonthlyData { Month = "一月", Quantity = 12, SalesForecast = 750000, Budget = 650000 },
+                new MonthlyData { Month = "二月", Quantity = 14, SalesForecast = 820000, Budget = 700000 },
+                new MonthlyData { Month = "三月", Quantity = 13, SalesForecast = 780000, Budget = 680000 },
+                new MonthlyData { Month = "四月", Quantity = 15, SalesForecast = 850000, Budget = 720000 },
+                new MonthlyData { Month = "五月", Quantity = 16, SalesForecast = 900000, Budget = 780000 },
+                new MonthlyData { Month = "六月", Quantity = 14, SalesForecast = 820000, Budget = 700000 },
+                new MonthlyData { Month = "七月", Quantity = 17, SalesForecast = 950000, Budget = 800000 },
+                new MonthlyData { Month = "八月", Quantity = 15, SalesForecast = 850000, Budget = 720000 },
+                new MonthlyData { Month = "九月", Quantity = 18, SalesForecast = 980000, Budget = 820000 },
+                new MonthlyData { Month = "十月", Quantity = 16, SalesForecast = 900000, Budget = 780000 },
+                new MonthlyData { Month = "十一月", Quantity = 14, SalesForecast = 820000, Budget = 700000 },
+                new MonthlyData { Month = "十二月", Quantity = 17, SalesForecast = 950000, Budget = 800000 }
+            };
+        }
     }
 
     public class QuarterlyData
@@ -95,5 +127,13 @@ namespace ProjectCycleManage.ViewModel
         public string Budget { get; set; }
         public string CompletionRate { get; set; }
         public string Status { get; set; }
+    }
+
+    public class MonthlyData
+    {
+        public string Month { get; set; }
+        public int Quantity { get; set; }
+        public double SalesForecast { get; set; }
+        public double Budget { get; set; }
     }
 }
