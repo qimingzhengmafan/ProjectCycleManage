@@ -1,0 +1,47 @@
+﻿<UserControl x:Class="ProjectCycleManage.View.FinancialData"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:ProjectCycleManage.View"
+             xmlns:vm="clr-namespace:ProjectCycleManage.ViewModel"
+             mc:Ignorable="d" 
+             d:DataContext="{d:DesignInstance Type=vm:FinancialData}"
+             d:DesignHeight="800" 
+             d:DesignWidth="1664">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!-- 标题栏 -->
+        <Border Grid.Row="0"
+                Background="White"
+                Padding="20,15">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <!--<TextBlock Grid.Column="0"
+                           Text="审批人设置"/>-->
+                <Border BorderThickness="0 0 0 1"
+                        BorderBrush="#BBBBBB">
+                    <StackPanel Orientation="Horizontal">
+                        <Image Source="/Resources/Images/数据分析.png" 
+                               Height="25"/>
+                        <TextBlock Text=" 销售额与年度预算管理"
+                                   VerticalAlignment="Center"
+                                   FontSize="20"
+                                   FontWeight="Bold"
+                                   Foreground="#2D5BD5"/>
+                    </StackPanel>
+                </Border>
+
+            </Grid>
+        </Border>
+    </Grid>
+</UserControl>

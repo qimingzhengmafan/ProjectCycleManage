@@ -138,6 +138,7 @@
                 </Grid.ColumnDefinitions>
 
                 <TextBlock Grid.Column="0" 
+                           FontSize="24"
                            Text="系统设置" 
                            Style="{StaticResource SectionTitleStyle}"/>
             </Grid>

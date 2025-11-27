@@ -554,7 +554,7 @@
                                Height="25"/>
                         <TextBlock Text=" 审批人设置"
                                    VerticalAlignment="Center"
-                                   FontSize="25"
+                                   FontSize="20"
                                    FontWeight="Bold"
                                    Foreground="#2D5BD5"/>
                     </StackPanel>
