@@ -6,14 +6,126 @@
              xmlns:local="clr-namespace:ProjectCycleManage.View"
              xmlns:vm="clr-namespace:ProjectCycleManage.ViewModel"
              mc:Ignorable="d" 
-             d:DataContext="{d:DesignInstance Type=vm:FinancialData}"
              d:DesignHeight="800" 
-             d:DesignWidth="1664">
-    <Grid>
+             d:DesignWidth="1200">
+    <UserControl.DataContext>
+        <vm:FinancialData/>
+    </UserControl.DataContext>
+    <UserControl.Resources>
+        <!-- 年份标签样式 -->
+        <Style x:Key="YearTabStyle" TargetType="RadioButton">
+            <Setter Property="Width" Value="96"/>
+            <Setter Property="Height" Value="50"/>
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="BorderBrush" Value="Transparent"/>
+            <Setter Property="BorderThickness" Value="2"/>
+            <Setter Property="Foreground" Value="#333333"/>
+            <Setter Property="FontWeight" Value="Medium"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="RadioButton">
+                        <Border x:Name="border"
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="8">
+                            <ContentPresenter HorizontalAlignment="Center"
+                                              VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsChecked" Value="True">
+                                <Setter TargetName="border" Property="BorderBrush" Value="#2D5BD5"/>
+                                <Setter TargetName="border" Property="Background" Value="#E8EDFF"/>
+                            </Trigger>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="border" Property="Background" Value="#F5F7FA"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        
+        <!-- 数据卡片样式 -->
+        <Style x:Key="DataCardStyle" TargetType="Border">
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="BorderBrush" Value="#2D5BD5"/>
+            <Setter Property="BorderThickness" Value="0,0,0,4"/>
+            <Setter Property="CornerRadius" Value="10"/>
+            <Setter Property="Padding" Value="20"/>
+            <Setter Property="Effect">
+                <Setter.Value>
+                    <DropShadowEffect BlurRadius="8" 
+                                      ShadowDepth="2" 
+                                      Opacity="0.05"/>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        
+        <!-- 按钮样式 -->
+        <Style x:Key="PrimaryButtonStyle" TargetType="Button">
+            <Setter Property="Background" Value="#2D5BD5"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Padding" Value="12,8"/>
+            <Setter Property="FontWeight" Value="Medium"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="border"
+                                Background="{TemplateBinding Background}"
+                                CornerRadius="4">
+                            <ContentPresenter HorizontalAlignment="Center"
+                                              VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="border" Property="Background" Value="#1A3A8F"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        
+        <Style x:Key="SecondaryButtonStyle" TargetType="Button">
+            <Setter Property="Background" Value="#F5F7FA"/>
+            <Setter Property="Foreground" Value="#666666"/>
+            <Setter Property="BorderBrush" Value="#E0E0E0"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Padding" Value="12,8"/>
+            <Setter Property="FontWeight" Value="Medium"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="border"
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="4">
+                            <ContentPresenter HorizontalAlignment="Center"
+                                              VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="border" Property="Background" Value="#E0E0E0"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </UserControl.Resources>
+    
+    <Grid Background="#F5F7FA">
         <Grid.RowDefinitions>
-            <RowDefinition Height="52"/>
-            <RowDefinition Height="55"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
         <!-- 标题栏 -->
@@ -26,59 +138,398 @@
                     <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
                 
-                <Border BorderThickness="0 0 0 0"
-                        BorderBrush="#BBBBBB">
+                <StackPanel Orientation="Horizontal">
+                    <Image Source="/Resources/Images/数据分析.png" 
+                           Height="25"/>
+                    <TextBlock Text=" 销售额与年度预算管理"
+                               VerticalAlignment="Center"
+                               FontSize="20"
+                               FontWeight="Bold"
+                               Foreground="#2D5BD5"/>
+                </StackPanel>
+                
+                <!-- 返回按钮 -->
+                <Button Grid.Column="1"
+                        Style="{StaticResource SecondaryButtonStyle}"
+                        Background="Transparent"
+                        BorderThickness="0"
+                        Command="{Binding BackToSettingsCommand}">
                     <StackPanel Orientation="Horizontal">
-                        <Image Source="/Resources/Images/数据分析.png" 
-                               Height="25"/>
-                        <TextBlock Text=" 销售额与年度预算管理"
-                                   VerticalAlignment="Center"
-                                   FontSize="20"
-                                   FontWeight="Bold"
-                                   Foreground="#2D5BD5"/>
+                        <TextBlock Text="←" 
+                                   FontSize="16" 
+                                   Margin="0,0,8,0"/>
+                        <TextBlock Text="返回系统设置" 
+                                   FontSize="16"/>
                     </StackPanel>
-                </Border>
-
+                </Button>
             </Grid>
         </Border>
 
-        <!--年份按钮-->
-        <Grid Grid.Row="1"
-              Margin="20 0 20 0">
-            <ItemsControl>
+        <!-- 年份选择器 -->
+        <Border Grid.Row="2"
+                Background="White"
+                Margin="20,10,20,0"
+                Padding="20,15">
+            <StackPanel>
+                <StackPanel Orientation="Horizontal" 
+                            Margin="0,0,0,15">
+                    <TextBlock Text="📊" 
+                               FontSize="20" 
+                               Margin="0,0,10,0"/>
+                    <TextBlock Text="销售额与年度预算管理"
+                               FontSize="20"
+                               FontWeight="Bold"
+                               Foreground="#2D5BD5"/>
+                </StackPanel>
                 
-            </ItemsControl>
-            <StackPanel Orientation="Horizontal">
-                <ItemsControl ItemsSource="{Binding}">
-                    <ItemsControl.ItemsPanel>
-                        <ItemsPanelTemplate>
-                            <WrapPanel Orientation="Horizontal" 
-                                       Margin="0,0,10,10"/>
-                        </ItemsPanelTemplate>
-                    </ItemsControl.ItemsPanel>
-
-
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate>
-                            <RadioButton Content="2022年" 
-                                         Width="96"
-                                         Height="50" 
-                                         Style="{StaticResource YearTabStyle}"
-                                         GroupName="YearTabs"/>
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                </ItemsControl>
-                
-                
-                
-
+                <WrapPanel Orientation="Horizontal" 
+                            Margin="0,10,0,0">
+                    <RadioButton Content="2022年" 
+                                 Style="{StaticResource YearTabStyle}"
+                                 GroupName="YearTabs"
+                                 Command="{Binding SelectYearCommand}" CommandParameter="2022"
+                                 Margin="0,0,10,10"/>
+                    <RadioButton Content="2023年" 
+                                 Style="{StaticResource YearTabStyle}"
+                                 GroupName="YearTabs"
+                                 Command="{Binding SelectYearCommand}" CommandParameter="2023"
+                                 Margin="0,0,10,10"/>
+                    <RadioButton Content="2024年" 
+                                 Style="{StaticResource YearTabStyle}"
+                                 GroupName="YearTabs"
+                                 Command="{Binding SelectYearCommand}" CommandParameter="2024"
+                                 IsChecked="True"
+                                 Margin="0,0,10,10"/>
+                </WrapPanel>
             </StackPanel>
-        </Grid>
+        </Border>
 
+        <!-- 预算数据区域 -->
+        <Border Grid.Row="3"
+                Background="White"
+                Margin="20,10,20,10"
+                CornerRadius="12"
+                Padding="25">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                
+                <!-- 预算头部 -->
+                <Border Grid.Row="0"
+                        BorderBrush="#E0E0E0"
+                        BorderThickness="0,0,0,1"
+                        Padding="0,0,0,15"
+                        Margin="0,0,0,20">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        
+                        <TextBlock Grid.Column="0"
+                                   Text="2024年预算数据"
+                                   FontSize="18"
+                                   FontWeight="Bold"
+                                   Foreground="#2D5BD5"/>
+                        
+                        <StackPanel Grid.Column="1"
+                                    Orientation="Horizontal"
+                                    HorizontalAlignment="Right">
+                            <Button Style="{StaticResource SecondaryButtonStyle}"
+                                    Margin="0,0,10,0"
+                                    Command="{Binding ExportDataCommand}">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="📥" 
+                                               Margin="0,0,5,0"/>
+                                    <TextBlock Text="导出数据"/>
+                                </StackPanel>
+                            </Button>
+                            <Button Style="{StaticResource PrimaryButtonStyle}"
+                                    Command="{Binding EditBudgetCommand}">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="✏️" 
+                                               Margin="0,0,5,0"/>
+                                    <TextBlock Text="编辑预算"/>
+                                </StackPanel>
+                            </Button>
+                        </StackPanel>
+                    </Grid>
+                </Border>
+                
+                <!-- 数据展示卡片 -->
+                <Grid Grid.Row="1"
+                      Margin="0,0,0,30">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="10"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="10"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    
+                    <!-- 预算总额卡片 -->
+                    <Border Grid.Column="0"
+                            Style="{StaticResource DataCardStyle}">
+                        <StackPanel>
+                            <StackPanel Orientation="Horizontal"
+                                        Margin="0,0,0,15">
+                                <TextBlock Text="💰" 
+                                           FontSize="16" 
+                                           Margin="0,0,8,0"/>
+                                <TextBlock Text="预算总额"
+                                           FontWeight="Bold"
+                                           Foreground="#2D5BD5"/>
+                            </StackPanel>
+                            <TextBlock Text="{Binding TotalBudget, StringFormat='¥ {0:N0}'}"
+                                       FontSize="24"
+                                       FontWeight="Bold"
+                                       Margin="0,0,0,5"/>
+                            <TextBlock Text="年初设定预算总额"
+                                       FontSize="14"
+                                       Foreground="#666666"/>
+                            <StackPanel Orientation="Horizontal"
+                                        Margin="0,10,0,0">
+                                <TextBlock Text="▲" 
+                                           Foreground="#F44336"
+                                           Margin="0,0,5,0"/>
+                                <TextBlock Text="超预算 18.9%"
+                                           Foreground="#F44336"
+                                           FontSize="14"/>
+                            </StackPanel>
+                        </StackPanel>
+                    </Border>
+                    
+                    <!-- 已使用预算卡片 -->
+                    <Border Grid.Column="2"
+                            Style="{StaticResource DataCardStyle}">
+                        <StackPanel>
+                            <StackPanel Orientation="Horizontal"
+                                        Margin="0,0,0,15">
+                                <TextBlock Text="📊" 
+                                           FontSize="16" 
+                                           Margin="0,0,8,0"/>
+                                <TextBlock Text="已使用预算"
+                                           FontWeight="Bold"
+                                           Foreground="#2D5BD5"/>
+                            </StackPanel>
+                            <TextBlock Text="{Binding UsedBudget, StringFormat='¥ {0:N0}'}"
+                                       FontSize="24"
+                                       FontWeight="Bold"
+                                       Margin="0,0,0,5"/>
+                            <TextBlock Text="当前已使用预算"
+                                       FontSize="14"
+                                       Foreground="#666666"/>
+                            <StackPanel Orientation="Horizontal"
+                                        Margin="0,10,0,0">
+                                <TextBlock Text="▲" 
+                                           Foreground="#4CAF50"
+                                           Margin="0,0,5,0"/>
+                                <TextBlock Text="同比增长 12.5%"
+                                           Foreground="#4CAF50"
+                                           FontSize="14"/>
+                            </StackPanel>
+                        </StackPanel>
+                    </Border>
+                    
+                    <!-- 预算执行率卡片 -->
+                    <Border Grid.Column="4"
+                            Style="{StaticResource DataCardStyle}">
+                        <StackPanel>
+                            <StackPanel Orientation="Horizontal"
+                                        Margin="0,0,0,15">
+                                <TextBlock Text="📈" 
+                                           FontSize="16" 
+                                           Margin="0,0,8,0"/>
+                                <TextBlock Text="预算执行率"
+                                           FontWeight="Bold"
+                                           Foreground="#2D5BD5"/>
+                            </StackPanel>
+                            <TextBlock Text="{Binding BudgetExecutionRate}"
+                                       FontSize="24"
+                                       FontWeight="Bold"
+                                       Margin="0,0,0,5"/>
+                            <TextBlock Text="预算使用比率"
+                                       FontSize="14"
+                                       Foreground="#666666"/>
+                            <StackPanel Orientation="Horizontal"
+                                        Margin="0,10,0,0">
+                                <TextBlock Text="✓" 
+                                           Foreground="#4CAF50"
+                                           Margin="0,0,5,0"/>
+                                <TextBlock Text="执行良好"
+                                           Foreground="#4CAF50"
+                                           FontSize="14"/>
+                            </StackPanel>
+                        </StackPanel>
+                    </Border>
+                </Grid>
+                
+                <!-- 季度数据表格 -->
+                <Border Grid.Row="2"
+                        BorderBrush="#E0E0E0"
+                        BorderThickness="0,0,0,1"
+                        Padding="0,0,0,20"
+                        Margin="0,20,0,20">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        
+                        <TextBlock Grid.Row="0"
+                                   Text="季度数据"
+                                   FontSize="16"
+                                   FontWeight="Bold"
+                                   Margin="0,0,0,15"/>
+                        
+                        <DataGrid Grid.Row="1"
+                                  ItemsSource="{Binding QuarterlyDataList}"
+                                  AutoGenerateColumns="False"
+                                  IsReadOnly="True"
+                                  HeadersVisibility="Column"
+                                  BorderBrush="#E0E0E0"
+                                  BorderThickness="1">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="季度"
+                                                    Binding="{Binding Quarter}"
+                                                    Width="*"/>
+                                <DataGridTextColumn Header="预算金额"
+                                                    Binding="{Binding BudgetAmount, StringFormat='¥ {0:N0}'}"
+                                                    Width="*"/>
+                                <DataGridTextColumn Header="实际支出"
+                                                    Binding="{Binding ActualExpense, StringFormat='¥ {0:N0}'}"
+                                                    Width="*"/>
+                                <DataGridTextColumn Header="执行率"
+                                                    Binding="{Binding ExecutionRate}"
+                                                    Width="*"/>
+                                <DataGridTextColumn Header="状态"
+                                                    Binding="{Binding Status}"
+                                                    Width="*"/>
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </Grid>
+                </Border>
+            </Grid>
+        </Border>
 
-        <Grid DataContext="{Binding test}">
-            <TextBlock Text="{Binding test1}"/>
-
-        </Grid>
+        <!-- 其他信息区域 -->
+        <Border Grid.Row="4"
+                Background="White"
+                Margin="20,0,20,20"
+                CornerRadius="12"
+                Padding="25">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                
+                <!-- 其他信息头部 -->
+                <Grid Grid.Row="0"
+                      Margin="0,0,0,20">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    
+                    <TextBlock Grid.Column="0"
+                               Text="其他信息"
+                               FontSize="18"
+                               FontWeight="Bold"
+                               Foreground="#2D5BD5"/>
+                    
+                    <Button Grid.Column="1"
+                            Style="{StaticResource SecondaryButtonStyle}"
+                            Command="{Binding AddInformationCommand}">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="➕" 
+                                       Margin="0,0,5,0"/>
+                            <TextBlock Text="添加信息"/>
+                        </StackPanel>
+                    </Button>
+                </Grid>
+                
+                <!-- 信息项网格 -->
+                <Grid Grid.Row="1">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="10"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="10"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="10"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    
+                    <!-- 预算制定人 -->
+                    <Border Grid.Column="0"
+                            Background="#F9F9F9"
+                            CornerRadius="8"
+                            Padding="15">
+                        <StackPanel>
+                            <TextBlock Text="预算制定人"
+                                       FontWeight="Medium"
+                                       Foreground="#666666"
+                                       Margin="0,0,0,5"/>
+                            <TextBlock Text="{Binding BudgetCreator}"
+                                       FontWeight="Bold"
+                                       Foreground="#333333"/>
+                        </StackPanel>
+                    </Border>
+                    
+                    <!-- 最后更新时间 -->
+                    <Border Grid.Column="2"
+                            Background="#F9F9F9"
+                            CornerRadius="8"
+                            Padding="15">
+                        <StackPanel>
+                            <TextBlock Text="最后更新时间"
+                                       FontWeight="Medium"
+                                       Foreground="#666666"
+                                       Margin="0,0,0,5"/>
+                            <TextBlock Text="{Binding LastUpdateTime}"
+                                       FontWeight="Bold"
+                                       Foreground="#333333"/>
+                        </StackPanel>
+                    </Border>
+                    
+                    <!-- 预算状态 -->
+                    <Border Grid.Column="4"
+                            Background="#F9F9F9"
+                            CornerRadius="8"
+                            Padding="15">
+                        <StackPanel>
+                            <TextBlock Text="预算状态"
+                                       FontWeight="Medium"
+                                       Foreground="#666666"
+                                       Margin="0,0,0,5"/>
+                            <TextBlock Text="{Binding BudgetStatus}"
+                                       FontWeight="Bold"
+                                       Foreground="#4CAF50"/>
+                        </StackPanel>
+                    </Border>
+                    
+                    <!-- 审批状态 -->
+                    <Border Grid.Column="6"
+                            Background="#F9F9F9"
+                            CornerRadius="8"
+                            Padding="15">
+                        <StackPanel>
+                            <TextBlock Text="审批状态"
+                                       FontWeight="Medium"
+                                       Foreground="#666666"
+                                       Margin="0,0,0,5"/>
+                            <TextBlock Text="{Binding ApprovalStatus}"
+                                       FontWeight="Bold"
+                                       Foreground="#333333"/>
+                        </StackPanel>
+                    </Border>
+                </Grid>
+            </Grid>
+        </Border>
     </Grid>
 </UserControl>
