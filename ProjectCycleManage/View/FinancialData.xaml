@@ -418,9 +418,11 @@
                         </Grid.RowDefinitions>
 
                         <!-- 标题栏 -->
-                        <Border Grid.Row="0" Background="{StaticResource CardBackgroundBrush}" 
-                Padding="20,15" Margin="0,0,0,10" 
-                BorderThickness="0,0,0,1" BorderBrush="{StaticResource BorderBrush}">
+                        <Border Grid.Row="0" 
+                                Background="{StaticResource CardBackgroundBrush}" 
+                                Padding="20,15" Margin="0,0,0,10" 
+                                BorderThickness="0,0,0,1"
+                                BorderBrush="{StaticResource BorderBrush}">
                             <Grid>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="Auto"/>
@@ -428,10 +430,17 @@
                                     <ColumnDefinition Width="Auto"/>
                                 </Grid.ColumnDefinitions>
 
-                                <StackPanel Grid.Column="0" Orientation="Horizontal" VerticalAlignment="Center">
-                                    <Path Data="M10,20L20,10L30,20" Stroke="{StaticResource PrimaryBrush}" StrokeThickness="2" 
-                          Width="20" Height="20" VerticalAlignment="Center" Margin="0,0,8,0"/>
-                                    <TextBlock Text="投入资产设置" Style="{StaticResource SectionTitleStyle}" VerticalAlignment="Center"/>
+                                <StackPanel Grid.Column="0" 
+                                            Orientation="Horizontal" 
+                                            VerticalAlignment="Center">
+                                    
+                                    <Image Source="/Resources/Images/数据分析.png" 
+                                           Height="25"/>
+                                    
+                                    <TextBlock Text="投入资产设置" 
+                                               Margin="5 0 0 0"
+                                               Style="{StaticResource SectionTitleStyle}" 
+                                               VerticalAlignment="Center"/>
                                 </StackPanel>
 
                                 <StackPanel Grid.Column="2" Orientation="Horizontal" HorizontalAlignment="Right">
