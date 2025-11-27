@@ -82,6 +82,8 @@ namespace ProjectCycleManage.ViewModel
 
             _overviewvm = new OverviewVM(Loginpersonnamegrade , Loginpersonname);
             _newprojectvm= new NewProjectVM(Loginpersonnamegrade, Loginpersonname);
+            SettingVM = new SettingVM();
+
 
             _alertedProjects = new HashSet<int>();
             _alertTimes = new Dictionary<int, DateTime>();

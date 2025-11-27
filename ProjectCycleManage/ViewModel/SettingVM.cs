@@ -13,10 +13,10 @@ namespace ProjectCycleManage.ViewModel
     {
         #region UIVisibility
         [ObservableProperty]
-        private Visibility _approvalVilib;
+        private Visibility _approvalVilib = Visibility.Collapsed;
 
         [ObservableProperty]
-        private Visibility _mainareavisilib;
+        private Visibility _mainareavisilib = Visibility.Visible;
 
 
         #endregion
@@ -41,6 +41,7 @@ namespace ProjectCycleManage.ViewModel
         public SettingVM()
         {
             Mainareavisilib = Visibility.Visible;
+
             ApprovalVilib = Visibility.Collapsed;
         }
 

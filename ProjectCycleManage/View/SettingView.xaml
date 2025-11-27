@@ -341,7 +341,7 @@
         
         <Grid Grid.Row="1" 
               Visibility="{Binding ApprovalVilib}">
-            <local:ApprovalAuthorityView/>
+            <local:ApprovalAuthorityView DataContext="{Binding ApprovalauthorityVM}"/>
         </Grid>
 
         
