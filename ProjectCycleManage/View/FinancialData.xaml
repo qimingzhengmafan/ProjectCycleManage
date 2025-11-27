@@ -269,7 +269,6 @@
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
                     
-                    <!-- 预算总额卡片 -->
                     <Border Grid.Column="0"
                             Style="{StaticResource DataCardStyle}">
                         <StackPanel>
@@ -278,7 +277,7 @@
                                 <TextBlock Text="💰" 
                                            FontSize="16" 
                                            Margin="0,0,8,0"/>
-                                <TextBlock Text="预算总额"
+                                <TextBlock Text="年度销售预测"
                                            FontWeight="Bold"
                                            Foreground="#2D5BD5"/>
                             </StackPanel>
@@ -291,12 +290,8 @@
                                        Foreground="#666666"/>
                             <StackPanel Orientation="Horizontal"
                                         Margin="0,10,0,0">
-                                <TextBlock Text="▲" 
-                                           Foreground="#F44336"
-                                           Margin="0,0,5,0"/>
-                                <TextBlock Text="超预算 18.9%"
-                                           Foreground="#F44336"
-                                           FontSize="14"/>
+
+
                             </StackPanel>
                         </StackPanel>
                     </Border>
@@ -321,15 +316,7 @@
                             <TextBlock Text="当前已使用预算"
                                        FontSize="14"
                                        Foreground="#666666"/>
-                            <StackPanel Orientation="Horizontal"
-                                        Margin="0,10,0,0">
-                                <TextBlock Text="▲" 
-                                           Foreground="#4CAF50"
-                                           Margin="0,0,5,0"/>
-                                <TextBlock Text="同比增长 12.5%"
-                                           Foreground="#4CAF50"
-                                           FontSize="14"/>
-                            </StackPanel>
+
                         </StackPanel>
                     </Border>
                     
@@ -353,15 +340,6 @@
                             <TextBlock Text="预算使用比率"
                                        FontSize="14"
                                        Foreground="#666666"/>
-                            <StackPanel Orientation="Horizontal"
-                                        Margin="0,10,0,0">
-                                <TextBlock Text="✓" 
-                                           Foreground="#4CAF50"
-                                           Margin="0,0,5,0"/>
-                                <TextBlock Text="执行良好"
-                                           Foreground="#4CAF50"
-                                           FontSize="14"/>
-                            </StackPanel>
                         </StackPanel>
                     </Border>
                 </Grid>
