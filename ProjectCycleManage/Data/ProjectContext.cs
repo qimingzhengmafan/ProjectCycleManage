@@ -30,6 +30,7 @@ namespace ProjectManagement.Data
         public DbSet<ProjFlowTable> ProjFlowTable { get; set; }
         public DbSet<TypeApprFlowPersSeqTable> TypeApprFlowPersSeqTable { get; set; }
         public DbSet<AnnualBudget> AnnualBudgetTable { get; set; }
+        public DbSet<SalesVolumeTable> SalesVolumeTables { get; set; }
 
         // 配置数据库连接
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
