@@ -1,5 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using Microsoft.EntityFrameworkCore.Query.Internal;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,12 +13,15 @@ namespace ProjectCycleManage.ViewModel
     public partial class SettingVM: ObservableObject
     {
         #region UIVisibility
+
         [ObservableProperty]
         private Visibility _approvalVilib = Visibility.Collapsed;
 
         [ObservableProperty]
         private Visibility _mainareavisilib = Visibility.Visible;
 
+        [ObservableProperty]
+        private Visibility _financialvisib = Visibility.Collapsed;
 
         #endregion
 
@@ -37,6 +41,16 @@ namespace ProjectCycleManage.ViewModel
             }
         }
 
+        private FinancialData _financialdatavm;
+        public FinancialData FinancialDataVM
+        {
+            get => _financialdatavm;
+            set
+            {
+                _financialdatavm = value;
+                OnPropertyChanged();
+            }
+        }
 
         public SettingVM()
         {
@@ -57,6 +71,15 @@ namespace ProjectCycleManage.ViewModel
             Mainareavisilib = Visibility.Collapsed;
 
             //MessageBox.Show("Amount Click!");
+        }
+
+        [RelayCommand]
+        private void FinancialDataCard()
+        {
+            FinancialDataVM = new ();
+            Financialvisib = Visibility.Visible;
+
+            Mainareavisilib = Visibility.Collapsed;
         }
 
         #endregion

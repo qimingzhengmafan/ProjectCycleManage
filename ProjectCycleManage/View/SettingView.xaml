@@ -163,7 +163,7 @@
                             Height="220" 
                             Margin="0,0,100,20"
                             BorderThickness="4,0,0,0" 
-                            Command="{Binding AmountCardCommand}"
+                            Command="{Binding FinancialDataCardCommand}"
                             BorderBrush="#2d5bd6">
                         <Button.Content>
                             <Grid Width="270"
@@ -340,10 +340,10 @@
             <local:ApprovalAuthorityView DataContext="{Binding ApprovalauthorityVM}"/>
         </Grid>
 
-        
-        <Grid Grid.Row="1"
-              Visibility="Collapsed">
 
+        <Grid Grid.Row="1"
+              Visibility="{Binding Financialvisib}">
+            <local:FinancialData DataContext="{Binding FinancialDataVM}"/>
         </Grid>
 
         

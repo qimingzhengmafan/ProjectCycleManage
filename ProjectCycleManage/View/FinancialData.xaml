@@ -6,11 +6,9 @@
              xmlns:local="clr-namespace:ProjectCycleManage.View"
              xmlns:vm="clr-namespace:ProjectCycleManage.ViewModel"
              mc:Ignorable="d" 
+             d:DataContext="{d:DesignInstance Type=vm:FinancialData}"
              d:DesignHeight="800" 
-             d:DesignWidth="1200">
-    <UserControl.DataContext>
-        <vm:FinancialData/>
-    </UserControl.DataContext>
+             d:DesignWidth="1664">
     <UserControl.Resources>
         <!-- 年份标签样式 -->
         <Style x:Key="YearTabStyle" TargetType="RadioButton">
