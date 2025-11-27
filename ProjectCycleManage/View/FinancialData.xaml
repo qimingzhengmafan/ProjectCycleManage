@@ -11,8 +11,8 @@
              d:DesignWidth="1664">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="52"/>
+            <RowDefinition Height="55"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
@@ -25,10 +25,8 @@
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
-
-                <!--<TextBlock Grid.Column="0"
-                           Text="审批人设置"/>-->
-                <Border BorderThickness="0 0 0 1"
+                
+                <Border BorderThickness="0 0 0 0"
                         BorderBrush="#BBBBBB">
                     <StackPanel Orientation="Horizontal">
                         <Image Source="/Resources/Images/数据分析.png" 
@@ -43,5 +41,20 @@
 
             </Grid>
         </Border>
+
+        <!--年份按钮-->
+        <Grid Grid.Row="1"
+              Margin="20 0 20 0">
+            <ItemsControl>
+                
+            </ItemsControl>
+            <StackPanel Orientation="Horizontal">
+                <RadioButton Content="2022年" 
+                             Width="96"
+                             Height="50" 
+                             Style="{StaticResource YearTabStyle}"
+                             GroupName="YearTabs"/>
+            </StackPanel>
+        </Grid>
     </Grid>
 </UserControl>

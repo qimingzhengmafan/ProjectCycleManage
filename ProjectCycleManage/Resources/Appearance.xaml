@@ -220,5 +220,56 @@
         </Style.Triggers>
     </Style>
 
+    <Style x:Key="YearTabStyle" 
+           TargetType="RadioButton">
+        <Setter Property="Background"
+                Value="White"/>
+        <Setter Property="BorderBrush" 
+                Value="Transparent"/>
+        <Setter Property="BorderThickness" 
+                Value="2"/>
+        <Setter Property="Padding" 
+                Value="10,10"/>
+        <Setter Property="Margin" 
+                Value="0,0,10,0"/>
+        <Setter Property="Cursor" 
+                Value="Hand"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="RadioButton">
+                    <Border x:Name="border"
+                            Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            CornerRadius="8">
+                        <ContentPresenter HorizontalAlignment="Center" 
+                                          VerticalAlignment="Center"/>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <!-- 鼠标悬停效果 -->
+                        <Trigger Property="IsMouseOver" 
+                                 Value="True">
+                            <Setter Property="Background" 
+                                    Value="#F8F9FF"/>
+                            <Setter TargetName="border" 
+                                    Property="BorderBrush" 
+                                    Value="#2D5BD6"/>
+                        </Trigger>
+                        <!-- 选中状态 -->
+                        <Trigger Property="IsChecked"
+                                 Value="True">
+                            <Setter Property="Background"
+                                    Value="#E8EDFF"/>
+                            <Setter Property="BorderBrush" 
+                                    Value="#2D5BD6"/>
+                            <Setter Property="Foreground"
+                                    Value="#2D5BD6"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
 
 </ResourceDictionary>

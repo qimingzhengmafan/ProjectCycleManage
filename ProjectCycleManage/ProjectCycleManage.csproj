@@ -34,6 +34,7 @@
     <None Remove="Resources\Images\想法.png" />
     <None Remove="Resources\Images\折线图.png" />
     <None Remove="Resources\Images\授权管理.png" />
+    <None Remove="Resources\Images\授权管理蓝.png" />
     <None Remove="Resources\Images\数据分析.png" />
     <None Remove="Resources\Images\文档.png" />
     <None Remove="Resources\Images\申请人.png" />
@@ -88,6 +89,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Resources\Images\授权管理.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\授权管理蓝.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Resources\Images\数据分析.png">
