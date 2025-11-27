@@ -121,27 +121,22 @@
     
     <Grid Background="#F5F7FA">
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="65"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         
         <!-- 头部区域 -->
         <Border Grid.Row="0" 
                 Background="White"
-                Padding="20"
                 BorderBrush="#E0E0E0"
                 BorderThickness="0,0,0,1">
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="Auto"/>
-                </Grid.ColumnDefinitions>
-
-                <TextBlock Grid.Column="0" 
-                           FontSize="24"
-                           Text="系统设置" 
-                           Style="{StaticResource SectionTitleStyle}"/>
-            </Grid>
+            
+            <TextBlock Grid.Column="0" 
+                       Margin="20 0 0 0"
+                       VerticalAlignment="Center"
+                       FontSize="24"
+                       Text="系统设置" 
+                       Style="{StaticResource SectionTitleStyle}"/>
         </Border>
         
         <!-- 主内容区域 -->
