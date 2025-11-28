@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace ProjectCycleManage.ViewModel
 {
@@ -83,6 +84,7 @@ namespace ProjectCycleManage.ViewModel
         private void SelectYear(string year)
         {
             CurrentYear = year;
+            MessageBox.Show(CurrentYear);
             // 这里可以添加根据年份加载不同数据的逻辑
             OnPropertyChanged(nameof(AnnualSales));
             OnPropertyChanged(nameof(AnnualBudget));

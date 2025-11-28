@@ -15,41 +15,7 @@
         <utilities:BooleanToRotationConverter x:Key="BooleanToRotationConverter"/>
         <utilities:StringToBoolConverter x:Key="StringToBoolConverter"/>
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
-        
-        <!-- 年份标签样式 -->
-        <Style x:Key="YearTabStyle" TargetType="RadioButton">
-            <Setter Property="Width" Value="96"/>
-            <Setter Property="Height" Value="50"/>
-            <Setter Property="Background" Value="White"/>
-            <Setter Property="BorderBrush" Value="Transparent"/>
-            <Setter Property="BorderThickness" Value="2"/>
-            <Setter Property="Foreground" Value="#333333"/>
-            <Setter Property="FontWeight" Value="Medium"/>
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="RadioButton">
-                        <Border x:Name="border"
-                                Background="{TemplateBinding Background}"
-                                BorderBrush="{TemplateBinding BorderBrush}"
-                                BorderThickness="{TemplateBinding BorderThickness}"
-                                CornerRadius="8">
-                            <ContentPresenter HorizontalAlignment="Center"
-                                              VerticalAlignment="Center"/>
-                        </Border>
-                        <ControlTemplate.Triggers>
-                            <Trigger Property="IsChecked" Value="True">
-                                <Setter TargetName="border" Property="BorderBrush" Value="#2D5BD5"/>
-                                <Setter TargetName="border" Property="Background" Value="#E8EDFF"/>
-                            </Trigger>
-                            <Trigger Property="IsMouseOver" Value="True">
-                                <Setter TargetName="border" Property="Background" Value="#F5F7FA"/>
-                            </Trigger>
-                        </ControlTemplate.Triggers>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
-        
+
         <!-- 数据卡片样式 -->
         <Style x:Key="DataCardStyle" TargetType="Border">
             <Setter Property="Background" Value="White"/>
@@ -241,12 +207,14 @@
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
                         <RadioButton Content="{Binding StringFormat={}{0}年}" 
-                         Style="{StaticResource YearTabStyle}"
-                         GroupName="YearTabs"
-                         Command="{Binding DataContext.SelectYearCommand, RelativeSource={RelativeSource AncestorType=UserControl}}" 
-                         CommandParameter="{Binding}"
-                         IsChecked="{Binding Path=DataContext.CurrentYear, RelativeSource={RelativeSource AncestorType=UserControl}, Converter={StaticResource StringToBoolConverter}, ConverterParameter={Binding}}"
-                         Margin="0,0,10,10"/>
+                                     Style="{StaticResource YearTabStyle}"
+                                     Width="96"
+                                     Height="50"
+                                     GroupName="YearTabs"
+                                     Command="{Binding DataContext.SelectYearCommand, RelativeSource={RelativeSource AncestorType=UserControl}}" 
+                                     CommandParameter="{Binding}"
+                                     IsChecked="{Binding Path=DataContext.CurrentYear, RelativeSource={RelativeSource AncestorType=UserControl}, Converter={StaticResource StringToBoolConverter}}"
+                                     Margin="0,0,10,10"/>
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
             </ItemsControl>
