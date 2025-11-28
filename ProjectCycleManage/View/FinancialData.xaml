@@ -247,7 +247,7 @@
                         </Grid.ColumnDefinitions>
 
                         <TextBlock Grid.Column="0"
-                                   Text="2024年预算数据"
+                                   Text="{Binding CurrentYear, StringFormat='{} {0}年数据'}"
                                    FontSize="18"
                                    FontWeight="Bold"
                                    Foreground="#2D5BD5"/>
