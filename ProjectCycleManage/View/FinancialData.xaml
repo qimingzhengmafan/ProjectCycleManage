@@ -362,7 +362,7 @@
                                            Foreground="#2D5BD5"/>
                             </StackPanel>
 
-                            <TextBlock Text="{Binding TotalBudget, StringFormat='¥ {0:N0}'}"
+                            <TextBlock Text="{Binding InvestmentSalesForecast, StringFormat='¥ {0:N0}'}"
                                        FontSize="24"
                                        FontWeight="Bold"
                                        Margin="0,0,0,5"/>
@@ -392,7 +392,7 @@
                                            VerticalAlignment="Center"
                                            Foreground="#2D5BD5"/>
                             </StackPanel>
-                            <TextBlock Text="{Binding TotalBudget, StringFormat='¥ {0:N0}'}"
+                            <TextBlock Text="{Binding InvestmentBudget, StringFormat='¥ {0:N0}'}"
                                        FontSize="24"
                                        FontWeight="Bold"
                                        Margin="0,0,0,5"/>
@@ -636,7 +636,7 @@
                                                                         Orientation="Horizontal">
                                                                 <TextBlock Text="原始值 :"
                                                                             Style="{StaticResource TableHeaderStyle}"/>
-                                                                <TextBlock />
+                                                                <TextBlock Text="{Binding InvestmentQuantity}"/>
                                                             </StackPanel>
 
                                                             <StackPanel Grid.Column="2"
@@ -663,7 +663,7 @@
                                                                         Orientation="Horizontal">
                                                                 <TextBlock Text="原始值 :"
                                                                             Style="{StaticResource TableHeaderStyle}"/>
-                                                                <TextBlock />
+                                                                <TextBlock Text="{Binding AnnualSales}"/>
                                                             </StackPanel>
 
                                                             <StackPanel Grid.Column="2"

@@ -1,5 +1,8 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using ProjectManagement.Data;
+using ProjectCycleManage.Model;
+using ProjectManagement.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,8 +14,10 @@ namespace ProjectCycleManage.ViewModel
 {
     public partial class FinancialData : ObservableObject
     {
+        int startYear = 2022;
+
         [ObservableProperty]
-        private string currentYear = "2024";
+        private string currentYear;
 
         [ObservableProperty]
         private List<string> availableYears;
@@ -59,15 +64,13 @@ namespace ProjectCycleManage.ViewModel
         public FinancialData()
         {
             InitializeAvailableYears();
-            InitializeQuarterlyData();
-            InitializeMonthlyData();
+            LoadFinancialDataByYear(CurrentYear);
         }
 
         private void InitializeAvailableYears()
         {
             int currentYear = DateTime.Now.Year;
-            int startYear = 2022;
-            
+
             AvailableYears = new List<string>();
             for (int year = startYear; year <= currentYear; year++)
             {
@@ -99,49 +102,140 @@ namespace ProjectCycleManage.ViewModel
 
         private void LoadFinancialDataByYear(string year)
         {
-            // 根据年份加载不同的财务数据
-            switch (year)
+            if (!int.TryParse(year, out int selectedYear))
+                return;
+
+            using var context = new ProjectContext();
+            
+            // 1. 从SalesVolume表获取年度销售预测
+            var salesVolume = context.SalesVolumeTables
+                .FirstOrDefault(s => s.Year == selectedYear);
+            
+            if (salesVolume != null)
             {
-                case "2022":
-                    AnnualSales = 7200000;
-                    AnnualBudget = 6000000;
-                    BudgetExecutionRate = 120.0;
-                    InvestmentQuantity = 120;
-                    InvestmentSalesForecast = 7200000;
-                    InvestmentBudget = 6000000;
-                    InitializeQuarterlyDataFor2022();
-                    InitializeMonthlyDataFor2022();
-                    break;
-                case "2023":
-                    AnnualSales = 7800000;
-                    AnnualBudget = 6500000;
-                    BudgetExecutionRate = 120.0;
-                    InvestmentQuantity = 138;
-                    InvestmentSalesForecast = 7800000;
-                    InvestmentBudget = 6500000;
-                    InitializeQuarterlyDataFor2023();
-                    InitializeMonthlyDataFor2023();
-                    break;
-                case "2024":
-                default:
-                    AnnualSales = 8560000;
-                    AnnualBudget = 7200000;
-                    BudgetExecutionRate = 118.9;
-                    InvestmentQuantity = 156;
-                    InvestmentSalesForecast = 9560000;
-                    InvestmentBudget = 8450000;
-                    InitializeQuarterlyData();
-                    InitializeMonthlyData();
-                    break;
+                InvestmentSalesForecast = salesVolume.SalesVolume;
             }
             
+            // 2. 从AnnualBudget表获取年度预算
+            var annualBudget = context.AnnualBudgetTable
+                .FirstOrDefault(a => a.Year == selectedYear);
+            
+            if (annualBudget != null)
+            {
+                InvestmentBudget = annualBudget.Budget;
+            }
+            
+            // 3. 从Projects表获取投入设备数量和投入金额
+            var projects = context.Projects
+                .Where(p => p.Year == selectedYear)
+                .ToList();
+            
+            // 计算投入设备数量（总设备数）
+            InvestmentQuantity = projects.Count;
+            
+            // 计算投入金额（所有设备的ActualExpenditure总和）
+            double totalExpenditure = 0;
+            foreach (var project in projects)
+            {
+                if (double.TryParse(project.ActualExpenditure, out double expenditure))
+                {
+                    totalExpenditure += expenditure;
+                }
+            }
+            AnnualSales = totalExpenditure;
+            
+            // 4. 计算预算执行率
+            if (InvestmentBudget > 0)
+            {
+                BudgetExecutionRate = Math.Round((AnnualSales / InvestmentBudget) * 100, 1);
+            }
+            else
+            {
+                BudgetExecutionRate = 0;
+            }
+            
+            // 5. 加载月度数据修正
+            LoadMonthlyCorrectionData(selectedYear);
+            
             // 通知UI属性已更新
-            OnPropertyChanged(nameof(AnnualSales));
+            
+
             OnPropertyChanged(nameof(AnnualBudget));
-            OnPropertyChanged(nameof(BudgetExecutionRate));
             OnPropertyChanged(nameof(InvestmentQuantity));
+
+            OnPropertyChanged(nameof(AnnualSales));
+            OnPropertyChanged(nameof(BudgetExecutionRate));
             OnPropertyChanged(nameof(InvestmentSalesForecast));
             OnPropertyChanged(nameof(InvestmentBudget));
+        }
+
+        private void LoadMonthlyCorrectionData(int year)
+        {
+            using var context = new ProjectContext();
+            
+            // 获取资产数量修正数据
+            var quantityCorrection = context.RevOfAssetQuantTab
+                .FirstOrDefault(r => r.Year == year);
+            
+            // 获取资产金额修正数据
+            var amountCorrection = context.AsAmountCorrectTab
+                .FirstOrDefault(a => a.Year == year);
+            
+            // 初始化月度数据列表
+            MonthlyDataList = new List<MonthlyData>();
+            
+            // 定义月份名称数组
+            string[] monthNames = { "一月", "二月", "三月", "四月", "五月", "六月", 
+                                  "七月", "八月", "九月", "十月", "十一月", "十二月" };
+            
+            // 获取原始值（投入设备数量和投入金额）
+            double originalQuantity = InvestmentQuantity;
+            double originalAmount = AnnualSales;
+            
+            for (int i = 0; i < 12; i++)
+            {
+                var monthlyData = new MonthlyData
+                {
+                    Month = monthNames[i],
+                    OriginalQuantity = originalQuantity,
+                    OriginalAmount = originalAmount
+                };
+                
+                // 计算修正后的数量
+                double quantityCorrectionValue = GetCorrectionValue(quantityCorrection, i + 1);
+                monthlyData.CorrectedQuantity = originalQuantity + quantityCorrectionValue;
+                
+                // 计算修正后的金额
+                double amountCorrectionValue = GetCorrectionValue(amountCorrection, i + 1);
+                monthlyData.CorrectedAmount = originalAmount + amountCorrectionValue;
+                
+                MonthlyDataList.Add(monthlyData);
+            }
+            
+            OnPropertyChanged(nameof(MonthlyDataList));
+        }
+
+        private double GetCorrectionValue(object correctionRecord, int month)
+        {
+            if (correctionRecord == null)
+                return 0;
+            
+            switch (month)
+            {
+                case 1: return ((dynamic)correctionRecord).JanuaryCorrection ?? 0;
+                case 2: return ((dynamic)correctionRecord).FebruaryCorrection ?? 0;
+                case 3: return ((dynamic)correctionRecord).MarchCorrection ?? 0;
+                case 4: return ((dynamic)correctionRecord).AprilCorrection ?? 0;
+                case 5: return ((dynamic)correctionRecord).MayCorrection ?? 0;
+                case 6: return ((dynamic)correctionRecord).JuneCorrection ?? 0;
+                case 7: return ((dynamic)correctionRecord).JulyCorrection ?? 0;
+                case 8: return ((dynamic)correctionRecord).AugustCorrection ?? 0;
+                case 9: return ((dynamic)correctionRecord).SeptemberCorrection ?? 0;
+                case 10: return ((dynamic)correctionRecord).OctoberCorrection ?? 0;
+                case 11: return ((dynamic)correctionRecord).NovemberCorrection ?? 0;
+                case 12: return ((dynamic)correctionRecord).DecemberCorrection ?? 0;
+                default: return 0;
+            }
         }
 
         [RelayCommand]
@@ -178,18 +272,18 @@ namespace ProjectCycleManage.ViewModel
         {
             MonthlyDataList = new List<MonthlyData>
             {
-                new MonthlyData { Month = "一月", Quantity = 12, SalesForecast = 750000, Budget = 650000 },
-                new MonthlyData { Month = "二月", Quantity = 14, SalesForecast = 820000, Budget = 700000 },
-                new MonthlyData { Month = "三月", Quantity = 13, SalesForecast = 780000, Budget = 680000 },
-                new MonthlyData { Month = "四月", Quantity = 15, SalesForecast = 850000, Budget = 720000 },
-                new MonthlyData { Month = "五月", Quantity = 16, SalesForecast = 900000, Budget = 780000 },
-                new MonthlyData { Month = "六月", Quantity = 14, SalesForecast = 820000, Budget = 700000 },
-                new MonthlyData { Month = "七月", Quantity = 17, SalesForecast = 950000, Budget = 800000 },
-                new MonthlyData { Month = "八月", Quantity = 15, SalesForecast = 850000, Budget = 720000 },
-                new MonthlyData { Month = "九月", Quantity = 18, SalesForecast = 980000, Budget = 820000 },
-                new MonthlyData { Month = "十月", Quantity = 16, SalesForecast = 900000, Budget = 780000 },
-                new MonthlyData { Month = "十一月", Quantity = 14, SalesForecast = 820000, Budget = 700000 },
-                new MonthlyData { Month = "十二月", Quantity = 17, SalesForecast = 950000, Budget = 800000 }
+                new MonthlyData { Month = "一月", OriginalQuantity = 12, OriginalAmount = 750000, CorrectedQuantity = 12, CorrectedAmount = 750000 },
+                new MonthlyData { Month = "二月", OriginalQuantity = 14, OriginalAmount = 820000, CorrectedQuantity = 14, CorrectedAmount = 820000 },
+                new MonthlyData { Month = "三月", OriginalQuantity = 13, OriginalAmount = 780000, CorrectedQuantity = 13, CorrectedAmount = 780000 },
+                new MonthlyData { Month = "四月", OriginalQuantity = 15, OriginalAmount = 850000, CorrectedQuantity = 15, CorrectedAmount = 850000 },
+                new MonthlyData { Month = "五月", OriginalQuantity = 16, OriginalAmount = 900000, CorrectedQuantity = 16, CorrectedAmount = 900000 },
+                new MonthlyData { Month = "六月", OriginalQuantity = 14, OriginalAmount = 820000, CorrectedQuantity = 14, CorrectedAmount = 820000 },
+                new MonthlyData { Month = "七月", OriginalQuantity = 17, OriginalAmount = 950000, CorrectedQuantity = 17, CorrectedAmount = 950000 },
+                new MonthlyData { Month = "八月", OriginalQuantity = 15, OriginalAmount = 850000, CorrectedQuantity = 15, CorrectedAmount = 850000 },
+                new MonthlyData { Month = "九月", OriginalQuantity = 18, OriginalAmount = 980000, CorrectedQuantity = 18, CorrectedAmount = 980000 },
+                new MonthlyData { Month = "十月", OriginalQuantity = 16, OriginalAmount = 900000, CorrectedQuantity = 16, CorrectedAmount = 900000 },
+                new MonthlyData { Month = "十一月", OriginalQuantity = 14, OriginalAmount = 820000, CorrectedQuantity = 14, CorrectedAmount = 820000 },
+                new MonthlyData { Month = "十二月", OriginalQuantity = 17, OriginalAmount = 950000, CorrectedQuantity = 17, CorrectedAmount = 950000 }
             };
         }
 
@@ -208,18 +302,18 @@ namespace ProjectCycleManage.ViewModel
         {
             MonthlyDataList = new List<MonthlyData>
             {
-                new MonthlyData { Month = "一月", Quantity = 10, SalesForecast = 650000, Budget = 550000 },
-                new MonthlyData { Month = "二月", Quantity = 11, SalesForecast = 680000, Budget = 580000 },
-                new MonthlyData { Month = "三月", Quantity = 12, SalesForecast = 720000, Budget = 610000 },
-                new MonthlyData { Month = "四月", Quantity = 13, SalesForecast = 750000, Budget = 640000 },
-                new MonthlyData { Month = "五月", Quantity = 14, SalesForecast = 780000, Budget = 670000 },
-                new MonthlyData { Month = "六月", Quantity = 15, SalesForecast = 820000, Budget = 700000 },
-                new MonthlyData { Month = "七月", Quantity = 16, SalesForecast = 850000, Budget = 730000 },
-                new MonthlyData { Month = "八月", Quantity = 15, SalesForecast = 820000, Budget = 700000 },
-                new MonthlyData { Month = "九月", Quantity = 14, SalesForecast = 780000, Budget = 670000 },
-                new MonthlyData { Month = "十月", Quantity = 13, SalesForecast = 750000, Budget = 640000 },
-                new MonthlyData { Month = "十一月", Quantity = 12, SalesForecast = 720000, Budget = 610000 },
-                new MonthlyData { Month = "十二月", Quantity = 11, SalesForecast = 680000, Budget = 580000 }
+                new MonthlyData { Month = "一月", OriginalQuantity = 10, OriginalAmount = 650000, CorrectedQuantity = 10, CorrectedAmount = 650000 },
+                new MonthlyData { Month = "二月", OriginalQuantity = 11, OriginalAmount = 680000, CorrectedQuantity = 11, CorrectedAmount = 680000 },
+                new MonthlyData { Month = "三月", OriginalQuantity = 12, OriginalAmount = 720000, CorrectedQuantity = 12, CorrectedAmount = 720000 },
+                new MonthlyData { Month = "四月", OriginalQuantity = 13, OriginalAmount = 750000, CorrectedQuantity = 13, CorrectedAmount = 750000 },
+                new MonthlyData { Month = "五月", OriginalQuantity = 14, OriginalAmount = 780000, CorrectedQuantity = 14, CorrectedAmount = 780000 },
+                new MonthlyData { Month = "六月", OriginalQuantity = 15, OriginalAmount = 820000, CorrectedQuantity = 15, CorrectedAmount = 820000 },
+                new MonthlyData { Month = "七月", OriginalQuantity = 16, OriginalAmount = 850000, CorrectedQuantity = 16, CorrectedAmount = 850000 },
+                new MonthlyData { Month = "八月", OriginalQuantity = 15, OriginalAmount = 820000, CorrectedQuantity = 15, CorrectedAmount = 820000 },
+                new MonthlyData { Month = "九月", OriginalQuantity = 14, OriginalAmount = 780000, CorrectedQuantity = 14, CorrectedAmount = 780000 },
+                new MonthlyData { Month = "十月", OriginalQuantity = 13, OriginalAmount = 750000, CorrectedQuantity = 13, CorrectedAmount = 750000 },
+                new MonthlyData { Month = "十一月", OriginalQuantity = 12, OriginalAmount = 720000, CorrectedQuantity = 12, CorrectedAmount = 720000 },
+                new MonthlyData { Month = "十二月", OriginalQuantity = 11, OriginalAmount = 680000, CorrectedQuantity = 11, CorrectedAmount = 680000 }
             };
         }
 
@@ -238,18 +332,18 @@ namespace ProjectCycleManage.ViewModel
         {
             MonthlyDataList = new List<MonthlyData>
             {
-                new MonthlyData { Month = "一月", Quantity = 11, SalesForecast = 680000, Budget = 580000 },
-                new MonthlyData { Month = "二月", Quantity = 12, SalesForecast = 720000, Budget = 620000 },
-                new MonthlyData { Month = "三月", Quantity = 13, SalesForecast = 750000, Budget = 650000 },
-                new MonthlyData { Month = "四月", Quantity = 14, SalesForecast = 780000, Budget = 680000 },
-                new MonthlyData { Month = "五月", Quantity = 15, SalesForecast = 820000, Budget = 710000 },
-                new MonthlyData { Month = "六月", Quantity = 16, SalesForecast = 850000, Budget = 740000 },
-                new MonthlyData { Month = "七月", Quantity = 17, SalesForecast = 880000, Budget = 770000 },
-                new MonthlyData { Month = "八月", Quantity = 16, SalesForecast = 850000, Budget = 740000 },
-                new MonthlyData { Month = "九月", Quantity = 15, SalesForecast = 820000, Budget = 710000 },
-                new MonthlyData { Month = "十月", Quantity = 14, SalesForecast = 780000, Budget = 680000 },
-                new MonthlyData { Month = "十一月", Quantity = 13, SalesForecast = 750000, Budget = 650000 },
-                new MonthlyData { Month = "十二月", Quantity = 12, SalesForecast = 720000, Budget = 620000 }
+                new MonthlyData { Month = "一月", OriginalQuantity = 11, OriginalAmount = 680000, CorrectedQuantity = 11, CorrectedAmount = 680000 },
+                new MonthlyData { Month = "二月", OriginalQuantity = 12, OriginalAmount = 720000, CorrectedQuantity = 12, CorrectedAmount = 720000 },
+                new MonthlyData { Month = "三月", OriginalQuantity = 13, OriginalAmount = 750000, CorrectedQuantity = 13, CorrectedAmount = 750000 },
+                new MonthlyData { Month = "四月", OriginalQuantity = 14, OriginalAmount = 780000, CorrectedQuantity = 14, CorrectedAmount = 780000 },
+                new MonthlyData { Month = "五月", OriginalQuantity = 15, OriginalAmount = 820000, CorrectedQuantity = 15, CorrectedAmount = 820000 },
+                new MonthlyData { Month = "六月", OriginalQuantity = 16, OriginalAmount = 850000, CorrectedQuantity = 16, CorrectedAmount = 850000 },
+                new MonthlyData { Month = "七月", OriginalQuantity = 17, OriginalAmount = 880000, CorrectedQuantity = 17, CorrectedAmount = 880000 },
+                new MonthlyData { Month = "八月", OriginalQuantity = 16, OriginalAmount = 850000, CorrectedQuantity = 16, CorrectedAmount = 850000 },
+                new MonthlyData { Month = "九月", OriginalQuantity = 15, OriginalAmount = 820000, CorrectedQuantity = 15, CorrectedAmount = 820000 },
+                new MonthlyData { Month = "十月", OriginalQuantity = 14, OriginalAmount = 780000, CorrectedQuantity = 14, CorrectedAmount = 780000 },
+                new MonthlyData { Month = "十一月", OriginalQuantity = 13, OriginalAmount = 750000, CorrectedQuantity = 13, CorrectedAmount = 750000 },
+                new MonthlyData { Month = "十二月", OriginalQuantity = 12, OriginalAmount = 720000, CorrectedQuantity = 12, CorrectedAmount = 720000 }
             };
         }
     }
@@ -266,8 +360,9 @@ namespace ProjectCycleManage.ViewModel
     public class MonthlyData
     {
         public string Month { get; set; }
-        public int Quantity { get; set; }
-        public double SalesForecast { get; set; }
-        public double Budget { get; set; }
+        public double OriginalQuantity { get; set; }
+        public double OriginalAmount { get; set; }
+        public double CorrectedQuantity { get; set; }
+        public double CorrectedAmount { get; set; }
     }
 }
