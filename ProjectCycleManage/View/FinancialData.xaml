@@ -438,7 +438,7 @@
                                     <StackPanel>
                                         <TextBlock Style="{StaticResource DataCardTitleStyle}">
                             <Run Text="年度投入资产设置 - "/>
-                            <Run x:Name="InvestmentYearTitle" Text="2024年"/>
+                            <Run Text="{Binding CurrentYear}"/>
                                         </TextBlock>
 
                                         <!-- 年度数据表格 -->
@@ -477,11 +477,11 @@
                                                         <ColumnDefinition Width="100"/>
                                                     </Grid.ColumnDefinitions>
 
-                                                    <TextBox Grid.Column="0" Text="156" Style="{StaticResource FormInputStyle}" 
+                                                    <TextBox Grid.Column="0" Text="{Binding InvestmentQuantity}" Style="{StaticResource FormInputStyle}" 
                                              VerticalAlignment="Center" HorizontalAlignment="Stretch"/>
-                                                    <TextBox Grid.Column="1" Text="9560000" Style="{StaticResource FormInputStyle}" 
+                                                    <TextBox Grid.Column="1" Text="{Binding InvestmentSalesForecast}" Style="{StaticResource FormInputStyle}" 
                                              VerticalAlignment="Center" HorizontalAlignment="Stretch"/>
-                                                    <TextBox Grid.Column="2" Text="8450000" Style="{StaticResource FormInputStyle}" 
+                                                    <TextBox Grid.Column="2" Text="{Binding InvestmentBudget}" Style="{StaticResource FormInputStyle}" 
                                              VerticalAlignment="Center" HorizontalAlignment="Stretch"/>
 
                                                     <StackPanel Grid.Column="3" Orientation="Horizontal" HorizontalAlignment="Left">

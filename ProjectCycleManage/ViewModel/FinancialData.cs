@@ -47,6 +47,15 @@ namespace ProjectCycleManage.ViewModel
         [ObservableProperty]
         private List<MonthlyData> monthlyDataList;
 
+        [ObservableProperty]
+        private int investmentQuantity = 156;
+
+        [ObservableProperty]
+        private double investmentSalesForecast = 9560000;
+
+        [ObservableProperty]
+        private double investmentBudget = 8450000;
+
         public FinancialData()
         {
             InitializeAvailableYears();
@@ -97,6 +106,9 @@ namespace ProjectCycleManage.ViewModel
                     AnnualSales = 7200000;
                     AnnualBudget = 6000000;
                     BudgetExecutionRate = 120.0;
+                    InvestmentQuantity = 120;
+                    InvestmentSalesForecast = 7200000;
+                    InvestmentBudget = 6000000;
                     InitializeQuarterlyDataFor2022();
                     InitializeMonthlyDataFor2022();
                     break;
@@ -104,6 +116,9 @@ namespace ProjectCycleManage.ViewModel
                     AnnualSales = 7800000;
                     AnnualBudget = 6500000;
                     BudgetExecutionRate = 120.0;
+                    InvestmentQuantity = 138;
+                    InvestmentSalesForecast = 7800000;
+                    InvestmentBudget = 6500000;
                     InitializeQuarterlyDataFor2023();
                     InitializeMonthlyDataFor2023();
                     break;
@@ -112,6 +127,9 @@ namespace ProjectCycleManage.ViewModel
                     AnnualSales = 8560000;
                     AnnualBudget = 7200000;
                     BudgetExecutionRate = 118.9;
+                    InvestmentQuantity = 156;
+                    InvestmentSalesForecast = 9560000;
+                    InvestmentBudget = 8450000;
                     InitializeQuarterlyData();
                     InitializeMonthlyData();
                     break;
@@ -121,6 +139,9 @@ namespace ProjectCycleManage.ViewModel
             OnPropertyChanged(nameof(AnnualSales));
             OnPropertyChanged(nameof(AnnualBudget));
             OnPropertyChanged(nameof(BudgetExecutionRate));
+            OnPropertyChanged(nameof(InvestmentQuantity));
+            OnPropertyChanged(nameof(InvestmentSalesForecast));
+            OnPropertyChanged(nameof(InvestmentBudget));
         }
 
         [RelayCommand]
