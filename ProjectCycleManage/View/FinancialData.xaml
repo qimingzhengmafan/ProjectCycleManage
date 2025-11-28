@@ -213,7 +213,6 @@
                                      GroupName="YearTabs"
                                      Command="{Binding DataContext.SelectYearCommand, RelativeSource={RelativeSource AncestorType=UserControl}}" 
                                      CommandParameter="{Binding}"
-                                     IsChecked="{Binding Path=DataContext.CurrentYear, RelativeSource={RelativeSource AncestorType=UserControl}, Converter={StaticResource StringToBoolConverter}}"
                                      Margin="0,0,10,10"/>
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
