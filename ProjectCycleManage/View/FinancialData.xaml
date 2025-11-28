@@ -17,12 +17,18 @@
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
 
         <!-- 数据卡片样式 -->
-        <Style x:Key="DataCardStyle" TargetType="Border">
-            <Setter Property="Background" Value="White"/>
-            <Setter Property="BorderBrush" Value="#2D5BD5"/>
-            <Setter Property="BorderThickness" Value="5,0,0,5"/>
-            <Setter Property="CornerRadius" Value="10"/>
-            <Setter Property="Padding" Value="20"/>
+        <Style x:Key="DataCardStyle"
+               TargetType="Border">
+            <Setter Property="Background"
+                    Value="White"/>
+            <Setter Property="BorderBrush" 
+                    Value="#2D5BD5"/>
+            <Setter Property="BorderThickness"
+                    Value="5,0,0,5"/>
+            <Setter Property="CornerRadius"
+                    Value="10"/>
+            <Setter Property="Padding" 
+                    Value="20"/>
             <Setter Property="Effect">
                 <Setter.Value>
                     <DropShadowEffect BlurRadius="8" 
@@ -33,13 +39,20 @@
         </Style>
         
         <!-- 按钮样式 -->
-        <Style x:Key="PrimaryButtonStyle" TargetType="Button">
-            <Setter Property="Background" Value="#2D5BD5"/>
-            <Setter Property="Foreground" Value="White"/>
-            <Setter Property="BorderThickness" Value="0"/>
-            <Setter Property="Padding" Value="12,8"/>
-            <Setter Property="FontWeight" Value="Medium"/>
-            <Setter Property="Cursor" Value="Hand"/>
+        <Style x:Key="PrimaryButtonStyle"
+               TargetType="Button">
+            <Setter Property="Background" 
+                    Value="#2D5BD5"/>
+            <Setter Property="Foreground"
+                    Value="White"/>
+            <Setter Property="BorderThickness" 
+                    Value="0"/>
+            <Setter Property="Padding" 
+                    Value="12,8"/>
+            <Setter Property="FontWeight"
+                    Value="Medium"/>
+            <Setter Property="Cursor"
+                    Value="Hand"/>
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="Button">
@@ -50,8 +63,11 @@
                                               VerticalAlignment="Center"/>
                         </Border>
                         <ControlTemplate.Triggers>
-                            <Trigger Property="IsMouseOver" Value="True">
-                                <Setter TargetName="border" Property="Background" Value="#1A3A8F"/>
+                            <Trigger Property="IsMouseOver"
+                                     Value="True">
+                                <Setter TargetName="border" 
+                                        Property="Background" 
+                                        Value="#1A3A8F"/>
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
@@ -59,14 +75,22 @@
             </Setter>
         </Style>
         
-        <Style x:Key="SecondaryButtonStyle" TargetType="Button">
-            <Setter Property="Background" Value="#F5F7FA"/>
-            <Setter Property="Foreground" Value="#666666"/>
-            <Setter Property="BorderBrush" Value="#E0E0E0"/>
-            <Setter Property="BorderThickness" Value="1"/>
-            <Setter Property="Padding" Value="12,8"/>
-            <Setter Property="FontWeight" Value="Medium"/>
-            <Setter Property="Cursor" Value="Hand"/>
+        <Style x:Key="SecondaryButtonStyle" 
+               TargetType="Button">
+            <Setter Property="Background" 
+                    Value="#F5F7FA"/>
+            <Setter Property="Foreground" 
+                    Value="#666666"/>
+            <Setter Property="BorderBrush"
+                    Value="#E0E0E0"/>
+            <Setter Property="BorderThickness"
+                    Value="1"/>
+            <Setter Property="Padding"
+                    Value="12,8"/>
+            <Setter Property="FontWeight" 
+                    Value="Medium"/>
+            <Setter Property="Cursor"
+                    Value="Hand"/>
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="Button">
@@ -79,8 +103,11 @@
                                               VerticalAlignment="Center"/>
                         </Border>
                         <ControlTemplate.Triggers>
-                            <Trigger Property="IsMouseOver" Value="True">
-                                <Setter TargetName="border" Property="Background" Value="#E0E0E0"/>
+                            <Trigger Property="IsMouseOver" 
+                                     Value="True">
+                                <Setter TargetName="border"
+                                        Property="Background"
+                                        Value="#E0E0E0"/>
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
@@ -89,11 +116,16 @@
         </Style>
         
         <!-- 图标按钮样式 -->
-        <Style x:Key="IconButtonStyle" TargetType="Button">
-            <Setter Property="Background" Value="Transparent"/>
-            <Setter Property="BorderThickness" Value="0"/>
-            <Setter Property="Padding" Value="4"/>
-            <Setter Property="Cursor" Value="Hand"/>
+        <Style x:Key="IconButtonStyle"
+               TargetType="Button">
+            <Setter Property="Background" 
+                    Value="Transparent"/>
+            <Setter Property="BorderThickness"
+                    Value="0"/>
+            <Setter Property="Padding" 
+                    Value="4"/>
+            <Setter Property="Cursor"
+                    Value="Hand"/>
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="Button">
@@ -107,23 +139,34 @@
                 </Setter.Value>
             </Setter>
             <Style.Triggers>
-                <Trigger Property="IsMouseOver" Value="True">
-                    <Setter Property="Background" Value="#f0f0f0"/>
+                <Trigger Property="IsMouseOver" 
+                         Value="True">
+                    <Setter Property="Background" 
+                            Value="#f0f0f0"/>
                 </Trigger>
-                <Trigger Property="IsPressed" Value="True">
-                    <Setter Property="Background" Value="#e0e0e0"/>
+                <Trigger Property="IsPressed" 
+                         Value="True">
+                    <Setter Property="Background" 
+                            Value="#e0e0e0"/>
                 </Trigger>
             </Style.Triggers>
         </Style>
         
         <!-- 表单输入框样式 -->
-        <Style x:Key="FormInputStyle" TargetType="TextBox">
-            <Setter Property="Background" Value="White"/>
-            <Setter Property="BorderBrush" Value="#E0E0E0"/>
-            <Setter Property="BorderThickness" Value="1"/>
-            <Setter Property="Padding" Value="8,6"/>
-            <Setter Property="FontSize" Value="14"/>
-            <Setter Property="Foreground" Value="#333333"/>
+        <Style x:Key="FormInputStyle" 
+               TargetType="TextBox">
+            <Setter Property="Background" 
+                    Value="White"/>
+            <Setter Property="BorderBrush"
+                    Value="#E0E0E0"/>
+            <Setter Property="BorderThickness"
+                    Value="1"/>
+            <Setter Property="Padding"
+                    Value="8,6"/>
+            <Setter Property="FontSize" 
+                    Value="14"/>
+            <Setter Property="Foreground"
+                    Value="#333333"/>
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="TextBox">
@@ -136,12 +179,20 @@
                                           Padding="{TemplateBinding Padding}"/>
                         </Border>
                         <ControlTemplate.Triggers>
-                            <Trigger Property="IsMouseOver" Value="True">
-                                <Setter TargetName="border" Property="BorderBrush" Value="#2D5BD5"/>
+                            <Trigger Property="IsMouseOver" 
+                                     Value="True">
+                                <Setter TargetName="border" 
+                                        Property="BorderBrush" 
+                                        Value="#2D5BD5"/>
                             </Trigger>
-                            <Trigger Property="IsFocused" Value="True">
-                                <Setter TargetName="border" Property="BorderBrush" Value="#2D5BD5"/>
-                                <Setter TargetName="border" Property="BorderThickness" Value="2"/>
+                            <Trigger Property="IsFocused" 
+                                     Value="True">
+                                <Setter TargetName="border" 
+                                        Property="BorderBrush"
+                                        Value="#2D5BD5"/>
+                                <Setter TargetName="border"
+                                        Property="BorderThickness"
+                                        Value="2"/>
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
@@ -201,7 +252,8 @@
             <ItemsControl ItemsSource="{Binding AvailableYears}">
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
-                        <WrapPanel Orientation="Horizontal" Margin="0,0,0,0"/>
+                        <WrapPanel Orientation="Horizontal" 
+                                   Margin="0,0,0,0"/>
                     </ItemsPanelTemplate>
                 </ItemsControl.ItemsPanel>
                 <ItemsControl.ItemTemplate>
@@ -478,7 +530,9 @@
                                                VerticalAlignment="Center"/>
                                 </StackPanel>
 
-                                <StackPanel Grid.Column="2" Orientation="Horizontal" HorizontalAlignment="Right">
+                                <StackPanel Grid.Column="2" 
+                                            Orientation="Horizontal" 
+                                            HorizontalAlignment="Right">
                                     <Button Content="重置数据" 
                                             Width="102"
                                             Margin="0,0,10,0"
@@ -501,45 +555,61 @@
                         </Border>
 
                         <!-- 内容区域 -->
-                        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+                        <ScrollViewer Grid.Row="1" 
+                                      VerticalScrollBarVisibility="Auto">
                             <StackPanel Margin="20,0">
                                 <!-- 年度投入资产设置 -->
                                 <Border Background="{StaticResource CardBackgroundBrush}" 
-                        CornerRadius="4" Padding="20" Margin="0,0,0,15"
-                        BorderThickness="1" BorderBrush="{StaticResource BorderBrush}">
+                                        CornerRadius="4" 
+                                        Padding="20" 
+                                        Margin="0,0,0,15"
+                                        BorderThickness="1"
+                                        BorderBrush="{StaticResource BorderBrush}">
                                     <StackPanel>
                                         <StackPanel>
                                             <!-- 切换按钮 -->
-                                            <Button x:Name="MonthlyToggleButton" Background="Transparent" BorderThickness="0" 
-                                        HorizontalAlignment="Left" Padding="0" Cursor="Hand"
-                                        Command="{Binding ToggleMonthlyDataCommand}">
+                                            <Button x:Name="MonthlyToggleButton" 
+                                                    Background="Transparent" 
+                                                    BorderThickness="0" 
+                                                    HorizontalAlignment="Left" 
+                                                    Padding="0" 
+                                                    Cursor="Hand"
+                                                    Command="{Binding ToggleMonthlyDataCommand}">
                                                 <StackPanel Orientation="Horizontal">
-                                                    <Path x:Name="MonthlyToggleIcon" Data="M8.59,16.58L13.17,12L8.59,7.41L10,6L16,12L10,18L8.59,16.58Z" 
-                                              Fill="{StaticResource PrimaryBrush}" Stretch="Uniform" Width="16" Height="16" 
-                                              RenderTransformOrigin="0.5,0.5">
+                                                    <Path x:Name="MonthlyToggleIcon" 
+                                                          Data="M8.59,16.58L13.17,12L8.59,7.41L10,6L16,12L10,18L8.59,16.58Z" 
+                                                          Fill="{StaticResource PrimaryBrush}" 
+                                                          Stretch="Uniform" 
+                                                          Width="16" 
+                                                          Height="16" 
+                                                          RenderTransformOrigin="0.5,0.5">
                                                         <Path.RenderTransform>
                                                             <RotateTransform Angle="{Binding IsMonthlyDataVisible, Converter={StaticResource BooleanToRotationConverter}}"/>
                                                         </Path.RenderTransform>
                                                     </Path>
                                                     <TextBlock Text="月度数据修正" Margin="8,0,0,0" 
                                                                FontSize="16"
-                                                   Foreground="{StaticResource PrimaryBrush}" 
-                                                   FontWeight="SemiBold" VerticalAlignment="Center"/>
+                                                               Foreground="{StaticResource PrimaryBrush}" 
+                                                               FontWeight="SemiBold" 
+                                                               VerticalAlignment="Center"/>
                                                 </StackPanel>
                                             </Button>
 
                                             <!-- 月度数据表格 -->
-                                            <Grid x:Name="MonthlyDataGrid" Margin="0,10,0,0" 
-                                      Visibility="{Binding IsMonthlyDataVisible, Converter={StaticResource BooleanToVisibilityConverter}}">
+                                            <Grid x:Name="MonthlyDataGrid" 
+                                                  Margin="0,10,0,0" 
+                                                  Visibility="{Binding IsMonthlyDataVisible, Converter={StaticResource BooleanToVisibilityConverter}}">
                                                 <Grid.RowDefinitions>
                                                     <RowDefinition Height="Auto"/>
                                                     <RowDefinition Height="*"/>
                                                 </Grid.RowDefinitions>
 
                                                 <!-- 月度表头 -->
-                                                <Border Grid.Row="0" Background="{StaticResource BackgroundBrush}" 
-                                            BorderThickness="0,0,0,1" BorderBrush="{StaticResource BorderBrush}"
-                                            Padding="12,10">
+                                                <Border Grid.Row="0" 
+                                                        Background="{StaticResource BackgroundBrush}" 
+                                                        BorderThickness="0,0,0,1"
+                                                        BorderBrush="{StaticResource BorderBrush}"
+                                                        Padding="12,10">
                                                     <Grid>
                                                         <Grid.ColumnDefinitions>
                                                             <ColumnDefinition Width="*"/>
@@ -548,19 +618,30 @@
                                                             <ColumnDefinition Width="100"/>
                                                         </Grid.ColumnDefinitions>
 
-                                                        <TextBlock Grid.Column="0" Text="月份" Style="{StaticResource TableHeaderStyle}"/>
-                                                        <TextBlock Grid.Column="1" Text="投入资产数量" Style="{StaticResource TableHeaderStyle}"/>
-                                                        <TextBlock Grid.Column="2" Text="投入金额" Style="{StaticResource TableHeaderStyle}"/>
-                                                        <TextBlock Grid.Column="3" Text="操作" Style="{StaticResource TableHeaderStyle}"/>
+                                                        <TextBlock Grid.Column="0" 
+                                                                   Text="月份"
+                                                                   Style="{StaticResource TableHeaderStyle}"/>
+                                                        <TextBlock Grid.Column="1" 
+                                                                   Text="投入资产数量" 
+                                                                   Style="{StaticResource TableHeaderStyle}"/>
+                                                        <TextBlock Grid.Column="2" 
+                                                                   Text="投入金额" 
+                                                                   Style="{StaticResource TableHeaderStyle}"/>
+                                                        <TextBlock Grid.Column="3"
+                                                                   Text="操作" 
+                                                                   Style="{StaticResource TableHeaderStyle}"/>
                                                     </Grid>
                                                 </Border>
 
                                                 <!-- 月度数据 -->
-                                                <ItemsControl Grid.Row="1" x:Name="MonthlyDataItems" 
-                                                     ItemsSource="{Binding MonthlyDataList}">
+                                                <ItemsControl Grid.Row="1"
+                                                              x:Name="MonthlyDataItems" 
+                                                              ItemsSource="{Binding MonthlyDataList}">
                                                     <ItemsControl.ItemTemplate>
                                                         <DataTemplate>
-                                                            <Border Padding="12,10" BorderThickness="0,0,0,1" BorderBrush="{StaticResource BorderBrush}">
+                                                            <Border Padding="12,10"
+                                                                    BorderThickness="0,0,0,1" 
+                                                                    BorderBrush="{StaticResource BorderBrush}">
                                                                 <Grid>
                                                                     <Grid.ColumnDefinitions>
                                                                         <ColumnDefinition Width="*"/>
@@ -577,12 +658,18 @@
                                                                              Margin="0 0 30 0"
                                                                              Text="{Binding Quantity}" 
                                                                              Style="{StaticResource FormInputStyle}" 
-                                                                             VerticalAlignment="Center" HorizontalAlignment="Stretch"/>
-                                                                    <TextBox Grid.Column="2" Text="{Binding SalesForecast}" Margin="0 0 30 0"
-                                                                 Style="{StaticResource FormInputStyle}" 
-                                                                 VerticalAlignment="Center" HorizontalAlignment="Stretch"/>
+                                                                             VerticalAlignment="Center"
+                                                                             HorizontalAlignment="Stretch"/>
+                                                                    <TextBox Grid.Column="2" 
+                                                                             Text="{Binding SalesForecast}"
+                                                                             Margin="0 0 30 0"
+                                                                             Style="{StaticResource FormInputStyle}" 
+                                                                             VerticalAlignment="Center"
+                                                                             HorizontalAlignment="Stretch"/>
 
-                                                                    <StackPanel Grid.Column="3" Orientation="Horizontal" HorizontalAlignment="Left">
+                                                                    <StackPanel Grid.Column="3" 
+                                                                                Orientation="Horizontal" 
+                                                                                HorizontalAlignment="Left">
                                                                         <Button Style="{StaticResource SecondaryButtonStyle}" 
                                                                                 Padding="6,4" 
                                                                                 Height="29"
@@ -590,7 +677,9 @@
                                                                                 ToolTip="">
                                                                             <Path Data="M3,17.25V21H6.75L17.81,9.94L14.06,6.19L3,17.25ZM20.71,7.04C21.1,6.65 21.1,6 20.71,5.63L18.37,3.29C18,2.9 17.35,2.9 16.96,3.29L15.13,5.12L18.88,8.87L20.71,7.04Z" 
                                                                                   Fill="{StaticResource SecondaryTextBrush}"
-                                                                                  Stretch="Uniform" Width="16" Height="16"/>
+                                                                                  Stretch="Uniform"
+                                                                                  Width="16" 
+                                                                                  Height="16"/>
                                                                         </Button>
                                                                     </StackPanel>
                                                                 </Grid>
