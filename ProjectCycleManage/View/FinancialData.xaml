@@ -256,6 +256,8 @@
                                     HorizontalAlignment="Right">
                             <Button Style="{StaticResource SecondaryButtonStyle}"
                                     Margin="0,0,10,0"
+                                    Width="102"
+                                    Height="35"
                                     Command="{Binding ExportDataCommand}">
                                 <StackPanel Orientation="Horizontal">
                                     <TextBlock Text="📥" 
@@ -264,11 +266,13 @@
                                 </StackPanel>
                             </Button>
                             <Button Style="{StaticResource PrimaryButtonStyle}"
+                                    Width="102"
+                                    Height="35"
                                     Command="{Binding EditBudgetCommand}">
                                 <StackPanel Orientation="Horizontal">
                                     <TextBlock Text="✏️" 
                                                Margin="0,0,5,0"/>
-                                    <TextBlock Text="编辑预算"/>
+                                    <TextBlock Text="编辑"/>
                                 </StackPanel>
                             </Button>
                         </StackPanel>
@@ -279,6 +283,10 @@
                 <Grid Grid.Row="1"
                       Margin="0,0,0,30">
                     <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="10"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="10"/>
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="10"/>
                         <ColumnDefinition Width="*"/>
@@ -304,6 +312,39 @@
                                            VerticalAlignment="Center"
                                            Foreground="#2D5BD5"/>
                             </StackPanel>
+
+                            <TextBlock Text="{Binding TotalBudget, StringFormat='¥ {0:N0}'}"
+                                       FontSize="24"
+                                       FontWeight="Bold"
+                                       Margin="0,0,0,5"/>
+                            <TextBlock Text="年初设定当年销售预测"
+                                       FontSize="14"
+                                       Foreground="#666666"/>
+                            <StackPanel Orientation="Horizontal"
+                                        Margin="0,10,0,0">
+
+
+                            </StackPanel>
+                        </StackPanel>
+                    </Border>
+                    <Border Grid.Column="2"
+                            Style="{StaticResource DataCardStyle}">
+                        <StackPanel>
+                            <StackPanel Orientation="Horizontal"
+                                        Margin="0,0,0,15">
+                                <TextBlock Text="💰" 
+                                           FontSize="12" 
+                                           Foreground="#2D5BD5"
+                                           Height="16"
+                                           HorizontalAlignment="Center"
+                                           VerticalAlignment="Center"
+                                           Width="16"
+                                           Margin="0,0,8,0"/>
+                                <TextBlock Text="年度预算"
+                                           FontWeight="Bold"
+                                           VerticalAlignment="Center"
+                                           Foreground="#2D5BD5"/>
+                            </StackPanel>
                             <TextBlock Text="{Binding TotalBudget, StringFormat='¥ {0:N0}'}"
                                        FontSize="24"
                                        FontWeight="Bold"
@@ -319,8 +360,41 @@
                         </StackPanel>
                     </Border>
 
+                    <Border Grid.Column="4"
+                            Style="{StaticResource DataCardStyle}">
+                        <StackPanel>
+                            <StackPanel Orientation="Horizontal"
+                                        Margin="0,0,0,15">
+                                <TextBlock Text="💰" 
+                                           FontSize="12" 
+                                           Foreground="#2D5BD5"
+                                           Height="16"
+                                           HorizontalAlignment="Center"
+                                           VerticalAlignment="Center"
+                                           Width="16"
+                                           Margin="0,0,8,0"/>
+                                <TextBlock Text="投入设备数量"
+                                           FontWeight="Bold"
+                                           VerticalAlignment="Center"
+                                           Foreground="#2D5BD5"/>
+                            </StackPanel>
+                            <TextBlock Text="{Binding TotalBudget, StringFormat='¥ {0:N0}'}"
+                                       FontSize="24"
+                                       FontWeight="Bold"
+                                       Margin="0,0,0,5"/>
+                            <TextBlock Text="当年已投入设备总数"
+                                       FontSize="14"
+                                       Foreground="#666666"/>
+                            <StackPanel Orientation="Horizontal"
+                                        Margin="0,10,0,0">
+
+
+                            </StackPanel>
+                        </StackPanel>
+                    </Border>
+
                     <!-- 已使用预算卡片 -->
-                    <Border Grid.Column="2"
+                    <Border Grid.Column="6"
                             Style="{StaticResource DataCardStyle}">
                         <StackPanel>
                             <StackPanel Orientation="Horizontal"
@@ -331,7 +405,7 @@
                                            Height="16"
                                            Foreground="#2D5BD5"
                                            Margin="0,0,8,0"/>
-                                <TextBlock Text="已使用预算"
+                                <TextBlock Text="投入金额"
                                            FontWeight="Bold"
                                            Foreground="#2D5BD5"/>
                             </StackPanel>
@@ -339,7 +413,7 @@
                                        FontSize="24"
                                        FontWeight="Bold"
                                        Margin="0,0,0,5"/>
-                            <TextBlock Text="当前已使用预算"
+                            <TextBlock Text="当年已投入设备金额"
                                        FontSize="14"
                                        Foreground="#666666"/>
 
@@ -347,7 +421,7 @@
                     </Border>
 
                     <!-- 预算执行率卡片 -->
-                    <Border Grid.Column="4"
+                    <Border Grid.Column="8"
                             Style="{StaticResource DataCardStyle}">
                         <StackPanel>
                             <StackPanel Orientation="Horizontal"
@@ -413,12 +487,19 @@
                                 </StackPanel>
 
                                 <StackPanel Grid.Column="2" Orientation="Horizontal" HorizontalAlignment="Right">
-                                    <Button Content="重置数据" Style="{StaticResource SecondaryButtonStyle}">
+                                    <Button Content="重置数据" 
+                                            Width="102"
+                                            Margin="0,0,10,0"
+                                            Height="35"
+                                            Style="{StaticResource SecondaryButtonStyle}">
                                         <Button.ToolTip>
                                             <ToolTip Content="重置所有投入资产数据"/>
                                         </Button.ToolTip>
                                     </Button>
-                                    <Button Content="保存设置" Style="{StaticResource PrimaryButtonStyle}">
+                                    <Button Content="保存设置" 
+                                            Width="102"
+                                            Height="35"
+                                            Style="{StaticResource PrimaryButtonStyle}">
                                         <Button.ToolTip>
                                             <ToolTip Content="保存投入资产设置"/>
                                         </Button.ToolTip>
@@ -436,7 +517,7 @@
                         BorderThickness="1" BorderBrush="{StaticResource BorderBrush}">
                                     <StackPanel>
                                         <TextBlock Style="{StaticResource DataCardTitleStyle}">
-                            <Run Text="年度投入资产设置 - "/>
+                            <Run Text="年度投入资产修正 - "/>
                             <Run Text="{Binding CurrentYear}"/>
                                         </TextBlock>
 
