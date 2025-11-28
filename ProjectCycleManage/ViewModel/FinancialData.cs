@@ -1,10 +1,11 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using ProjectManagement.Data;
 using ProjectCycleManage.Model;
+using ProjectManagement.Data;
 using ProjectManagement.Models;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -22,8 +23,7 @@ namespace ProjectCycleManage.ViewModel
         [ObservableProperty]
         private List<string> availableYears;
 
-        [ObservableProperty]
-        private List<QuarterlyData> quarterlyDataList;
+
 
         [ObservableProperty]
         private double annualSales = 8560000;
@@ -50,7 +50,7 @@ namespace ProjectCycleManage.ViewModel
         private bool isMonthlyDataVisible = false;
 
         [ObservableProperty]
-        private List<MonthlyData> monthlyDataList;
+        private ObservableCollection<MonthlyData> monthlyDataList;
 
         [ObservableProperty]
         private int investmentQuantity = 156;
@@ -79,17 +79,6 @@ namespace ProjectCycleManage.ViewModel
             
             // 设置当前年份为最新的年份
             CurrentYear = currentYear.ToString();
-        }
-
-        private void InitializeQuarterlyData()
-        {
-            QuarterlyDataList = new List<QuarterlyData>
-            {
-                new QuarterlyData { Quarter = "第一季度", Sales = "¥ 1,850,000", Budget = "¥ 1,800,000", CompletionRate = "102.8%", Status = "超额完成" },
-                new QuarterlyData { Quarter = "第二季度", Sales = "¥ 2,150,000", Budget = "¥ 1,800,000", CompletionRate = "119.4%", Status = "超额完成" },
-                new QuarterlyData { Quarter = "第三季度", Sales = "¥ 2,380,000", Budget = "¥ 1,800,000", CompletionRate = "132.2%", Status = "超额完成" },
-                new QuarterlyData { Quarter = "第四季度", Sales = "¥ 2,180,000", Budget = "¥ 1,800,000", CompletionRate = "121.1%", Status = "超额完成" }
-            };
         }
 
         [RelayCommand]
@@ -163,10 +152,10 @@ namespace ProjectCycleManage.ViewModel
             OnPropertyChanged(nameof(AnnualBudget));
             OnPropertyChanged(nameof(InvestmentQuantity));
 
-            OnPropertyChanged(nameof(AnnualSales));
-            OnPropertyChanged(nameof(BudgetExecutionRate));
-            OnPropertyChanged(nameof(InvestmentSalesForecast));
-            OnPropertyChanged(nameof(InvestmentBudget));
+            //OnPropertyChanged(nameof(AnnualSales));
+            //OnPropertyChanged(nameof(BudgetExecutionRate));
+            //OnPropertyChanged(nameof(InvestmentSalesForecast));
+            //OnPropertyChanged(nameof(InvestmentBudget));
         }
 
         private void LoadMonthlyCorrectionData(int year)
@@ -182,7 +171,7 @@ namespace ProjectCycleManage.ViewModel
                 .FirstOrDefault(a => a.Year == year);
             
             // 初始化月度数据列表
-            MonthlyDataList = new List<MonthlyData>();
+            MonthlyDataList = new ObservableCollection<MonthlyData>();
             
             // 定义月份名称数组
             string[] monthNames = { "一月", "二月", "三月", "四月", "五月", "六月", 
@@ -267,95 +256,8 @@ namespace ProjectCycleManage.ViewModel
         {
             IsMonthlyDataVisible = !IsMonthlyDataVisible;
         }
-
-        private void InitializeMonthlyData()
-        {
-            MonthlyDataList = new List<MonthlyData>
-            {
-                new MonthlyData { Month = "一月", OriginalQuantity = 12, OriginalAmount = 750000, CorrectedQuantity = 12, CorrectedAmount = 750000 },
-                new MonthlyData { Month = "二月", OriginalQuantity = 14, OriginalAmount = 820000, CorrectedQuantity = 14, CorrectedAmount = 820000 },
-                new MonthlyData { Month = "三月", OriginalQuantity = 13, OriginalAmount = 780000, CorrectedQuantity = 13, CorrectedAmount = 780000 },
-                new MonthlyData { Month = "四月", OriginalQuantity = 15, OriginalAmount = 850000, CorrectedQuantity = 15, CorrectedAmount = 850000 },
-                new MonthlyData { Month = "五月", OriginalQuantity = 16, OriginalAmount = 900000, CorrectedQuantity = 16, CorrectedAmount = 900000 },
-                new MonthlyData { Month = "六月", OriginalQuantity = 14, OriginalAmount = 820000, CorrectedQuantity = 14, CorrectedAmount = 820000 },
-                new MonthlyData { Month = "七月", OriginalQuantity = 17, OriginalAmount = 950000, CorrectedQuantity = 17, CorrectedAmount = 950000 },
-                new MonthlyData { Month = "八月", OriginalQuantity = 15, OriginalAmount = 850000, CorrectedQuantity = 15, CorrectedAmount = 850000 },
-                new MonthlyData { Month = "九月", OriginalQuantity = 18, OriginalAmount = 980000, CorrectedQuantity = 18, CorrectedAmount = 980000 },
-                new MonthlyData { Month = "十月", OriginalQuantity = 16, OriginalAmount = 900000, CorrectedQuantity = 16, CorrectedAmount = 900000 },
-                new MonthlyData { Month = "十一月", OriginalQuantity = 14, OriginalAmount = 820000, CorrectedQuantity = 14, CorrectedAmount = 820000 },
-                new MonthlyData { Month = "十二月", OriginalQuantity = 17, OriginalAmount = 950000, CorrectedQuantity = 17, CorrectedAmount = 950000 }
-            };
-        }
-
-        private void InitializeQuarterlyDataFor2022()
-        {
-            QuarterlyDataList = new List<QuarterlyData>
-            {
-                new QuarterlyData { Quarter = "第一季度", Sales = "¥ 1,550,000", Budget = "¥ 1,500,000", CompletionRate = "103.3%", Status = "超额完成" },
-                new QuarterlyData { Quarter = "第二季度", Sales = "¥ 1,750,000", Budget = "¥ 1,500,000", CompletionRate = "116.7%", Status = "超额完成" },
-                new QuarterlyData { Quarter = "第三季度", Sales = "¥ 1,980,000", Budget = "¥ 1,500,000", CompletionRate = "132.0%", Status = "超额完成" },
-                new QuarterlyData { Quarter = "第四季度", Sales = "¥ 1,920,000", Budget = "¥ 1,500,000", CompletionRate = "128.0%", Status = "超额完成" }
-            };
-        }
-
-        private void InitializeMonthlyDataFor2022()
-        {
-            MonthlyDataList = new List<MonthlyData>
-            {
-                new MonthlyData { Month = "一月", OriginalQuantity = 10, OriginalAmount = 650000, CorrectedQuantity = 10, CorrectedAmount = 650000 },
-                new MonthlyData { Month = "二月", OriginalQuantity = 11, OriginalAmount = 680000, CorrectedQuantity = 11, CorrectedAmount = 680000 },
-                new MonthlyData { Month = "三月", OriginalQuantity = 12, OriginalAmount = 720000, CorrectedQuantity = 12, CorrectedAmount = 720000 },
-                new MonthlyData { Month = "四月", OriginalQuantity = 13, OriginalAmount = 750000, CorrectedQuantity = 13, CorrectedAmount = 750000 },
-                new MonthlyData { Month = "五月", OriginalQuantity = 14, OriginalAmount = 780000, CorrectedQuantity = 14, CorrectedAmount = 780000 },
-                new MonthlyData { Month = "六月", OriginalQuantity = 15, OriginalAmount = 820000, CorrectedQuantity = 15, CorrectedAmount = 820000 },
-                new MonthlyData { Month = "七月", OriginalQuantity = 16, OriginalAmount = 850000, CorrectedQuantity = 16, CorrectedAmount = 850000 },
-                new MonthlyData { Month = "八月", OriginalQuantity = 15, OriginalAmount = 820000, CorrectedQuantity = 15, CorrectedAmount = 820000 },
-                new MonthlyData { Month = "九月", OriginalQuantity = 14, OriginalAmount = 780000, CorrectedQuantity = 14, CorrectedAmount = 780000 },
-                new MonthlyData { Month = "十月", OriginalQuantity = 13, OriginalAmount = 750000, CorrectedQuantity = 13, CorrectedAmount = 750000 },
-                new MonthlyData { Month = "十一月", OriginalQuantity = 12, OriginalAmount = 720000, CorrectedQuantity = 12, CorrectedAmount = 720000 },
-                new MonthlyData { Month = "十二月", OriginalQuantity = 11, OriginalAmount = 680000, CorrectedQuantity = 11, CorrectedAmount = 680000 }
-            };
-        }
-
-        private void InitializeQuarterlyDataFor2023()
-        {
-            QuarterlyDataList = new List<QuarterlyData>
-            {
-                new QuarterlyData { Quarter = "第一季度", Sales = "¥ 1,680,000", Budget = "¥ 1,625,000", CompletionRate = "103.4%", Status = "超额完成" },
-                new QuarterlyData { Quarter = "第二季度", Sales = "¥ 1,920,000", Budget = "¥ 1,625,000", CompletionRate = "118.2%", Status = "超额完成" },
-                new QuarterlyData { Quarter = "第三季度", Sales = "¥ 2,150,000", Budget = "¥ 1,625,000", CompletionRate = "132.3%", Status = "超额完成" },
-                new QuarterlyData { Quarter = "第四季度", Sales = "¥ 2,050,000", Budget = "¥ 1,625,000", CompletionRate = "126.2%", Status = "超额完成" }
-            };
-        }
-
-        private void InitializeMonthlyDataFor2023()
-        {
-            MonthlyDataList = new List<MonthlyData>
-            {
-                new MonthlyData { Month = "一月", OriginalQuantity = 11, OriginalAmount = 680000, CorrectedQuantity = 11, CorrectedAmount = 680000 },
-                new MonthlyData { Month = "二月", OriginalQuantity = 12, OriginalAmount = 720000, CorrectedQuantity = 12, CorrectedAmount = 720000 },
-                new MonthlyData { Month = "三月", OriginalQuantity = 13, OriginalAmount = 750000, CorrectedQuantity = 13, CorrectedAmount = 750000 },
-                new MonthlyData { Month = "四月", OriginalQuantity = 14, OriginalAmount = 780000, CorrectedQuantity = 14, CorrectedAmount = 780000 },
-                new MonthlyData { Month = "五月", OriginalQuantity = 15, OriginalAmount = 820000, CorrectedQuantity = 15, CorrectedAmount = 820000 },
-                new MonthlyData { Month = "六月", OriginalQuantity = 16, OriginalAmount = 850000, CorrectedQuantity = 16, CorrectedAmount = 850000 },
-                new MonthlyData { Month = "七月", OriginalQuantity = 17, OriginalAmount = 880000, CorrectedQuantity = 17, CorrectedAmount = 880000 },
-                new MonthlyData { Month = "八月", OriginalQuantity = 16, OriginalAmount = 850000, CorrectedQuantity = 16, CorrectedAmount = 850000 },
-                new MonthlyData { Month = "九月", OriginalQuantity = 15, OriginalAmount = 820000, CorrectedQuantity = 15, CorrectedAmount = 820000 },
-                new MonthlyData { Month = "十月", OriginalQuantity = 14, OriginalAmount = 780000, CorrectedQuantity = 14, CorrectedAmount = 780000 },
-                new MonthlyData { Month = "十一月", OriginalQuantity = 13, OriginalAmount = 750000, CorrectedQuantity = 13, CorrectedAmount = 750000 },
-                new MonthlyData { Month = "十二月", OriginalQuantity = 12, OriginalAmount = 720000, CorrectedQuantity = 12, CorrectedAmount = 720000 }
-            };
-        }
     }
 
-    public class QuarterlyData
-    {
-        public string Quarter { get; set; }
-        public string Sales { get; set; }
-        public string Budget { get; set; }
-        public string CompletionRate { get; set; }
-        public string Status { get; set; }
-    }
 
     public class MonthlyData
     {
