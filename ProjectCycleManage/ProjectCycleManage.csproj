@@ -26,6 +26,7 @@
     <None Remove="Resources\Images\使用部门.png" />
     <None Remove="Resources\Images\保存.png" />
     <None Remove="Resources\Images\分析.png" />
+    <None Remove="Resources\Images\卡片数量.png" />
     <None Remove="Resources\Images\图标.ico" />
     <None Remove="Resources\Images\基本信息.png" />
     <None Remove="Resources\Images\完成.png" />
@@ -50,11 +51,14 @@
     <None Remove="Resources\Images\部门与时间信息.png" />
     <None Remove="Resources\Images\采购2.png" />
     <None Remove="Resources\Images\重置.png" />
+    <None Remove="Resources\Images\金额.png" />
+    <None Remove="Resources\Images\销售.png" />
     <None Remove="Resources\Images\锁.png" />
     <None Remove="Resources\Images\锁定.png" />
     <None Remove="Resources\Images\项目管理.png" />
     <None Remove="Resources\Images\项目类型.png" />
     <None Remove="Resources\Images\项目负责人.png" />
+    <None Remove="Resources\Images\预算.png" />
     <None Remove="Resources\Images\预验收.png" />
     <None Remove="Resources\Images\验收.png" />
   </ItemGroup>
@@ -80,6 +84,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Resources\Images\tasks.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\卡片数量.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Resources\Images\审批人.png">
@@ -213,6 +220,12 @@
     <Resource Include="Resources\Images\重置.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
+    <Resource Include="Resources\Images\金额.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\销售.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="Resources\Images\锁.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
@@ -226,6 +239,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Resources\Images\项目负责人.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\预算.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Resources\Images\预验收.png">
