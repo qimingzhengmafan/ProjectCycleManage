@@ -556,7 +556,8 @@
 
                         <!-- 内容区域 -->
                         <ScrollViewer Grid.Row="1" 
-                                      VerticalScrollBarVisibility="Auto">
+                                      VerticalScrollBarVisibility="Auto"
+                                      MaxHeight="400">
                             <StackPanel Margin="20,0">
                                 <!-- 年度投入资产设置 -->
                                 <Border Background="{StaticResource CardBackgroundBrush}" 
