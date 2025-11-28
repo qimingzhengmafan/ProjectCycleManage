@@ -24,40 +24,50 @@ namespace ProjectCycleManage.ViewModel
         private List<string> availableYears;
 
 
-
+        /// <summary>
+        /// 年度销售额预测
+        /// </summary>
         [ObservableProperty]
-        private double annualSales = 8560000;
+        private double annualSales = 0.0;
 
+        /// <summary>
+        /// 年度预算
+        /// </summary>
         [ObservableProperty]
-        private double annualBudget = 7200000;
+        private double annualBudget = 0.0;
 
+        /// <summary>
+        /// 预算执行率
+        /// </summary>
         [ObservableProperty]
-        private double budgetExecutionRate = 118.9;
+        private double budgetExecutionRate = 0.0;
 
-        [ObservableProperty]
-        private string budgetApprover = "财务部 - 王总监";
-
-        [ObservableProperty]
-        private string lastUpdateTime = "2024-03-15";
-
-        [ObservableProperty]
-        private string budgetStatus = "已审批";
-
-        [ObservableProperty]
-        private int relatedProjectsCount = 24;
 
         [ObservableProperty]
         private bool isMonthlyDataVisible = false;
 
+        /// <summary>
+        /// 月份数据
+        /// </summary>
         [ObservableProperty]
-        private ObservableCollection<MonthlyData> monthlyDataList;
+        private List<MonthlyData> monthlyDataList;
 
+        /// <summary>
+        /// 投入数量
+        /// </summary>
         [ObservableProperty]
         private int investmentQuantity = 156;
 
+
+        /// <summary>
+        /// 投资销售预测
+        /// </summary>
         [ObservableProperty]
         private double investmentSalesForecast = 9560000;
 
+        /// <summary>
+        /// 投资预算
+        /// </summary>
         [ObservableProperty]
         private double investmentBudget = 8450000;
 
@@ -171,7 +181,7 @@ namespace ProjectCycleManage.ViewModel
                 .FirstOrDefault(a => a.Year == year);
             
             // 初始化月度数据列表
-            MonthlyDataList = new ObservableCollection<MonthlyData>();
+            MonthlyDataList = new List<MonthlyData>();
             
             // 定义月份名称数组
             string[] monthNames = { "一月", "二月", "三月", "四月", "五月", "六月", 
@@ -201,7 +211,7 @@ namespace ProjectCycleManage.ViewModel
                 MonthlyDataList.Add(monthlyData);
             }
             
-            OnPropertyChanged(nameof(MonthlyDataList));
+            //OnPropertyChanged(nameof(MonthlyDataList));
         }
 
         private double GetCorrectionValue(object correctionRecord, int month)
@@ -262,9 +272,25 @@ namespace ProjectCycleManage.ViewModel
     public class MonthlyData
     {
         public string Month { get; set; }
+
+        /// <summary>
+        /// 原始数量
+        /// </summary>
         public double OriginalQuantity { get; set; }
+
+        /// <summary>
+        /// 原始金额
+        /// </summary>
         public double OriginalAmount { get; set; }
+
+        /// <summary>
+        /// 修正数量
+        /// </summary>
         public double CorrectedQuantity { get; set; }
+
+        /// <summary>
+        /// 修正金额
+        /// </summary>
         public double CorrectedAmount { get; set; }
     }
 }

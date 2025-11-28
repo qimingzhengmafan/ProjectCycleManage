@@ -708,12 +708,12 @@
                                                                             HorizontalAlignment="Left"/>
                                                                     <TextBox Grid.Column="1"
                                                                             Margin="0 0 30 0"
-                                                                            Text="{Binding Quantity}" 
+                                                                            Text="{Binding CorrectedQuantity}" 
                                                                             Style="{StaticResource FormInputStyle}" 
                                                                             VerticalAlignment="Center"
                                                                             HorizontalAlignment="Stretch"/>
                                                                     <TextBox Grid.Column="2" 
-                                                                            Text="{Binding SalesForecast}"
+                                                                            Text="{Binding CorrectedAmount}"
                                                                             Margin="0 0 30 0"
                                                                             Style="{StaticResource FormInputStyle}" 
                                                                             VerticalAlignment="Center"
