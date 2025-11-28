@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ProjectManagement.Data;
 
@@ -11,9 +12,11 @@ using ProjectManagement.Data;
 namespace ProjectManagement.Migrations
 {
     [DbContext(typeof(ProjectContext))]
-    partial class ProjectContextModelSnapshot : ModelSnapshot
+    [Migration("20251128064420_FixTableStructure24")]
+    partial class FixTableStructure24
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -100,54 +103,6 @@ namespace ProjectManagement.Migrations
                         .HasColumnType("int");
 
                     MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<double?>("AprilCorrection")
-                        .HasColumnType("double")
-                        .HasComment("4月修正金额");
-
-                    b.Property<double?>("AugustCorrection")
-                        .HasColumnType("double")
-                        .HasComment("8月修正金额");
-
-                    b.Property<double?>("DecemberCorrection")
-                        .HasColumnType("double")
-                        .HasComment("12月修正金额");
-
-                    b.Property<double?>("FebruaryCorrection")
-                        .HasColumnType("double")
-                        .HasComment("2月修正金额");
-
-                    b.Property<double?>("JanuaryCorrection")
-                        .HasColumnType("double")
-                        .HasComment("1月修正金额");
-
-                    b.Property<double?>("JulyCorrection")
-                        .HasColumnType("double")
-                        .HasComment("7月修正金额");
-
-                    b.Property<double?>("JuneCorrection")
-                        .HasColumnType("double")
-                        .HasComment("6月修正金额");
-
-                    b.Property<double?>("MarchCorrection")
-                        .HasColumnType("double")
-                        .HasComment("3月修正金额");
-
-                    b.Property<double?>("MayCorrection")
-                        .HasColumnType("double")
-                        .HasComment("5月修正金额");
-
-                    b.Property<double?>("NovemberCorrection")
-                        .HasColumnType("double")
-                        .HasComment("11月修正金额");
-
-                    b.Property<double?>("OctoberCorrection")
-                        .HasColumnType("double")
-                        .HasComment("10月修正金额");
-
-                    b.Property<double?>("SeptemberCorrection")
-                        .HasColumnType("double")
-                        .HasComment("9月修正金额");
 
                     b.Property<int>("Year")
                         .HasColumnType("int");
@@ -334,54 +289,6 @@ namespace ProjectManagement.Migrations
                         .HasColumnType("int");
 
                     MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<double?>("AprilCorrection")
-                        .HasColumnType("double")
-                        .HasComment("4月修正数量");
-
-                    b.Property<double?>("AugustCorrection")
-                        .HasColumnType("double")
-                        .HasComment("8月修正数量");
-
-                    b.Property<double?>("DecemberCorrection")
-                        .HasColumnType("double")
-                        .HasComment("12月修正数量");
-
-                    b.Property<double?>("FebruaryCorrection")
-                        .HasColumnType("double")
-                        .HasComment("2月修正数量");
-
-                    b.Property<double?>("JanuaryCorrection")
-                        .HasColumnType("double")
-                        .HasComment("1月修正数量");
-
-                    b.Property<double?>("JulyCorrection")
-                        .HasColumnType("double")
-                        .HasComment("7月修正数量");
-
-                    b.Property<double?>("JuneCorrection")
-                        .HasColumnType("double")
-                        .HasComment("6月修正数量");
-
-                    b.Property<double?>("MarchCorrection")
-                        .HasColumnType("double")
-                        .HasComment("3月修正数量");
-
-                    b.Property<double?>("MayCorrection")
-                        .HasColumnType("double")
-                        .HasComment("5月修正数量");
-
-                    b.Property<double?>("NovemberCorrection")
-                        .HasColumnType("double")
-                        .HasComment("11月修正数量");
-
-                    b.Property<double?>("OctoberCorrection")
-                        .HasColumnType("double")
-                        .HasComment("10月修正数量");
-
-                    b.Property<double?>("SeptemberCorrection")
-                        .HasColumnType("double")
-                        .HasComment("9月修正数量");
 
                     b.Property<int>("Year")
                         .HasColumnType("int");
