@@ -13,6 +13,7 @@
     <UserControl.Resources>
         <!-- 转换器 -->
         <utilities:BooleanToRotationConverter x:Key="BooleanToRotationConverter"/>
+        <utilities:StringToBoolConverter x:Key="StringToBoolConverter"/>
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
         
         <!-- 年份标签样式 -->
@@ -231,25 +232,24 @@
         <!-- 年份选择器 -->
         <Border Grid.Row="2"
                 Margin="20,0,0,0">
-            <WrapPanel Orientation="Horizontal" 
-            Margin="0,0,0,0">
-                <RadioButton Content="2022年" 
-                 Style="{StaticResource YearTabStyle}"
-                 GroupName="YearTabs"
-                 Command="{Binding SelectYearCommand}" CommandParameter="2022"
-                 Margin="0,0,10,10"/>
-                <RadioButton Content="2023年" 
-                 Style="{StaticResource YearTabStyle}"
-                 GroupName="YearTabs"
-                 Command="{Binding SelectYearCommand}" CommandParameter="2023"
-                 Margin="0,0,10,10"/>
-                <RadioButton Content="2024年" 
-                 Style="{StaticResource YearTabStyle}"
-                 GroupName="YearTabs"
-                 Command="{Binding SelectYearCommand}" CommandParameter="2024"
-                 IsChecked="True"
-                 Margin="0,0,10,10"/>
-            </WrapPanel>
+            <ItemsControl ItemsSource="{Binding AvailableYears}">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <WrapPanel Orientation="Horizontal" Margin="0,0,0,0"/>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <RadioButton Content="{Binding StringFormat={}{0}年}" 
+                         Style="{StaticResource YearTabStyle}"
+                         GroupName="YearTabs"
+                         Command="{Binding DataContext.SelectYearCommand, RelativeSource={RelativeSource AncestorType=UserControl}}" 
+                         CommandParameter="{Binding}"
+                         IsChecked="{Binding Path=DataContext.CurrentYear, RelativeSource={RelativeSource AncestorType=UserControl}, Converter={StaticResource StringToBoolConverter}, ConverterParameter={Binding}}"
+                         Margin="0,0,10,10"/>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
         </Border>
 
         <!-- 预算数据区域 -->

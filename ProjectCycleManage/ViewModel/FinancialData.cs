@@ -14,6 +14,9 @@ namespace ProjectCycleManage.ViewModel
         private string currentYear = "2024";
 
         [ObservableProperty]
+        private List<string> availableYears;
+
+        [ObservableProperty]
         private List<QuarterlyData> quarterlyDataList;
 
         [ObservableProperty]
@@ -45,8 +48,24 @@ namespace ProjectCycleManage.ViewModel
 
         public FinancialData()
         {
+            InitializeAvailableYears();
             InitializeQuarterlyData();
             InitializeMonthlyData();
+        }
+
+        private void InitializeAvailableYears()
+        {
+            int currentYear = DateTime.Now.Year;
+            int startYear = 2022;
+            
+            AvailableYears = new List<string>();
+            for (int year = startYear; year <= currentYear; year++)
+            {
+                AvailableYears.Add(year.ToString());
+            }
+            
+            // 设置当前年份为最新的年份
+            CurrentYear = currentYear.ToString();
         }
 
         private void InitializeQuarterlyData()
