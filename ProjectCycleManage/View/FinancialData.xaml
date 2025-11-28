@@ -521,7 +521,7 @@
                                                             <RotateTransform Angle="{Binding IsMonthlyDataVisible, Converter={StaticResource BooleanToRotationConverter}}"/>
                                                         </Path.RenderTransform>
                                                     </Path>
-                                                    <TextBlock Text="月度数据详情" Margin="8,0,0,0" 
+                                                    <TextBlock Text="月度数据修正" Margin="8,0,0,0" 
                                                                FontSize="16"
                                                    Foreground="{StaticResource PrimaryBrush}" 
                                                    FontWeight="SemiBold" VerticalAlignment="Center"/>
