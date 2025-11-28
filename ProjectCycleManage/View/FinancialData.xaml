@@ -555,143 +555,145 @@
                         </Border>
 
                         <!-- 内容区域 -->
-                        <ScrollViewer Grid.Row="1" 
-                                      VerticalScrollBarVisibility="Auto"
-                                      MaxHeight="400">
-                            <StackPanel Margin="20,0">
-                                <!-- 年度投入资产设置 -->
-                                <Border Background="{StaticResource CardBackgroundBrush}" 
-                                        CornerRadius="4" 
-                                        Padding="20" 
-                                        Margin="0,0,0,15"
-                                        BorderThickness="1"
-                                        BorderBrush="{StaticResource BorderBrush}">
+
+                        <StackPanel Margin="20,0"
+                                    Grid.Row="1">
+                            <!-- 年度投入资产设置 -->
+                            <Border Background="{StaticResource CardBackgroundBrush}" 
+                                    CornerRadius="4" 
+                                    Padding="20" 
+                                    Margin="0,0,0,15"
+                                    BorderThickness="1"
+                                    BorderBrush="{StaticResource BorderBrush}">
+                                <StackPanel>
                                     <StackPanel>
-                                        <StackPanel>
-                                            <!-- 切换按钮 -->
-                                            <Button x:Name="MonthlyToggleButton" 
-                                                    Background="Transparent" 
-                                                    BorderThickness="0" 
-                                                    HorizontalAlignment="Left" 
-                                                    Padding="0" 
-                                                    Cursor="Hand"
-                                                    Command="{Binding ToggleMonthlyDataCommand}">
-                                                <StackPanel Orientation="Horizontal">
-                                                    <Path x:Name="MonthlyToggleIcon" 
-                                                          Data="M8.59,16.58L13.17,12L8.59,7.41L10,6L16,12L10,18L8.59,16.58Z" 
-                                                          Fill="{StaticResource PrimaryBrush}" 
-                                                          Stretch="Uniform" 
-                                                          Width="16" 
-                                                          Height="16" 
-                                                          RenderTransformOrigin="0.5,0.5">
-                                                        <Path.RenderTransform>
-                                                            <RotateTransform Angle="{Binding IsMonthlyDataVisible, Converter={StaticResource BooleanToRotationConverter}}"/>
-                                                        </Path.RenderTransform>
-                                                    </Path>
-                                                    <TextBlock Text="月度数据修正" Margin="8,0,0,0" 
-                                                               FontSize="16"
-                                                               Foreground="{StaticResource PrimaryBrush}" 
-                                                               FontWeight="SemiBold" 
-                                                               VerticalAlignment="Center"/>
-                                                </StackPanel>
-                                            </Button>
+                                        <!-- 切换按钮 -->
+                                        <Button x:Name="MonthlyToggleButton" 
+                                                Background="Transparent" 
+                                                BorderThickness="0" 
+                                                HorizontalAlignment="Left" 
+                                                Padding="0" 
+                                                Cursor="Hand"
+                                                Command="{Binding ToggleMonthlyDataCommand}">
+                                            <StackPanel Orientation="Horizontal">
+                                                <Path x:Name="MonthlyToggleIcon" 
+                                                        Data="M8.59,16.58L13.17,12L8.59,7.41L10,6L16,12L10,18L8.59,16.58Z" 
+                                                        Fill="{StaticResource PrimaryBrush}" 
+                                                        Stretch="Uniform" 
+                                                        Width="16" 
+                                                        Height="16" 
+                                                        RenderTransformOrigin="0.5,0.5">
+                                                    <Path.RenderTransform>
+                                                        <RotateTransform Angle="{Binding IsMonthlyDataVisible, Converter={StaticResource BooleanToRotationConverter}}"/>
+                                                    </Path.RenderTransform>
+                                                </Path>
+                                                <TextBlock Text="月度数据修正" Margin="8,0,0,0" 
+                                                            FontSize="16"
+                                                            Foreground="{StaticResource PrimaryBrush}" 
+                                                            FontWeight="SemiBold" 
+                                                            VerticalAlignment="Center"/>
+                                            </StackPanel>
+                                        </Button>
 
-                                            <!-- 月度数据表格 -->
-                                            <Grid x:Name="MonthlyDataGrid" 
-                                                  Margin="0,10,0,0" 
-                                                  Visibility="{Binding IsMonthlyDataVisible, Converter={StaticResource BooleanToVisibilityConverter}}">
-                                                <Grid.RowDefinitions>
-                                                    <RowDefinition Height="Auto"/>
-                                                    <RowDefinition Height="*"/>
-                                                </Grid.RowDefinitions>
+                                        <!-- 月度数据表格 -->
+                                        <Grid x:Name="MonthlyDataGrid" 
+                                                Margin="0,10,0,0" 
+                                                Visibility="{Binding IsMonthlyDataVisible, Converter={StaticResource BooleanToVisibilityConverter}}">
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="Auto"/>
+                                                <RowDefinition Height="*"/>
+                                            </Grid.RowDefinitions>
 
-                                                <!-- 月度表头 -->
-                                                <Border Grid.Row="0" 
-                                                        Background="{StaticResource BackgroundBrush}" 
-                                                        BorderThickness="0,0,0,1"
-                                                        BorderBrush="{StaticResource BorderBrush}"
-                                                        Padding="12,10">
-                                                    <Grid>
-                                                        <Grid.ColumnDefinitions>
-                                                            <ColumnDefinition Width="*"/>
-                                                            <ColumnDefinition Width="*"/>
-                                                            <ColumnDefinition Width="*"/>
-                                                            <ColumnDefinition Width="100"/>
-                                                        </Grid.ColumnDefinitions>
+                                            <!-- 月度表头 -->
+                                            <Border Grid.Row="0" 
+                                                    Background="{StaticResource BackgroundBrush}" 
+                                                    BorderThickness="0,0,0,1"
+                                                    BorderBrush="{StaticResource BorderBrush}"
+                                                    Padding="12,10">
+                                                <Grid>
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="*"/>
+                                                        <ColumnDefinition Width="*"/>
+                                                        <ColumnDefinition Width="*"/>
+                                                        <ColumnDefinition Width="100"/>
+                                                    </Grid.ColumnDefinitions>
 
-                                                        <TextBlock Grid.Column="0" 
-                                                                   Text="月份"
-                                                                   Style="{StaticResource TableHeaderStyle}"/>
+                                                    <TextBlock Grid.Column="0" 
+                                                                Text="月份"
+                                                                Style="{StaticResource TableHeaderStyle}"/>
 
-                                                        <Border Grid.Column="1">
-                                                            <Grid>
-                                                                <Grid.ColumnDefinitions>
-                                                                    <ColumnDefinition/>
-                                                                    <ColumnDefinition/>
-                                                                    <ColumnDefinition/>
-                                                                </Grid.ColumnDefinitions>
-                                                                <TextBlock Text="投入资产数量" 
-                                                                           Grid.Column="0"
-                                                                           Style="{StaticResource TableHeaderStyle}"/>
-                                                                <StackPanel Grid.Column="1"
-                                                                            Orientation="Horizontal">
-                                                                    <TextBlock Text="原始值 :"
-                                                                               Style="{StaticResource TableHeaderStyle}"/>
-                                                                    <TextBlock />
-                                                                </StackPanel>
+                                                    <Border Grid.Column="1">
+                                                        <Grid>
+                                                            <Grid.ColumnDefinitions>
+                                                                <ColumnDefinition/>
+                                                                <ColumnDefinition/>
+                                                                <ColumnDefinition/>
+                                                            </Grid.ColumnDefinitions>
+                                                            <TextBlock Text="投入资产数量" 
+                                                                        Grid.Column="0"
+                                                                        Style="{StaticResource TableHeaderStyle}"/>
+                                                            <StackPanel Grid.Column="1"
+                                                                        Orientation="Horizontal">
+                                                                <TextBlock Text="原始值 :"
+                                                                            Style="{StaticResource TableHeaderStyle}"/>
+                                                                <TextBlock />
+                                                            </StackPanel>
 
-                                                                <StackPanel Grid.Column="2"
-                                                                            Orientation="Horizontal">
-                                                                    <TextBlock Text="修正值 :"
-                                                                               Style="{StaticResource TableHeaderStyle}"/>
-                                                                    <TextBlock />
-                                                                </StackPanel>
-                                                            </Grid>
+                                                            <StackPanel Grid.Column="2"
+                                                                        Orientation="Horizontal">
+                                                                <TextBlock Text="修正值 :"
+                                                                            Style="{StaticResource TableHeaderStyle}"/>
+                                                                <TextBlock />
+                                                            </StackPanel>
+                                                        </Grid>
                                                             
-                                                        </Border>
+                                                    </Border>
 
-                                                        <Border Grid.Column="2">
-                                                            <Grid>
-                                                                <Grid.ColumnDefinitions>
-                                                                    <ColumnDefinition/>
-                                                                    <ColumnDefinition/>
-                                                                    <ColumnDefinition/>
-                                                                </Grid.ColumnDefinitions>
-                                                                <TextBlock Text="投入金额" 
-                                                                           Grid.Column="0"
-                                                                           Style="{StaticResource TableHeaderStyle}"/>
-                                                                <StackPanel Grid.Column="1"
-                                                                            Orientation="Horizontal">
-                                                                    <TextBlock Text="原始值 :"
-                                                                               Style="{StaticResource TableHeaderStyle}"/>
-                                                                    <TextBlock />
-                                                                </StackPanel>
+                                                    <Border Grid.Column="2">
+                                                        <Grid>
+                                                            <Grid.ColumnDefinitions>
+                                                                <ColumnDefinition/>
+                                                                <ColumnDefinition/>
+                                                                <ColumnDefinition/>
+                                                            </Grid.ColumnDefinitions>
+                                                            <TextBlock Text="投入金额" 
+                                                                        Grid.Column="0"
+                                                                        Style="{StaticResource TableHeaderStyle}"/>
+                                                            <StackPanel Grid.Column="1"
+                                                                        Orientation="Horizontal">
+                                                                <TextBlock Text="原始值 :"
+                                                                            Style="{StaticResource TableHeaderStyle}"/>
+                                                                <TextBlock />
+                                                            </StackPanel>
 
-                                                                <StackPanel Grid.Column="2"
-                                                                            Orientation="Horizontal">
-                                                                    <TextBlock Text="修正值 :"
-                                                                               Style="{StaticResource TableHeaderStyle}"/>
-                                                                    <TextBlock />
-                                                                </StackPanel>
-                                                            </Grid>
+                                                            <StackPanel Grid.Column="2"
+                                                                        Orientation="Horizontal">
+                                                                <TextBlock Text="修正值 :"
+                                                                            Style="{StaticResource TableHeaderStyle}"/>
+                                                                <TextBlock />
+                                                            </StackPanel>
+                                                        </Grid>
 
-                                                        </Border>
+                                                    </Border>
                                                         
-                                                        <TextBlock Grid.Column="3"
-                                                                   Text="操作" 
-                                                                   Style="{StaticResource TableHeaderStyle}"/>
-                                                    </Grid>
-                                                </Border>
+                                                    <TextBlock Grid.Column="3"
+                                                                Text="操作" 
+                                                                Style="{StaticResource TableHeaderStyle}"/>
+                                                </Grid>
+                                            </Border>
 
-                                                <!-- 月度数据 -->
-                                                <ItemsControl Grid.Row="1"
-                                                              x:Name="MonthlyDataItems" 
+                                            <!-- 月度数据 -->
+                                            <ScrollViewer Grid.Row="1"
+                                                          MaxHeight="200"
+                                                          Margin="0 0 0 0">
+                                                <ItemsControl x:Name="MonthlyDataItems" 
                                                               ItemsSource="{Binding MonthlyDataList}">
+                                                    
                                                     <ItemsControl.ItemTemplate>
                                                         <DataTemplate>
                                                             <Border Padding="12,10"
-                                                                    BorderThickness="0,0,0,1" 
-                                                                    BorderBrush="{StaticResource BorderBrush}">
+                                                                BorderThickness="0,0,0,1" 
+                                                                BorderBrush="{StaticResource BorderBrush}">
                                                                 <Grid>
                                                                     <Grid.ColumnDefinitions>
                                                                         <ColumnDefinition Width="*"/>
@@ -701,35 +703,35 @@
                                                                     </Grid.ColumnDefinitions>
 
                                                                     <TextBlock Grid.Column="0" 
-                                                                               Text="{Binding Month}" 
-                                                                               VerticalAlignment="Center"
-                                                                               HorizontalAlignment="Left"/>
+                                                                            Text="{Binding Month}" 
+                                                                            VerticalAlignment="Center"
+                                                                            HorizontalAlignment="Left"/>
                                                                     <TextBox Grid.Column="1"
-                                                                             Margin="0 0 30 0"
-                                                                             Text="{Binding Quantity}" 
-                                                                             Style="{StaticResource FormInputStyle}" 
-                                                                             VerticalAlignment="Center"
-                                                                             HorizontalAlignment="Stretch"/>
+                                                                            Margin="0 0 30 0"
+                                                                            Text="{Binding Quantity}" 
+                                                                            Style="{StaticResource FormInputStyle}" 
+                                                                            VerticalAlignment="Center"
+                                                                            HorizontalAlignment="Stretch"/>
                                                                     <TextBox Grid.Column="2" 
-                                                                             Text="{Binding SalesForecast}"
-                                                                             Margin="0 0 30 0"
-                                                                             Style="{StaticResource FormInputStyle}" 
-                                                                             VerticalAlignment="Center"
-                                                                             HorizontalAlignment="Stretch"/>
+                                                                            Text="{Binding SalesForecast}"
+                                                                            Margin="0 0 30 0"
+                                                                            Style="{StaticResource FormInputStyle}" 
+                                                                            VerticalAlignment="Center"
+                                                                            HorizontalAlignment="Stretch"/>
 
                                                                     <StackPanel Grid.Column="3" 
-                                                                                Orientation="Horizontal" 
-                                                                                HorizontalAlignment="Left">
+                                                                            Orientation="Horizontal" 
+                                                                            HorizontalAlignment="Left">
                                                                         <Button Style="{StaticResource SecondaryButtonStyle}" 
-                                                                                Padding="6,4" 
-                                                                                Height="29"
-                                                                                Width="29"
-                                                                                ToolTip="">
+                                                                            Padding="6,4" 
+                                                                            Height="29"
+                                                                            Width="29"
+                                                                            ToolTip="">
                                                                             <Path Data="M3,17.25V21H6.75L17.81,9.94L14.06,6.19L3,17.25ZM20.71,7.04C21.1,6.65 21.1,6 20.71,5.63L18.37,3.29C18,2.9 17.35,2.9 16.96,3.29L15.13,5.12L18.88,8.87L20.71,7.04Z" 
-                                                                                  Fill="{StaticResource SecondaryTextBrush}"
-                                                                                  Stretch="Uniform"
-                                                                                  Width="16" 
-                                                                                  Height="16"/>
+                                                                                Fill="{StaticResource SecondaryTextBrush}"
+                                                                                Stretch="Uniform"
+                                                                                Width="16" 
+                                                                                Height="16"/>
                                                                         </Button>
                                                                     </StackPanel>
                                                                 </Grid>
@@ -737,14 +739,16 @@
                                                         </DataTemplate>
                                                     </ItemsControl.ItemTemplate>
                                                 </ItemsControl>
-                                            </Grid>
-                                        </StackPanel>
+                                            </ScrollViewer>
 
-
+                                        </Grid>
                                     </StackPanel>
-                                </Border>
-                            </StackPanel>
-                        </ScrollViewer>
+
+
+                                </StackPanel>
+                            </Border>
+                        </StackPanel>
+
                     </Grid>
                 </Border>
             </Grid>
