@@ -621,12 +621,61 @@
                                                         <TextBlock Grid.Column="0" 
                                                                    Text="月份"
                                                                    Style="{StaticResource TableHeaderStyle}"/>
-                                                        <TextBlock Grid.Column="1" 
-                                                                   Text="投入资产数量" 
-                                                                   Style="{StaticResource TableHeaderStyle}"/>
-                                                        <TextBlock Grid.Column="2" 
-                                                                   Text="投入金额" 
-                                                                   Style="{StaticResource TableHeaderStyle}"/>
+
+                                                        <Border Grid.Column="1">
+                                                            <Grid>
+                                                                <Grid.ColumnDefinitions>
+                                                                    <ColumnDefinition/>
+                                                                    <ColumnDefinition/>
+                                                                    <ColumnDefinition/>
+                                                                </Grid.ColumnDefinitions>
+                                                                <TextBlock Text="投入资产数量" 
+                                                                           Grid.Column="0"
+                                                                           Style="{StaticResource TableHeaderStyle}"/>
+                                                                <StackPanel Grid.Column="1"
+                                                                            Orientation="Horizontal">
+                                                                    <TextBlock Text="原始值 :"
+                                                                               Style="{StaticResource TableHeaderStyle}"/>
+                                                                    <TextBlock />
+                                                                </StackPanel>
+
+                                                                <StackPanel Grid.Column="2"
+                                                                            Orientation="Horizontal">
+                                                                    <TextBlock Text="修正值 :"
+                                                                               Style="{StaticResource TableHeaderStyle}"/>
+                                                                    <TextBlock />
+                                                                </StackPanel>
+                                                            </Grid>
+                                                            
+                                                        </Border>
+
+                                                        <Border Grid.Column="2">
+                                                            <Grid>
+                                                                <Grid.ColumnDefinitions>
+                                                                    <ColumnDefinition/>
+                                                                    <ColumnDefinition/>
+                                                                    <ColumnDefinition/>
+                                                                </Grid.ColumnDefinitions>
+                                                                <TextBlock Text="投入金额" 
+                                                                           Grid.Column="0"
+                                                                           Style="{StaticResource TableHeaderStyle}"/>
+                                                                <StackPanel Grid.Column="1"
+                                                                            Orientation="Horizontal">
+                                                                    <TextBlock Text="原始值 :"
+                                                                               Style="{StaticResource TableHeaderStyle}"/>
+                                                                    <TextBlock />
+                                                                </StackPanel>
+
+                                                                <StackPanel Grid.Column="2"
+                                                                            Orientation="Horizontal">
+                                                                    <TextBlock Text="修正值 :"
+                                                                               Style="{StaticResource TableHeaderStyle}"/>
+                                                                    <TextBlock />
+                                                                </StackPanel>
+                                                            </Grid>
+
+                                                        </Border>
+                                                        
                                                         <TextBlock Grid.Column="3"
                                                                    Text="操作" 
                                                                    Style="{StaticResource TableHeaderStyle}"/>
