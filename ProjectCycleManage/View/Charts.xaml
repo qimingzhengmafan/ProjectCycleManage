@@ -67,20 +67,18 @@
                         </Grid.RowDefinitions>
 
                         <Border>
-                            <TextBlock Text="年度预算 VS 实际支出"
+                            <TextBlock Text="未完成金额/已完成金额/预算剩余金额"
                                        FontSize="18"
                                        VerticalAlignment="Center"
                                        FontWeight="Bold"
                                        Foreground="#2D5BD5"/>
                         </Border>
 
-                        <lvc:CartesianChart Grid.Row="1"
-                                            Series="{Binding Series}"
-                                            XAxes="{Binding XAxes}"
-                                            LegendPosition="Top"
-                                            LegendTextPaint="{Binding LegendTextPaint}"
-                                            TooltipTextPaint="{Binding TipTextPaint}">
-                        </lvc:CartesianChart>
+                        <lvc:PieChart Grid.Row="1"
+                                      Series="{Binding ProjectprogressSeries}"
+                                      LegendPosition="Right"
+                                      LegendTextPaint="{Binding LegendTextPaint}"
+                                      TooltipTextPaint="{Binding TipTextPaint}"/>
                     </Grid>
                 </Border>
 
