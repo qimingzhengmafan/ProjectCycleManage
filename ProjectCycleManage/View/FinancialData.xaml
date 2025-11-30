@@ -362,7 +362,7 @@
                                            Foreground="#2D5BD5"/>
                             </StackPanel>
 
-                            <TextBlock Text="{Binding InvestmentSalesForecast, StringFormat='¥ {0:N0}'}"
+                            <TextBox Text="{Binding InvestmentSalesForecast, StringFormat='¥ {0:N0}'}"
                                        FontSize="24"
                                        FontWeight="Bold"
                                        Margin="0,0,0,5"/>
@@ -392,7 +392,7 @@
                                            VerticalAlignment="Center"
                                            Foreground="#2D5BD5"/>
                             </StackPanel>
-                            <TextBlock Text="{Binding InvestmentBudget, StringFormat='¥ {0:N0}'}"
+                            <TextBox Text="{Binding InvestmentBudget, StringFormat='¥ {0:N0}'}"
                                        FontSize="24"
                                        FontWeight="Bold"
                                        Margin="0,0,0,5"/>
