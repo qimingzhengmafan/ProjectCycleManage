@@ -37,7 +37,7 @@ namespace ProjectCycleManage.ViewModel
         /// 月份数据
         /// </summary>
         [ObservableProperty]
-        private List<MonthlyData> monthlyDataList;
+        private ObservableCollection<MonthlyData> monthlyDataList;
 
         /// <summary>
         /// 年度销售预测
@@ -187,7 +187,7 @@ namespace ProjectCycleManage.ViewModel
                 .FirstOrDefault(a => a.Year == year);
             
             // 初始化月度数据列表
-            MonthlyDataList = new List<MonthlyData>();
+            MonthlyDataList = new ObservableCollection<MonthlyData>();
             
             // 定义月份名称数组
             string[] monthNames = { "一月", "二月", "三月", "四月", "五月", "六月", 
