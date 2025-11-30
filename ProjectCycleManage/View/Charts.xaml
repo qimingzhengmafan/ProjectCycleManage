@@ -8,14 +8,28 @@
              xmlns:vm="clr-namespace:ProjectCycleManage.ViewModel"
              mc:Ignorable="d" 
              d:DataContext="{d:DesignInstance Type=vm:ChartsVM}"
-             d:DesignHeight="1000" 
+             d:DesignHeight="3500" 
              d:DesignWidth="1625">
     <Grid>
         <ScrollViewer>
             <Grid>
                 <Grid.RowDefinitions>
+                    <RowDefinition Height="94"/>
                     <RowDefinition Height="418"/>
-                    <RowDefinition/>
+                    
+                    <RowDefinition Height="94"/>
+                    <RowDefinition Height="418"/>
+                    
+                    <RowDefinition Height="94"/>
+                    <RowDefinition Height="418"/>
+                    <RowDefinition Height="418"/>
+                    
+                    <RowDefinition Height="94"/>
+                    <RowDefinition Height="418"/>
+                    <RowDefinition Height="418"/>
+                    
+                    <RowDefinition Height="94"/>
+                    <RowDefinition Height="418"/>
                 </Grid.RowDefinitions>
 
                 <Grid.ColumnDefinitions>
@@ -24,7 +38,24 @@
                     <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
 
-                <Border Height="398"
+                <!--#region 预算分析 -->
+                <Border Grid.ColumnSpan="3"
+                        Grid.Row="0">
+                    <Grid Margin="0 30 0 20">
+                        <Border Margin="0 0 0 10"
+                                BorderThickness="0 0 0 1"
+                                BorderBrush="#e0e0e0">
+                            <TextBlock Text="预算分析"
+                                   FontSize="20"
+                                   VerticalAlignment="Center"
+                                   FontWeight="Bold"
+                                   Foreground="#2D5BD5"/>
+                        </Border>
+
+                    </Grid>
+                </Border>
+                <Border Grid.Row="1"
+                        Height="398"
                         VerticalAlignment="Top"
                         CornerRadius="15"
                         Background="White">
@@ -54,6 +85,7 @@
                 </Border>
 
                 <Border Height="398"
+                        Grid.Row="1"
                         Grid.Column="2"
                         VerticalAlignment="Top"
                         CornerRadius="15"
@@ -83,9 +115,26 @@
                         </lvc:CartesianChart>
                     </Grid>
                 </Border>
+                <!--#endregion-->
 
+                <!--#region 历史投入分析 -->
+                <Border Grid.ColumnSpan="3"
+                        Grid.Row="2">
+                    <Grid Margin="0 30 0 20">
+                        <Border Margin="0 0 0 10"
+                                BorderThickness="0 0 0 1"
+                                BorderBrush="#e0e0e0">
+                            <TextBlock Text="历史投入分析"
+                                   FontSize="20"
+                                   VerticalAlignment="Center"
+                                   FontWeight="Bold"
+                                   Foreground="#2D5BD5"/>
+                        </Border>
+
+                    </Grid>
+                </Border>
                 <Border Height="398"
-                        Grid.Row="1"
+                        Grid.Row="3"
                         VerticalAlignment="Top"
                         CornerRadius="15"
                         Background="White">
@@ -115,7 +164,7 @@
 
                 <Border Height="398"
                         Grid.Column="2"
-                        Grid.Row="1"
+                        Grid.Row="3"
                         VerticalAlignment="Top"
                         CornerRadius="15"
                         Background="White">
@@ -158,6 +207,342 @@
                         
                     </Grid>
                 </Border>
+                
+                <!--#endregion-->
+
+                <!--#region 区域描述 -->
+                <Border Grid.ColumnSpan="3"
+                        Grid.Row="4">
+                    <Grid Margin="0 30 0 20">
+                        <Border Margin="0 0 0 10"
+                                BorderThickness="0 0 0 1"
+                                BorderBrush="#e0e0e0">
+                            <TextBlock Text="部门完成进度"
+                                   FontSize="20"
+                                   VerticalAlignment="Center"
+                                   FontWeight="Bold"
+                                   Foreground="#2D5BD5"/>
+                        </Border>
+
+                    </Grid>
+                </Border>
+                <Border Height="398"
+                        Grid.Row="5"
+                        VerticalAlignment="Top"
+                        CornerRadius="15"
+                        Background="White">
+                    <Grid Margin="20">
+
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="59"/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+
+                        <Border>
+                            <TextBlock Text="项目进度"
+                                       FontSize="18"
+                                       VerticalAlignment="Center"
+                                       FontWeight="Bold"
+                                       Foreground="#2D5BD5"/>
+                        </Border>
+
+                        <lvc:PieChart Grid.Row="1"
+                                      Series="{Binding ProjectprogressSeries}"
+                                      LegendPosition="Right"
+                                      LegendTextPaint="{Binding LegendTextPaint}"
+                                      TooltipTextPaint="{Binding TipTextPaint}">
+                        </lvc:PieChart>
+                    </Grid>
+                </Border>
+
+                <Border Height="398"
+                        Grid.Column="2"
+                        Grid.Row="5"
+                        VerticalAlignment="Top"
+                        CornerRadius="15"
+                        Background="White">
+                    <Grid Margin="20">
+
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="59"/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+
+                        <Border>
+                            <TextBlock Text="人员项目情况"
+                                       FontSize="18"
+                                       VerticalAlignment="Center"
+                                       FontWeight="Bold"
+                                       Foreground="#2D5BD5"/>
+                        </Border>
+
+                        <Grid Grid.Row="1">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+
+                            <lvc:PieChart Series="{Binding Projectleaderinformation}"
+                                          LegendPosition="Top"
+                                          LegendTextPaint="{Binding LegendTextPaint}"
+                                          TooltipTextPaint="{Binding TipTextPaint}">
+                            </lvc:PieChart>
+
+                            <lvc:PieChart Grid.Column="1"
+                                          Series="{Binding Projectfollowpoepleinformation}"
+                                          LegendPosition="Top"
+                                          LegendTextPaint="{Binding LegendTextPaint}"
+                                          TooltipTextPaint="{Binding TipTextPaint}">
+                            </lvc:PieChart>
+
+                        </Grid>
+
+
+                    </Grid>
+                </Border>
+
+                <Border Height="398"
+                        Grid.Row="6"
+                        VerticalAlignment="Top"
+                        CornerRadius="15"
+                        Background="White">
+                    <Grid Margin="20">
+
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="59"/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+
+                        <Border>
+                            <TextBlock Text="项目进度"
+                                       FontSize="18"
+                                       VerticalAlignment="Center"
+                                       FontWeight="Bold"
+                                       Foreground="#2D5BD5"/>
+                        </Border>
+
+                        <lvc:PieChart Grid.Row="1"
+                                      Series="{Binding ProjectprogressSeries}"
+                                      LegendPosition="Right"
+                                      LegendTextPaint="{Binding LegendTextPaint}"
+                                      TooltipTextPaint="{Binding TipTextPaint}">
+                        </lvc:PieChart>
+                    </Grid>
+                </Border>
+                <!--#endregion-->
+
+                <!--#region 个人完成进度 -->
+                <Border Grid.ColumnSpan="3"
+                        Grid.Row="7">
+                    <Grid Margin="0 30 0 20">
+                        <Border Margin="0 0 0 10"
+                                BorderThickness="0 0 0 1"
+                                BorderBrush="#e0e0e0">
+                            <TextBlock Text="个人完成进度"
+                                   FontSize="20"
+                                   VerticalAlignment="Center"
+                                   FontWeight="Bold"
+                                   Foreground="#2D5BD5"/>
+                        </Border>
+
+                    </Grid>
+                </Border>
+                <Border Height="398"
+                        Grid.Row="8"
+                        VerticalAlignment="Top"
+                        CornerRadius="15"
+                        Background="White">
+                    <Grid Margin="20">
+
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="59"/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+
+                        <Border>
+                            <TextBlock Text="项目进度"
+                                       FontSize="18"
+                                       VerticalAlignment="Center"
+                                       FontWeight="Bold"
+                                       Foreground="#2D5BD5"/>
+                        </Border>
+
+                        <lvc:PieChart Grid.Row="1"
+                                      Series="{Binding ProjectprogressSeries}"
+                                      LegendPosition="Right"
+                                      LegendTextPaint="{Binding LegendTextPaint}"
+                                      TooltipTextPaint="{Binding TipTextPaint}">
+                        </lvc:PieChart>
+                    </Grid>
+                </Border>
+
+                <Border Height="398"
+                        Grid.Column="2"
+                        Grid.Row="8"
+                        VerticalAlignment="Top"
+                        CornerRadius="15"
+                        Background="White">
+                    <Grid Margin="20">
+
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="59"/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+
+                        <Border>
+                            <TextBlock Text="人员项目情况"
+                                       FontSize="18"
+                                       VerticalAlignment="Center"
+                                       FontWeight="Bold"
+                                       Foreground="#2D5BD5"/>
+                        </Border>
+
+                        <Grid Grid.Row="1">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+
+                            <lvc:PieChart Series="{Binding Projectleaderinformation}"
+                                          LegendPosition="Top"
+                                          LegendTextPaint="{Binding LegendTextPaint}"
+                                          TooltipTextPaint="{Binding TipTextPaint}">
+                            </lvc:PieChart>
+
+                            <lvc:PieChart Grid.Column="1"
+                                          Series="{Binding Projectfollowpoepleinformation}"
+                                          LegendPosition="Top"
+                                          LegendTextPaint="{Binding LegendTextPaint}"
+                                          TooltipTextPaint="{Binding TipTextPaint}">
+                            </lvc:PieChart>
+
+                        </Grid>
+
+
+                    </Grid>
+                </Border>
+                <Border Height="398"
+                        Grid.Row="9"
+                        VerticalAlignment="Top"
+                        CornerRadius="15"
+                        Background="White">
+                    <Grid Margin="20">
+
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="59"/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+
+                        <Border>
+                            <TextBlock Text="项目进度"
+                                       FontSize="18"
+                                       VerticalAlignment="Center"
+                                       FontWeight="Bold"
+                                       Foreground="#2D5BD5"/>
+                        </Border>
+
+                        <lvc:PieChart Grid.Row="1"
+                                      Series="{Binding ProjectprogressSeries}"
+                                      LegendPosition="Right"
+                                      LegendTextPaint="{Binding LegendTextPaint}"
+                                      TooltipTextPaint="{Binding TipTextPaint}">
+                        </lvc:PieChart>
+                    </Grid>
+                </Border>
+                <!--#endregion-->
+
+
+                <!--#region 设备类型汇总 -->
+                <Border Grid.ColumnSpan="3"
+                        Grid.Row="10">
+                    <Grid Margin="0 30 0 20">
+                        <Border Margin="0 0 0 10"
+                                BorderThickness="0 0 0 1"
+                                BorderBrush="#e0e0e0">
+                            <TextBlock Text="设备类型汇总"
+                                   FontSize="20"
+                                   VerticalAlignment="Center"
+                                   FontWeight="Bold"
+                                   Foreground="#2D5BD5"/>
+                        </Border>
+
+                    </Grid>
+                </Border>
+                <Border Height="398"
+                        Grid.Row="11"
+                        VerticalAlignment="Top"
+                        CornerRadius="15"
+                        Background="White">
+                    <Grid Margin="20">
+
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="59"/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+
+                        <Border>
+                            <TextBlock Text="项目进度"
+                                       FontSize="18"
+                                       VerticalAlignment="Center"
+                                       FontWeight="Bold"
+                                       Foreground="#2D5BD5"/>
+                        </Border>
+
+                        <lvc:PieChart Grid.Row="1"
+                                      Series="{Binding ProjectprogressSeries}"
+                                      LegendPosition="Right"
+                                      LegendTextPaint="{Binding LegendTextPaint}"
+                                      TooltipTextPaint="{Binding TipTextPaint}">
+                        </lvc:PieChart>
+                    </Grid>
+                </Border>
+
+                <Border Height="398"
+                        Grid.Column="2"
+                        Grid.Row="11"
+                        VerticalAlignment="Top"
+                        CornerRadius="15"
+                        Background="White">
+                    <Grid Margin="20">
+
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="59"/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+
+                        <Border>
+                            <TextBlock Text="人员项目情况"
+                                       FontSize="18"
+                                       VerticalAlignment="Center"
+                                       FontWeight="Bold"
+                                       Foreground="#2D5BD5"/>
+                        </Border>
+
+                        <Grid Grid.Row="1">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+
+                            <lvc:PieChart Series="{Binding Projectleaderinformation}"
+                                          LegendPosition="Top"
+                                          LegendTextPaint="{Binding LegendTextPaint}"
+                                          TooltipTextPaint="{Binding TipTextPaint}">
+                            </lvc:PieChart>
+
+                            <lvc:PieChart Grid.Column="1"
+                                          Series="{Binding Projectfollowpoepleinformation}"
+                                          LegendPosition="Top"
+                                          LegendTextPaint="{Binding LegendTextPaint}"
+                                          TooltipTextPaint="{Binding TipTextPaint}">
+                            </lvc:PieChart>
+
+                        </Grid>
+
+
+                    </Grid>
+                </Border>
+                <!--#endregion-->
 
             </Grid>
         </ScrollViewer>
