@@ -23,19 +23,6 @@ namespace ProjectCycleManage.ViewModel
         [ObservableProperty]
         private List<string> availableYears;
 
-
-        /// <summary>
-        /// 年度销售额预测
-        /// </summary>
-        [ObservableProperty]
-        private double annualSales = 0.0;
-
-        /// <summary>
-        /// 年度预算
-        /// </summary>
-        [ObservableProperty]
-        private double annualBudget = 0.0;
-
         /// <summary>
         /// 预算执行率
         /// </summary>
@@ -53,23 +40,42 @@ namespace ProjectCycleManage.ViewModel
         private List<MonthlyData> monthlyDataList;
 
         /// <summary>
-        /// 投入数量
+        /// 年度销售预测
         /// </summary>
         [ObservableProperty]
-        private int investmentQuantity = 156;
-
-
-        /// <summary>
-        /// 投资销售预测
-        /// </summary>
-        [ObservableProperty]
-        private double investmentSalesForecast = 9560000;
+        private double investmentSalesForecast = 0;
 
         /// <summary>
-        /// 投资预算
+        /// 年度预算
         /// </summary>
         [ObservableProperty]
-        private double investmentBudget = 8450000;
+        private double investmentBudget = 0;
+
+        /// <summary>
+        /// 投入设备数量
+        /// </summary>
+        [ObservableProperty]
+        private int investmentQuantity = 0;
+
+        /// <summary>
+        /// 投入金额
+        /// </summary>
+        [ObservableProperty]
+        private double _annualSales = 0;
+
+        /// <summary>
+        /// 修正设备数量
+        /// </summary>
+        [ObservableProperty]
+        private double _correctinvestQuant = 0;
+
+        /// <summary>
+        /// 修正设备金额
+        /// </summary>
+        [ObservableProperty]
+        private double _correctinvestsales = 0;
+
+
 
         public FinancialData()
         {
@@ -150,7 +156,7 @@ namespace ProjectCycleManage.ViewModel
             }
             else
             {
-                BudgetExecutionRate = 0;
+                BudgetExecutionRate = 0; 
             }
             
             // 5. 加载月度数据修正
@@ -158,14 +164,14 @@ namespace ProjectCycleManage.ViewModel
             
             // 通知UI属性已更新
             
-
-            OnPropertyChanged(nameof(AnnualBudget));
-            OnPropertyChanged(nameof(InvestmentQuantity));
+            //OnPropertyChanged(nameof(InvestmentQuantity));
 
             //OnPropertyChanged(nameof(AnnualSales));
-            //OnPropertyChanged(nameof(BudgetExecutionRate));
+            
             //OnPropertyChanged(nameof(InvestmentSalesForecast));
             //OnPropertyChanged(nameof(InvestmentBudget));
+
+            //OnPropertyChanged(nameof(BudgetExecutionRate));
         }
 
         private void LoadMonthlyCorrectionData(int year)
@@ -202,15 +208,26 @@ namespace ProjectCycleManage.ViewModel
                 
                 // 计算修正后的数量
                 double quantityCorrectionValue = GetCorrectionValue(quantityCorrection, i + 1);
-                monthlyData.CorrectedQuantity = originalQuantity + quantityCorrectionValue;
+                monthlyData.CorrectedQuantity = quantityCorrectionValue;
                 
                 // 计算修正后的金额
                 double amountCorrectionValue = GetCorrectionValue(amountCorrection, i + 1);
-                monthlyData.CorrectedAmount = originalAmount + amountCorrectionValue;
+                monthlyData.CorrectedAmount = amountCorrectionValue;
                 
                 MonthlyDataList.Add(monthlyData);
             }
-            
+
+            double Quantitynum = 0;
+            double Quantityamount = 0.0;
+
+            foreach (var item in MonthlyDataList)
+            {
+                Quantitynum = item.CorrectedQuantity + Quantitynum;
+                Quantityamount = item.CorrectedAmount + Quantityamount;
+
+            }
+            CorrectinvestQuant = Quantitynum + InvestmentQuantity;
+            Correctinvestsales = Quantityamount + AnnualSales;
             //OnPropertyChanged(nameof(MonthlyDataList));
         }
 

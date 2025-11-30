@@ -422,7 +422,7 @@
                                            VerticalAlignment="Center"
                                            Foreground="#2D5BD5"/>
                             </StackPanel>
-                            <TextBlock Text="{Binding TotalBudget, StringFormat='¥ {0:N0}'}"
+                            <TextBlock Text="{Binding CorrectinvestQuant, StringFormat='¥ {0:N0}'}"
                                        FontSize="24"
                                        FontWeight="Bold"
                                        Margin="0,0,0,5"/>
@@ -452,7 +452,7 @@
                                            FontWeight="Bold"
                                            Foreground="#2D5BD5"/>
                             </StackPanel>
-                            <TextBlock Text="{Binding UsedBudget, StringFormat='¥ {0:N0}'}"
+                            <TextBlock Text="{Binding Correctinvestsales, StringFormat='¥ {0:N0}'}"
                                        FontSize="24"
                                        FontWeight="Bold"
                                        Margin="0,0,0,5"/>
