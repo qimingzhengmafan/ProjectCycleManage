@@ -236,6 +236,9 @@ namespace ProjectCycleManage.ViewModel
         [ObservableProperty]
         private ISeries[] _historinvest_amount;
 
+        [ObservableProperty]
+        private ISeries[] _historinvest_quantity;
+
 
         public void Historinvest_Amount()
         {
@@ -339,6 +342,130 @@ namespace ProjectCycleManage.ViewModel
             }
 
         }
+
+        public void Historinvest_Quantity()
+        {
+            using (var context = new ProjectContext())
+            {
+                //// 检查年份范围是否有效
+                //if (_startyear > _endyear)
+                //{
+                //    Historinvest_quantity = Array.Empty<ISeries>();
+                //    return;
+                //}
+
+                // 当起始年份等于结束年份时，按月份分组统计
+                if (_startyear == _endyear)
+                {
+                    // 获取该年份的所有项目，并按月份分组
+                    var monthlyData = context.Projects
+                        .Where(p => p.Year == _startyear && p.ApplicationTime.HasValue)
+                        .AsEnumerable() // 在内存中处理，因为EF Core不支持复杂的日期分组
+                        .GroupBy(p => p.ApplicationTime.Value.Month)
+                        .Select(g => new
+                        {
+                            Month = g.Key,
+                            ProjectCount = g.Count(),
+                            TotalExpenditure = g.Sum(p => 
+                                double.TryParse(p.ActualExpenditure, out double expenditure) ? expenditure : 0)
+                        })
+                        .OrderBy(x => x.Month)
+                        .ToList();
+
+                    // 确保包含所有月份（1-12月），即使没有数据
+                    var allMonthsData = new List<(int Month, int ProjectCount, double TotalExpenditure)>();
+                    for (int month = 1; month <= 12; month++)
+                    {
+                        var monthData = monthlyData.FirstOrDefault(m => m.Month == month);
+                        allMonthsData.Add((month, monthData?.ProjectCount ?? 0, monthData?.TotalExpenditure ?? 0));
+                    }
+
+                    // 创建项目数量系列
+                    var projectCountPoints = allMonthsData.Select(d => 
+                        new ObservablePoint(d.Month, d.ProjectCount)).ToArray();
+
+                    // 创建支出总和系列
+                    var expenditurePoints = allMonthsData.Select(d => 
+                        new ObservablePoint(d.Month, d.TotalExpenditure)).ToArray();
+
+                    // 设置X轴标签（月份名称）
+                    var monthLabels = new[] { "1月", "2月", "3月", "4月", "5月", "6月", 
+                                              "7月", "8月", "9月", "10月", "11月", "12月" };
+
+                    Historinvest_quantity = new LineSeries<ObservablePoint>[2]
+                    {
+                        new LineSeries<ObservablePoint> 
+                        { 
+                            Name = "项目数量",
+                            Values = projectCountPoints,
+                            Fill = new SolidColorPaint(new SKColor(76, 172, 250))
+                        },
+                        new LineSeries<ObservablePoint> 
+                        { 
+                            Name = "支出总和",
+                            Values = expenditurePoints,
+                            Fill = new SolidColorPaint(new SKColor(109, 203, 112))
+                        }
+                    };
+                }
+                else
+                {
+                    // 当起始年份不等于结束年份时，按年份分组统计
+                    // 先获取数据到内存中，然后在内存中进行类型转换
+                    var projects = context.Projects
+                        .Where(p => p.Year >= _startyear && p.Year <= _endyear)
+                        .Select(p => new { p.Year, p.ActualExpenditure })
+                        .AsEnumerable() // 切换到内存中操作
+                        .ToList();
+
+                    var yearlyData = projects
+                        .GroupBy(p => p.Year)
+                        .Select(g => new
+                        {
+                            Year = g.Key,
+                            ProjectCount = g.Count(),
+                            TotalExpenditure = g.Sum(p => 
+                                double.TryParse(p.ActualExpenditure, out double expenditure) ? expenditure : 0)
+                        })
+                        .OrderBy(x => x.Year)
+                        .ToList();
+
+                    // 确保包含所有年份，即使没有数据
+                    var allYearsData = new List<(int Year, int ProjectCount, double TotalExpenditure)>();
+                    for (int year = _startyear; year <= _endyear; year++)
+                    {
+                        var yearData = yearlyData.FirstOrDefault(y => y.Year == year);
+                        allYearsData.Add((year, yearData?.ProjectCount ?? 0, yearData?.TotalExpenditure ?? 0));
+                    }
+
+                    // 创建项目数量系列
+                    var projectCountPoints = allYearsData.Select(d => 
+                        new ObservablePoint(d.Year, d.ProjectCount)).ToArray();
+
+                    // 创建支出总和系列
+                    var expenditurePoints = allYearsData.Select(d => 
+                        new ObservablePoint(d.Year, d.TotalExpenditure)).ToArray();
+
+                    Historinvest_quantity = new LineSeries<ObservablePoint>[2]
+                    {
+                        new LineSeries<ObservablePoint> 
+                        { 
+                            Name = "项目数量",
+                            Values = projectCountPoints,
+                            Fill = new SolidColorPaint(new SKColor(76, 172, 250))
+                        },
+                        new LineSeries<ObservablePoint> 
+                        { 
+                            Name = "支出总和",
+                            Values = expenditurePoints,
+                            Fill = new SolidColorPaint(new SKColor(109, 203, 112))
+                        }
+                    };
+                }
+            }
+        }
+
+
 
         #endregion
 
@@ -597,7 +724,7 @@ namespace ProjectCycleManage.ViewModel
 
             Task.Run(() =>
             {
-                GetProjectProgressSeries();
+                Historinvest_Quantity();
             });
 
             Task.Run(() =>
