@@ -16,11 +16,11 @@ using System.Windows.Shapes;
 namespace ProjectCycleManage.View
 {
     /// <summary>
-    /// PersonManagVM.xaml 的交互逻辑
+    /// PersonManagView.xaml 的交互逻辑
     /// </summary>
-    public partial class PersonManagVM : UserControl
+    public partial class PersonManagView : UserControl
     {
-        public PersonManagVM()
+        public PersonManagView()
         {
             InitializeComponent();
         }
