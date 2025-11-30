@@ -75,7 +75,7 @@
                         </Border>
 
                         <lvc:PieChart Grid.Row="1"
-                                      Series="{Binding ProjectprogressSeries}"
+                                      Series="{Binding Projectbudget_pie}"
                                       LegendPosition="Right"
                                       LegendTextPaint="{Binding LegendTextPaint}"
                                       TooltipTextPaint="{Binding TipTextPaint}"/>

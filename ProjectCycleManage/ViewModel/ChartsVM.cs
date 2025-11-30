@@ -57,6 +57,9 @@ namespace ProjectCycleManage.ViewModel
         [ObservableProperty]
         private Axis[] _xAxes;
 
+
+        [ObservableProperty]
+        private IEnumerable<ISeries> _projectbudget_pie;
         public void GetProjectBudget_Pie()
         {
             using (var context = new ProjectContext())
@@ -66,14 +69,19 @@ namespace ProjectCycleManage.ViewModel
                     .ToList();
                 var Budget = context.AnnualBudgetTable
                     .Where(p => p.Year >= _startyear && p.Year <= _endyear)
-                    .FirstOrDefault();
+                    .ToList();
 
                 if (Budget == null)
                     return;
 
-                double BudgetAmount = Budget.Budget;
+                double BudgetAmount = 0.0;
                 var Completeproject = ProjectNum.Where(p => p.ProjectPhaseStatusId == 104).ToList();
                 var Unfinished = ProjectNum.Where(p => p.ProjectPhaseStatusId != 104).ToList();
+
+                foreach (var item in Budget)
+                {
+                    BudgetAmount += item.Budget;
+                }
 
                 //已完成金额
                 //Amount
@@ -112,12 +120,11 @@ namespace ProjectCycleManage.ViewModel
                     values.Add(data.Item2);
                 }
                 int _index = 0;
-
-                ProjectprogressSeries =
+                
+                Projectbudget_pie =
                     values.AsPieSeries((value, series) =>
                     {
                         series.Name = _names[_index++ % _names.Count];
-                        //if (value != 6) return;
 
                         series.Pushout = 5;
                     });
@@ -471,20 +478,20 @@ namespace ProjectCycleManage.ViewModel
                 GetProjectBudget_Pie();
             });
 
-            //Task.Run(() =>
-            //{
-            //    GetProjectExpenditures();
-            //});
+            Task.Run(() =>
+            {
+                GetProjectExpenditures();
+            });
 
-            //Task.Run(() =>
-            //{
-            //    GetProjectProgressSeries();
-            //});
+            Task.Run(() =>
+            {
+                GetProjectProgressSeries();
+            });
 
-            //Task.Run(() =>
-            //{
-            //    GetPeopleInformation();
-            //});
+            Task.Run(() =>
+            {
+                GetPeopleInformation();
+            });
         }
 
     }
