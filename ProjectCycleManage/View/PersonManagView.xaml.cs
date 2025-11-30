@@ -25,4 +25,18 @@ namespace ProjectCycleManage.View
             InitializeComponent();
         }
     }
+
+    public class TeamMemberData
+    {
+        public string Avatar { get; set; }
+        public string Name { get; set; }
+        public string EmployeeId { get; set; }
+        public string Department { get; set; }
+        public string Role { get; set; }
+        public Brush RoleBackground { get; set; }
+        public Brush RoleForeground { get; set; }
+        public string JoinDate { get; set; }
+        public string Status { get; set; }
+        public Brush StatusColor { get; set; }
+    }
 }
