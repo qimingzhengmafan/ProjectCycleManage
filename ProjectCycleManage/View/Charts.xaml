@@ -277,18 +277,11 @@
                                 <ColumnDefinition/>
                             </Grid.ColumnDefinitions>
 
-                            <lvc:PieChart Series="{Binding Projectleaderinformation}"
-                                          LegendPosition="Top"
-                                          LegendTextPaint="{Binding LegendTextPaint}"
-                                          TooltipTextPaint="{Binding TipTextPaint}">
-                            </lvc:PieChart>
-
-                            <lvc:PieChart Grid.Column="1"
-                                          Series="{Binding Projectfollowpoepleinformation}"
-                                          LegendPosition="Top"
-                                          LegendTextPaint="{Binding LegendTextPaint}"
-                                          TooltipTextPaint="{Binding TipTextPaint}">
-                            </lvc:PieChart>
+                            <lvc:CartesianChart Grid.Row="1"
+                                                Series="{Binding AnnualprojectnumSeries}"
+                                                LegendPosition="Top"
+                                                LegendTextPaint="{Binding LegendTextPaint}"
+                                                TooltipTextPaint="{Binding TipTextPaint}"/>
 
                         </Grid>
 

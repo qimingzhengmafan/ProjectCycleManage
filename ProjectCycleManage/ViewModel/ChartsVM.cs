@@ -582,6 +582,8 @@ namespace ProjectCycleManage.ViewModel
         [ObservableProperty]
         private IEnumerable<ISeries> _projectprogressSeries;
 
+        [ObservableProperty]
+        private ISeries[] _annualprojectnumSeries;
         public void GetProjectProgressSeries()
         {
             using (var context = new ProjectContext())
@@ -618,6 +620,48 @@ namespace ProjectCycleManage.ViewModel
                         series.Name = _names[_index++ % _names.Count];
                         //if (value != 6) return;
                 
+                        series.Pushout = 5;
+                    });
+
+            }
+        }
+
+        public void GetannualprojectnumSeries()
+        {
+            using (var context = new ProjectContext())
+            {
+                var ProjectNum = context.Projects
+                    .Where(p => p.Year >= _startyear && p.Year <= _endyear)
+                    .ToList();
+
+                var ProjectPhaseStatus = context.ProjectPhaseStatus
+                    .OrderBy(p => p.ProjectPhaseStatusId)
+                    .ToList();
+
+                List<(string, int)> projectstatusnum = new List<(string, int)>();
+                foreach (var projectstatus in ProjectPhaseStatus)
+                {
+                    var num = ProjectNum
+                        .Where(p => p.ProjectPhaseStatusId == projectstatus.ProjectPhaseStatusId)
+                        .Count();
+                    projectstatusnum.Add((projectstatus.ProjectPhaseStatusName, num));
+                }
+                List<string> _names = new();
+                List<int> values = new();
+
+                foreach (var data in projectstatusnum)
+                {
+                    _names.Add(data.Item1);
+                    values.Add(data.Item2);
+                }
+                int _index = 0;
+
+                ProjectprogressSeries =
+                    values.AsPieSeries((value, series) =>
+                    {
+                        series.Name = _names[_index++ % _names.Count];
+                        //if (value != 6) return;
+
                         series.Pushout = 5;
                     });
 
@@ -716,6 +760,8 @@ namespace ProjectCycleManage.ViewModel
                 GetProjectBudget_Pie();
             });
 
+            
+            //
             Task.Run(() =>
             {
                 //GetProjectExpenditures();
@@ -725,6 +771,36 @@ namespace ProjectCycleManage.ViewModel
             Task.Run(() =>
             {
                 Historinvest_Quantity();
+            });
+
+
+
+            //
+            Task.Run(() =>
+            {
+                GetProjectProgressSeries();
+            });
+
+            Task.Run(() =>
+            {
+                GetProjectProgressSeries();
+            });
+
+            Task.Run(() =>
+            {
+                GetProjectProgressSeries();
+            });
+
+
+
+            Task.Run(() =>
+            {
+                GetProjectProgressSeries();
+            });
+
+            Task.Run(() =>
+            {
+                GetProjectProgressSeries();
             });
 
             Task.Run(() =>
