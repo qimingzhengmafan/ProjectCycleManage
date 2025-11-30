@@ -590,22 +590,22 @@ namespace ProjectCycleManage.ViewModel
                     .Where(p => p.Year >= _startyear && p.Year <= _endyear)
                     .ToList();
 
-                var ProjectStage = context.ProjectStage
-                    .OrderBy(p => p.ProjectStageId)
+                var ProjectPhaseStatus = context.ProjectPhaseStatus
+                    .OrderBy(p => p.ProjectPhaseStatusId)
                     .ToList();
 
-                List<(string, int)> projectstagenum = new List<(string, int)>();
-                foreach (var projectstage in ProjectStage)
+                List<(string, int)> projectstatusnum = new List<(string, int)>();
+                foreach (var projectstatus in ProjectPhaseStatus)
                 {
                     var num = ProjectNum
-                        .Where(p =>  p.ProjectStageId == projectstage.ProjectStageId)
+                        .Where(p => p.ProjectPhaseStatusId == projectstatus.ProjectPhaseStatusId)
                         .Count();
-                    projectstagenum.Add((projectstage.ProjectStageName , num));
+                    projectstatusnum.Add((projectstatus.ProjectPhaseStatusName , num));
                 }
                 List<string> _names = new ();
                 List<int> values = new ();
 
-                foreach (var data in projectstagenum)
+                foreach (var data in projectstatusnum)
                 {
                     _names.Add(data.Item1);
                     values.Add(data.Item2);
@@ -729,7 +729,7 @@ namespace ProjectCycleManage.ViewModel
 
             Task.Run(() =>
             {
-                GetPeopleInformation();
+                GetProjectProgressSeries();
             });
         }
 
