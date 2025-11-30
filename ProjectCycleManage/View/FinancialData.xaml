@@ -364,9 +364,10 @@
                             </StackPanel>
 
                             <TextBox Text="{Binding InvestmentSalesForecast, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged, Converter={StaticResource NumericFormatConverter}}"
-                                       FontSize="24"
-                                       FontWeight="Bold"
-                                       Margin="0,0,0,5"/>
+                                     FontSize="24"
+                                     BorderThickness="0 0 0 1"
+                                     FontWeight="Bold"
+                                     Margin="0,0,0,5"/>
                             <TextBlock Text="年初设定当年销售预测"
                                        FontSize="14"
                                        Foreground="#666666"/>
@@ -394,9 +395,10 @@
                                            Foreground="#2D5BD5"/>
                             </StackPanel>
                             <TextBox Text="{Binding InvestmentBudget, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged, Converter={StaticResource NumericFormatConverter}}"
-                                       FontSize="24"
-                                       FontWeight="Bold"
-                                       Margin="0,0,0,5"/>
+                                     FontSize="24"
+                                     BorderThickness="0 0 0 1"
+                                     FontWeight="Bold"
+                                     Margin="0,0,0,5"/>
                             <TextBlock Text="年初设定预算总额"
                                        FontSize="14"
                                        Foreground="#666666"/>
