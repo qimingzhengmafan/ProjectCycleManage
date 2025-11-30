@@ -4,10 +4,463 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:ProjectCycleManage.View"
+             xmlns:vm="clr-namespace:ProjectCycleManage.ViewModel"
+             xmlns:utilities="clr-namespace:ProjectCycleManage.Utilities"
              mc:Ignorable="d" 
-             d:DesignHeight="450" 
+             d:DataContext="{d:DesignInstance Type=vm:PersonManagVM}"
+             d:DesignHeight="800" 
              d:DesignWidth="1664">
-    <Grid>
-            
+    <UserControl.Resources>
+        <!-- 转换器 -->
+
+
+        <!-- 数据卡片样式 -->
+        <Style x:Key="DataCardStyle"
+               TargetType="Border">
+            <Setter Property="Background"
+                    Value="White"/>
+            <Setter Property="BorderBrush" 
+                    Value="#2D5BD5"/>
+            <Setter Property="BorderThickness"
+                    Value="5,0,0,5"/>
+            <Setter Property="CornerRadius"
+                    Value="10"/>
+            <Setter Property="Padding" 
+                    Value="20"/>
+            <Setter Property="Effect">
+                <Setter.Value>
+                    <DropShadowEffect BlurRadius="8" 
+                                      ShadowDepth="2" 
+                                      Opacity="0.05"/>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        
+        <!-- 按钮样式 -->
+        <Style x:Key="PrimaryButtonStyle"
+               TargetType="Button">
+            <Setter Property="Background" 
+                    Value="#2D5BD5"/>
+            <Setter Property="Foreground"
+                    Value="White"/>
+            <Setter Property="BorderThickness" 
+                    Value="0"/>
+            <Setter Property="Padding" 
+                    Value="12,8"/>
+            <Setter Property="FontWeight"
+                    Value="Medium"/>
+            <Setter Property="Cursor"
+                    Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="border"
+                                Background="{TemplateBinding Background}"
+                                CornerRadius="4">
+                            <ContentPresenter HorizontalAlignment="Center"
+                                              VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver"
+                                     Value="True">
+                                <Setter TargetName="border" 
+                                        Property="Background" 
+                                        Value="#1A3A8F"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        
+        <Style x:Key="SecondaryButtonStyle" 
+               TargetType="Button">
+            <Setter Property="Background" 
+                    Value="#F5F7FA"/>
+            <Setter Property="Foreground" 
+                    Value="#666666"/>
+            <Setter Property="BorderBrush"
+                    Value="#E0E0E0"/>
+            <Setter Property="BorderThickness"
+                    Value="1"/>
+            <Setter Property="Padding"
+                    Value="12,8"/>
+            <Setter Property="FontWeight" 
+                    Value="Medium"/>
+            <Setter Property="Cursor"
+                    Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="border"
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="4">
+                            <ContentPresenter HorizontalAlignment="Center"
+                                              VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" 
+                                     Value="True">
+                                <Setter TargetName="border"
+                                        Property="Background"
+                                        Value="#E0E0E0"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        
+        <!-- 图标按钮样式 -->
+        <Style x:Key="IconButtonStyle"
+               TargetType="Button">
+            <Setter Property="Background" 
+                    Value="Transparent"/>
+            <Setter Property="BorderThickness"
+                    Value="0"/>
+            <Setter Property="Padding" 
+                    Value="4"/>
+            <Setter Property="Cursor"
+                    Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}" 
+                                BorderThickness="{TemplateBinding BorderThickness}" 
+                                CornerRadius="4">
+                            <ContentPresenter HorizontalAlignment="Center" 
+                                              VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        
+        <!-- 表单输入框样式 -->
+        <Style x:Key="FormInputStyle" 
+               TargetType="TextBox">
+            <Setter Property="Background" 
+                    Value="White"/>
+            <Setter Property="BorderBrush"
+                    Value="#E0E0E0"/>
+            <Setter Property="BorderThickness"
+                    Value="1"/>
+            <Setter Property="Padding"
+                    Value="8,6"/>
+            <Setter Property="FontSize" 
+                    Value="14"/>
+            <Setter Property="Foreground"
+                    Value="#333333"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="TextBox">
+                        <Border x:Name="border"
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="4">
+                            <ScrollViewer x:Name="PART_ContentHost" 
+                                          Padding="{TemplateBinding Padding}"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" 
+                                     Value="True">
+                                <Setter TargetName="border" 
+                                        Property="BorderBrush" 
+                                        Value="#2D5BD5"/>
+                            </Trigger>
+                            <Trigger Property="IsFocused" 
+                                     Value="True">
+                                <Setter TargetName="border" 
+                                        Property="BorderBrush"
+                                        Value="#2D5BD5"/>
+                                <Setter TargetName="border"
+                                        Property="BorderThickness"
+                                        Value="2"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        
+        <!-- 角色标签样式 -->
+        <Style x:Key="RoleBadgeStyle" TargetType="Border">
+            <Setter Property="Background" Value="#E3F2FD"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="CornerRadius" Value="4"/>
+            <Setter Property="Padding" Value="6,2"/>
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding RoleType}" Value="Manager">
+                    <Setter Property="Background" Value="#E3F2FD"/>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding RoleType}" Value="Leader">
+                    <Setter Property="Background" Value="#E8F5E9"/>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding RoleType}" Value="Member">
+                    <Setter Property="Background" Value="#FFF3E0"/>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+        
+        <!-- 状态标签样式 -->
+        <Style x:Key="StatusTextStyle" TargetType="TextBlock">
+            <Setter Property="FontWeight" Value="Medium"/>
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding IsActive}" Value="True">
+                    <Setter Property="Foreground" Value="#4CAF50"/>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding IsActive}" Value="False">
+                    <Setter Property="Foreground" Value="#F44336"/>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+
+
+
+
+        <SolidColorBrush x:Key="PrimaryBlue" Color="#2d5bd6"/>
+        <SolidColorBrush x:Key="BackgroundGray" Color="#f5f7fa"/>
+        <SolidColorBrush x:Key="BorderGray" Color="#e0e0e0"/>
+
+        <Style x:Key="ButtonPrimary" TargetType="Button">
+            <Setter Property="Background" Value="{StaticResource PrimaryBlue}"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Padding" Value="12,8"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="FontWeight" Value="Medium"/>
+        </Style>
+
+        <Style x:Key="ButtonSecondary" TargetType="Button">
+            <Setter Property="Background" Value="{StaticResource BackgroundGray}"/>
+            <Setter Property="Foreground" Value="#666666"/>
+            <Setter Property="BorderBrush" Value="{StaticResource BorderGray}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Padding" Value="12,8"/>
+            <Setter Property="Cursor" Value="Hand"/>
+        </Style>
+    </UserControl.Resources>
+    
+    <Grid Background="#F5F7FA">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="52"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="75"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- 标题栏 -->
+        <Border Grid.Row="0"
+                Padding="20,15">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                
+                <StackPanel Orientation="Horizontal">
+                    <Image Source="/Resources/Images/用户管理.png" 
+                           Height="25"/>
+                    <TextBlock Text=" 团队成员与角色管理"
+                               VerticalAlignment="Center"
+                               FontSize="20"
+                               FontWeight="Bold"
+                               Foreground="#2D5BD5"/>
+                </StackPanel>
+                
+                <!-- 返回按钮 -->
+                <Button Grid.Column="1"
+                        Style="{StaticResource SecondaryButtonStyle}"
+                        Background="Transparent"
+                        BorderThickness="0"
+                        Command="{Binding BackToSettingsCommand}">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="←" 
+                                   FontSize="16" 
+                                   Margin="0,0,8,0"/>
+                        <TextBlock Text="返回系统设置" 
+                                   FontSize="16"/>
+                    </StackPanel>
+                </Button>
+            </Grid>
+        </Border>
+
+        <!-- 部门选择器 -->
+        <Border Grid.Row="2"
+                Margin="20,0,0,0">
+            <ItemsControl ItemsSource="{Binding Departments}">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <WrapPanel Orientation="Horizontal" 
+                                   Margin="0,0,0,0"/>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <RadioButton Content="{Binding Name}" 
+                                     Style="{StaticResource YearTabStyle}"
+                                     Width="120"
+                                     Height="50"
+                                     GroupName="DepartmentTabs"
+                                     Command="{Binding DataContext.SelectDepartmentCommand, RelativeSource={RelativeSource AncestorType=UserControl}}" 
+                                     CommandParameter="{Binding}"
+                                     Margin="0,0,10,10"/>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </Border>
+
+        <!-- 人员管理区域 -->
+        <Border Background="White" CornerRadius="12" Padding="25" Margin="10">
+            <StackPanel>
+                <!-- 管理头部 -->
+                <Border BorderBrush="{StaticResource BorderGray}" BorderThickness="0,0,0,1" 
+                    Padding="0,0,0,15" Margin="0,0,0,20">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+
+                        <TextBlock Grid.Column="0" Text="团队成员管理" FontSize="18" 
+                               FontWeight="SemiBold" Foreground="{StaticResource PrimaryBlue}"/>
+
+                        <StackPanel Grid.Column="1" Orientation="Horizontal">
+                            <Button Style="{StaticResource ButtonSecondary}" Margin="0,0,10,0"
+                                Click="ExportButton_Click">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="📥" Margin="0,0,8,0"/>
+                                    <TextBlock Text="导出名单"/>
+                                </StackPanel>
+                            </Button>
+                            <Button Style="{StaticResource ButtonPrimary}" Click="AddMemberButton_Click">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="➕" Margin="0,0,8,0"/>
+                                    <TextBlock Text="添加成员"/>
+                                </StackPanel>
+                            </Button>
+                        </StackPanel>
+                    </Grid>
+                </Border>
+
+                <!-- 搜索和筛选区域 -->
+                <StackPanel Orientation="Horizontal" Margin="0,0,0,20">
+                    <Border Background="White" BorderBrush="{StaticResource BorderGray}" 
+                        BorderThickness="1" CornerRadius="4" Width="300" Margin="0,0,15,0">
+                        <Grid>
+                            <TextBox x:Name="SearchTextBox" BorderThickness="0" Padding="15,10,40,10"
+                                 Text="搜索成员姓名或工号..." Foreground="#666666"
+                                 GotFocus="SearchTextBox_GotFocus" LostFocus="SearchTextBox_LostFocus"/>
+                            <TextBlock Text="🔍" HorizontalAlignment="Right" VerticalAlignment="Center" 
+                                   Margin="0,0,15,0" Foreground="#666666"/>
+                        </Grid>
+                    </Border>
+
+                    <ComboBox x:Name="DepartmentFilter" Width="150" Margin="0,0,15,0" 
+                          SelectionChanged="Filter_SelectionChanged">
+                        <ComboBoxItem Content="所有部门" IsSelected="True"/>
+                        <ComboBoxItem Content="技术研发部"/>
+                        <ComboBoxItem Content="产品设计部"/>
+                        <ComboBoxItem Content="项目管理部"/>
+                        <ComboBoxItem Content="财务部"/>
+                    </ComboBox>
+
+                    <ComboBox x:Name="RoleFilter" Width="150" Margin="0,0,15,0"
+                          SelectionChanged="Filter_SelectionChanged">
+                        <ComboBoxItem Content="所有角色" IsSelected="True"/>
+                        <ComboBoxItem Content="项目经理"/>
+                        <ComboBoxItem Content="团队负责人"/>
+                        <ComboBoxItem Content="普通成员"/>
+                    </ComboBox>
+
+                    <ComboBox x:Name="StatusFilter" Width="150"
+                          SelectionChanged="Filter_SelectionChanged">
+                        <ComboBoxItem Content="所有状态" IsSelected="True"/>
+                        <ComboBoxItem Content="在职"/>
+                        <ComboBoxItem Content="离职"/>
+                    </ComboBox>
+                </StackPanel>
+
+                <!-- 团队成员列表 -->
+                <DataGrid x:Name="MembersDataGrid" AutoGenerateColumns="False" 
+                      HeadersVisibility="Column" BorderThickness="0" 
+                      Background="Transparent" Height="300">
+                    <DataGrid.Columns>
+                        <!-- 成员信息列 -->
+                        <DataGridTemplateColumn Header="成员信息" Width="*">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal" Margin="5">
+                                        <Border Width="36" Height="36" Background="#e0e0e0" CornerRadius="18">
+                                            <TextBlock Text="{Binding Avatar}" Foreground="#666666" 
+                                                   HorizontalAlignment="Center" VerticalAlignment="Center" 
+                                                   FontWeight="Bold"/>
+                                        </Border>
+                                        <StackPanel Margin="10,0,0,0">
+                                            <TextBlock Text="{Binding Name}" FontWeight="Medium"/>
+                                            <TextBlock Text="{Binding EmployeeId}" FontSize="12" Foreground="#999999"/>
+                                        </StackPanel>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+
+                        <!-- 部门列 -->
+                        <DataGridTextColumn Header="部门" Binding="{Binding Department}" Width="120"/>
+
+                        <!-- 角色列 -->
+                        <DataGridTemplateColumn Header="角色" Width="120">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Border Padding="4,2" CornerRadius="4" Background="{Binding RoleBackground}">
+                                        <TextBlock Text="{Binding Role}" Foreground="{Binding RoleForeground}" 
+                                               FontSize="12" FontWeight="Medium" HorizontalAlignment="Center"/>
+                                    </Border>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+
+                        <!-- 入职日期列 -->
+                        <DataGridTextColumn Header="入职日期" Binding="{Binding JoinDate}" Width="100"/>
+
+                        <!-- 状态列 -->
+                        <DataGridTemplateColumn Header="状态" Width="80">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding Status}" Foreground="{Binding StatusColor}" 
+                                           FontWeight="Medium" HorizontalAlignment="Center"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+
+                        <!-- 操作列 -->
+                        <DataGridTemplateColumn Header="操作" Width="150">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal">
+                                        <Button Style="{StaticResource ButtonSecondary}" Padding="8" 
+                                            Margin="0,0,5,0" ToolTip="编辑" Click="EditButton_Click">
+                                            <TextBlock Text="✏️"/>
+                                        </Button>
+                                        <Button Style="{StaticResource ButtonSecondary}" Padding="8" 
+                                            Margin="0,0,5,0" ToolTip="调整角色" Click="RoleButton_Click">
+                                            <TextBlock Text="⚙️"/>
+                                        </Button>
+                                        <Button Style="{StaticResource ButtonSecondary}" Padding="8" 
+                                            ToolTip="移除" Click="RemoveButton_Click">
+                                            <TextBlock Text="➖"/>
+                                        </Button>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </StackPanel>
+        </Border>
     </Grid>
 </UserControl>
