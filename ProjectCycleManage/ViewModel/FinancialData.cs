@@ -2,7 +2,6 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using ProjectCycleManage.Model;
 using ProjectManagement.Data;
-using ProjectManagement.Models;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -28,7 +27,6 @@ namespace ProjectCycleManage.ViewModel
         /// </summary>
         [ObservableProperty]
         private double budgetExecutionRate = 0.0;
-
 
         [ObservableProperty]
         private bool isMonthlyDataVisible = false;
@@ -254,16 +252,210 @@ namespace ProjectCycleManage.ViewModel
             }
         }
 
+        private void SetMonthlyCorrectionValue(object correctionRecord, int month, double value)
+        {
+            if (correctionRecord == null)
+                return;
+            
+            switch (month)
+            {
+                case 1: ((dynamic)correctionRecord).JanuaryCorrection = value; break;
+                case 2: ((dynamic)correctionRecord).FebruaryCorrection = value; break;
+                case 3: ((dynamic)correctionRecord).MarchCorrection = value; break;
+                case 4: ((dynamic)correctionRecord).AprilCorrection = value; break;
+                case 5: ((dynamic)correctionRecord).MayCorrection = value; break;
+                case 6: ((dynamic)correctionRecord).JuneCorrection = value; break;
+                case 7: ((dynamic)correctionRecord).JulyCorrection = value; break;
+                case 8: ((dynamic)correctionRecord).AugustCorrection = value; break;
+                case 9: ((dynamic)correctionRecord).SeptemberCorrection = value; break;
+                case 10: ((dynamic)correctionRecord).OctoberCorrection = value; break;
+                case 11: ((dynamic)correctionRecord).NovemberCorrection = value; break;
+                case 12: ((dynamic)correctionRecord).DecemberCorrection = value; break;
+            }
+        }
+
+        /// <summary>
+        /// 验证财务数据
+        /// </summary>
+        /// <returns>验证是否通过</returns>
+        private bool ValidateFinancialData()
+        {
+            // 验证年度销售预测
+            if (InvestmentSalesForecast < 0)
+            {
+                MessageBox.Show("年度销售预测不能为负数。", "数据验证失败", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return false;
+            }
+
+            // 验证年度预算
+            if (InvestmentBudget < 0)
+            {
+                MessageBox.Show("年度预算不能为负数。", "数据验证失败", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return false;
+            }
+
+            // 验证月度数据
+            if (MonthlyDataList != null)
+            {
+                for (int i = 0; i < MonthlyDataList.Count; i++)
+                {
+                    var monthlyData = MonthlyDataList[i];
+                    
+                    // 验证修正数量
+                    if (monthlyData.CorrectedQuantity < 0)
+                    {
+                        MessageBox.Show($"{monthlyData.Month}的修正数量不能为负数。", "数据验证失败", MessageBoxButton.OK, MessageBoxImage.Warning);
+                        return false;
+                    }
+
+                    // 验证修正金额
+                    if (monthlyData.CorrectedAmount < 0)
+                    {
+                        MessageBox.Show($"{monthlyData.Month}的修正金额不能为负数。", "数据验证失败", MessageBoxButton.OK, MessageBoxImage.Warning);
+                        return false;
+                    }
+
+                    // 验证数值范围（防止过大数值）
+                    if (monthlyData.CorrectedAmount > 1000000000) // 10亿
+                    {
+                        MessageBox.Show($"{monthlyData.Month}的修正金额过大，请检查输入。", "数据验证失败", MessageBoxButton.OK, MessageBoxImage.Warning);
+                        return false;
+                    }
+                }
+            }
+
+            return true;
+        }
+
         [RelayCommand]
         private void ExportData()
         {
             // 导出数据逻辑
         }
 
+        /// <summary>
+        /// 保存年度销售预测与年度预算数据
+        /// </summary>
         [RelayCommand]
         private void EditBudget()
         {
-            // 编辑预算逻辑
+            try
+            {
+                // 数据验证 - 只验证年度数据
+                if (InvestmentSalesForecast < 0)
+                {
+                    MessageBox.Show("年度销售预测不能为负数。", "数据验证失败", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    return;
+                }
+
+                if (InvestmentBudget < 0)
+                {
+                    MessageBox.Show("年度预算不能为负数。", "数据验证失败", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    return;
+                }
+
+                using var context = new ProjectContext();
+                int year = int.Parse(CurrentYear);
+
+                // 保存年度销售预测数据
+                var salesVolume = context.SalesVolumeTables.FirstOrDefault(s => s.Year == year);
+                if (salesVolume == null)
+                {
+                    salesVolume = new SalesVolumeTable { Year = year };
+                    context.SalesVolumeTables.Add(salesVolume);
+                }
+                salesVolume.SalesVolume = InvestmentSalesForecast;
+                
+
+                // 保存年度预算数据
+                var annualBudget = context.AnnualBudgetTable.FirstOrDefault(a => a.Year == year);
+                if (annualBudget == null)
+                {
+                    annualBudget = new AnnualBudget { Year = year };
+                    context.AnnualBudgetTable.Add(annualBudget);
+                }
+                annualBudget.Budget = (int)InvestmentBudget;
+
+                context.SaveChanges();
+                
+                MessageBox.Show("年度销售预测与年度预算数据已成功保存到数据库。", "保存成功", MessageBoxButton.OK, MessageBoxImage.Information);
+                
+                // 重新加载数据
+                LoadFinancialDataByYear(CurrentYear);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"保存年度数据时发生错误：{ex.Message}", "保存失败", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
+        /// <summary>
+        /// 保存月度修正数据
+        /// </summary>
+        [RelayCommand]
+        private void SaveSettings()
+        {
+            try
+            {
+                // 数据验证 - 只验证月度数据
+                if (MonthlyDataList != null)
+                {
+                    for (int i = 0; i < MonthlyDataList.Count; i++)
+                    {
+                        var monthlyData = MonthlyDataList[i];
+                        
+
+                        // 验证数值范围（防止过大数值）
+                        if (monthlyData.CorrectedAmount > 1000000000) // 10亿
+                        {
+                            MessageBox.Show($"{monthlyData.Month}的修正金额过大，请检查输入。", "数据验证失败", MessageBoxButton.OK, MessageBoxImage.Warning);
+                            return;
+                        }
+                    }
+                }
+
+                using var context = new ProjectContext();
+                int year = int.Parse(CurrentYear);
+
+                // 保存月度修正数据
+                var quantityCorrection = context.RevOfAssetQuantTab.FirstOrDefault(r => r.Year == year);
+                if (quantityCorrection == null)
+                {
+                    quantityCorrection = new RevisionOfAssetQuantity { Year = year };
+                    context.RevOfAssetQuantTab.Add(quantityCorrection);
+                }
+
+                var amountCorrection = context.AsAmountCorrectTab.FirstOrDefault(a => a.Year == year);
+                if (amountCorrection == null)
+                {
+                    amountCorrection = new AssetAmountCorrection { Year = year };
+                    context.AsAmountCorrectTab.Add(amountCorrection);
+                }
+
+                // 设置各月的修正值
+                for (int i = 0; i < MonthlyDataList.Count; i++)
+                {
+                    var monthlyData = MonthlyDataList[i];
+                    int monthIndex = i + 1;
+                    
+                    // 设置资产数量修正
+                    SetMonthlyCorrectionValue(quantityCorrection, monthIndex, monthlyData.CorrectedQuantity);
+                    
+                    // 设置资产金额修正
+                    SetMonthlyCorrectionValue(amountCorrection, monthIndex, monthlyData.CorrectedAmount);
+                }
+
+                context.SaveChanges();
+                
+                MessageBox.Show("月度修正数据已成功保存到数据库。", "保存成功", MessageBoxButton.OK, MessageBoxImage.Information);
+                
+                // 重新加载数据
+                LoadFinancialDataByYear(CurrentYear);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"保存月度数据时发生错误：{ex.Message}", "保存失败", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
 
         [RelayCommand]

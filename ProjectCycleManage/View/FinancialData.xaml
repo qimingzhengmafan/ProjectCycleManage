@@ -362,7 +362,7 @@
                                            Foreground="#2D5BD5"/>
                             </StackPanel>
 
-                            <TextBox Text="{Binding InvestmentSalesForecast, StringFormat='¥ {0:N0}'}"
+                            <TextBox Text="{Binding InvestmentSalesForecast, StringFormat='¥ {0:N0}',Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                                        FontSize="24"
                                        FontWeight="Bold"
                                        Margin="0,0,0,5"/>
@@ -392,7 +392,7 @@
                                            VerticalAlignment="Center"
                                            Foreground="#2D5BD5"/>
                             </StackPanel>
-                            <TextBox Text="{Binding InvestmentBudget, StringFormat='¥ {0:N0}'}"
+                            <TextBox Text="{Binding InvestmentBudget, StringFormat='¥ {0:N0}',Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                                        FontSize="24"
                                        FontWeight="Bold"
                                        Margin="0,0,0,5"/>
@@ -545,7 +545,8 @@
                                     <Button Content="保存设置" 
                                             Width="102"
                                             Height="35"
-                                            Style="{StaticResource PrimaryButtonStyle}">
+                                            Style="{StaticResource PrimaryButtonStyle}"
+                                            Command="{Binding SaveSettingsCommand}">
                                         <Button.ToolTip>
                                             <ToolTip Content="保存投入资产设置"/>
                                         </Button.ToolTip>
