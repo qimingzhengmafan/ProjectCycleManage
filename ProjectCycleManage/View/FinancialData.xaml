@@ -14,6 +14,7 @@
         <!-- 转换器 -->
         <utilities:BooleanToRotationConverter x:Key="BooleanToRotationConverter"/>
         <utilities:StringToBoolConverter x:Key="StringToBoolConverter"/>
+        <utilities:NumericFormatConverter x:Key="NumericFormatConverter"/>
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
 
         <!-- 数据卡片样式 -->
@@ -362,7 +363,7 @@
                                            Foreground="#2D5BD5"/>
                             </StackPanel>
 
-                            <TextBox Text="{Binding InvestmentSalesForecast, StringFormat='¥ {0:N0}',Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                            <TextBox Text="{Binding InvestmentSalesForecast, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged, Converter={StaticResource NumericFormatConverter}}"
                                        FontSize="24"
                                        FontWeight="Bold"
                                        Margin="0,0,0,5"/>
@@ -392,7 +393,7 @@
                                            VerticalAlignment="Center"
                                            Foreground="#2D5BD5"/>
                             </StackPanel>
-                            <TextBox Text="{Binding InvestmentBudget, StringFormat='¥ {0:N0}',Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                            <TextBox Text="{Binding InvestmentBudget, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged, Converter={StaticResource NumericFormatConverter}}"
                                        FontSize="24"
                                        FontWeight="Bold"
                                        Margin="0,0,0,5"/>
