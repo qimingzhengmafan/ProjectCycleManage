@@ -206,7 +206,7 @@
                             Height="220" 
                             Margin="0,0,100,20"
                             BorderThickness="4,0,0,0" 
-                            Command="{Binding AmountCardCommand}"
+                            Command="{Binding PersonalVMCardCommand}"
                             BorderBrush="#2d5bd6">
                         <Button.Content>
                             <Grid Width="270"
@@ -292,7 +292,7 @@
                             Height="220" 
                             Margin="0,0 , 0,20"
                             BorderThickness="4,0,0,0" 
-                            Command="{Binding AmountCardCommand}"
+                            Command="{Binding ProjectStageVMCardCommand}"
                             BorderBrush="#2d5bd6">
                         <Button.Content>
                             <Grid Width="270"
@@ -348,14 +348,14 @@
 
         
         <Grid Grid.Row="1"
-              Visibility="Collapsed">
-
+              Visibility="{Binding Personalvisib}">
+            <local:PersonManagView DataContext="{Binding PersonManagVM}"/>
         </Grid>
 
         
         <Grid Grid.Row="1"
-              Visibility="Collapsed">
-
+              Visibility="{Binding Projectstagevisib}">
+            <local:ProjectStageView DataContext="{Binding ProjectstageviewVM}"/>
         </Grid>
     </Grid>
 </UserControl>

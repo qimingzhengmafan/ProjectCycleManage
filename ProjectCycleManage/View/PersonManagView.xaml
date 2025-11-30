@@ -330,14 +330,13 @@
                                FontWeight="SemiBold" Foreground="{StaticResource PrimaryBlue}"/>
 
                         <StackPanel Grid.Column="1" Orientation="Horizontal">
-                            <Button Style="{StaticResource ButtonSecondary}" Margin="0,0,10,0"
-                                Click="ExportButton_Click">
+                            <Button Style="{StaticResource ButtonSecondary}" Margin="0,0,10,0">
                                 <StackPanel Orientation="Horizontal">
                                     <TextBlock Text="📥" Margin="0,0,8,0"/>
                                     <TextBlock Text="导出名单"/>
                                 </StackPanel>
                             </Button>
-                            <Button Style="{StaticResource ButtonPrimary}" Click="AddMemberButton_Click">
+                            <Button Style="{StaticResource ButtonPrimary}">
                                 <StackPanel Orientation="Horizontal">
                                     <TextBlock Text="➕" Margin="0,0,8,0"/>
                                     <TextBlock Text="添加成员"/>
@@ -354,14 +353,14 @@
                         <Grid>
                             <TextBox x:Name="SearchTextBox" BorderThickness="0" Padding="15,10,40,10"
                                  Text="搜索成员姓名或工号..." Foreground="#666666"
-                                 GotFocus="SearchTextBox_GotFocus" LostFocus="SearchTextBox_LostFocus"/>
+                                 />
                             <TextBlock Text="🔍" HorizontalAlignment="Right" VerticalAlignment="Center" 
                                    Margin="0,0,15,0" Foreground="#666666"/>
                         </Grid>
                     </Border>
 
                     <ComboBox x:Name="DepartmentFilter" Width="150" Margin="0,0,15,0" 
-                          SelectionChanged="Filter_SelectionChanged">
+                          >
                         <ComboBoxItem Content="所有部门" IsSelected="True"/>
                         <ComboBoxItem Content="技术研发部"/>
                         <ComboBoxItem Content="产品设计部"/>
@@ -370,7 +369,7 @@
                     </ComboBox>
 
                     <ComboBox x:Name="RoleFilter" Width="150" Margin="0,0,15,0"
-                          SelectionChanged="Filter_SelectionChanged">
+                          >
                         <ComboBoxItem Content="所有角色" IsSelected="True"/>
                         <ComboBoxItem Content="项目经理"/>
                         <ComboBoxItem Content="团队负责人"/>
@@ -378,7 +377,7 @@
                     </ComboBox>
 
                     <ComboBox x:Name="StatusFilter" Width="150"
-                          SelectionChanged="Filter_SelectionChanged">
+                          >
                         <ComboBoxItem Content="所有状态" IsSelected="True"/>
                         <ComboBoxItem Content="在职"/>
                         <ComboBoxItem Content="离职"/>
@@ -443,15 +442,15 @@
                                 <DataTemplate>
                                     <StackPanel Orientation="Horizontal">
                                         <Button Style="{StaticResource ButtonSecondary}" Padding="8" 
-                                            Margin="0,0,5,0" ToolTip="编辑" Click="EditButton_Click">
+                                            Margin="0,0,5,0" ToolTip="编辑">
                                             <TextBlock Text="✏️"/>
                                         </Button>
                                         <Button Style="{StaticResource ButtonSecondary}" Padding="8" 
-                                            Margin="0,0,5,0" ToolTip="调整角色" Click="RoleButton_Click">
+                                            Margin="0,0,5,0" ToolTip="调整角色">
                                             <TextBlock Text="⚙️"/>
                                         </Button>
                                         <Button Style="{StaticResource ButtonSecondary}" Padding="8" 
-                                            ToolTip="移除" Click="RemoveButton_Click">
+                                            ToolTip="移除">
                                             <TextBlock Text="➖"/>
                                         </Button>
                                     </StackPanel>
