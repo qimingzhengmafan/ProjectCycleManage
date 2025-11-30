@@ -241,6 +241,13 @@ namespace ProjectCycleManage.ViewModel
         {
             using (var context = new ProjectContext())
             {
+                // 检查年份范围是否有效
+                if (_startyear > _endyear)
+                {
+                    Historinvest_amount = Array.Empty<ISeries>();
+                    return;
+                }
+
                 var ProjectNum = context.Projects
                     .Where(p => p.Year >= _startyear && p.Year <= _endyear)
                     .GroupBy(p => p.Year)
@@ -260,24 +267,43 @@ namespace ProjectCycleManage.ViewModel
 
                 int NumberYear = _endyear - _startyear + 1;
 
-                Historinvest_amount = new LineSeries<ObservablePoint>[3];
+                // 检查数据是否有效
+                if (NumberYear <= 0 || Budget.Count == 0 || salesvolume.Count == 0 || ProjectNum.Count == 0)
+                {
+                    Historinvest_amount = Array.Empty<ISeries>();
+                    return;
+                }
+
+                // 确保数据长度一致
+                NumberYear = Math.Min(NumberYear, Math.Min(Budget.Count, Math.Min(salesvolume.Count, ProjectNum.Count)));
+
+                // 创建并初始化数组元素
+                Historinvest_amount = new LineSeries<ObservablePoint>[3]
+                {
+                    new LineSeries<ObservablePoint> { Name = "年度预算" },
+                    new LineSeries<ObservablePoint> { Name = "销售预测" },
+                    new LineSeries<ObservablePoint> { Name = "项目支出" }
+                };
 
                 ObservablePoint[] BudgetPoint = new ObservablePoint[NumberYear];
                 for (int j = 0; j < NumberYear; j++)
                 {
-                    BudgetPoint[j] = new ObservablePoint(_startyear + j, Budget[j].Budget);
+                    if (j < Budget.Count)
+                        BudgetPoint[j] = new ObservablePoint(_startyear + j, Budget[j].Budget);
+                    else
+                        BudgetPoint[j] = new ObservablePoint(_startyear + j, 0);
                 }
-
 
                 ObservablePoint[] salesvolumePoint = new ObservablePoint[NumberYear];
                 for (int j = 0; j < NumberYear; j++)
                 {
-                    salesvolumePoint[j] = new ObservablePoint(_startyear + j, salesvolume[j].SalesVolume);
+                    if (j < salesvolume.Count)
+                        salesvolumePoint[j] = new ObservablePoint(_startyear + j, salesvolume[j].SalesVolume);
+                    else
+                        salesvolumePoint[j] = new ObservablePoint(_startyear + j, 0);
                 }
 
                 List<(int , double)> data = new List<(int, double)> ();
-
-                //Dictionary<int, double> dict2 = new();
 
                 foreach (var item in ProjectNum)
                 {
@@ -293,16 +319,22 @@ namespace ProjectCycleManage.ViewModel
                     data.Add((item.Key.GetValueOrDefault(), value));
                 }
 
-
                 ObservablePoint[] ProjectPoint = new ObservablePoint[NumberYear];
                 for (int j = 0; j < NumberYear; j++)
                 {
-                    ProjectPoint[j] = new ObservablePoint(data[j].Item1, data[j].Item2);
+                    if (j < data.Count)
+                        ProjectPoint[j] = new ObservablePoint(data[j].Item1, data[j].Item2);
+                    else
+                        ProjectPoint[j] = new ObservablePoint(_startyear + j, 0);
                 }
 
-                Historinvest_amount[0].Values = BudgetPoint;
-                Historinvest_amount[1].Values = salesvolumePoint;
-                Historinvest_amount[2].Values = ProjectPoint;
+                // 安全赋值
+                if (Historinvest_amount[0] != null)
+                    Historinvest_amount[0].Values = BudgetPoint;
+                if (Historinvest_amount[1] != null)
+                    Historinvest_amount[1].Values = salesvolumePoint;
+                if (Historinvest_amount[2] != null)
+                    Historinvest_amount[2].Values = ProjectPoint;
 
             }
 
