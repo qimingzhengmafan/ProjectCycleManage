@@ -38,6 +38,7 @@
     <None Remove="Resources\Images\授权管理蓝.png" />
     <None Remove="Resources\Images\数据分析.png" />
     <None Remove="Resources\Images\文档.png" />
+    <None Remove="Resources\Images\用户管理.png" />
     <None Remove="Resources\Images\申请人.png" />
     <None Remove="Resources\Images\申请日期.png" />
     <None Remove="Resources\Images\登录.png" />
@@ -179,6 +180,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Resources\Images\文档.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\用户管理.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Resources\Images\申请人.png">
