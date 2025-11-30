@@ -584,6 +584,9 @@ namespace ProjectCycleManage.ViewModel
 
         [ObservableProperty]
         private ISeries[] _annualprojectnumSeries;
+
+        [ObservableProperty]
+        private ISeries[] _hisannualprojectnumSeries;
         public void GetProjectProgressSeries()
         {
             using (var context = new ProjectContext())
@@ -676,6 +679,11 @@ namespace ProjectCycleManage.ViewModel
                 // 将折线系列数组赋值给属性
                 AnnualprojectnumSeries = lineSeriesList.ToArray();
             }
+        }
+
+        public void GetHisannualprojectnumSeries()
+        {
+
         }
 
         // public IEnumerable<ISeries> Series { get; set; } =
