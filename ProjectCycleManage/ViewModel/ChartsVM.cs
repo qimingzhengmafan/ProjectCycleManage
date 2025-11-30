@@ -630,41 +630,51 @@ namespace ProjectCycleManage.ViewModel
         {
             using (var context = new ProjectContext())
             {
-                var ProjectNum = context.Projects
-                    .Where(p => p.Year >= _startyear && p.Year <= _endyear)
-                    .ToList();
-
-                var ProjectPhaseStatus = context.ProjectPhaseStatus
+                // 获取所有项目状态
+                var projectStatuses = context.ProjectPhaseStatus
                     .OrderBy(p => p.ProjectPhaseStatusId)
                     .ToList();
 
-                List<(string, int)> projectstatusnum = new List<(string, int)>();
-                foreach (var projectstatus in ProjectPhaseStatus)
-                {
-                    var num = ProjectNum
-                        .Where(p => p.ProjectPhaseStatusId == projectstatus.ProjectPhaseStatusId)
-                        .Count();
-                    projectstatusnum.Add((projectstatus.ProjectPhaseStatusName, num));
-                }
-                List<string> _names = new();
-                List<int> values = new();
+                // 获取指定年份范围内的所有项目
+                var allProjects = context.Projects
+                    .Where(p => p.Year >= 2022)
+                    .ToList();
 
-                foreach (var data in projectstatusnum)
-                {
-                    _names.Add(data.Item1);
-                    values.Add(data.Item2);
-                }
-                int _index = 0;
+                // 创建折线图系列数组，每个状态对应一条折线
+                var lineSeriesList = new List<LineSeries<ObservablePoint>>();
 
-                ProjectprogressSeries =
-                    values.AsPieSeries((value, series) =>
+                // 为每个项目状态创建一条折线
+                foreach (var status in projectStatuses)
+                {
+                    // 按年份统计该状态的项目数量
+                    var yearlyData = new List<(int Year, int Count)>();
+                    
+                    for (int year = 2022; year <= DateTime.Now.Year; year++)
                     {
-                        series.Name = _names[_index++ % _names.Count];
-                        //if (value != 6) return;
+                        var count = allProjects
+                            .Where(p => p.Year == year && p.ProjectPhaseStatusId == status.ProjectPhaseStatusId)
+                            .Count();
+                        yearlyData.Add((year, count));
+                    }
 
-                        series.Pushout = 5;
-                    });
+                    // 创建数据点
+                    var dataPoints = yearlyData.Select(d => 
+                        new ObservablePoint(d.Year, d.Count)).ToArray();
 
+                    // 创建折线系列
+                    var lineSeries = new LineSeries<ObservablePoint>
+                    {
+                        Name = status.ProjectPhaseStatusName,
+                        Values = dataPoints,
+                        GeometrySize = 8,
+                        LineSmoothness = 0.5
+                    };
+
+                    lineSeriesList.Add(lineSeries);
+                }
+
+                // 将折线系列数组赋值给属性
+                AnnualprojectnumSeries = lineSeriesList.ToArray();
             }
         }
 
@@ -783,29 +793,7 @@ namespace ProjectCycleManage.ViewModel
 
             Task.Run(() =>
             {
-                GetProjectProgressSeries();
-            });
-
-            Task.Run(() =>
-            {
-                GetProjectProgressSeries();
-            });
-
-
-
-            Task.Run(() =>
-            {
-                GetProjectProgressSeries();
-            });
-
-            Task.Run(() =>
-            {
-                GetProjectProgressSeries();
-            });
-
-            Task.Run(() =>
-            {
-                GetProjectProgressSeries();
+                GetannualprojectnumSeries();
             });
         }
 
