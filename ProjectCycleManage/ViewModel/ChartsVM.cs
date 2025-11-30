@@ -231,6 +231,85 @@ namespace ProjectCycleManage.ViewModel
         //}
         #endregion
 
+        #region 历史投入分析
+
+        [ObservableProperty]
+        private ISeries[] _historinvest_amount;
+
+
+        public void Historinvest_Amount()
+        {
+            using (var context = new ProjectContext())
+            {
+                var ProjectNum = context.Projects
+                    .Where(p => p.Year >= _startyear && p.Year <= _endyear)
+                    .GroupBy(p => p.Year)
+                    .ToList();
+
+                //年度预算
+                var Budget = context.AnnualBudgetTable
+                    .Where(p => p.Year >= _startyear && p.Year <= _endyear)
+                    .OrderBy(p => p.Year)
+                    .ToList();
+
+                ///销售预测
+                var salesvolume = context.SalesVolumeTables
+                    .Where(p => p.Year >= _startyear && p.Year <= _endyear)
+                    .OrderBy(p => p.Year)
+                    .ToList();
+
+                int NumberYear = _endyear - _startyear + 1;
+
+                Historinvest_amount = new LineSeries<ObservablePoint>[3];
+
+                ObservablePoint[] BudgetPoint = new ObservablePoint[NumberYear];
+                for (int j = 0; j < NumberYear; j++)
+                {
+                    BudgetPoint[j] = new ObservablePoint(_startyear + j, Budget[j].Budget);
+                }
+
+
+                ObservablePoint[] salesvolumePoint = new ObservablePoint[NumberYear];
+                for (int j = 0; j < NumberYear; j++)
+                {
+                    salesvolumePoint[j] = new ObservablePoint(_startyear + j, salesvolume[j].SalesVolume);
+                }
+
+                List<(int , double)> data = new List<(int, double)> ();
+
+                //Dictionary<int, double> dict2 = new();
+
+                foreach (var item in ProjectNum)
+                {
+                    double value = 0.0;
+
+                    foreach (var item1 in item)
+                    {
+                        if (double.TryParse(item1.ActualExpenditure, out double expenditure))
+                        {
+                            value += expenditure;
+                        }
+                    }
+                    data.Add((item.Key.GetValueOrDefault(), value));
+                }
+
+
+                ObservablePoint[] ProjectPoint = new ObservablePoint[NumberYear];
+                for (int j = 0; j < NumberYear; j++)
+                {
+                    ProjectPoint[j] = new ObservablePoint(data[j].Item1, data[j].Item2);
+                }
+
+                Historinvest_amount[0].Values = BudgetPoint;
+                Historinvest_amount[1].Values = salesvolumePoint;
+                Historinvest_amount[2].Values = ProjectPoint;
+
+            }
+
+        }
+
+        #endregion
+
 
         #region 项目支出
         [ObservableProperty]
@@ -480,7 +559,8 @@ namespace ProjectCycleManage.ViewModel
 
             Task.Run(() =>
             {
-                GetProjectExpenditures();
+                //GetProjectExpenditures();
+                Historinvest_Amount();
             });
 
             Task.Run(() =>

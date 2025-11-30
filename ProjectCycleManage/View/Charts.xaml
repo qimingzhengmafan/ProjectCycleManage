@@ -144,19 +144,24 @@
                         </Grid.RowDefinitions>
 
                         <Border>
-                            <TextBlock Text="项目进度"
+                            <TextBlock Text="历史投入金额/历史预算金额/历史销售金额"
                                        FontSize="18"
                                        VerticalAlignment="Center"
                                        FontWeight="Bold"
                                        Foreground="#2D5BD5"/>
                         </Border>
 
-                        <lvc:PieChart Grid.Row="1"
+                        <lvc:CartesianChart Grid.Row="1"
+                                            Series="{Binding Historinvest_amount}"
+                                            LegendPosition="Top"
+                                            LegendTextPaint="{Binding LegendTextPaint}"
+                                            TooltipTextPaint="{Binding TipTextPaint}"/>
+                        <!--<lvc:PieChart Grid.Row="1"
                                       Series="{Binding ProjectprogressSeries}"
                                       LegendPosition="Right"
                                       LegendTextPaint="{Binding LegendTextPaint}"
                                       TooltipTextPaint="{Binding TipTextPaint}">
-                        </lvc:PieChart>
+                        </lvc:PieChart>-->
                     </Grid>
                 </Border>
 
