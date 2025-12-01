@@ -557,13 +557,13 @@
                                                         HorizontalAlignment="Center">
                                                 <Button Style="{StaticResource IconButton}"
                                                         Width="50"
-                                                        ToolTip="编辑" 
+                                                        ToolTip="标记离职" 
                                                         Tag="Edit">
                                                     <TextBlock Text="✎"
                                                                FontFamily="Segoe UI Symbol"/>
                                                 </Button>
                                                 
-                                                <Button Style="{StaticResource IconButton}" 
+                                                <!--<Button Style="{StaticResource IconButton}" 
                                                         ToolTip="调整角色" 
                                                         Width="50"
                                                         Tag="Role" 
@@ -580,7 +580,7 @@
                                                     <TextBlock Text="−" 
                                                                FontFamily="Segoe UI Symbol"
                                                                FontSize="16"/>
-                                                </Button>
+                                                </Button>-->
                                             </StackPanel>
                                         </Grid>
                                     </Border>
