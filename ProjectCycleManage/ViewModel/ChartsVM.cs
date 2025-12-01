@@ -1001,6 +1001,104 @@ namespace ProjectCycleManage.ViewModel
         #endregion
 
 
+        #region 设备类型汇总
+        [ObservableProperty]
+        private IEnumerable<ISeries> _equipmentsummary;
+
+        [ObservableProperty]
+        private IEnumerable<ISeries> _equipmentamountsummary;
+
+        public void GetEquipmentsummary_Pie()
+        {
+            using (var context = new ProjectContext())
+            {
+                var ProjectNum = context.Projects
+                    .Where(p => p.Year >= _startyear && p.Year <= _endyear)
+                    .GroupBy(p => p.equipmenttype.EquipmentName)
+                    .ToList();
+
+                List<(string, double)> projectstagenum = new List<(string, double)>();
+                foreach (var item in ProjectNum)
+                {
+                    projectstagenum.Add((item.Key , item.Count()));
+                }
+
+
+
+                List<string> _names = new();
+                List<double> values = new();
+
+                foreach (var data in projectstagenum)
+                {
+                    _names.Add(data.Item1);
+                    values.Add(data.Item2);
+                }
+                int _index = 0;
+
+                Equipmentsummary =
+                    values.AsPieSeries((value, series) =>
+                    {
+                        series.Name = _names[_index++ % _names.Count];
+
+                        series.Pushout = 5;
+                    });
+
+            }
+        }
+
+        public void GetEquipmentamountsummary_Pie()
+        {
+            using (var context = new ProjectContext())
+            {
+                var ProjectNum = context.Projects
+                    .Where(p => p.Year >= _startyear && p.Year <= _endyear)
+                    .GroupBy(p => p.equipmenttype.EquipmentName)
+                    .ToList();
+
+                List<(string, double)> projectstagenum = new List<(string, double)>();
+                var amountdata = 0.0;
+                foreach (var item in ProjectNum)
+                {
+                    amountdata = 0.0;
+                    foreach (var data in item)
+                    {
+                        if (double.TryParse(data.ActualExpenditure, out double expenditure))
+                        {
+                            amountdata += expenditure;
+                        }
+                        //amountdata = amountdata + data.ActualExpenditure
+                    }
+                    projectstagenum.Add((item.Key , amountdata));
+                }
+
+
+
+                List<string> _names = new();
+                List<double> values = new();
+
+                foreach (var data in projectstagenum)
+                {
+                    _names.Add(data.Item1);
+                    values.Add(data.Item2);
+                }
+                int _index = 0;
+
+                Equipmentamountsummary =
+                    values.AsPieSeries((value, series) =>
+                    {
+                        series.Name = _names[_index++ % _names.Count];
+
+                        series.Pushout = 5;
+                    });
+
+            }
+        }
+
+
+
+        #endregion
+
+
 
         public ChartsVM(int startyear , int stopyear)
         {
@@ -1046,6 +1144,12 @@ namespace ProjectCycleManage.ViewModel
             Task.Run(() =>
             {
                 GetProjectLeaderAnnualSummary();
+            });
+
+            Task.Run(() =>
+            {
+                GetEquipmentsummary_Pie();
+                GetEquipmentamountsummary_Pie();
             });
         }
 

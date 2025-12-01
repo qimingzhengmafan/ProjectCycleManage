@@ -492,13 +492,32 @@
                                        Foreground="#2D5BD5"/>
                         </Border>
 
-                        <lvc:CartesianChart Grid.Row="1"
-                                            Series="{Binding ProjectLeaderAnnualSummarySeries}"
-                                            XAxes="{Binding ProjectLeaderSummaryXAxes}"
-                                            LegendPosition="Top"
-                                            LegendTextPaint="{Binding LegendTextPaint}"
-                                            TooltipTextPaint="{Binding TipTextPaint}">
-                        </lvc:CartesianChart>
+                        <Grid Grid.Row="1">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+
+                            <lvc:PieChart Grid.Row="1"
+                                          Series="{Binding Equipmentsummary}"
+                                          LegendPosition="Right"
+                                          LegendTextPaint="{Binding LegendTextPaint}"
+                                          TooltipTextPaint="{Binding TipTextPaint}">
+                            </lvc:PieChart>
+
+                            <lvc:PieChart Grid.Column="1"
+                                          Series="{Binding Equipmentamountsummary}"
+                                          LegendPosition="Top"
+                                          LegendTextPaint="{Binding LegendTextPaint}"
+                                          TooltipTextPaint="{Binding TipTextPaint}">
+                            </lvc:PieChart>
+
+                        </Grid>
+
+
+
+
+                        
                     </Grid>
                 </Border>
 
