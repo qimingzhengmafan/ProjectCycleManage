@@ -362,6 +362,7 @@
                                     Margin="0 0 10 0"
                                     Orientation="Horizontal" >
                             <Button Content="导出名单"
+                                    Width="104"
                                     Height="35"
                                     Background="#f5f7fa"
                                     Foreground="#666"
@@ -371,9 +372,15 @@
                                     Padding="8,8,16,8">
                                 <Button.ContentTemplate>
                                     <DataTemplate>
-                                        <StackPanel Orientation="Horizontal">
-                                            <TextBlock Text="" FontFamily="Segoe MDL2 Assets" FontSize="14" VerticalAlignment="Center"/>
-                                            <TextBlock Text="导出名单" VerticalAlignment="Center"/>
+                                        <StackPanel Orientation="Horizontal"
+                                                    HorizontalAlignment="Center">
+                                            <TextBlock Text="" 
+                                                       FontFamily="Segoe MDL2 Assets" 
+                                                       FontSize="14" 
+                                                       VerticalAlignment="Center"/>
+                                            <TextBlock Text="导出名单" 
+                                                       Margin="5 0 0 0"
+                                                       VerticalAlignment="Center"/>
                                         </StackPanel>
                                     </DataTemplate>
                                 </Button.ContentTemplate>
@@ -381,15 +388,22 @@
 
                             <Button Content="添加成员"
                                     Height="35"
+                                    Width="104"
                                     Background="#2d5bd6" 
                                     Foreground="White" 
                                     BorderThickness="0"
                                     Padding="8,8,16,8">
                                 <Button.ContentTemplate>
                                     <DataTemplate>
-                                        <StackPanel Orientation="Horizontal" >
-                                            <TextBlock Text="" FontFamily="Segoe MDL2 Assets" FontSize="14" VerticalAlignment="Center"/>
-                                            <TextBlock Text="添加成员" VerticalAlignment="Center"/>
+                                        <StackPanel Orientation="Horizontal" 
+                                                    HorizontalAlignment="Center">
+                                            <TextBlock Text=""
+                                                       FontFamily="Segoe MDL2 Assets" 
+                                                       FontSize="14" 
+                                                       VerticalAlignment="Center"/>
+                                            <TextBlock Text="添加成员" 
+                                                       VerticalAlignment="Center"
+                                                       Margin="5 0 0 0"/>
                                         </StackPanel>
                                     </DataTemplate>
                                 </Button.ContentTemplate>
@@ -436,7 +450,8 @@
                                Grid.Column="1"
                                MinWidth="150"
                                Padding="10,10,10,10"
-                               Margin="10 0 10 0">
+                               Margin="10 0 10 0"
+                               SelectedIndex="0">
                         <ComboBoxItem Content="所有状态"/>
                         <ComboBoxItem Content="在职"/>
                         <ComboBoxItem Content="离职"/>
