@@ -257,21 +257,20 @@
     <Grid Background="#F5F7FA">
         <Grid.RowDefinitions>
             <RowDefinition Height="52"/>
-            <RowDefinition Height="auto"/>
-            <RowDefinition Height="75"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
         <!-- 标题栏 -->
         <Border Grid.Row="0"
-                Padding="20,15">
+                Padding="20,15"
+                Background="White">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
-                
+
                 <StackPanel Orientation="Horizontal">
                     <Image Source="/Resources/Images/用户管理.png" 
                            Height="25"/>
@@ -281,7 +280,7 @@
                                FontWeight="Bold"
                                Foreground="#2D5BD5"/>
                 </StackPanel>
-                
+
                 <!-- 返回按钮 -->
                 <Button Grid.Column="1"
                         Style="{StaticResource SecondaryButtonStyle}"
@@ -299,212 +298,233 @@
             </Grid>
         </Border>
 
-        <!-- 部门选择器 -->
-        <Border Grid.Row="2"
-                Margin="20,0,0,0">
-            <ItemsControl ItemsSource="{Binding Departments}">
-                <ItemsControl.ItemsPanel>
-                    <ItemsPanelTemplate>
-                        <WrapPanel Orientation="Horizontal" 
-                                   Margin="0,0,0,0"/>
-                    </ItemsPanelTemplate>
-                </ItemsControl.ItemsPanel>
-                <ItemsControl.ItemTemplate>
-                    <DataTemplate>
-                        <RadioButton Content="{Binding Name}" 
-                                     Style="{StaticResource YearTabStyle}"
-                                     Width="120"
-                                     Height="50"
-                                     GroupName="DepartmentTabs"
-                                     Command="{Binding DataContext.SelectDepartmentCommand, RelativeSource={RelativeSource AncestorType=UserControl}}" 
-                                     CommandParameter="{Binding}"
-                                     Margin="0,0,10,10"/>
-                    </DataTemplate>
-                </ItemsControl.ItemTemplate>
-            </ItemsControl>
-        </Border>
+        <Border Grid.Row="1" 
+              Background="White"
+              Margin="10" 
+                CornerRadius="10">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="96"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
 
-        <Grid Grid.Row="3" Background="White" Margin="10" >
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="*"/>
-            </Grid.RowDefinitions>
-
-            <!-- 管理头部 -->
-            <Border Grid.Row="0" BorderBrush="#e0e0e0" BorderThickness="0,0,0,1" Padding="0,0,0,15" Margin="0,0,0,20">
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="Auto"/>
-                    </Grid.ColumnDefinitions>
-
-                    <TextBlock Grid.Column="0" Text="团队成员管理" FontSize="18" FontWeight="SemiBold" Foreground="#2d5bd6" VerticalAlignment="Center"/>
-
-                    <StackPanel Grid.Column="1" Orientation="Horizontal" >
-                        <Button Content="导出名单" Background="#f5f7fa" Foreground="#666" BorderBrush="#e0e0e0" BorderThickness="1" Padding="8,8,16,8">
-                            <Button.ContentTemplate>
-                                <DataTemplate>
-                                    <StackPanel Orientation="Horizontal">
-                                        <TextBlock Text="" FontFamily="Segoe MDL2 Assets" FontSize="14" VerticalAlignment="Center"/>
-                                        <TextBlock Text="导出名单" VerticalAlignment="Center"/>
-                                    </StackPanel>
-                                </DataTemplate>
-                            </Button.ContentTemplate>
-                        </Button>
-
-                        <Button Content="添加成员" Background="#2d5bd6" Foreground="White" BorderThickness="0" Padding="8,8,16,8">
-                            <Button.ContentTemplate>
-                                <DataTemplate>
-                                    <StackPanel Orientation="Horizontal" >
-                                        <TextBlock Text="" FontFamily="Segoe MDL2 Assets" FontSize="14" VerticalAlignment="Center"/>
-                                        <TextBlock Text="添加成员" VerticalAlignment="Center"/>
-                                    </StackPanel>
-                                </DataTemplate>
-                            </Button.ContentTemplate>
-                        </Button>
-                    </StackPanel>
-                </Grid>
-            </Border>
-
-            <!-- 搜索筛选区域 -->
-            <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="0,0,0,20">
-                <Border Background="White" BorderBrush="#e0e0e0" BorderThickness="1" CornerRadius="4" MinWidth="250" HorizontalAlignment="Left">
+                <!-- 管理头部 -->
+                <Border Grid.Row="0" 
+                        BorderBrush="#e0e0e0" 
+                        BorderThickness="0,0,0,1"
+                        Padding="0,25,0,15" 
+                        Margin="10,0,0,20">
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="Auto"/>
                         </Grid.ColumnDefinitions>
 
-                        <TextBox Grid.Column="0" BorderThickness="0" Padding="10,10,40,10" VerticalContentAlignment="Center"/>
-                        <TextBlock Grid.Column="1" Text="" FontFamily="Segoe MDL2 Assets" Foreground="#666" VerticalAlignment="Center" Margin="0,0,12,0"/>
+                        <TextBlock Grid.Column="0" 
+                                   Text="团队成员管理" 
+                                   FontSize="18" 
+                                   FontWeight="SemiBold" 
+                                   Foreground="#2d5bd6" 
+                                   VerticalAlignment="Center"/>
+
+                        <StackPanel Grid.Column="1" 
+                                    Margin="0 0 10 0"
+                                    Orientation="Horizontal" >
+                            <Button Content="导出名单"
+                                    Height="35"
+                                    Background="#f5f7fa"
+                                    Foreground="#666"
+                                    BorderBrush="#e0e0e0" 
+                                    BorderThickness="1"
+                                    Margin="0 0 10 0"
+                                    Padding="8,8,16,8">
+                                <Button.ContentTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock Text="" FontFamily="Segoe MDL2 Assets" FontSize="14" VerticalAlignment="Center"/>
+                                            <TextBlock Text="导出名单" VerticalAlignment="Center"/>
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </Button.ContentTemplate>
+                            </Button>
+
+                            <Button Content="添加成员"
+                                    Height="35"
+                                    Background="#2d5bd6" 
+                                    Foreground="White" 
+                                    BorderThickness="0"
+                                    Padding="8,8,16,8">
+                                <Button.ContentTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Orientation="Horizontal" >
+                                            <TextBlock Text="" FontFamily="Segoe MDL2 Assets" FontSize="14" VerticalAlignment="Center"/>
+                                            <TextBlock Text="添加成员" VerticalAlignment="Center"/>
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </Button.ContentTemplate>
+                            </Button>
+                        </StackPanel>
                     </Grid>
                 </Border>
 
-                <ComboBox BorderBrush="#e0e0e0" MinWidth="150" Padding="10,10,10,10">
-                    <ComboBoxItem Content="所有部门"/>
-                    <ComboBoxItem Content="技术研发部"/>
-                    <ComboBoxItem Content="产品设计部"/>
-                    <ComboBoxItem Content="项目管理部"/>
-                    <ComboBoxItem Content="财务部"/>
-                </ComboBox>
+                <!-- 搜索筛选区域 -->
+                <Grid Grid.Row="1" 
+                      Margin="10,0,0,20">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="4*"/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
 
-                <ComboBox BorderBrush="#e0e0e0" MinWidth="150" Padding="10,10,10,10">
-                    <ComboBoxItem Content="所有角色"/>
-                    <ComboBoxItem Content="项目经理"/>
-                    <ComboBoxItem Content="团队负责人"/>
-                    <ComboBoxItem Content="普通成员"/>
-                </ComboBox>
+                    <Border Background="White" 
+                            BorderBrush="#e0e0e0" 
+                            BorderThickness="1" 
+                            CornerRadius="5">
+                        
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                                <ColumnDefinition Width="34"/>
+                            </Grid.ColumnDefinitions>
 
-                <ComboBox  BorderBrush="#e0e0e0" MinWidth="150" Padding="10,10,10,10">
-                    <ComboBoxItem Content="所有状态"/>
-                    <ComboBoxItem Content="在职"/>
-                    <ComboBoxItem Content="离职"/>
-                </ComboBox>
-            </StackPanel>
+                            <TextBox Grid.Column="0" 
+                                     BorderThickness="0" 
+                                     Padding="10,10,40,10" 
+                                     VerticalContentAlignment="Center"/>
+                            <TextBlock Grid.Column="1" 
+                                       Text="" 
+                                       FontFamily="Segoe MDL2 Assets" 
+                                       Foreground="#666" 
+                                       VerticalAlignment="Center" 
+                                       Margin="10,0,12,0"/>
+                        </Grid>
+                    </Border>
 
-            <!-- 团队成员表格 -->
-            <DataGrid Grid.Row="2" AutoGenerateColumns="False" CanUserSortColumns="True" CanUserResizeColumns="True" HeadersVisibility="Column" BorderThickness="0">
-                <DataGrid.Columns>
-                    <!-- 成员信息列 -->
-                    <DataGridTemplateColumn Header="成员信息" Width="*">
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
-                                <StackPanel Orientation="Horizontal"  VerticalAlignment="Center">
-                                    <Border Width="36" Height="36" CornerRadius="18" Background="#e0e0e0" HorizontalAlignment="Center" VerticalAlignment="Center">
-                                        <TextBlock Text="{Binding Avatar}" Foreground="#666" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                    </Border>
-                                    <StackPanel>
-                                        <TextBlock Text="{Binding Name}" FontWeight="Medium"/>
-                                        <TextBlock Text="{Binding ID}" FontSize="12" Foreground="#999"/>
+
+
+                    <ComboBox  BorderBrush="#e0e0e0" 
+                               Grid.Column="1"
+                               MinWidth="150"
+                               Padding="10,10,10,10"
+                               Margin="10 0 10 0">
+                        <ComboBoxItem Content="所有状态"/>
+                        <ComboBoxItem Content="在职"/>
+                        <ComboBoxItem Content="离职"/>
+                    </ComboBox>
+                </Grid>
+
+                <!-- 团队成员表格 -->
+                <DataGrid Grid.Row="2" 
+                      AutoGenerateColumns="False"
+                      CanUserSortColumns="True" 
+                      CanUserResizeColumns="True" 
+                      HeadersVisibility="Column"
+                      BorderThickness="0"
+                      Margin="10 0 0 0">
+                    <DataGrid.Columns>
+                        <!-- 成员信息列 -->
+                        <DataGridTemplateColumn Header="成员信息" Width="*">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal"  VerticalAlignment="Center">
+                                        <Border Width="36" Height="36" CornerRadius="18" Background="#e0e0e0" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                            <TextBlock Text="{Binding Avatar}" Foreground="#666" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                        </Border>
+                                        <StackPanel>
+                                            <TextBlock Text="{Binding Name}" FontWeight="Medium"/>
+                                            <TextBlock Text="{Binding ID}" FontSize="12" Foreground="#999"/>
+                                        </StackPanel>
                                     </StackPanel>
-                                </StackPanel>
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
 
-                    <!-- 部门列 -->
-                    <DataGridTextColumn Header="部门" Binding="{Binding Department}" Width="*"/>
+                        <!-- 部门列 -->
+                        <DataGridTextColumn Header="部门" Binding="{Binding Department}" Width="*"/>
 
-                    <!-- 角色列 -->
-                    <DataGridTemplateColumn Header="角色" Width="*">
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
-                                <Border Padding="4,8" CornerRadius="4" Background="{Binding RoleBackground}">
-                                    <TextBlock Text="{Binding Role}" Foreground="{Binding RoleForeground}" FontSize="12" FontWeight="Medium" HorizontalAlignment="Center"/>
-                                </Border>
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
+                        <!-- 角色列 -->
+                        <DataGridTemplateColumn Header="角色" Width="*">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Border Padding="4,8" CornerRadius="4" Background="{Binding RoleBackground}">
+                                        <TextBlock Text="{Binding Role}" Foreground="{Binding RoleForeground}" FontSize="12" FontWeight="Medium" HorizontalAlignment="Center"/>
+                                    </Border>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
 
-                    <!-- 入职日期列 -->
-                    <DataGridTextColumn Header="入职日期" Binding="{Binding JoinDate}" Width="*"/>
+                        <!-- 入职日期列 -->
+                        <DataGridTextColumn Header="入职日期" Binding="{Binding JoinDate}" Width="*"/>
 
-                    <!-- 状态列 -->
-                    <DataGridTemplateColumn Header="状态" Width="*">
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
-                                <TextBlock Text="{Binding Status}" Foreground="{Binding StatusColor}" FontWeight="Medium" HorizontalAlignment="Left"/>
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
+                        <!-- 状态列 -->
+                        <DataGridTemplateColumn Header="状态" Width="*">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding Status}" Foreground="{Binding StatusColor}" FontWeight="Medium" HorizontalAlignment="Left"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
 
-                    <!-- 操作列 -->
-                    <DataGridTemplateColumn Header="操作" Width="*">
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
-                                <StackPanel Orientation="Horizontal">
-                                    <Button Style="{StaticResource IconButtonStyle}" ToolTip="编辑">
-                                        <TextBlock Text="" FontFamily="Segoe MDL2 Assets"/>
-                                    </Button>
-                                    <Button Style="{StaticResource IconButtonStyle}" ToolTip="调整角色">
-                                        <TextBlock Text="" FontFamily="Segoe MDL2 Assets"/>
-                                    </Button>
-                                    <Button Style="{StaticResource IconButtonStyle}" ToolTip="移除">
-                                        <TextBlock Text="" FontFamily="Segoe MDL2 Assets"/>
-                                    </Button>
-                                </StackPanel>
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
-                </DataGrid.Columns>
+                        <!-- 操作列 -->
+                        <DataGridTemplateColumn Header="操作" Width="*">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal">
+                                        <Button Style="{StaticResource IconButtonStyle}" ToolTip="编辑">
+                                            <TextBlock Text="" FontFamily="Segoe MDL2 Assets"/>
+                                        </Button>
+                                        <Button Style="{StaticResource IconButtonStyle}" ToolTip="调整角色">
+                                            <TextBlock Text="" FontFamily="Segoe MDL2 Assets"/>
+                                        </Button>
+                                        <Button Style="{StaticResource IconButtonStyle}" ToolTip="移除">
+                                            <TextBlock Text="" FontFamily="Segoe MDL2 Assets"/>
+                                        </Button>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                    </DataGrid.Columns>
 
-                <DataGrid.Resources>
-                    <!-- 表格行样式 -->
-                    <Style TargetType="DataGridRow">
-                        <Setter Property="BorderBrush" Value="#e0e0e0"/>
-                        <Setter Property="BorderThickness" Value="0,0,0,1"/>
-                        <Style.Triggers>
-                            <Trigger Property="IsMouseOver" Value="True">
-                                <Setter Property="Background" Value="#f9f9f9"/>
-                            </Trigger>
-                        </Style.Triggers>
-                    </Style>
+                    <DataGrid.Resources>
+                        <!-- 表格行样式 -->
+                        <Style TargetType="DataGridRow">
+                            <Setter Property="BorderBrush" Value="#e0e0e0"/>
+                            <Setter Property="BorderThickness" Value="0,0,0,1"/>
+                            <Style.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Background" Value="#f9f9f9"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
 
-                    <!-- 表头样式 -->
-                    <Style TargetType="DataGridColumnHeader">
-                        <Setter Property="Background" Value="#f5f7fa"/>
-                        <Setter Property="Foreground" Value="#2d5bd6"/>
-                        <Setter Property="FontWeight" Value="SemiBold"/>
-                        <Setter Property="BorderThickness" Value="0"/>
-                        <Setter Property="Padding" Value="12,15"/>
-                    </Style>
+                        <!-- 表头样式 -->
+                        <Style TargetType="DataGridColumnHeader">
+                            <Setter Property="Background" Value="#f5f7fa"/>
+                            <Setter Property="Foreground" Value="#2d5bd6"/>
+                            <Setter Property="FontWeight" Value="SemiBold"/>
+                            <Setter Property="BorderThickness" Value="0"/>
+                            <Setter Property="Padding" Value="12,15"/>
+                        </Style>
 
-                    <!-- 图标按钮样式 -->
-                    <Style x:Key="IconButtonStyle" TargetType="Button">
-                        <Setter Property="Background" Value="Transparent"/>
-                        <Setter Property="BorderThickness" Value="0"/>
-                        <Setter Property="Foreground" Value="#666"/>
-                        <Setter Property="Padding" Value="4"/>
-                        <Setter Property="Cursor" Value="Hand"/>
-                        <Style.Triggers>
-                            <Trigger Property="IsMouseOver" Value="True">
-                                <Setter Property="Foreground" Value="#2d5bd6"/>
-                            </Trigger>
-                        </Style.Triggers>
-                    </Style>
-                </DataGrid.Resources>
-            </DataGrid>
-        </Grid>
+                        <!-- 图标按钮样式 -->
+                        <Style x:Key="IconButtonStyle" TargetType="Button">
+                            <Setter Property="Background" Value="Transparent"/>
+                            <Setter Property="BorderThickness" Value="0"/>
+                            <Setter Property="Foreground" Value="#666"/>
+                            <Setter Property="Padding" Value="4"/>
+                            <Setter Property="Cursor" Value="Hand"/>
+                            <Style.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Foreground" Value="#2d5bd6"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </DataGrid.Resources>
+                </DataGrid>
+            </Grid>
+
+
+
+        </Border>
     </Grid>
 </UserControl>
