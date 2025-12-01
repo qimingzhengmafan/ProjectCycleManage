@@ -10,9 +10,82 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
+using System.ComponentModel;
 
 namespace ProjectCycleManage.ViewModel
 {
+    /// <summary>
+    /// 项目阶段显示模型，用于展示阶段和文档信息
+    /// </summary>
+    public class ProjectStageDisplayModel : INotifyPropertyChanged
+    {
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        private ProjectStage _stage;
+        private int _documentCount;
+        private int _informationCount;
+        private ObservableCollection<DocumentDisplayModel> _documents;
+
+        public ProjectStage Stage
+        {
+            get => _stage;
+            set
+            {
+                _stage = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Stage)));
+            }
+        }
+
+        public int ProjectStageId => _stage?.ProjectStageId ?? 0;
+        public string ProjectStageName => _stage?.ProjectStageName ?? string.Empty;
+        public int ProjectProgress => _stage?.ProjectProgress ?? 0;
+
+        public int DocumentCount
+        {
+            get => _documentCount;
+            set
+            {
+                _documentCount = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(DocumentCount)));
+            }
+        }
+
+        public int InformationCount
+        {
+            get => _informationCount;
+            set
+            {
+                _informationCount = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(InformationCount)));
+            }
+        }
+
+        public ObservableCollection<DocumentDisplayModel> Documents
+        {
+            get => _documents;
+            set
+            {
+                _documents = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Documents)));
+            }
+        }
+
+        public ProjectStageDisplayModel(ProjectStage stage)
+        {
+            _stage = stage;
+            _documents = new ObservableCollection<DocumentDisplayModel>();
+        }
+    }
+
+    /// <summary>
+    /// 文档显示模型
+    /// </summary>
+    public class DocumentDisplayModel
+    {
+        public string Name { get; set; }
+        public string Description { get; set; }
+        public string Icon { get; set; }
+    }
     public partial class ProjectStageVM : ObservableObject
     {
         private readonly ProjectContext _context;
@@ -30,7 +103,7 @@ namespace ProjectCycleManage.ViewModel
 
         #region 项目阶段相关
         [ObservableProperty]
-        private ObservableCollection<ProjectStage> _projectStages;
+        private ObservableCollection<ProjectStageDisplayModel> _projectStages;
 
         [ObservableProperty]
         private ProjectStage _selectedProjectStage;
@@ -87,8 +160,14 @@ namespace ProjectCycleManage.ViewModel
                     await _context.EquipmentType.ToListAsync());
 
                 // 加载项目阶段
-                ProjectStages = new ObservableCollection<ProjectStage>(
-                    await _context.ProjectStage.ToListAsync());
+                var stages = await _context.ProjectStage.ToListAsync();
+                ProjectStages = new ObservableCollection<ProjectStageDisplayModel>();
+                
+                foreach (var stage in stages)
+                {
+                    var displayModel = new ProjectStageDisplayModel(stage);
+                    ProjectStages.Add(displayModel);
+                }
 
                 // 加载所有文档类型
                 AllDocumentTypes = new ObservableCollection<DocumentType>(
@@ -109,17 +188,18 @@ namespace ProjectCycleManage.ViewModel
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"初始化数据失败: {ex.Message}");
+                MessageBox.Show($"初始化数据失败: {ex.Message}", "错误", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
         #region 命令
         [RelayCommand]
-        private void OpenEditModal()
+        private void OpenEditModal(ProjectStage stage)
         {
-            if (SelectedProjectStage == null) return;
+            if (stage == null || SelectedEquipmentType == null) return;
             
-            ModalTitle = $"编辑 {SelectedProjectStage.ProjectStageName} 阶段文档";
+            SelectedProjectStage = stage;
+            ModalTitle = $"{stage.ProjectStageName} - 文档与信息配置";
             IsEditModalOpen = true;
             
             // 加载当前阶段的文档配置
@@ -134,60 +214,88 @@ namespace ProjectCycleManage.ViewModel
         }
 
         [RelayCommand]
-        private void AddDocumentToStage(DocumentType document)
+        private void AddDocumentToStage(object parameter)
         {
-            if (document == null || StageDocumentTypes.Contains(document)) return;
+            if (parameter == null) return;
             
-            StageDocumentTypes.Add(document);
-            AvailableDocumentTypes.Remove(document);
+            // 支持从ListBox的SelectedItem传入
+            if (parameter is DocumentType document)
+            {
+                if (!StageDocumentTypes.Contains(document))
+                {
+                    StageDocumentTypes.Add(document);
+                    AvailableDocumentTypes.Remove(document);
+                }
+            }
         }
 
         [RelayCommand]
-        private void RemoveDocumentFromStage(DocumentType document)
+        private void RemoveDocumentFromStage(object parameter)
         {
-            if (document == null || !StageDocumentTypes.Contains(document)) return;
+            if (parameter == null) return;
             
-            StageDocumentTypes.Remove(document);
-            AvailableDocumentTypes.Add(document);
+            // 支持从ListBox的SelectedItem传入
+            if (parameter is DocumentType document)
+            {
+                if (StageDocumentTypes.Contains(document))
+                {
+                    StageDocumentTypes.Remove(document);
+                    AvailableDocumentTypes.Add(document);
+                }
+            }
         }
 
         [RelayCommand]
-        private void AddInformationToStage(InformationTable information)
+        private void AddInformationToStage(object parameter)
         {
-            if (information == null || StageInformationTypes.Contains(information)) return;
+            if (parameter == null) return;
             
-            StageInformationTypes.Add(information);
-            AvailableInformationTypes.Remove(information);
+            // 支持从ListBox的SelectedItem传入
+            if (parameter is InformationTable information)
+            {
+                if (!StageInformationTypes.Contains(information))
+                {
+                    StageInformationTypes.Add(information);
+                    AvailableInformationTypes.Remove(information);
+                }
+            }
         }
 
         [RelayCommand]
-        private void RemoveInformationFromStage(InformationTable information)
+        private void RemoveInformationFromStage(object parameter)
         {
-            if (information == null || !StageInformationTypes.Contains(information)) return;
+            if (parameter == null) return;
             
-            StageInformationTypes.Remove(information);
-            AvailableInformationTypes.Add(information);
+            // 支持从ListBox的SelectedItem传入
+            if (parameter is InformationTable information)
+            {
+                if (StageInformationTypes.Contains(information))
+                {
+                    StageInformationTypes.Remove(information);
+                    AvailableInformationTypes.Add(information);
+                }
+            }
         }
 
         [RelayCommand]
-        private void SaveConfiguration()
+        private async Task SaveConfiguration()
         {
             if (SelectedEquipmentType == null || SelectedProjectStage == null) return;
             
             try
             {
                 // 保存文档配置到数据库
-                SaveStageDocumentConfiguration();
+                await Task.Run(() => SaveStageDocumentConfiguration());
                 
                 // 保存信息配置到数据库
-                SaveStageInformationConfiguration();
+                await Task.Run(() => SaveStageInformationConfiguration());
                 
-                MessageBox.Show("配置保存成功！");
+                MessageBox.Show("阶段配置已保存！", "成功", MessageBoxButton.OK, MessageBoxImage.Information);
                 CloseEditModal();
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"保存配置失败: {ex.Message}");
+                MessageBox.Show($"保存配置失败: {ex.Message}", "错误", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
         #endregion
@@ -299,6 +407,12 @@ namespace ProjectCycleManage.ViewModel
         partial void OnSelectedEquipmentTypeChanged(EquipmentType value)
         {
             IsEquipmentTypeSelected = value != null;
+            
+            if (value != null)
+            {
+                // 当选择设备类型时，加载每个阶段的文档数量
+                LoadStageDocumentCounts();
+            }
         }
 
         partial void OnDocumentSearchTextChanged(string value)
@@ -338,6 +452,52 @@ namespace ProjectCycleManage.ViewModel
                     .Where(i => i.Infor.Contains(InformationSearchText, StringComparison.OrdinalIgnoreCase))
                     .Except(StageInformationTypes);
                 AvailableInformationTypes = new ObservableCollection<InformationTable>(filtered);
+            }
+        }
+
+        /// <summary>
+        /// 加载每个阶段的文档数量
+        /// </summary>
+        private void LoadStageDocumentCounts()
+        {
+            if (SelectedEquipmentType == null || ProjectStages == null) return;
+
+            try
+            {
+                foreach (var stageDisplay in ProjectStages)
+                {
+                    // 查询该阶段已配置的文档数量
+                    var docCount = _context.EquipTypeStageDocTable
+                        .Count(x => x.equipmenttypeId == SelectedEquipmentType.EquipmentTypeId &&
+                                   x.ProjectStageId == stageDisplay.ProjectStageId);
+
+                    var infoCount = _context.EquipTypeStageInfoTable
+                        .Count(x => x.equipmenttypeId == SelectedEquipmentType.EquipmentTypeId &&
+                                   x.ProjectStageId == stageDisplay.ProjectStageId);
+
+                    stageDisplay.DocumentCount = docCount + infoCount;
+                    stageDisplay.InformationCount = infoCount;
+
+                    // 加载预览文档列表（最多3个）
+                    var docs = _context.EquipTypeStageDocTable
+                        .Where(x => x.equipmenttypeId == SelectedEquipmentType.EquipmentTypeId &&
+                                   x.ProjectStageId == stageDisplay.ProjectStageId)
+                        .Include(x => x.documenttype)
+                        .Take(3)
+                        .Select(x => new DocumentDisplayModel
+                        {
+                            Name = x.documenttype.DocumentTypeName,
+                            Description = "文档模板",
+                            Icon = "📄"
+                        })
+                        .ToList();
+
+                    stageDisplay.Documents = new ObservableCollection<DocumentDisplayModel>(docs);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"加载阶段文档数量失败: {ex.Message}", "错误", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
     }
