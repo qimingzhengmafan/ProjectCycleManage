@@ -102,5 +102,64 @@ namespace ProjectCycleManage.ViewModel
             // 状态筛选功能实现
             LoadPeopleinforCommand.ExecuteAsync(null);
         }
+
+        [RelayCommand]
+        private async Task MarkAsResigned(int peopleId)
+        {
+            if (peopleId <= 0)
+                return;
+
+            try
+            {
+                // 先找到对应的人员
+                var person = PeopleList.FirstOrDefault(p => p.PeopleId == peopleId);
+                if (person == null)
+                    return;
+
+                // 确认对话框
+                var result = MessageBox.Show(
+                    $"确定要将 {person.PeopleName} 标记为离职吗？",
+                    "确认标记离职",
+                    MessageBoxButton.YesNo,
+                    MessageBoxImage.Question);
+
+                if (result != MessageBoxResult.Yes)
+                    return;
+
+                IsLoading = true;
+
+                // 更新数据库
+                var dbPerson = await _context.PeopleTable
+                    .FirstOrDefaultAsync(p => p.PeopleId == peopleId);
+
+                if (dbPerson != null)
+                {
+                    dbPerson.IsEmployed = "False";
+                    await _context.SaveChangesAsync();
+
+                    // 更新UI状态
+                    person.Status = "离职";
+                    person.StatusColor = "#F44336";
+
+                    MessageBox.Show(
+                        $"已成功将 {person.PeopleName} 标记为离职",
+                        "操作成功",
+                        MessageBoxButton.OK,
+                        MessageBoxImage.Information);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(
+                    $"标记离职失败: {ex.Message}",
+                    "错误",
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Error);
+            }
+            finally
+            {
+                IsLoading = false;
+            }
+        }
     }
 }

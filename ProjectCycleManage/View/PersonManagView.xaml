@@ -1,4 +1,4 @@
-<UserControl x:Class="ProjectCycleManage.View.PersonManagView"
+﻿<UserControl x:Class="ProjectCycleManage.View.PersonManagView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -558,7 +558,9 @@
                                                 <Button Style="{StaticResource IconButton}"
                                                         Width="50"
                                                         ToolTip="标记离职" 
-                                                        Tag="Edit">
+                                                        Tag="Edit"
+                                                        Command="{Binding DataContext.MarkAsResignedCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}"
+                                                        CommandParameter="{Binding PeopleId}">
                                                     <TextBlock Text="✎"
                                                                FontFamily="Segoe UI Symbol"/>
                                                 </Button>
