@@ -1008,6 +1008,8 @@ namespace ProjectCycleManage.ViewModel
         [ObservableProperty]
         private IEnumerable<ISeries> _equipmentamountsummary;
 
+        [ObservableProperty]
+        private ISeries[] _equipmentamountsum_quantity;
         public void GetEquipmentsummary_Pie()
         {
             using (var context = new ProjectContext())
@@ -1094,6 +1096,92 @@ namespace ProjectCycleManage.ViewModel
             }
         }
 
+        public void Equipmentamount_Quantity()
+        {
+            using (var context = new ProjectContext())
+            {
+                // 获取项目数据，按年份和设备类型分组
+                var projects = context.Projects
+                    .Where(p => p.Year >= _startyear && p.Year <= _endyear)
+                    .Select(p => new { p.Year, p.equipmenttype })
+                    .AsEnumerable() // 切换到内存中操作
+                    .ToList();
+
+                // 按年份和设备类型分组统计
+                var yearlyData = projects
+                    .GroupBy(p => p.Year)
+                    .Select(yearGroup => new
+                    {
+                        Year = yearGroup.Key,
+                        EquipmentData = yearGroup
+                            .GroupBy(p => p.equipmenttype?.EquipmentName ?? "未知")
+                            .Select(equipGroup => new
+                            {
+                                EquipmentName = equipGroup.Key,
+                                EquipmentCount = equipGroup.Count()
+                            })
+                            .OrderBy(x => x.EquipmentName)
+                            .ToList()
+                    })
+                    .OrderBy(x => x.Year)
+                    .ToList();
+
+                // 获取所有设备类型
+                var allEquipmentTypes = yearlyData
+                    .SelectMany(y => y.EquipmentData.Select(e => e.EquipmentName))
+                    .Distinct()
+                    .OrderBy(name => name)
+                    .ToList();
+
+                // 为每个设备类型创建数据点
+                var seriesList = new List<LineSeries<ObservablePoint>>();
+                
+                // 定义颜色数组，为不同设备类型分配不同颜色
+                var colors = new SKColor[]
+                {
+                    new SKColor(76, 172, 250),    // 蓝色
+                    new SKColor(109, 203, 112),   // 绿色
+                    new SKColor(255, 152, 0),     // 橙色
+                    new SKColor(156, 39, 176),    // 紫色
+                    new SKColor(33, 150, 243),    // 深蓝
+                    new SKColor(244, 67, 54),     // 红色
+                    new SKColor(0, 188, 212),     // 青色
+                    new SKColor(255, 193, 7)      // 黄色
+                };
+
+                for (int i = 0; i < allEquipmentTypes.Count; i++)
+                {
+                    var equipmentType = allEquipmentTypes[i];
+                    var colorIndex = i % colors.Length;
+                    
+                    // 为当前设备类型创建数据点
+                    var dataPoints = new List<ObservablePoint>();
+                    
+                    for (int year = _startyear; year <= _endyear; year++)
+                    {
+                        var yearData = yearlyData.FirstOrDefault(y => y.Year == year);
+                        var equipmentData = yearData?.EquipmentData.FirstOrDefault(e => e.EquipmentName == equipmentType);
+                        var count = equipmentData?.EquipmentCount ?? 0;
+                        
+                        dataPoints.Add(new ObservablePoint(year, count));
+                    }
+                    
+                    seriesList.Add(new LineSeries<ObservablePoint>
+                    {
+                        Name = equipmentType,
+                        Values = dataPoints.ToArray(),
+                        Stroke = new SolidColorPaint(colors[colorIndex], 3),
+                        Fill = null,
+                        GeometrySize = 8,
+                        GeometryStroke = new SolidColorPaint(colors[colorIndex], 2),
+                        GeometryFill = new SolidColorPaint(SKColors.White)
+                    });
+                }
+
+                Equipmentamountsum_quantity = seriesList.ToArray();
+            }
+        }
+
 
 
         #endregion
@@ -1151,6 +1239,12 @@ namespace ProjectCycleManage.ViewModel
                 GetEquipmentsummary_Pie();
                 GetEquipmentamountsummary_Pie();
             });
+
+            Task.Run(() =>
+            {
+                Equipmentamount_Quantity();
+            });
+
         }
 
 
