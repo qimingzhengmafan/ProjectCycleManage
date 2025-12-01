@@ -623,7 +623,7 @@ namespace ProjectCycleManage.ViewModel
                     {
                         series.Name = _names[_index++ % _names.Count];
                         //if (value != 6) return;
-                
+
                         series.Pushout = 5;
                     });
 
@@ -708,140 +708,235 @@ namespace ProjectCycleManage.ViewModel
         [ObservableProperty]
         private IEnumerable<ISeries> _personalProjectStatusSeries;
 
-        [ObservableProperty]
-        private ISeries[] _personalProjectStatusLineSeries;
-
         /// <summary>
-        /// 获取个人项目状态分布饼图
+        /// 获取个人项目状态数据（饼图）
         /// </summary>
         public void GetPersonalProjectStatusSeries()
         {
-            if (SelectedEmployee == null)
-            {
-                PersonalProjectStatusSeries = Enumerable.Empty<ISeries>();
-                return;
-            }
+            if (SelectedEmployee == null) return;
 
             using (var context = new ProjectContext())
             {
-                // 获取该人员在指定年份范围内的所有项目
+                // 获取当前员工的所有项目
                 var projects = context.Projects
-                    .Where(p => p.Year >= _startyear && p.Year <= _endyear)
-                    .Where(p => p.ProjectLeaderId == SelectedEmployee.PeopleId || 
-                                p.projectfollowuppersonId == SelectedEmployee.PeopleId)
+                    .Where(p => p.ProjectLeaderId == SelectedEmployee.PeopleId && 
+                               p.Year >= _startyear && p.Year <= _endyear)
                     .Include(p => p.ProjectPhaseStatus)
                     .ToList();
 
-                // 获取所有项目状态
-                var projectStatuses = context.ProjectPhaseStatus
-                    .OrderBy(p => p.ProjectPhaseStatusId)
+                // 按状态分组统计
+                var statusGroups = projects
+                    .GroupBy(p => p.ProjectPhaseStatus?.ProjectPhaseStatusName ?? "未知状态")
+                    .Select(g => new { Status = g.Key, Count = g.Count() })
                     .ToList();
 
-                // 统计各状态的项目数量
-                List<(string, int)> statusCounts = new List<(string, int)>();
-                foreach (var status in projectStatuses)
-                {
-                    var count = projects
-                        .Where(p => p.ProjectPhaseStatusId == status.ProjectPhaseStatusId)
-                        .Count();
-                    statusCounts.Add((status.ProjectPhaseStatusName, count));
-                }
-
-                // 过滤掉数量为0的状态
-                statusCounts = statusCounts.Where(s => s.Item2 > 0).ToList();
-
-                if (statusCounts.Count == 0)
-                {
-                    PersonalProjectStatusSeries = Enumerable.Empty<ISeries>();
-                    return;
-                }
-
-                List<string> statusNames = new List<string>();
-                List<int> values = new List<int>();
-
-                foreach (var data in statusCounts)
-                {
-                    statusNames.Add(data.Item1);
-                    values.Add(data.Item2);
-                }
+                // 创建饼图数据
+                var values = statusGroups.Select(g => (double)g.Count).ToList();
+                var labels = statusGroups.Select(g => g.Status).ToList();
 
                 int index = 0;
                 PersonalProjectStatusSeries = values.AsPieSeries((value, series) =>
                 {
-                    series.Name = statusNames[index++ % statusNames.Count];
+                    series.Name = labels[index++ % labels.Count];
                     series.Pushout = 5;
                 });
             }
         }
 
+        #region 个人项目状态年度趋势折线图
+        [ObservableProperty]
+        private ISeries[] _personalProjectStatusLineSeries;
+
         /// <summary>
-        /// 获取个人项目状态年度趋势折线图
+        /// 获取个人项目状态年度趋势数据（折线图）
         /// </summary>
         public void GetPersonalProjectStatusLineSeries()
         {
-            if (SelectedEmployee == null)
-            {
-                PersonalProjectStatusLineSeries = Array.Empty<ISeries>();
-                return;
-            }
+            if (SelectedEmployee == null) return;
 
             using (var context = new ProjectContext())
             {
-                // 获取该人员在指定年份范围内的所有项目
-                var projects = context.Projects
-                    .Where(p => p.Year >= _startyear && p.Year <= _endyear)
-                    .Where(p => p.ProjectLeaderId == SelectedEmployee.PeopleId || 
-                                p.projectfollowuppersonId == SelectedEmployee.PeopleId)
-                    .Include(p => p.ProjectPhaseStatus)
-                    .ToList();
-
-                // 获取所有项目状态
-                var projectStatuses = context.ProjectPhaseStatus
-                    .OrderBy(p => p.ProjectPhaseStatusId)
-                    .ToList();
-
-                // 创建折线图系列数组，每个状态对应一条折线
-                var lineSeriesList = new List<LineSeries<ObservablePoint>>();
-
-                // 为每个项目状态创建一条折线
-                foreach (var status in projectStatuses)
+                var statuses = context.ProjectPhaseStatus.ToList();
+                
+                // 创建按年份统计的数据
+                var seriesList = new List<ISeries>();
+                
+                // 为每个状态创建一条折线
+                foreach (var status in statuses)
                 {
-                    // 按年份统计该状态的项目数量
-                    var yearlyData = new List<(int Year, int Count)>();
+                    var yearlyData = new List<double>();
                     
+                    // 遍历年份范围
                     for (int year = _startyear; year <= _endyear; year++)
                     {
-                        var count = projects
-                            .Where(p => p.Year == year && p.ProjectPhaseStatusId == status.ProjectPhaseStatusId)
+                        var count = context.Projects
+                            .Where(p => p.Year == year && 
+                                       p.ProjectLeaderId == SelectedEmployee.PeopleId &&
+                                       p.ProjectPhaseStatusId == status.ProjectPhaseStatusId)
                             .Count();
-                        yearlyData.Add((year, count));
+                        
+                        yearlyData.Add(count);
                     }
-
-                    // 过滤掉所有年份数量都为0的状态
-                    if (yearlyData.All(d => d.Count == 0))
-                        continue;
-
-                    // 创建数据点
-                    var dataPoints = yearlyData.Select(d => 
-                        new ObservablePoint(d.Year, d.Count)).ToArray();
-
-                    // 创建折线系列
-                    var lineSeries = new LineSeries<ObservablePoint>
+                    
+                    if (yearlyData.Any(d => d > 0))
                     {
-                        Name = status.ProjectPhaseStatusName,
-                        Values = dataPoints,
-                        GeometrySize = 8,
-                        LineSmoothness = 0.5
-                    };
-
-                    lineSeriesList.Add(lineSeries);
+                        var lineSeries = new LineSeries<double>
+                        {
+                            Name = status.ProjectPhaseStatusName,
+                            Values = yearlyData,
+                            Stroke = new SolidColorPaint(GetStatusColor(status.ProjectPhaseStatusId), 3),
+                            Fill = null,
+                            GeometrySize = 8,
+                            GeometryStroke = new SolidColorPaint(GetStatusColor(status.ProjectPhaseStatusId), 2),
+                            GeometryFill = new SolidColorPaint(SKColors.White)
+                        };
+                        
+                        seriesList.Add(lineSeries);
+                    }
                 }
-
-                // 将折线系列数组赋值给属性
-                PersonalProjectStatusLineSeries = lineSeriesList.ToArray();
+                
+                PersonalProjectStatusLineSeries = seriesList.ToArray();
             }
         }
 
+        private SKColor GetStatusColor(int statusId)
+        {
+            return statusId switch
+            {
+                101 => new SKColor(255, 193, 7),    // 未启动 - 黄色
+                102 => new SKColor(33, 150, 243),   // 进行中 - 蓝色
+                103 => new SKColor(255, 152, 0),    // 暂停 - 橙色
+                104 => new SKColor(76, 175, 80),    // 已完成 - 绿色
+                _ => new SKColor(158, 158, 158)     // 默认灰色
+            };
+        }
+        #endregion
+
+        #region 项目负责人年度项目汇总柱状图
+        [ObservableProperty]
+        private ISeries[] _projectLeaderAnnualSummarySeries;
+
+        [ObservableProperty]
+        private Axis[] _projectLeaderSummaryXAxes;
+
+        /// <summary>
+        /// 获取项目负责人年度项目汇总数据（柱状图）
+        /// </summary>
+        public void GetProjectLeaderAnnualSummary()
+        {
+            using (var context = new ProjectContext())
+            {
+                // 获取当前年份
+                int currentYear = DateTime.Now.Year;
+                
+                // 获取所有项目负责人
+                var projectLeaders = context.Projects
+                    .Where(p => p.Year == currentYear && p.ProjectLeaderId != null)
+                    .Include(p => p.ProjectLeader)
+                    .Select(p => p.ProjectLeader)
+                    .Distinct()
+                    .ToList();
+
+                // 统计每个负责人的项目状态数量
+                var leaderStats = new List<LeaderProjectStats>();
+                
+                foreach (var leader in projectLeaders)
+                {
+                    var projects = context.Projects
+                        .Where(p => p.Year == currentYear && p.ProjectLeaderId == leader.PeopleId)
+                        .ToList();
+
+                    var stats = new LeaderProjectStats
+                    {
+                        LeaderName = leader.PeopleName,
+                        TotalCount = projects.Count,
+                        CompletedCount = projects.Count(p => p.ProjectPhaseStatusId == 104),
+                        PausedCount = projects.Count(p => p.ProjectPhaseStatusId == 103),
+                        InProgressCount = projects.Count(p => p.ProjectPhaseStatusId == 102),
+                        NotStartedCount = projects.Count(p => p.ProjectPhaseStatusId == 101)
+                    };
+                    
+                    leaderStats.Add(stats);
+                }
+
+                // 按总项目数排序
+                leaderStats = leaderStats.OrderByDescending(s => s.TotalCount).ToList();
+
+                // 创建柱状图系列
+                var seriesList = new List<ISeries>();
+                
+                // 已完成项目系列
+                var completedSeries = new ColumnSeries<double>
+                {
+                    Name = "已完成",
+                    Values = leaderStats.Select(s => (double)s.CompletedCount).ToArray(),
+                    Stroke = new SolidColorPaint(SKColors.Black, 1),
+                    Fill = new SolidColorPaint(new SKColor(76, 175, 80)), // 绿色
+                    MaxBarWidth = 25
+                };
+                
+                // 进行中项目系列
+                var inProgressSeries = new ColumnSeries<double>
+                {
+                    Name = "进行中",
+                    Values = leaderStats.Select(s => (double)s.InProgressCount).ToArray(),
+                    Stroke = new SolidColorPaint(SKColors.Black, 1),
+                    Fill = new SolidColorPaint(new SKColor(33, 150, 243)), // 蓝色
+                    MaxBarWidth = 25
+                };
+                
+                // 暂停项目系列
+                var pausedSeries = new ColumnSeries<double>
+                {
+                    Name = "暂停",
+                    Values = leaderStats.Select(s => (double)s.PausedCount).ToArray(),
+                    Stroke = new SolidColorPaint(SKColors.Black, 1),
+                    Fill = new SolidColorPaint(new SKColor(255, 152, 0)), // 橙色
+                    MaxBarWidth = 25
+                };
+                
+                // 未启动项目系列
+                var notStartedSeries = new ColumnSeries<double>
+                {
+                    Name = "未启动",
+                    Values = leaderStats.Select(s => (double)s.NotStartedCount).ToArray(),
+                    Stroke = new SolidColorPaint(SKColors.Black, 1),
+                    Fill = new SolidColorPaint(new SKColor(255, 193, 7)), // 黄色
+                    MaxBarWidth = 25
+                };
+
+                seriesList.Add(completedSeries);
+                seriesList.Add(inProgressSeries);
+                seriesList.Add(pausedSeries);
+                seriesList.Add(notStartedSeries);
+
+                ProjectLeaderAnnualSummarySeries = seriesList.ToArray();
+
+                // 设置X轴标签
+                var xAxisLabels = leaderStats.Select(s => s.LeaderName).ToArray();
+                ProjectLeaderSummaryXAxes = [
+                    new Axis
+                    {
+                        Labels = xAxisLabels,
+                        LabelsRotation = 45,
+                        TextSize = 12,
+                        LabelsPaint = LegendTextPaint
+                    }
+                ];
+            }
+        }
+
+        // 项目负责人统计数据结构
+        private class LeaderProjectStats
+        {
+            public string LeaderName { get; set; }
+            public int TotalCount { get; set; }
+            public int CompletedCount { get; set; }
+            public int InProgressCount { get; set; }
+            public int PausedCount { get; set; }
+            public int NotStartedCount { get; set; }
+        }
+        #endregion
 
 
         private void GetPeopleInformation()
@@ -945,6 +1040,12 @@ namespace ProjectCycleManage.ViewModel
             {
                 GetPeopleInformation();
                 GetannualprojectnumSeries();
+            });
+
+            // 新增：加载项目负责人年度项目汇总柱状图数据
+            Task.Run(() =>
+            {
+                GetProjectLeaderAnnualSummary();
             });
         }
 
