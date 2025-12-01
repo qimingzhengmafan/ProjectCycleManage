@@ -697,6 +697,11 @@ namespace ProjectCycleManage.ViewModel
 
         #endregion
 
+
+        #region 个人项目进度
+
+        #endregion
+
         #region 人员情况
         [ObservableProperty]
         private IEnumerable<ISeries> _projectleaderinformation;
@@ -801,6 +806,7 @@ namespace ProjectCycleManage.ViewModel
 
             Task.Run(() =>
             {
+                GetPeopleInformation();
                 GetannualprojectnumSeries();
             });
         }
