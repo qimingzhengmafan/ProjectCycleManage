@@ -1,4 +1,4 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.ComponentModel;
 using LiveChartsCore;
 using LiveChartsCore.Defaults;
 using LiveChartsCore.Kernel.Sketches;
@@ -705,6 +705,74 @@ namespace ProjectCycleManage.ViewModel
         [ObservableProperty]
         private IEnumerable<ISeries> _projectfollowpoepleinformation;
 
+        [ObservableProperty]
+        private IEnumerable<ISeries> _personalProjectStatusSeries;
+
+        /// <summary>
+        /// 获取个人项目状态分布饼图
+        /// </summary>
+        public void GetPersonalProjectStatusSeries()
+        {
+            if (SelectedEmployee == null)
+            {
+                PersonalProjectStatusSeries = Enumerable.Empty<ISeries>();
+                return;
+            }
+
+            using (var context = new ProjectContext())
+            {
+                // 获取该人员在指定年份范围内的所有项目
+                var projects = context.Projects
+                    .Where(p => p.Year >= _startyear && p.Year <= _endyear)
+                    .Where(p => p.ProjectLeaderId == SelectedEmployee.PeopleId || 
+                                p.projectfollowuppersonId == SelectedEmployee.PeopleId)
+                    .Include(p => p.ProjectPhaseStatus)
+                    .ToList();
+
+                // 获取所有项目状态
+                var projectStatuses = context.ProjectPhaseStatus
+                    .OrderBy(p => p.ProjectPhaseStatusId)
+                    .ToList();
+
+                // 统计各状态的项目数量
+                List<(string, int)> statusCounts = new List<(string, int)>();
+                foreach (var status in projectStatuses)
+                {
+                    var count = projects
+                        .Where(p => p.ProjectPhaseStatusId == status.ProjectPhaseStatusId)
+                        .Count();
+                    statusCounts.Add((status.ProjectPhaseStatusName, count));
+                }
+
+                // 过滤掉数量为0的状态
+                statusCounts = statusCounts.Where(s => s.Item2 > 0).ToList();
+
+                if (statusCounts.Count == 0)
+                {
+                    PersonalProjectStatusSeries = Enumerable.Empty<ISeries>();
+                    return;
+                }
+
+                List<string> statusNames = new List<string>();
+                List<int> values = new List<int>();
+
+                foreach (var data in statusCounts)
+                {
+                    statusNames.Add(data.Item1);
+                    values.Add(data.Item2);
+                }
+
+                int index = 0;
+                PersonalProjectStatusSeries = values.AsPieSeries((value, series) =>
+                {
+                    series.Name = statusNames[index++ % statusNames.Count];
+                    series.Pushout = 5;
+                });
+            }
+        }
+
+
+
         private void GetPeopleInformation()
         {
             using (var context = new ProjectContext())
@@ -839,6 +907,14 @@ namespace ProjectCycleManage.ViewModel
                 _selectedEmployee = value;
                 OnPropertyChanged();
                 UpdateStatusMessage();
+                // 当选中员工改变时，重新加载个人项目状态数据
+                if (value != null)
+                {
+                    Task.Run(() =>
+                    {
+                        GetPersonalProjectStatusSeries();
+                    });
+                }
             }
         }
 
