@@ -414,7 +414,7 @@
                             </Grid.ColumnDefinitions>
 
                             <lvc:CartesianChart Grid.Row="1"
-                                                Series="{Binding AnnualprojectnumSeries}"
+                                                Series="{Binding PersonalProjectStatusLineSeries}"
                                                 LegendPosition="Top"
                                                 LegendTextPaint="{Binding LegendTextPaint}"
                                                 TooltipTextPaint="{Binding TipTextPaint}"/>

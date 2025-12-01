@@ -708,6 +708,9 @@ namespace ProjectCycleManage.ViewModel
         [ObservableProperty]
         private IEnumerable<ISeries> _personalProjectStatusSeries;
 
+        [ObservableProperty]
+        private ISeries[] _personalProjectStatusLineSeries;
+
         /// <summary>
         /// 获取个人项目状态分布饼图
         /// </summary>
@@ -768,6 +771,74 @@ namespace ProjectCycleManage.ViewModel
                     series.Name = statusNames[index++ % statusNames.Count];
                     series.Pushout = 5;
                 });
+            }
+        }
+
+        /// <summary>
+        /// 获取个人项目状态年度趋势折线图
+        /// </summary>
+        public void GetPersonalProjectStatusLineSeries()
+        {
+            if (SelectedEmployee == null)
+            {
+                PersonalProjectStatusLineSeries = Array.Empty<ISeries>();
+                return;
+            }
+
+            using (var context = new ProjectContext())
+            {
+                // 获取该人员在指定年份范围内的所有项目
+                var projects = context.Projects
+                    .Where(p => p.Year >= _startyear && p.Year <= _endyear)
+                    .Where(p => p.ProjectLeaderId == SelectedEmployee.PeopleId || 
+                                p.projectfollowuppersonId == SelectedEmployee.PeopleId)
+                    .Include(p => p.ProjectPhaseStatus)
+                    .ToList();
+
+                // 获取所有项目状态
+                var projectStatuses = context.ProjectPhaseStatus
+                    .OrderBy(p => p.ProjectPhaseStatusId)
+                    .ToList();
+
+                // 创建折线图系列数组，每个状态对应一条折线
+                var lineSeriesList = new List<LineSeries<ObservablePoint>>();
+
+                // 为每个项目状态创建一条折线
+                foreach (var status in projectStatuses)
+                {
+                    // 按年份统计该状态的项目数量
+                    var yearlyData = new List<(int Year, int Count)>();
+                    
+                    for (int year = _startyear; year <= _endyear; year++)
+                    {
+                        var count = projects
+                            .Where(p => p.Year == year && p.ProjectPhaseStatusId == status.ProjectPhaseStatusId)
+                            .Count();
+                        yearlyData.Add((year, count));
+                    }
+
+                    // 过滤掉所有年份数量都为0的状态
+                    if (yearlyData.All(d => d.Count == 0))
+                        continue;
+
+                    // 创建数据点
+                    var dataPoints = yearlyData.Select(d => 
+                        new ObservablePoint(d.Year, d.Count)).ToArray();
+
+                    // 创建折线系列
+                    var lineSeries = new LineSeries<ObservablePoint>
+                    {
+                        Name = status.ProjectPhaseStatusName,
+                        Values = dataPoints,
+                        GeometrySize = 8,
+                        LineSmoothness = 0.5
+                    };
+
+                    lineSeriesList.Add(lineSeries);
+                }
+
+                // 将折线系列数组赋值给属性
+                PersonalProjectStatusLineSeries = lineSeriesList.ToArray();
             }
         }
 
@@ -913,6 +984,7 @@ namespace ProjectCycleManage.ViewModel
                     Task.Run(() =>
                     {
                         GetPersonalProjectStatusSeries();
+                        GetPersonalProjectStatusLineSeries();
                     });
                 }
             }
