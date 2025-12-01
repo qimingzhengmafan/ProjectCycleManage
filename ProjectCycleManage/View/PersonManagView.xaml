@@ -252,6 +252,11 @@
         </Style>
 
 
+
+        <!-- #region 表格资源 -->
+        <!--#endregion 表格资源 -->
+
+
     </UserControl.Resources>
     
     <Grid Background="#F5F7FA">
@@ -412,8 +417,8 @@
                     </ComboBox>
                 </Grid>
 
-                <!-- 团队成员表格 -->
-                <DataGrid Grid.Row="2" 
+                <!-- #region 团队成员表格 -->
+                <!--<DataGrid Grid.Row="2" 
                       AutoGenerateColumns="False"
                       CanUserSortColumns="True" 
                       CanUserResizeColumns="True" 
@@ -421,7 +426,7 @@
                       BorderThickness="0"
                       Margin="10 0 0 0">
                     <DataGrid.Columns>
-                        <!-- 成员信息列 -->
+                        --><!-- 成员信息列 --><!--
                         <DataGridTemplateColumn Header="成员信息" Width="*">
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
@@ -438,10 +443,10 @@
                             </DataGridTemplateColumn.CellTemplate>
                         </DataGridTemplateColumn>
 
-                        <!-- 部门列 -->
+                        --><!-- 部门列 --><!--
                         <DataGridTextColumn Header="部门" Binding="{Binding Department}" Width="*"/>
 
-                        <!-- 角色列 -->
+                        --><!-- 角色列 --><!--
                         <DataGridTemplateColumn Header="角色" Width="*">
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
@@ -452,10 +457,10 @@
                             </DataGridTemplateColumn.CellTemplate>
                         </DataGridTemplateColumn>
 
-                        <!-- 入职日期列 -->
+                        --><!-- 入职日期列 --><!--
                         <DataGridTextColumn Header="入职日期" Binding="{Binding JoinDate}" Width="*"/>
 
-                        <!-- 状态列 -->
+                        --><!-- 状态列 --><!--
                         <DataGridTemplateColumn Header="状态" Width="*">
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
@@ -464,7 +469,7 @@
                             </DataGridTemplateColumn.CellTemplate>
                         </DataGridTemplateColumn>
 
-                        <!-- 操作列 -->
+                        --><!-- 操作列 --><!--
                         <DataGridTemplateColumn Header="操作" Width="*">
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
@@ -485,7 +490,7 @@
                     </DataGrid.Columns>
 
                     <DataGrid.Resources>
-                        <!-- 表格行样式 -->
+                        --><!-- 表格行样式 --><!--
                         <Style TargetType="DataGridRow">
                             <Setter Property="BorderBrush" Value="#e0e0e0"/>
                             <Setter Property="BorderThickness" Value="0,0,0,1"/>
@@ -496,7 +501,7 @@
                             </Style.Triggers>
                         </Style>
 
-                        <!-- 表头样式 -->
+                        --><!-- 表头样式 --><!--
                         <Style TargetType="DataGridColumnHeader">
                             <Setter Property="Background" Value="#f5f7fa"/>
                             <Setter Property="Foreground" Value="#2d5bd6"/>
@@ -505,7 +510,7 @@
                             <Setter Property="Padding" Value="12,15"/>
                         </Style>
 
-                        <!-- 图标按钮样式 -->
+                        --><!-- 图标按钮样式 --><!--
                         <Style x:Key="IconButtonStyle" TargetType="Button">
                             <Setter Property="Background" Value="Transparent"/>
                             <Setter Property="BorderThickness" Value="0"/>
@@ -519,7 +524,11 @@
                             </Style.Triggers>
                         </Style>
                     </DataGrid.Resources>
-                </DataGrid>
+                </DataGrid>-->
+
+                <!--#endregion 团队成员表格 -->
+
+
             </Grid>
 
 
