@@ -346,7 +346,7 @@
                         </Grid.RowDefinitions>
 
                         <Border>
-                            <TextBlock Text="项目进度"
+                            <TextBlock Text="同部门完成进度"
                                        FontSize="18"
                                        VerticalAlignment="Center"
                                        FontWeight="Bold"
@@ -376,7 +376,7 @@
                         </Grid.RowDefinitions>
 
                         <Border>
-                            <TextBlock Text="人员项目情况"
+                            <TextBlock Text="同部门完成进度（折线）"
                                        FontSize="18"
                                        VerticalAlignment="Center"
                                        FontWeight="Bold"
@@ -386,21 +386,13 @@
                         <Grid Grid.Row="1">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition/>
-                                <ColumnDefinition/>
                             </Grid.ColumnDefinitions>
 
-                            <lvc:PieChart Series="{Binding Projectleaderinformation}"
-                                          LegendPosition="Top"
-                                          LegendTextPaint="{Binding LegendTextPaint}"
-                                          TooltipTextPaint="{Binding TipTextPaint}">
-                            </lvc:PieChart>
-
-                            <lvc:PieChart Grid.Column="1"
-                                          Series="{Binding Projectfollowpoepleinformation}"
-                                          LegendPosition="Top"
-                                          LegendTextPaint="{Binding LegendTextPaint}"
-                                          TooltipTextPaint="{Binding TipTextPaint}">
-                            </lvc:PieChart>
+                            <lvc:CartesianChart Grid.Row="1"
+                                                Series="{Binding AnnualprojectnumSeries}"
+                                                LegendPosition="Top"
+                                                LegendTextPaint="{Binding LegendTextPaint}"
+                                                TooltipTextPaint="{Binding TipTextPaint}"/>
 
                         </Grid>
 

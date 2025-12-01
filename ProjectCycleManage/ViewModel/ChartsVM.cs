@@ -697,8 +697,7 @@ namespace ProjectCycleManage.ViewModel
 
         #endregion
 
-
-        #region 个人项目进度
+        #region 个人项目情况
 
         #endregion
 
