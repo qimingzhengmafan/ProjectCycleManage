@@ -13,6 +13,7 @@ using ProjectManagement.Models;
 using SkiaSharp;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -698,14 +699,10 @@ namespace ProjectCycleManage.ViewModel
         #endregion
 
         #region 个人项目情况
-
-        #endregion
-
-        #region 人员情况
         [ObservableProperty]
         private IEnumerable<ISeries> _projectleaderinformation;
 
-        [ObservableProperty] 
+        [ObservableProperty]
         private IEnumerable<ISeries> _projectfollowpoepleinformation;
 
         private void GetPeopleInformation()
@@ -767,7 +764,6 @@ namespace ProjectCycleManage.ViewModel
                     });
             }
         }
-        
         #endregion
 
 
@@ -776,6 +772,9 @@ namespace ProjectCycleManage.ViewModel
         {
             _startyear = startyear;
             _endyear = stopyear;
+            LoadEmployees();
+
+
 
             Task.Run(() =>
             {
@@ -809,6 +808,93 @@ namespace ProjectCycleManage.ViewModel
                 GetannualprojectnumSeries();
             });
         }
+
+
+
+
+
+        #region 责任人下拉框
+
+        private ObservableCollection<PeopleTable> _employees;
+        private PeopleTable _selectedEmployee;
+        private string _statusMessage;
+
+        // 员工列表 - 用于下拉框
+        public ObservableCollection<PeopleTable> Employees
+        {
+            get => _employees;
+            set
+            {
+                _employees = value;
+                OnPropertyChanged();
+            }
+        }
+
+        // 选中的员工
+        public PeopleTable SelectedEmployee
+        {
+            get => _selectedEmployee;
+            set
+            {
+                _selectedEmployee = value;
+                OnPropertyChanged();
+                UpdateStatusMessage();
+            }
+        }
+
+        // 状态信息
+        public string StatusMessage
+        {
+            get => _statusMessage;
+            set
+            {
+                _statusMessage = value;
+                OnPropertyChanged();
+            }
+        }
+
+        // 加载员工数据
+        private void LoadEmployees()
+        {
+            try
+            {
+                using (var context = new ProjectContext())
+                {
+                    var employees = context.PeopleTable
+                        .OrderBy(e => e.PeopleName)
+                        .ToList();
+
+                    Employees = new ObservableCollection<PeopleTable>(employees);
+
+                    if (Employees.Count > 0)
+                    {
+                        //SelectedFollowEmployee = Employees[0];
+                        SelectedEmployee = null;
+                    }
+
+                    SelectedEmployee = Employees[0];
+                }
+
+
+            }
+            catch (Exception ex)
+            {
+
+            }
+        }
+
+        // 更新状态信息
+        private void UpdateStatusMessage()
+        {
+            if (SelectedEmployee != null)
+            {
+                //StatusMessage = $"选中: {SelectedEmployee.PeopleName} ({SelectedEmployee.PeopleId})";
+                //ProjectsLeaderID = SelectedEmployee.PeopleId;
+            }
+        }
+
+
+        #endregion
 
     }
 }
