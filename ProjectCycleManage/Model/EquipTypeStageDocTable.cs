@@ -29,5 +29,8 @@ namespace ProjectCycleManage.Model
         [ForeignKey("documenttype")]
         public int documenttypeId { get; set; }
         public DocumentType documenttype { get; set; }
+
+        [Comment("文档状态，Nece-必要，Abolish-废除")]
+        public string Status { get;set;  }
     }
 }

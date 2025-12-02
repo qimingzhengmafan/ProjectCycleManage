@@ -28,6 +28,8 @@ namespace ProjectCycleManage.Model
         public int InformationId {  get; set; }
         public InformationTable Information { get; set; }
 
+        [Comment("文档状态，Nece-必要，Abolish-废除")]
+        public string Status { get; set; }
 
     }
 }
