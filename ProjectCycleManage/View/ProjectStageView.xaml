@@ -639,12 +639,8 @@
                                                     Background="Transparent"
                                                     BorderThickness="0"
                                                     Padding="10"
-                                                    ScrollViewer.HorizontalScrollBarVisibility="Disabled">
-                                                <ListBox.InputBindings>
-                                                    <MouseBinding MouseAction="LeftDoubleClick" 
-                                                                 Command="{Binding AddDocumentToStageCommand}"
-                                                                 CommandParameter="{Binding ElementName=AvailableDocumentsList, Path=SelectedItem}"/>
-                                                </ListBox.InputBindings>
+                                                    ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                                                    MouseDoubleClick="AvailableDocumentsList_MouseDoubleClick">
                                             </ListBox>
                                         </Grid>
                                     </Border>
@@ -681,12 +677,8 @@
                                                     Background="Transparent"
                                                     BorderThickness="0"
                                                     Padding="10"
-                                                    ScrollViewer.HorizontalScrollBarVisibility="Disabled">
-                                                <ListBox.InputBindings>
-                                                    <MouseBinding MouseAction="LeftDoubleClick" 
-                                                                 Command="{Binding AddInformationToStageCommand}"
-                                                                 CommandParameter="{Binding ElementName=AvailableInformationList, Path=SelectedItem}"/>
-                                                </ListBox.InputBindings>
+                                                    ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                                                    MouseDoubleClick="AvailableInformationList_MouseDoubleClick">
                                             </ListBox>
                                         </Grid>
                                     </Border>
@@ -768,7 +760,8 @@
                                                     Background="Transparent"
                                                     BorderThickness="0"
                                                     Padding="10"
-                                                    ScrollViewer.HorizontalScrollBarVisibility="Disabled"/>
+                                                    ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                                                    MouseDoubleClick="StageDocumentsList_MouseDoubleClick"/>
                                         </Grid>
                                     </Border>
                                     
@@ -804,7 +797,8 @@
                                                     Background="Transparent"
                                                     BorderThickness="0"
                                                     Padding="10"
-                                                    ScrollViewer.HorizontalScrollBarVisibility="Disabled"/>
+                                                    ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                                                    MouseDoubleClick="StageInformationList_MouseDoubleClick"/>
                                         </Grid>
                                     </Border>
                                 </Grid>
