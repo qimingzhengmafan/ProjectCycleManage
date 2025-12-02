@@ -15,6 +15,46 @@ using System.ComponentModel;
 namespace ProjectCycleManage.ViewModel
 {
     /// <summary>
+    /// 设备类型显示模型
+    /// </summary>
+    public class EquipmentTypeDisplayModel : INotifyPropertyChanged
+    {
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        private EquipmentType _equipmentType;
+        private bool _isSelected;
+
+        public EquipmentType EquipmentType
+        {
+            get => _equipmentType;
+            set
+            {
+                _equipmentType = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(EquipmentType)));
+            }
+        }
+
+        public int EquipmentTypeId => _equipmentType?.EquipmentTypeId ?? 0;
+        public string EquipmentTypeName => _equipmentType?.EquipmentName ?? string.Empty;
+
+        public bool IsSelected
+        {
+            get => _isSelected;
+            set
+            {
+                _isSelected = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IsSelected)));
+            }
+        }
+
+        public EquipmentTypeDisplayModel(EquipmentType equipmentType)
+        {
+            _equipmentType = equipmentType;
+            _isSelected = false;
+        }
+    }
+
+    /// <summary>
     /// 项目阶段显示模型，用于展示阶段和文档信息
     /// </summary>
     public class ProjectStageDisplayModel : INotifyPropertyChanged
@@ -92,7 +132,7 @@ namespace ProjectCycleManage.ViewModel
 
         #region 项目类型相关
         [ObservableProperty]
-        private ObservableCollection<EquipmentType> _equipmentTypes;
+        private ObservableCollection<EquipmentTypeDisplayModel> _equipmentTypes;
 
         [ObservableProperty]
         private EquipmentType _selectedEquipmentType;
@@ -156,8 +196,14 @@ namespace ProjectCycleManage.ViewModel
             try
             {
                 // 加载设备类型
-                EquipmentTypes = new ObservableCollection<EquipmentType>(
-                    await _context.EquipmentType.ToListAsync());
+                var equipmentTypes = await _context.EquipmentType.ToListAsync();
+                EquipmentTypes = new ObservableCollection<EquipmentTypeDisplayModel>();
+                
+                foreach (var type in equipmentTypes)
+                {
+                    var displayModel = new EquipmentTypeDisplayModel(type);
+                    EquipmentTypes.Add(displayModel);
+                }
 
                 // 加载项目阶段
                 var stages = await _context.ProjectStage.ToListAsync();
@@ -193,6 +239,23 @@ namespace ProjectCycleManage.ViewModel
         }
 
         #region 命令
+        [RelayCommand]
+        private void SelectEquipmentType(object parameter)
+        {
+            if (parameter is EquipmentTypeDisplayModel selectedType)
+            {
+                // 取消所有其他选择
+                foreach (var type in EquipmentTypes)
+                {
+                    type.IsSelected = false;
+                }
+                
+                // 选中当前项
+                selectedType.IsSelected = true;
+                SelectedEquipmentType = selectedType.EquipmentType;
+            }
+        }
+
         [RelayCommand]
         private void OpenEditModal(ProjectStage stage)
         {
