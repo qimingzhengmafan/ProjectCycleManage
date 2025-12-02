@@ -383,10 +383,11 @@ namespace ProjectCycleManage.ViewModel
                 AvailableInformationTypes = new ObservableCollection<InformationTable>(AllInformationTypes);
                 StageInformationTypes = new ObservableCollection<InformationTable>();
 
-                // 加载已配置的文档类型
+                // 加载已配置的文档类型（只加载状态为Nece的）
                 var configuredDocs = _context.EquipTypeStageDocTable
                     .Where(x => x.equipmenttypeId == SelectedEquipmentType.EquipmentTypeId && 
-                               x.ProjectStageId == SelectedProjectStage.ProjectStageId)
+                               x.ProjectStageId == SelectedProjectStage.ProjectStageId &&
+                               x.Status == "Nece")
                     .Include(x => x.documenttype)
                     .Select(x => x.documenttype)
                     .ToList();
@@ -397,10 +398,11 @@ namespace ProjectCycleManage.ViewModel
                     AvailableDocumentTypes.Remove(doc);
                 }
 
-                // 加载已配置的信息类型
+                // 加载已配置的信息类型（只加载状态为Nece的）
                 var configuredInfos = _context.EquipTypeStageInfoTable
                     .Where(x => x.equipmenttypeId == SelectedEquipmentType.EquipmentTypeId && 
-                               x.ProjectStageId == SelectedProjectStage.ProjectStageId)
+                               x.ProjectStageId == SelectedProjectStage.ProjectStageId &&
+                               x.Status == "Nece")
                     .Include(x => x.Information)
                     .Select(x => x.Information)
                     .ToList();
@@ -419,24 +421,44 @@ namespace ProjectCycleManage.ViewModel
 
         private void SaveStageDocumentConfiguration()
         {
-            // 删除旧的配置
-            var existingDocs = _context.EquipTypeStageDocTable
+            // 获取当前所有文档配置（包括已废除的）
+            var allExistingDocs = _context.EquipTypeStageDocTable
                 .Where(x => x.equipmenttypeId == SelectedEquipmentType.EquipmentTypeId && 
                            x.ProjectStageId == SelectedProjectStage.ProjectStageId)
                 .ToList();
-            
-            _context.EquipTypeStageDocTable.RemoveRange(existingDocs);
 
-            // 添加新的配置
+            // 处理当前选中的文档
             foreach (var doc in StageDocumentTypes)
             {
-                var newConfig = new EquipTypeStageDocTable
+                // 检查数据库是否已存在该记录
+                var existing = allExistingDocs.FirstOrDefault(x => x.documenttypeId == doc.DocumentTypeId);
+                
+                if (existing != null)
                 {
-                    equipmenttypeId = SelectedEquipmentType.EquipmentTypeId,
-                    ProjectStageId = SelectedProjectStage.ProjectStageId,
-                    documenttypeId = doc.DocumentTypeId
-                };
-                _context.EquipTypeStageDocTable.Add(newConfig);
+                    // 如果存在，更新状态为Nece
+                    existing.Status = "Nece";
+                }
+                else
+                {
+                    // 如果不存在，创建新记录并设置状态为Nece
+                    var newConfig = new EquipTypeStageDocTable
+                    {
+                        equipmenttypeId = SelectedEquipmentType.EquipmentTypeId,
+                        ProjectStageId = SelectedProjectStage.ProjectStageId,
+                        documenttypeId = doc.DocumentTypeId,
+                        Status = "Nece"
+                    };
+                    _context.EquipTypeStageDocTable.Add(newConfig);
+                }
+            }
+
+            // 处理被移除的文档（标记为Abolish）
+            var selectedDocIds = StageDocumentTypes.Select(d => d.DocumentTypeId).ToList();
+            var removedDocs = allExistingDocs.Where(x => !selectedDocIds.Contains(x.documenttypeId));
+            
+            foreach (var removed in removedDocs)
+            {
+                removed.Status = "Abolish";
             }
             
             _context.SaveChanges();
@@ -444,24 +466,44 @@ namespace ProjectCycleManage.ViewModel
 
         private void SaveStageInformationConfiguration()
         {
-            // 删除旧的配置
-            var existingInfos = _context.EquipTypeStageInfoTable
+            // 获取当前所有信息配置（包括已废除的）
+            var allExistingInfos = _context.EquipTypeStageInfoTable
                 .Where(x => x.equipmenttypeId == SelectedEquipmentType.EquipmentTypeId && 
                            x.ProjectStageId == SelectedProjectStage.ProjectStageId)
                 .ToList();
-            
-            _context.EquipTypeStageInfoTable.RemoveRange(existingInfos);
 
-            // 添加新的配置
+            // 处理当前选中的信息
             foreach (var info in StageInformationTypes)
             {
-                var newConfig = new EquipTypeStageInfoTable
+                // 检查数据库是否已存在该记录
+                var existing = allExistingInfos.FirstOrDefault(x => x.InformationId == info.Id);
+                
+                if (existing != null)
                 {
-                    equipmenttypeId = SelectedEquipmentType.EquipmentTypeId,
-                    ProjectStageId = SelectedProjectStage.ProjectStageId,
-                    InformationId = info.Id
-                };
-                _context.EquipTypeStageInfoTable.Add(newConfig);
+                    // 如果存在，更新状态为Nece
+                    existing.Status = "Nece";
+                }
+                else
+                {
+                    // 如果不存在，创建新记录并设置状态为Nece
+                    var newConfig = new EquipTypeStageInfoTable
+                    {
+                        equipmenttypeId = SelectedEquipmentType.EquipmentTypeId,
+                        ProjectStageId = SelectedProjectStage.ProjectStageId,
+                        InformationId = info.Id,
+                        Status = "Nece"
+                    };
+                    _context.EquipTypeStageInfoTable.Add(newConfig);
+                }
+            }
+
+            // 处理被移除的信息（标记为Abolish）
+            var selectedInfoIds = StageInformationTypes.Select(i => i.Id).ToList();
+            var removedInfos = allExistingInfos.Where(x => !selectedInfoIds.Contains(x.InformationId));
+            
+            foreach (var removed in removedInfos)
+            {
+                removed.Status = "Abolish";
             }
             
             _context.SaveChanges();
@@ -536,22 +578,25 @@ namespace ProjectCycleManage.ViewModel
             {
                 foreach (var stageDisplay in ProjectStages)
                 {
-                    // 查询该阶段已配置的文档数量
+                    // 查询该阶段已配置的文档数量（只统计状态为Nece的）
                     var docCount = _context.EquipTypeStageDocTable
                         .Count(x => x.equipmenttypeId == SelectedEquipmentType.EquipmentTypeId &&
-                                   x.ProjectStageId == stageDisplay.ProjectStageId);
+                                   x.ProjectStageId == stageDisplay.ProjectStageId &&
+                                   x.Status == "Nece");
 
                     var infoCount = _context.EquipTypeStageInfoTable
                         .Count(x => x.equipmenttypeId == SelectedEquipmentType.EquipmentTypeId &&
-                                   x.ProjectStageId == stageDisplay.ProjectStageId);
+                                   x.ProjectStageId == stageDisplay.ProjectStageId &&
+                                   x.Status == "Nece");
 
                     stageDisplay.DocumentCount = docCount + infoCount;
                     stageDisplay.InformationCount = infoCount;
 
-                    // 加载预览文档列表（最多3个）
+                    // 加载预览文档列表（最多3个，只加载状态为Nece的）
                     var docs = _context.EquipTypeStageDocTable
                         .Where(x => x.equipmenttypeId == SelectedEquipmentType.EquipmentTypeId &&
-                                   x.ProjectStageId == stageDisplay.ProjectStageId)
+                                   x.ProjectStageId == stageDisplay.ProjectStageId &&
+                                   x.Status == "Nece")
                         .Include(x => x.documenttype)
                         .Take(3)
                         .Select(x => new DocumentDisplayModel
