@@ -205,8 +205,10 @@ namespace ProjectCycleManage.ViewModel
                     EquipmentTypes.Add(displayModel);
                 }
 
-                // 加载项目阶段
-                var stages = await _context.ProjectStage.ToListAsync();
+                // 加载项目阶段（按ID降序排列，最新的排在最前面）
+                var stages = await _context.ProjectStage
+                    .OrderByDescending(s => s.ProjectStageId)
+                    .ToListAsync();
                 ProjectStages = new ObservableCollection<ProjectStageDisplayModel>();
                 
                 foreach (var stage in stages)
@@ -361,6 +363,10 @@ namespace ProjectCycleManage.ViewModel
                 await Task.Run(() => SaveStageInformationConfiguration());
                 
                 MessageBox.Show("阶段配置已保存！", "成功", MessageBoxButton.OK, MessageBoxImage.Information);
+                
+                // 刷新主页面的阶段文档卡片显示
+                LoadStageDocumentCounts();
+                
                 CloseEditModal();
             }
             catch (Exception ex)
@@ -606,6 +612,27 @@ namespace ProjectCycleManage.ViewModel
                             Icon = "📄"
                         })
                         .ToList();
+
+                    // 如果文档不足3个，用信息填充
+                    var remainingCount = 3 - docs.Count;
+                    if (remainingCount > 0)
+                    {
+                        var infos = _context.EquipTypeStageInfoTable
+                            .Where(x => x.equipmenttypeId == SelectedEquipmentType.EquipmentTypeId &&
+                                       x.ProjectStageId == stageDisplay.ProjectStageId &&
+                                       x.Status == "Nece")
+                            .Include(x => x.Information)
+                            .Take(remainingCount)
+                            .Select(x => new DocumentDisplayModel
+                            {
+                                Name = x.Information.Infor,
+                                Description = x.Information.Reamrks ?? "信息模板",
+                                Icon = "ℹ️"
+                            })
+                            .ToList();
+                        
+                        docs.AddRange(infos);
+                    }
 
                     stageDisplay.Documents = new ObservableCollection<DocumentDisplayModel>(docs);
                 }
