@@ -625,8 +625,8 @@ namespace ProjectCycleManage.ViewModel
                             .Take(remainingCount)
                             .Select(x => new DocumentDisplayModel
                             {
-                                Name = x.Information.Infor,
-                                Description = x.Information.Reamrks ?? "信息模板",
+                                Name = x.Information.Reamrks ?? x.Information.Infor,
+                                Description = "信息模板",
                                 Icon = "ℹ️"
                             })
                             .ToList();
