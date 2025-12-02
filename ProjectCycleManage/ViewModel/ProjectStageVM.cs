@@ -205,6 +205,14 @@ namespace ProjectCycleManage.ViewModel
                     EquipmentTypes.Add(displayModel);
                 }
 
+                // 默认选中第一个设备类型
+                if (EquipmentTypes.Count > 0)
+                {
+                    var firstType = EquipmentTypes[0];
+                    firstType.IsSelected = true;
+                    SelectedEquipmentType = firstType.EquipmentType;
+                }
+
                 // 加载项目阶段
                 var stages = await _context.ProjectStage.ToListAsync();
                 ProjectStages = new ObservableCollection<ProjectStageDisplayModel>();
