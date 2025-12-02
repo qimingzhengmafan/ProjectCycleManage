@@ -397,19 +397,19 @@ namespace ProjectCycleManage.ViewModel
                     AvailableDocumentTypes.Remove(doc);
                 }
 
-                //// 加载已配置的信息类型
-                //var configuredInfos = _context.EquipTypeStageInfoTable
-                //    .Where(x => x.equipmenttypeId == SelectedEquipmentType.EquipmentTypeId && 
-                //               x.ProjectStageId == SelectedProjectStage.ProjectStageId)
-                //    .Include(x => x.information)
-                //    .Select(x => x.information)
-                //    .ToList();
+                // 加载已配置的信息类型
+                var configuredInfos = _context.EquipTypeStageInfoTable
+                    .Where(x => x.equipmenttypeId == SelectedEquipmentType.EquipmentTypeId && 
+                               x.ProjectStageId == SelectedProjectStage.ProjectStageId)
+                    .Include(x => x.Information)
+                    .Select(x => x.Information)
+                    .ToList();
 
-                //foreach (var info in configuredInfos)
-                //{
-                //    StageInformationTypes.Add(info);
-                //    AvailableInformationTypes.Remove(info);
-                //}
+                foreach (var info in configuredInfos)
+                {
+                    StageInformationTypes.Add(info);
+                    AvailableInformationTypes.Remove(info);
+                }
             }
             catch (Exception ex)
             {

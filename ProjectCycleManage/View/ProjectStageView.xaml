@@ -288,13 +288,13 @@
                                 </Border>
                                 
                                 <StackPanel Grid.Column="1" VerticalAlignment="Center">
-                                    <TextBlock Text="{Binding Infor}" 
+                                    <TextBlock Text="{Binding Reamrks}" 
                                               FontWeight="Medium" 
                                               FontSize="14"/>
-                                    <TextBlock Text="{Binding Description}" 
+                                    <!--<TextBlock Text="{Binding Reamrks}" 
                                               FontSize="12" 
                                               Foreground="#999999"
-                                              TextTrimming="CharacterEllipsis"/>
+                                              TextTrimming="CharacterEllipsis"/>-->
                                 </StackPanel>
                             </Grid>
                         </Border>
