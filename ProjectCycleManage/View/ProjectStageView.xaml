@@ -323,7 +323,9 @@
             </Grid.RowDefinitions>
             
             <!-- 页面标题 -->
-            <Border Grid.Row="0" Background="White" Padding="20,15" Margin="20,20,20,0">
+            <Border Grid.Row="0" 
+                    Padding="20,15"
+                    Margin="20,20,20,0">
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"/>
@@ -331,7 +333,10 @@
                     </Grid.ColumnDefinitions>
                     
                     <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="📋" FontSize="20" Margin="0,0,8,0"/>
+                        <TextBlock Text="📋" 
+                                   Foreground="#2D5BD6"
+                                   FontSize="20"
+                                   Margin="0,0,8,0"/>
                         <TextBlock Text="项目阶段文档模板管理" 
                                   VerticalAlignment="Center"
                                   FontSize="20" 
@@ -344,11 +349,6 @@
             <!-- 项目类型选择器 (仿年份选择器样式) -->
             <Border Grid.Row="1" Margin="20,10,20,0">
                 <StackPanel>
-                    <TextBlock Text="选择设备类型" 
-                              FontSize="14" 
-                              FontWeight="Medium"
-                              Foreground="#666666" 
-                              Margin="0,0,0,10"/>
                     <ItemsControl ItemsSource="{Binding EquipmentTypes}">
                         <ItemsControl.ItemsPanel>
                             <ItemsPanelTemplate>
