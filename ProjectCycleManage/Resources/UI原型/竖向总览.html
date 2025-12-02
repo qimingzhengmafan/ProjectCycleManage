@@ -1,0 +1,860 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>项目全周期管理系统</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', 'Microsoft YaHei', sans-serif;
+        }
+        
+        body {
+            background-color: #f5f7fa;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        .container {
+            display: flex;
+            min-height: 100vh;
+        }
+        
+        /* 一级侧边栏样式 */
+        .sidebar {
+            width: 250px;
+            background: linear-gradient(180deg, #1a3a8f 0%, #2d5bd6 100%);
+            color: white;
+            padding: 20px 0;
+            box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .logo {
+            padding: 0 20px 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+            margin-bottom: 20px;
+        }
+        
+        .logo h1 {
+            font-size: 22px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .logo i {
+            font-size: 24px;
+        }
+        
+        .nav-links {
+            list-style: none;
+        }
+        
+        .nav-links li {
+            padding: 12px 20px;
+            transition: all 0.3s;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .nav-links li:hover, .nav-links li.active {
+            background-color: rgba(255, 255, 255, 0.1);
+            border-left: 4px solid #4caf50;
+        }
+        
+        .nav-links i {
+            width: 20px;
+            text-align: center;
+        }
+        
+        /* 二级项目菜单栏 */
+        .project-sidebar {
+            width: 280px;
+            background: white;
+            border-right: 1px solid #e0e0e0;
+            box-shadow: 2px 0 5px rgba(0, 0, 0, 0.05);
+            overflow-y: auto;
+        }
+        
+        .project-header {
+            padding: 20px;
+            border-bottom: 1px solid #e0e0e0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .project-header h3 {
+            color: #2d5bd6;
+            font-weight: 600;
+        }
+        
+        .btn-add {
+            background-color: #2d5bd6;
+            color: white;
+            border: none;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .btn-add:hover {
+            background-color: #1a3a8f;
+        }
+        
+        .project-list {
+            list-style: none;
+        }
+        
+        .project-item {
+            padding: 16px 20px;
+            border-bottom: 1px solid #f0f0f0;
+            transition: all 0.3s;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .project-item:hover {
+            background-color: #f9f9f9;
+        }
+        
+        .project-item.active {
+            background-color: #f0f7ff;
+            border-left: 4px solid #2d5bd6;
+        }
+        
+        .project-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 16px;
+        }
+        
+        .icon-blue {
+            background-color: #2d5bd6;
+        }
+        
+        .icon-orange {
+            background-color: #ff9800;
+        }
+        
+        .icon-green {
+            background-color: #4caf50;
+        }
+        
+        .icon-purple {
+            background-color: #9c27b0;
+        }
+        
+        .project-details {
+            flex: 1;
+        }
+        
+        .project-title {
+            font-weight: 600;
+            font-size: 15px;
+            margin-bottom: 4px;
+        }
+        
+        .project-meta {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+            color: #666;
+            font-size: 12px;
+        }
+        
+        .project-status {
+            font-size: 11px;
+            padding: 2px 8px;
+            border-radius: 10px;
+            display: inline-block;
+            width: fit-content;
+        }
+        
+        .status-ongoing {
+            background-color: #e8f5e9;
+            color: #4caf50;
+        }
+        
+        .status-pending {
+            background-color: #fff8e1;
+            color: #ff9800;
+        }
+        
+        .status-completed {
+            background-color: #e3f2fd;
+            color: #2196f3;
+        }
+        
+        /* 主内容区样式 */
+        .main-content {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+        }
+        
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        
+        .header h2 {
+            font-weight: 600;
+            color: #2d5bd6;
+        }
+        
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: #2d5bd6;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+        
+        /* 阶段管理部分 */
+        .phase-management {
+            background: white;
+            border-radius: 10px;
+            padding: 25px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            margin-bottom: 30px;
+        }
+        
+        .section-title {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: #2d5bd6;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .phase-timeline {
+            display: flex;
+            justify-content: space-between;
+            position: relative;
+            margin-bottom: 30px;
+        }
+        
+        .phase-timeline::before {
+            content: '';
+            position: absolute;
+            top: 20px;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background-color: #e0e0e0;
+            z-index: 1;
+        }
+        
+        .phase-step {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+            z-index: 2;
+            flex: 1;
+        }
+        
+        .phase-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 10px;
+            background-color: white;
+            border: 3px solid #e0e0e0;
+            color: #999;
+        }
+        
+        .phase-step.active .phase-icon {
+            border-color: #4caf50;
+            background-color: #4caf50;
+            color: white;
+        }
+        
+        .phase-step.completed .phase-icon {
+            border-color: #4caf50;
+            background-color: #4caf50;
+            color: white;
+        }
+        
+        .phase-name {
+            font-weight: 500;
+            font-size: 14px;
+            text-align: center;
+        }
+        
+        .phase-content {
+            padding: 20px;
+            background-color: #f9f9f9;
+            border-radius: 8px;
+        }
+        
+        .documents-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .document-item {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .doc-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        
+        .doc-type {
+            font-size: 12px;
+            padding: 3px 8px;
+            border-radius: 4px;
+            background-color: #e3f2fd;
+            color: #2196f3;
+        }
+        
+        .doc-status {
+            font-size: 12px;
+            padding: 3px 8px;
+            border-radius: 4px;
+        }
+        
+        .status-approved {
+            background-color: #e8f5e9;
+            color: #4caf50;
+        }
+        
+        .status-pending {
+            background-color: #fff8e1;
+            color: #ff9800;
+        }
+        
+        .status-rejected {
+            background-color: #ffebee;
+            color: #f44336;
+        }
+        
+        .doc-title {
+            font-weight: 500;
+            margin-bottom: 5px;
+        }
+        
+        .doc-meta {
+            font-size: 12px;
+            color: #666;
+            margin-top: auto;
+        }
+        
+        .approval-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #e0e0e0;
+        }
+        
+        .btn {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+        
+        .btn-primary {
+            background-color: #2d5bd6;
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background-color: #1a3a8f;
+        }
+        
+        .btn-secondary {
+            background-color: #f5f7fa;
+            color: #666;
+            border: 1px solid #e0e0e0;
+        }
+        
+        .btn-secondary:hover {
+            background-color: #e0e0e0;
+        }
+        
+        .btn-approve {
+            background-color: #4caf50;
+            color: white;
+        }
+        
+        .btn-reject {
+            background-color: #f44336;
+            color: white;
+        }
+        
+        /* 项目概览卡片 */
+        .project-overview {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+        
+        .overview-card {
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            text-align: center;
+        }
+        
+        .overview-value {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+        
+        .overview-label {
+            color: #666;
+            font-size: 14px;
+        }
+        
+        .card-blue {
+            border-top: 4px solid #2d5bd6;
+        }
+        
+        .card-green {
+            border-top: 4px solid #4caf50;
+        }
+        
+        .card-orange {
+            border-top: 4px solid #ff9800;
+        }
+        
+        .card-purple {
+            border-top: 4px solid #9c27b0;
+        }
+        
+        /* 审批历史 */
+        .approval-history {
+            background: white;
+            border-radius: 10px;
+            padding: 25px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        }
+        
+        .history-list {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        
+        .history-item {
+            display: flex;
+            gap: 15px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        
+        .history-item:last-child {
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+        
+        .history-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: #e0e0e0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: #666;
+            flex-shrink: 0;
+        }
+        
+        .history-content {
+            flex: 1;
+        }
+        
+        .history-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 5px;
+        }
+        
+        .history-user {
+            font-weight: 500;
+        }
+        
+        .history-time {
+            color: #999;
+            font-size: 14px;
+        }
+        
+        .history-action {
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            margin-left: 10px;
+        }
+        
+        .action-approved {
+            background-color: #e8f5e9;
+            color: #4caf50;
+        }
+        
+        .action-rejected {
+            background-color: #ffebee;
+            color: #f44336;
+        }
+        
+        .history-comment {
+            color: #666;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 一级侧边导航栏 -->
+        <div class="sidebar">
+            <div class="logo">
+                <h1><i class="fas fa-project-diagram"></i> 项目全周期管理</h1>
+            </div>
+            <ul class="nav-links">
+                <li class="active"><i class="fas fa-home"></i> 项目总览</li>
+                <li><i class="fas fa-tasks"></i> 我的任务</li>
+                <li><i class="fas fa-file-alt"></i> 文档中心</li>
+                <li><i class="fas fa-chart-line"></i> 数据分析</li>
+                <li><i class="fas fa-cog"></i> 系统设置</li>
+            </ul>
+        </div>
+        
+        <!-- 二级项目菜单栏 -->
+        <div class="project-sidebar">
+            <div class="project-header">
+                <h3>所有项目</h3>
+                <button class="btn-add" title="新建项目">
+                    <i class="fas fa-plus"></i>
+                </button>
+            </div>
+            <ul class="project-list">
+                <li class="project-item active">
+                    <div class="project-icon icon-blue">
+                        <i class="fas fa-city"></i>
+                    </div>
+                    <div class="project-details">
+                        <div class="project-title">智慧城市数据平台</div>
+                        <div class="project-meta">
+                            <span>负责人: 李四</span>
+                            <span>截止: 2023-12-31</span>
+                            <span class="project-status status-ongoing">进行中</span>
+                        </div>
+                    </div>
+                </li>
+                
+                <li class="project-item">
+                    <div class="project-icon icon-orange">
+                        <i class="fas fa-sync-alt"></i>
+                    </div>
+                    <div class="project-details">
+                        <div class="project-title">企业ERP系统升级</div>
+                        <div class="project-meta">
+                            <span>负责人: 王五</span>
+                            <span>截止: 2023-11-15</span>
+                            <span class="project-status status-pending">等待审批</span>
+                        </div>
+                    </div>
+                </li>
+                
+                <li class="project-item">
+                    <div class="project-icon icon-green">
+                        <i class="fas fa-mobile-alt"></i>
+                    </div>
+                    <div class="project-details">
+                        <div class="project-title">移动端应用开发</div>
+                        <div class="project-meta">
+                            <span>负责人: 赵六</span>
+                            <span>截止: 2023-09-30</span>
+                            <span class="project-status status-completed">已完成</span>
+                        </div>
+                    </div>
+                </li>
+                
+                <li class="project-item">
+                    <div class="project-icon icon-purple">
+                        <i class="fas fa-shopping-cart"></i>
+                    </div>
+                    <div class="project-details">
+                        <div class="project-title">电商平台重构</div>
+                        <div class="project-meta">
+                            <span>负责人: 钱七</span>
+                            <span>截止: 2024-03-31</span>
+                            <span class="project-status status-ongoing">进行中</span>
+                        </div>
+                    </div>
+                </li>
+                
+                <li class="project-item">
+                    <div class="project-icon icon-blue">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <div class="project-details">
+                        <div class="project-title">数据分析平台</div>
+                        <div class="project-meta">
+                            <span>负责人: 孙八</span>
+                            <span>截止: 2024-02-28</span>
+                            <span class="project-status status-pending">等待审批</span>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        
+        <!-- 主内容区 -->
+        <div class="main-content">
+            <div class="header">
+                <h2>项目总览 - 智慧城市数据平台</h2>
+                <div class="user-info">
+                    <div class="avatar">张</div>
+                    <span>张经理</span>
+                </div>
+            </div>
+            
+            <!-- 项目概览卡片 -->
+            <div class="project-overview">
+                <div class="overview-card card-blue">
+                    <div class="overview-value">65%</div>
+                    <div class="overview-label">项目进度</div>
+                </div>
+                <div class="overview-card card-green">
+                    <div class="overview-value">18</div>
+                    <div class="overview-label">已完成任务</div>
+                </div>
+                <div class="overview-card card-orange">
+                    <div class="overview-value">7</div>
+                    <div class="overview-label">进行中任务</div>
+                </div>
+                <div class="overview-card card-purple">
+                    <div class="overview-value">3</div>
+                    <div class="overview-label">待审批文档</div>
+                </div>
+            </div>
+            
+            <!-- 阶段管理 -->
+            <div class="phase-management">
+                <div class="section-title">
+                    <i class="fas fa-sitemap"></i> 阶段管理
+                </div>
+                
+                <div class="phase-timeline">
+                    <div class="phase-step completed">
+                        <div class="phase-icon"><i class="fas fa-lightbulb"></i></div>
+                        <div class="phase-name">立项阶段</div>
+                    </div>
+                    <div class="phase-step completed">
+                        <div class="phase-icon"><i class="fas fa-map"></i></div>
+                        <div class="phase-name">规划阶段</div>
+                    </div>
+                    <div class="phase-step active">
+                        <div class="phase-icon"><i class="fas fa-cogs"></i></div>
+                        <div class="phase-name">执行阶段</div>
+                    </div>
+                    <div class="phase-step">
+                        <div class="phase-icon"><i class="fas fa-chart-bar"></i></div>
+                        <div class="phase-name">监控阶段</div>
+                    </div>
+                    <div class="phase-step">
+                        <div class="phase-icon"><i class="fas fa-flag-checkered"></i></div>
+                        <div class="phase-name">收尾阶段</div>
+                    </div>
+                </div>
+                
+                <div class="phase-content">
+                    <h3>执行阶段 - 所需文档</h3>
+                    <div class="documents-list">
+                        <div class="document-item">
+                            <div class="doc-header">
+                                <div class="doc-type">技术文档</div>
+                                <div class="doc-status status-approved">已批准</div>
+                            </div>
+                            <div class="doc-title">系统架构设计文档</div>
+                            <div class="doc-meta">最后更新: 2023-08-15</div>
+                        </div>
+                        
+                        <div class="document-item">
+                            <div class="doc-header">
+                                <div class="doc-type">开发文档</div>
+                                <div class="doc-status status-approved">已批准</div>
+                            </div>
+                            <div class="doc-title">数据库设计文档</div>
+                            <div class="doc-meta">最后更新: 2023-08-20</div>
+                        </div>
+                        
+                        <div class="document-item">
+                            <div class="doc-header">
+                                <div class="doc-type">开发文档</div>
+                                <div class="doc-status status-pending">待审批</div>
+                            </div>
+                            <div class="doc-title">核心模块开发文档</div>
+                            <div class="doc-meta">最后更新: 2023-09-05</div>
+                        </div>
+                        
+                        <div class="document-item">
+                            <div class="doc-header">
+                                <div class="doc-type">测试文档</div>
+                                <div class="doc-status status-rejected">已驳回</div>
+                            </div>
+                            <div class="doc-title">单元测试计划</div>
+                            <div class="doc-meta">最后更新: 2023-09-01</div>
+                        </div>
+                    </div>
+                    
+                    <div class="approval-actions">
+                        <button class="btn btn-secondary">上传文档</button>
+                        <button class="btn btn-reject">驳回阶段</button>
+                        <button class="btn btn-approve">批准进入下一阶段</button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 审批历史 -->
+            <div class="approval-history">
+                <div class="section-title">
+                    <i class="fas fa-history"></i> 审批历史
+                </div>
+                
+                <div class="history-list">
+                    <div class="history-item">
+                        <div class="history-avatar">王</div>
+                        <div class="history-content">
+                            <div class="history-header">
+                                <div class="history-user">王总监 <span class="history-action action-approved">批准</span></div>
+                                <div class="history-time">2023-08-25 14:30</div>
+                            </div>
+                            <div class="history-comment">规划阶段文档齐全，目标明确，同意进入执行阶段。</div>
+                        </div>
+                    </div>
+                    
+                    <div class="history-item">
+                        <div class="history-avatar">李</div>
+                        <div class="history-content">
+                            <div class="history-header">
+                                <div class="history-user">李经理 <span class="history-action action-approved">批准</span></div>
+                                <div class="history-time">2023-08-20 10:15</div>
+                            </div>
+                            <div class="history-comment">项目预算合理，资源分配到位，同意立项。</div>
+                        </div>
+                    </div>
+                    
+                    <div class="history-item">
+                        <div class="history-avatar">赵</div>
+                        <div class="history-content">
+                            <div class="history-header">
+                                <div class="history-user">赵主管 <span class="history-action action-rejected">驳回</span></div>
+                                <div class="history-time">2023-09-02 16:45</div>
+                            </div>
+                            <div class="history-comment">单元测试计划覆盖不全面，需要补充边界条件测试用例。</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 简单的交互功能
+        document.addEventListener('DOMContentLoaded', function() {
+            // 阶段点击事件
+            const phaseSteps = document.querySelectorAll('.phase-step');
+            phaseSteps.forEach(step => {
+                step.addEventListener('click', function() {
+                    // 移除所有active类
+                    phaseSteps.forEach(s => s.classList.remove('active'));
+                    // 添加active类到当前点击的阶段
+                    this.classList.add('active');
+                });
+            });
+            
+            // 项目点击事件
+            const projectItems = document.querySelectorAll('.project-item');
+            projectItems.forEach(item => {
+                item.addEventListener('click', function() {
+                    // 移除所有active类
+                    projectItems.forEach(i => i.classList.remove('active'));
+                    // 添加active类到当前点击的项目
+                    this.classList.add('active');
+                    
+                    // 更新主内容区的项目标题
+                    const projectTitle = this.querySelector('.project-title').textContent;
+                    document.querySelector('.header h2').textContent = `项目总览 - ${projectTitle}`;
+                });
+            });
+            
+            // 新建项目按钮
+            const addBtn = document.querySelector('.btn-add');
+            addBtn.addEventListener('click', function() {
+                alert('打开新建项目对话框');
+            });
+            
+            // 模拟审批按钮点击
+            const approveBtn = document.querySelector('.btn-approve');
+            approveBtn.addEventListener('click', function() {
+                alert('阶段已批准，项目将进入下一阶段！');
+            });
+            
+            const rejectBtn = document.querySelector('.btn-reject');
+            rejectBtn.addEventListener('click', function() {
+                alert('阶段已被驳回，请查看具体原因并修改！');
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,13 @@
+INSERT INTO `projectdocumentstatus` (`ProjectDocumentStatusId`, `ProjectsId`, `DocumentTypeId`, `IsHasDocument`, `TheLastUpDateTime`, `UpdatePeopleId`, `Remarks`) VALUES (1, 1, 101, 1, NULL, NULL, NULL);
+INSERT INTO `projectdocumentstatus` (`ProjectDocumentStatusId`, `ProjectsId`, `DocumentTypeId`, `IsHasDocument`, `TheLastUpDateTime`, `UpdatePeopleId`, `Remarks`) VALUES (2, 1, 102, 1, NULL, NULL, NULL);
+INSERT INTO `projectdocumentstatus` (`ProjectDocumentStatusId`, `ProjectsId`, `DocumentTypeId`, `IsHasDocument`, `TheLastUpDateTime`, `UpdatePeopleId`, `Remarks`) VALUES (3, 1, 103, 1, NULL, NULL, NULL);
+INSERT INTO `projectdocumentstatus` (`ProjectDocumentStatusId`, `ProjectsId`, `DocumentTypeId`, `IsHasDocument`, `TheLastUpDateTime`, `UpdatePeopleId`, `Remarks`) VALUES (4, 1, 104, 1, NULL, NULL, NULL);
+INSERT INTO `projectdocumentstatus` (`ProjectDocumentStatusId`, `ProjectsId`, `DocumentTypeId`, `IsHasDocument`, `TheLastUpDateTime`, `UpdatePeopleId`, `Remarks`) VALUES (5, 1, 105, 1, NULL, NULL, NULL);
+INSERT INTO `projectdocumentstatus` (`ProjectDocumentStatusId`, `ProjectsId`, `DocumentTypeId`, `IsHasDocument`, `TheLastUpDateTime`, `UpdatePeopleId`, `Remarks`) VALUES (6, 1, 106, 1, NULL, NULL, NULL);
+INSERT INTO `projectdocumentstatus` (`ProjectDocumentStatusId`, `ProjectsId`, `DocumentTypeId`, `IsHasDocument`, `TheLastUpDateTime`, `UpdatePeopleId`, `Remarks`) VALUES (7, 1, 107, 1, NULL, NULL, NULL);
+INSERT INTO `projectdocumentstatus` (`ProjectDocumentStatusId`, `ProjectsId`, `DocumentTypeId`, `IsHasDocument`, `TheLastUpDateTime`, `UpdatePeopleId`, `Remarks`) VALUES (8, 1, 108, 1, NULL, NULL, NULL);
+INSERT INTO `projectdocumentstatus` (`ProjectDocumentStatusId`, `ProjectsId`, `DocumentTypeId`, `IsHasDocument`, `TheLastUpDateTime`, `UpdatePeopleId`, `Remarks`) VALUES (9, 1, 109, 1, NULL, NULL, NULL);
+INSERT INTO `projectdocumentstatus` (`ProjectDocumentStatusId`, `ProjectsId`, `DocumentTypeId`, `IsHasDocument`, `TheLastUpDateTime`, `UpdatePeopleId`, `Remarks`) VALUES (10, 1, 110, 1, NULL, NULL, NULL);
+INSERT INTO `projectdocumentstatus` (`ProjectDocumentStatusId`, `ProjectsId`, `DocumentTypeId`, `IsHasDocument`, `TheLastUpDateTime`, `UpdatePeopleId`, `Remarks`) VALUES (11, 1, 111, 1, NULL, NULL, NULL);
+INSERT INTO `projectdocumentstatus` (`ProjectDocumentStatusId`, `ProjectsId`, `DocumentTypeId`, `IsHasDocument`, `TheLastUpDateTime`, `UpdatePeopleId`, `Remarks`) VALUES (12, 1, 112, 1, NULL, NULL, NULL);
+INSERT INTO `projectdocumentstatus` (`ProjectDocumentStatusId`, `ProjectsId`, `DocumentTypeId`, `IsHasDocument`, `TheLastUpDateTime`, `UpdatePeopleId`, `Remarks`) VALUES (13, 1, 113, 1, NULL, NULL, 'YHPYJ-20221020001');

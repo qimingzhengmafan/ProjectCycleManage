@@ -1,0 +1,1240 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>项目全周期管理系统 - 阶段信息文档修改</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', 'Microsoft YaHei', sans-serif;
+        }
+        
+        body {
+            background-color: #f5f7fa;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        .container {
+            display: flex;
+            min-height: 100vh;
+        }
+        
+        /* 侧边栏样式 */
+        .sidebar {
+            width: 250px;
+            background: linear-gradient(180deg, #1a3a8f 0%, #2d5bd6 100%);
+            color: white;
+            padding: 20px 0;
+            box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .logo {
+            padding: 0 20px 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+            margin-bottom: 20px;
+        }
+        
+        .logo h1 {
+            font-size: 22px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .logo i {
+            font-size: 24px;
+        }
+        
+        .nav-links {
+            list-style: none;
+        }
+        
+        .nav-links li {
+            padding: 12px 20px;
+            transition: all 0.3s;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .nav-links li:hover, .nav-links li.active {
+            background-color: rgba(255, 255, 255, 0.1);
+            border-left: 4px solid #4caf50;
+        }
+        
+        .nav-links i {
+            width: 20px;
+            text-align: center;
+        }
+        
+        /* 主内容区样式 */
+        .main-content {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+        }
+        
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        
+        .header h2 {
+            font-weight: 600;
+            color: #2d5bd6;
+        }
+        
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: #2d5bd6;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+        
+        /* 返回按钮 */
+        .back-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: #2d5bd6;
+            background: none;
+            border: none;
+            font-size: 16px;
+            cursor: pointer;
+            margin-bottom: 20px;
+            padding: 8px 0;
+            transition: color 0.3s;
+        }
+        
+        .back-button:hover {
+            color: #1a3a8f;
+        }
+        
+        .section-title {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: #2d5bd6;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        /* 项目类型选择器 */
+        .project-type-selector {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+        }
+        
+        .type-tab {
+            padding: 10px 20px;
+            background: white;
+            border-radius: 8px;
+            cursor: pointer;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s;
+            border: 2px solid transparent;
+        }
+        
+        .type-tab:hover {
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        .type-tab.active {
+            border-color: #2d5bd6;
+            background-color: #e8edff;
+        }
+        
+        /* 阶段文档卡片 */
+        .stage-documents {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .stage-card {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s, box-shadow 0.3s;
+            border-left: 4px solid #e0e0e0;
+        }
+        
+        .stage-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+        }
+        
+        .stage-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        
+        .stage-name {
+            font-weight: 600;
+            font-size: 18px;
+            color: #2d5bd6;
+        }
+        
+        .document-count {
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 500;
+            background-color: #e3f2fd;
+            color: #2196f3;
+        }
+        
+        .document-list {
+            min-height: 150px;
+            margin-bottom: 15px;
+        }
+        
+        .document-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 0;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        
+        .document-item:last-child {
+            border-bottom: none;
+        }
+        
+        .document-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 6px;
+            background-color: #e0e0e0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #666;
+            flex-shrink: 0;
+        }
+        
+        .document-info {
+            flex: 1;
+        }
+        
+        .document-name {
+            font-weight: 500;
+            font-size: 14px;
+        }
+        
+        .document-description {
+            font-size: 12px;
+            color: #999;
+        }
+        
+        .document-actions {
+            display: flex;
+            gap: 8px;
+        }
+        
+        .action-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: #666;
+            transition: color 0.3s;
+        }
+        
+        .action-btn:hover {
+            color: #2d5bd6;
+        }
+        
+        .stage-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+        }
+        
+        .btn {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+        
+        .btn-primary {
+            background-color: #2d5bd6;
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background-color: #1a3a8f;
+        }
+        
+        .btn-secondary {
+            background-color: #f5f7fa;
+            color: #666;
+            border: 1px solid #e0e0e0;
+        }
+        
+        .btn-secondary:hover {
+            background-color: #e0e0e0;
+        }
+        
+        /* 模态框样式 */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: none;
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        
+        .modal {
+            background-color: white;
+            border-radius: 12px;
+            width: 95%;
+            max-width: 1400px;
+            height: 90%;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+        }
+        
+        .modal.active {
+            display: flex;
+        }
+        
+        .modal-header {
+            padding: 20px;
+            border-bottom: 1px solid #e0e0e0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #f9f9f9;
+        }
+        
+        .modal-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: #2d5bd6;
+        }
+        
+        .modal-close {
+            background: none;
+            border: none;
+            font-size: 20px;
+            cursor: pointer;
+            color: #666;
+        }
+        
+        .modal-body {
+            flex: 1;
+            display: flex;
+            overflow: hidden;
+        }
+        
+        .modal-footer {
+            padding: 20px;
+            border-top: 1px solid #e0e0e0;
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+            background-color: #f9f9f9;
+        }
+        
+        /* 模态框内容布局 - 三栏布局 */
+        .available-panel {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+            border-right: 1px solid #e0e0e0;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .transfer-panel {
+            width: 120px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+            background-color: #f9f9f9;
+        }
+        
+        .current-panel {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .panel-title {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: #2d5bd6;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        /* 文档和信息列表样式 */
+        .list-container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        
+        .list-section {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        
+        .list-header {
+            padding: 10px 15px;
+            background-color: #f5f7fa;
+            border-bottom: 1px solid #e0e0e0;
+            font-weight: 600;
+            color: #2d5bd6;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .list-content {
+            flex: 1;
+            overflow-y: auto;
+            padding: 10px;
+        }
+        
+        .item-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        
+        .list-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px;
+            border: 1px solid #e0e0e0;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .list-item:hover {
+            background-color: #f0f0f0;
+        }
+        
+        .list-item.selected {
+            background-color: #e3f2fd;
+            border-color: #2d5bd6;
+        }
+        
+        .item-icon {
+            width: 32px;
+            height: 32px;
+            border-radius: 6px;
+            background-color: #e0e0e0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #666;
+            flex-shrink: 0;
+        }
+        
+        .item-info {
+            flex: 1;
+        }
+        
+        .item-name {
+            font-weight: 500;
+            font-size: 14px;
+        }
+        
+        .item-description {
+            font-size: 12px;
+            color: #999;
+        }
+        
+        /* 搜索框样式 */
+        .search-box {
+            position: relative;
+            margin-bottom: 15px;
+        }
+        
+        .search-box input {
+            width: 100%;
+            padding: 10px 40px 10px 15px;
+            border: 1px solid #e0e0e0;
+            border-radius: 4px;
+        }
+        
+        .search-icon {
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #666;
+        }
+        
+        /* 按钮样式 */
+        .transfer-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: #2d5bd6;
+            color: white;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+        }
+        
+        .transfer-btn:hover {
+            background-color: #1a3a8f;
+        }
+        
+        .transfer-btn:disabled {
+            background-color: #cccccc;
+            cursor: not-allowed;
+        }
+        
+        /* 空状态 */
+        .empty-state {
+            text-align: center;
+            padding: 30px;
+            color: #999;
+        }
+        
+        .empty-state i {
+            font-size: 40px;
+            margin-bottom: 10px;
+            color: #e0e0e0;
+        }
+        
+        /* 响应式调整 */
+        @media (max-width: 1200px) {
+            .modal-body {
+                flex-direction: column;
+            }
+            
+            .transfer-panel {
+                width: 100%;
+                flex-direction: row;
+                justify-content: center;
+                border-right: none;
+                border-bottom: 1px solid #e0e0e0;
+            }
+            
+            .available-panel, .current-panel {
+                height: 50%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 侧边导航栏 -->
+        <div class="sidebar">
+            <div class="logo">
+                <h1><i class="fas fa-project-diagram"></i> 项目全周期管理</h1>
+            </div>
+            <ul class="nav-links">
+                <li><i class="fas fa-home"></i> 项目总览</li>
+                <li><i class="fas fa-tasks"></i> 我的任务</li>
+                <li><i class="fas fa-file-alt"></i> 文档中心</li>
+                <li><i class="fas fa-chart-line"></i> 数据分析</li>
+                <li class="active"><i class="fas fa-cog"></i> 系统设置</li>
+            </ul>
+        </div>
+        
+        <!-- 主内容区 -->
+        <div class="main-content">
+            <div class="header">
+                <h2>阶段信息文档修改</h2>
+                <div class="user-info">
+                    <div class="avatar">张</div>
+                    <span>张经理</span>
+                </div>
+            </div>
+            
+            <button class="back-button" id="backToSettings">
+                <i class="fas fa-arrow-left"></i>
+                返回系统设置
+            </button>
+            
+            <div class="section-title">
+                <i class="fas fa-file-alt"></i>
+                项目阶段文档模板管理
+            </div>
+            
+            <!-- 项目类型选择器 -->
+            <div class="project-type-selector">
+                <div class="type-tab active" data-type="A">项目类型A</div>
+                <div class="type-tab" data-type="B">项目类型B</div>
+                <div class="type-tab" data-type="C">项目类型C</div>
+            </div>
+            
+            <!-- 阶段文档卡片 -->
+            <div class="stage-documents">
+                <!-- 项目评审阶段 -->
+                <div class="stage-card">
+                    <div class="stage-card-header">
+                        <div class="stage-name">项目评审</div>
+                        <div class="document-count">3个文档, 2个信息</div>
+                    </div>
+                    <div class="document-list">
+                        <div class="document-item">
+                            <div class="document-icon">
+                                <i class="fas fa-file-word"></i>
+                            </div>
+                            <div class="document-info">
+                                <div class="document-name">项目可行性分析报告</div>
+                                <div class="document-description">项目可行性评估与风险分析</div>
+                            </div>
+                            <div class="document-actions">
+                                <button class="action-btn" title="预览">
+                                    <i class="fas fa-eye"></i>
+                                </button>
+                                <button class="action-btn" title="下载">
+                                    <i class="fas fa-download"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="document-item">
+                            <div class="document-icon">
+                                <i class="fas fa-file-excel"></i>
+                            </div>
+                            <div class="document-info">
+                                <div class="document-name">项目预算评估表</div>
+                                <div class="document-description">项目成本与资源预算评估</div>
+                            </div>
+                            <div class="document-actions">
+                                <button class="action-btn" title="预览">
+                                    <i class="fas fa-eye"></i>
+                                </button>
+                                <button class="action-btn" title="下载">
+                                    <i class="fas fa-download"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="document-item">
+                            <div class="document-icon">
+                                <i class="fas fa-info-circle"></i>
+                            </div>
+                            <div class="document-info">
+                                <div class="document-name">项目关键指标</div>
+                                <div class="document-description">项目成功关键指标定义</div>
+                            </div>
+                            <div class="document-actions">
+                                <button class="action-btn" title="预览">
+                                    <i class="fas fa-eye"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="stage-actions">
+                        <button class="btn btn-primary edit-documents" data-stage="project-review">
+                            <i class="fas fa-edit"></i> 编辑文档
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- 设备采购阶段 -->
+                <div class="stage-card">
+                    <div class="stage-card-header">
+                        <div class="stage-name">设备采购</div>
+                        <div class="document-count">2个文档, 1个信息</div>
+                    </div>
+                    <div class="document-list">
+                        <div class="document-item">
+                            <div class="document-icon">
+                                <i class="fas fa-file-word"></i>
+                            </div>
+                            <div class="document-info">
+                                <div class="document-name">设备采购需求表</div>
+                                <div class="document-description">设备规格、数量与技术要求</div>
+                            </div>
+                            <div class="document-actions">
+                                <button class="action-btn" title="预览">
+                                    <i class="fas fa-eye"></i>
+                                </button>
+                                <button class="action-btn" title="下载">
+                                    <i class="fas fa-download"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="document-item">
+                            <div class="document-icon">
+                                <i class="fas fa-file-pdf"></i>
+                            </div>
+                            <div class="document-info">
+                                <div class="document-name">供应商评估报告</div>
+                                <div class="document-description">供应商资质与能力评估</div>
+                            </div>
+                            <div class="document-actions">
+                                <button class="action-btn" title="预览">
+                                    <i class="fas fa-eye"></i>
+                                </button>
+                                <button class="action-btn" title="下载">
+                                    <i class="fas fa-download"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="stage-actions">
+                        <button class="btn btn-primary edit-documents" data-stage="equipment-purchase">
+                            <i class="fas fa-edit"></i> 编辑文档
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- 其他阶段卡片... -->
+            </div>
+        </div>
+    </div>
+    
+    <!-- 编辑文档模态框 -->
+    <div class="modal-overlay" id="modalOverlay">
+        <div class="modal" id="documentModal">
+            <div class="modal-header">
+                <div class="modal-title" id="modalStageTitle">项目评审 - 文档与信息配置</div>
+                <button class="modal-close" id="modalClose"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="modal-body">
+                <!-- 左侧：可用文档和信息 -->
+                <div class="available-panel">
+                    <div class="panel-title">
+                        <i class="fas fa-database"></i>
+                        可用文档与信息
+                    </div>
+                    
+                    <div class="search-box">
+                        <input type="text" id="availableSearch" placeholder="搜索文档或信息...">
+                        <i class="fas fa-search search-icon"></i>
+                    </div>
+                    
+                    <div class="list-container">
+                        <!-- 文档列表 -->
+                        <div class="list-section">
+                            <div class="list-header">
+                                <i class="fas fa-file-alt"></i>
+                                文档模板
+                            </div>
+                            <div class="list-content">
+                                <div class="item-list" id="availableDocuments">
+                                    <!-- 文档项将通过JavaScript动态生成 -->
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- 信息列表 -->
+                        <div class="list-section">
+                            <div class="list-header">
+                                <i class="fas fa-info-circle"></i>
+                                信息模板
+                            </div>
+                            <div class="list-content">
+                                <div class="item-list" id="availableInformation">
+                                    <!-- 信息项将通过JavaScript动态生成 -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 中间：转移按钮 -->
+                <div class="transfer-panel">
+                    <button class="transfer-btn" id="addToStage" title="添加到阶段">
+                        <i class="fas fa-arrow-right"></i>
+                    </button>
+                    <button class="transfer-btn" id="removeFromStage" title="从阶段移除">
+                        <i class="fas fa-arrow-left"></i>
+                    </button>
+                </div>
+                
+                <!-- 右侧：当前阶段文档和信息 -->
+                <div class="current-panel">
+                    <div class="panel-title">
+                        <i class="fas fa-list"></i>
+                        当前阶段配置
+                    </div>
+                    
+                    <div class="list-container">
+                        <!-- 文档列表 -->
+                        <div class="list-section">
+                            <div class="list-header">
+                                <i class="fas fa-file-alt"></i>
+                                阶段文档
+                            </div>
+                            <div class="list-content">
+                                <div class="item-list" id="stageDocuments">
+                                    <!-- 文档项将通过JavaScript动态生成 -->
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- 信息列表 -->
+                        <div class="list-section">
+                            <div class="list-header">
+                                <i class="fas fa-info-circle"></i>
+                                阶段信息
+                            </div>
+                            <div class="list-content">
+                                <div class="item-list" id="stageInformation">
+                                    <!-- 信息项将通过JavaScript动态生成 -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" id="cancelEdit">取消</button>
+                <button class="btn btn-primary" id="saveDocuments">保存配置</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // 返回按钮功能
+            document.getElementById('backToSettings').addEventListener('click', function() {
+                // 这里可以添加返回系统设置主菜单的逻辑
+                alert('返回系统设置主菜单');
+            });
+            
+            // 项目类型切换
+            const typeTabs = document.querySelectorAll('.type-tab');
+            typeTabs.forEach(tab => {
+                tab.addEventListener('click', function() {
+                    typeTabs.forEach(t => t.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    const projectType = this.getAttribute('data-type');
+                    // 这里可以添加根据项目类型加载不同文档模板的逻辑
+                    console.log('切换到项目类型:', projectType);
+                });
+            });
+            
+            // 编辑文档模态框
+            const modalOverlay = document.getElementById('modalOverlay');
+            const modal = document.getElementById('documentModal');
+            const modalClose = document.getElementById('modalClose');
+            const cancelEdit = document.getElementById('cancelEdit');
+            const editButtons = document.querySelectorAll('.edit-documents');
+            const modalStageTitle = document.getElementById('modalStageTitle');
+            
+            // 示例数据
+            const allDocuments = [
+                { id: 1, name: '项目可行性分析报告', description: '项目可行性评估与风险分析', type: 'word' },
+                { id: 2, name: '项目预算评估表', description: '项目成本与资源预算评估', type: 'excel' },
+                { id: 3, name: '项目立项汇报', description: '项目立项决策会议汇报材料', type: 'powerpoint' },
+                { id: 4, name: '设备采购需求表', description: '设备规格、数量与技术要求', type: 'word' },
+                { id: 5, name: '供应商评估报告', description: '供应商资质与能力评估', type: 'pdf' },
+                { id: 6, name: '预验收测试报告', description: '系统功能与性能测试结果', type: 'word' },
+                { id: 7, name: '问题清单与整改计划', description: '预验收发现的问题及整改安排', type: 'excel' },
+                { id: 8, name: '设备验收报告', description: '设备安装与功能验收结果', type: 'word' },
+                { id: 9, name: '设备使用手册', description: '设备操作与维护指南', type: 'pdf' },
+                { id: 10, name: '验收确认单', description: '各方签字确认的验收单据', type: 'excel' },
+                { id: 11, name: '项目总结报告', description: '项目全过程总结与经验分享', type: 'word' },
+                { id: 12, name: '项目绩效评估表', description: '项目目标达成情况评估', type: 'excel' },
+                { id: 13, name: '项目启动申请表', description: '新项目启动申请与基本信息', type: 'word' }
+            ];
+            
+            const allInformation = [
+                { id: 101, name: '项目关键指标', description: '项目成功关键指标定义', type: 'info' },
+                { id: 102, name: '风险评估矩阵', description: '项目风险识别与评估', type: 'info' },
+                { id: 103, name: '预算分配原则', description: '项目预算分配基本原则', type: 'info' },
+                { id: 104, name: '设备选型标准', description: '设备选型的技术标准', type: 'info' },
+                { id: 105, name: '验收标准', description: '项目验收的基本标准', type: 'info' },
+                { id: 106, name: '成功标准', description: '项目成功的衡量标准', type: 'info' }
+            ];
+            
+            // 各阶段已配置的数据
+            const stageConfigurations = {
+                'project-review': {
+                    documents: [1, 2, 3],
+                    information: [101, 102]
+                },
+                'equipment-purchase': {
+                    documents: [4, 5],
+                    information: [104]
+                },
+                'pre-acceptance': {
+                    documents: [6, 7],
+                    information: [105]
+                },
+                'equipment-acceptance': {
+                    documents: [8, 9, 10],
+                    information: [105]
+                },
+                'completion': {
+                    documents: [11, 12],
+                    information: [106]
+                },
+                'new': {
+                    documents: [13],
+                    information: []
+                }
+            };
+            
+            // 当前编辑的阶段
+            let currentStage = '';
+            
+            // 渲染可用文档列表
+            function renderAvailableDocuments() {
+                const container = document.getElementById('availableDocuments');
+                container.innerHTML = '';
+                
+                // 获取当前阶段已配置的文档ID
+                const currentStageDocs = stageConfigurations[currentStage]?.documents || [];
+                
+                allDocuments.forEach(doc => {
+                    // 如果文档已经在当前阶段中，则不显示在可用列表中
+                    if (currentStageDocs.includes(doc.id)) return;
+                    
+                    const docElement = createListItem(doc, 'document');
+                    container.appendChild(docElement);
+                });
+                
+                if (container.children.length === 0) {
+                    container.innerHTML = `
+                        <div class="empty-state">
+                            <i class="fas fa-file-alt"></i>
+                            <div>暂无可用文档</div>
+                        </div>
+                    `;
+                }
+            }
+            
+            // 渲染可用信息列表
+            function renderAvailableInformation() {
+                const container = document.getElementById('availableInformation');
+                container.innerHTML = '';
+                
+                // 获取当前阶段已配置的信息ID
+                const currentStageInfo = stageConfigurations[currentStage]?.information || [];
+                
+                allInformation.forEach(info => {
+                    // 如果信息已经在当前阶段中，则不显示在可用列表中
+                    if (currentStageInfo.includes(info.id)) return;
+                    
+                    const infoElement = createListItem(info, 'information');
+                    container.appendChild(infoElement);
+                });
+                
+                if (container.children.length === 0) {
+                    container.innerHTML = `
+                        <div class="empty-state">
+                            <i class="fas fa-info-circle"></i>
+                            <div>暂无可用信息</div>
+                        </div>
+                    `;
+                }
+            }
+            
+            // 渲染阶段文档列表
+            function renderStageDocuments() {
+                const container = document.getElementById('stageDocuments');
+                container.innerHTML = '';
+                
+                // 获取当前阶段已配置的文档ID
+                const currentStageDocs = stageConfigurations[currentStage]?.documents || [];
+                
+                currentStageDocs.forEach(docId => {
+                    const doc = allDocuments.find(d => d.id === docId);
+                    if (doc) {
+                        const docElement = createListItem(doc, 'document');
+                        container.appendChild(docElement);
+                    }
+                });
+                
+                if (container.children.length === 0) {
+                    container.innerHTML = `
+                        <div class="empty-state">
+                            <i class="fas fa-file-alt"></i>
+                            <div>暂无配置文档</div>
+                        </div>
+                    `;
+                }
+            }
+            
+            // 渲染阶段信息列表
+            function renderStageInformation() {
+                const container = document.getElementById('stageInformation');
+                container.innerHTML = '';
+                
+                // 获取当前阶段已配置的信息ID
+                const currentStageInfo = stageConfigurations[currentStage]?.information || [];
+                
+                currentStageInfo.forEach(infoId => {
+                    const info = allInformation.find(i => i.id === infoId);
+                    if (info) {
+                        const infoElement = createListItem(info, 'information');
+                        container.appendChild(infoElement);
+                    }
+                });
+                
+                if (container.children.length === 0) {
+                    container.innerHTML = `
+                        <div class="empty-state">
+                            <i class="fas fa-info-circle"></i>
+                            <div>暂无配置信息</div>
+                        </div>
+                    `;
+                }
+            }
+            
+            // 创建列表项
+            function createListItem(item, type) {
+                const itemElement = document.createElement('div');
+                itemElement.className = 'list-item';
+                itemElement.setAttribute('data-id', item.id);
+                itemElement.setAttribute('data-type', type);
+                
+                // 确定图标
+                let iconClass = 'fas fa-file-alt';
+                if (type === 'information') {
+                    iconClass = 'fas fa-info-circle';
+                } else if (item.type === 'excel') {
+                    iconClass = 'fas fa-file-excel';
+                } else if (item.type === 'powerpoint') {
+                    iconClass = 'fas fa-file-powerpoint';
+                } else if (item.type === 'pdf') {
+                    iconClass = 'fas fa-file-pdf';
+                }
+                
+                itemElement.innerHTML = `
+                    <div class="item-icon">
+                        <i class="${iconClass}"></i>
+                    </div>
+                    <div class="item-info">
+                        <div class="item-name">${item.name}</div>
+                        <div class="item-description">${item.description}</div>
+                    </div>
+                `;
+                
+                // 添加点击事件
+                itemElement.addEventListener('click', function() {
+                    // 切换选中状态
+                    this.classList.toggle('selected');
+                });
+                
+                return itemElement;
+            }
+            
+            // 初始化所有列表
+            function renderAllLists() {
+                renderAvailableDocuments();
+                renderAvailableInformation();
+                renderStageDocuments();
+                renderStageInformation();
+            }
+            
+            // 打开模态框
+            function openModal(stage) {
+                currentStage = stage;
+                
+                // 根据阶段设置模态框标题
+                const stageNames = {
+                    'project-review': '项目评审',
+                    'equipment-purchase': '设备采购',
+                    'pre-acceptance': '预验收',
+                    'equipment-acceptance': '设备验收',
+                    'completion': '完成',
+                    'new': '新建'
+                };
+                
+                modalStageTitle.textContent = `${stageNames[stage]} - 文档与信息配置`;
+                
+                // 渲染所有列表
+                renderAllLists();
+                
+                modalOverlay.style.display = 'flex';
+                modal.classList.add('active');
+            }
+            
+            // 关闭模态框
+            function closeModal() {
+                modalOverlay.style.display = 'none';
+                modal.classList.remove('active');
+                
+                // 清除所有选中状态
+                document.querySelectorAll('.list-item.selected').forEach(item => {
+                    item.classList.remove('selected');
+                });
+            }
+            
+            // 添加项目到阶段
+            function addItemsToStage() {
+                // 获取所有选中的可用项目
+                const selectedItems = document.querySelectorAll('#availableDocuments .list-item.selected, #availableInformation .list-item.selected');
+                
+                selectedItems.forEach(item => {
+                    const id = parseInt(item.getAttribute('data-id'));
+                    const type = item.getAttribute('data-type');
+                    
+                    // 添加到阶段配置中
+                    if (type === 'document') {
+                        if (!stageConfigurations[currentStage].documents.includes(id)) {
+                            stageConfigurations[currentStage].documents.push(id);
+                        }
+                    } else if (type === 'information') {
+                        if (!stageConfigurations[currentStage].information.includes(id)) {
+                            stageConfigurations[currentStage].information.push(id);
+                        }
+                    }
+                    
+                    // 移除选中状态
+                    item.classList.remove('selected');
+                });
+                
+                // 重新渲染所有列表
+                renderAllLists();
+            }
+            
+            // 从阶段移除项目
+            function removeItemsFromStage() {
+                // 获取所有选中的阶段项目
+                const selectedItems = document.querySelectorAll('#stageDocuments .list-item.selected, #stageInformation .list-item.selected');
+                
+                selectedItems.forEach(item => {
+                    const id = parseInt(item.getAttribute('data-id'));
+                    const type = item.getAttribute('data-type');
+                    
+                    // 从阶段配置中移除
+                    if (type === 'document') {
+                        const index = stageConfigurations[currentStage].documents.indexOf(id);
+                        if (index !== -1) {
+                            stageConfigurations[currentStage].documents.splice(index, 1);
+                        }
+                    } else if (type === 'information') {
+                        const index = stageConfigurations[currentStage].information.indexOf(id);
+                        if (index !== -1) {
+                            stageConfigurations[currentStage].information.splice(index, 1);
+                        }
+                    }
+                    
+                    // 移除选中状态
+                    item.classList.remove('selected');
+                });
+                
+                // 重新渲染所有列表
+                renderAllLists();
+            }
+            
+            // 事件监听
+            editButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const stage = this.getAttribute('data-stage');
+                    openModal(stage);
+                });
+            });
+            
+            modalOverlay.addEventListener('click', function(e) {
+                if (e.target === modalOverlay) {
+                    closeModal();
+                }
+            });
+            
+            modalClose.addEventListener('click', closeModal);
+            cancelEdit.addEventListener('click', closeModal);
+            
+            // 添加项目到阶段按钮
+            document.getElementById('addToStage').addEventListener('click', addItemsToStage);
+            
+            // 从阶段移除项目按钮
+            document.getElementById('removeFromStage').addEventListener('click', removeItemsFromStage);
+            
+            // 保存配置
+            document.getElementById('saveDocuments').addEventListener('click', function() {
+                // 这里可以添加保存配置到服务器的逻辑
+                console.log('保存配置:', stageConfigurations[currentStage]);
+                alert('阶段配置已保存！');
+                closeModal();
+            });
+            
+            // 搜索功能
+            document.getElementById('availableSearch').addEventListener('input', function() {
+                const searchTerm = this.value.toLowerCase();
+                
+                // 搜索可用文档
+                const availableDocs = document.querySelectorAll('#availableDocuments .list-item');
+                availableDocs.forEach(item => {
+                    const name = item.querySelector('.item-name').textContent.toLowerCase();
+                    const description = item.querySelector('.item-description').textContent.toLowerCase();
+                    
+                    if (name.includes(searchTerm) || description.includes(searchTerm)) {
+                        item.style.display = 'flex';
+                    } else {
+                        item.style.display = 'none';
+                    }
+                });
+                
+                // 搜索可用信息
+                const availableInfo = document.querySelectorAll('#availableInformation .list-item');
+                availableInfo.forEach(item => {
+                    const name = item.querySelector('.item-name').textContent.toLowerCase();
+                    const description = item.querySelector('.item-description').textContent.toLowerCase();
+                    
+                    if (name.includes(searchTerm) || description.includes(searchTerm)) {
+                        item.style.display = 'flex';
+                    } else {
+                        item.style.display = 'none';
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

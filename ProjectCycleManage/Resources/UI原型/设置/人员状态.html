@@ -1,0 +1,897 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>项目全周期管理系统 - 人员变动设置</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', 'Microsoft YaHei', sans-serif;
+        }
+        
+        body {
+            background-color: #f5f7fa;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        .container {
+            display: flex;
+            min-height: 100vh;
+        }
+        
+        /* 侧边栏样式 */
+        .sidebar {
+            width: 250px;
+            background: linear-gradient(180deg, #1a3a8f 0%, #2d5bd6 100%);
+            color: white;
+            padding: 20px 0;
+            box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .logo {
+            padding: 0 20px 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+            margin-bottom: 20px;
+        }
+        
+        .logo h1 {
+            font-size: 22px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .logo i {
+            font-size: 24px;
+        }
+        
+        .nav-links {
+            list-style: none;
+        }
+        
+        .nav-links li {
+            padding: 12px 20px;
+            transition: all 0.3s;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .nav-links li:hover, .nav-links li.active {
+            background-color: rgba(255, 255, 255, 0.1);
+            border-left: 4px solid #4caf50;
+        }
+        
+        .nav-links i {
+            width: 20px;
+            text-align: center;
+        }
+        
+        /* 主内容区样式 */
+        .main-content {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+        }
+        
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        
+        .header h2 {
+            font-weight: 600;
+            color: #2d5bd6;
+        }
+        
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: #2d5bd6;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+        
+        /* 返回按钮 */
+        .back-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: #2d5bd6;
+            background: none;
+            border: none;
+            font-size: 16px;
+            cursor: pointer;
+            margin-bottom: 20px;
+            padding: 8px 0;
+            transition: color 0.3s;
+        }
+        
+        .back-button:hover {
+            color: #1a3a8f;
+        }
+        
+        .section-title {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: #2d5bd6;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        /* 人员管理区域 */
+        .personnel-management {
+            background: white;
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            margin-bottom: 25px;
+        }
+        
+        .management-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        
+        .management-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #2d5bd6;
+        }
+        
+        .management-actions {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .btn {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+        
+        .btn-primary {
+            background-color: #2d5bd6;
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background-color: #1a3a8f;
+        }
+        
+        .btn-secondary {
+            background-color: #f5f7fa;
+            color: #666;
+            border: 1px solid #e0e0e0;
+        }
+        
+        .btn-secondary:hover {
+            background-color: #e0e0e0;
+        }
+        
+        .btn-success {
+            background-color: #4caf50;
+            color: white;
+        }
+        
+        .btn-success:hover {
+            background-color: #3d8b40;
+        }
+        
+        /* 搜索和筛选区域 */
+        .search-filter {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .search-box {
+            flex: 1;
+            min-width: 250px;
+            position: relative;
+        }
+        
+        .search-box input {
+            width: 100%;
+            padding: 10px 40px 10px 15px;
+            border: 1px solid #e0e0e0;
+            border-radius: 4px;
+        }
+        
+        .search-icon {
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #666;
+        }
+        
+        .filter-select {
+            padding: 10px 15px;
+            border: 1px solid #e0e0e0;
+            border-radius: 4px;
+            background-color: white;
+            min-width: 150px;
+        }
+        
+        /* 团队成员列表 */
+        .team-members {
+            margin-bottom: 30px;
+        }
+        
+        .members-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        .members-table th,
+        .members-table td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        
+        .members-table th {
+            background-color: #f5f7fa;
+            font-weight: 600;
+            color: #2d5bd6;
+        }
+        
+        .members-table tr:hover {
+            background-color: #f9f9f9;
+        }
+        
+        .member-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .member-avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background-color: #e0e0e0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: #666;
+            flex-shrink: 0;
+        }
+        
+        .member-details {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .member-name {
+            font-weight: 500;
+        }
+        
+        .member-id {
+            font-size: 12px;
+            color: #999;
+        }
+        
+        .role-badge {
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+        
+        .role-manager {
+            background-color: #e3f2fd;
+            color: #1976d2;
+        }
+        
+        .role-leader {
+            background-color: #e8f5e9;
+            color: #388e3c;
+        }
+        
+        .role-member {
+            background-color: #fff3e0;
+            color: #f57c00;
+        }
+        
+        .status-active {
+            color: #4caf50;
+            font-weight: 500;
+        }
+        
+        .status-inactive {
+            color: #f44336;
+            font-weight: 500;
+        }
+        
+        .action-buttons {
+            display: flex;
+            gap: 8px;
+        }
+        
+        .action-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: #666;
+            transition: color 0.3s;
+        }
+        
+        .action-btn:hover {
+            color: #2d5bd6;
+        }
+        
+        /* 角色分配区域 */
+        .role-assignment {
+            background: white;
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            margin-bottom: 25px;
+        }
+        
+        .role-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .role-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #2d5bd6;
+        }
+        
+        .role-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+        }
+        
+        .role-card {
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 20px;
+            transition: all 0.3s;
+        }
+        
+        .role-card:hover {
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        .role-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .role-card-title {
+            font-weight: 600;
+            font-size: 16px;
+        }
+        
+        .role-member-count {
+            font-size: 14px;
+            color: #666;
+        }
+        
+        .role-members {
+            min-height: 100px;
+        }
+        
+        .role-member-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 0;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        
+        .role-member-item:last-child {
+            border-bottom: none;
+        }
+        
+        .small-avatar {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background-color: #e0e0e0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: #666;
+            font-size: 12px;
+            flex-shrink: 0;
+        }
+        
+        /* 变更流程区域 */
+        .change-process {
+            background: white;
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        }
+        
+        .process-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .process-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #2d5bd6;
+        }
+        
+        .process-steps {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        
+        .process-step {
+            display: flex;
+            gap: 15px;
+            padding: 15px;
+            background-color: #f9f9f9;
+            border-radius: 8px;
+            border-left: 4px solid #2d5bd6;
+        }
+        
+        .step-number {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background-color: #2d5bd6;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            flex-shrink: 0;
+        }
+        
+        .step-content {
+            flex: 1;
+        }
+        
+        .step-title {
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+        
+        .step-description {
+            font-size: 14px;
+            color: #666;
+        }
+        
+        /* 响应式调整 */
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+            }
+            
+            .sidebar {
+                width: 100%;
+                height: auto;
+            }
+            
+            .search-filter {
+                flex-direction: column;
+            }
+            
+            .role-cards {
+                grid-template-columns: 1fr;
+            }
+            
+            .members-table {
+                display: block;
+                overflow-x: auto;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 侧边导航栏 -->
+        <div class="sidebar">
+            <div class="logo">
+                <h1><i class="fas fa-project-diagram"></i> 项目全周期管理</h1>
+            </div>
+            <ul class="nav-links">
+                <li><i class="fas fa-home"></i> 项目总览</li>
+                <li><i class="fas fa-tasks"></i> 我的任务</li>
+                <li><i class="fas fa-file-alt"></i> 文档中心</li>
+                <li><i class="fas fa-chart-line"></i> 数据分析</li>
+                <li class="active"><i class="fas fa-cog"></i> 系统设置</li>
+            </ul>
+        </div>
+        
+        <!-- 主内容区 -->
+        <div class="main-content">
+            <div class="header">
+                <h2>人员变动设置</h2>
+                <div class="user-info">
+                    <div class="avatar">张</div>
+                    <span>张经理</span>
+                </div>
+            </div>
+            
+            <button class="back-button" id="backToSettings">
+                <i class="fas fa-arrow-left"></i>
+                返回系统设置
+            </button>
+            
+            <div class="section-title">
+                <i class="fas fa-users"></i>
+                团队成员与角色管理
+            </div>
+            
+            <!-- 人员管理区域 -->
+            <div class="personnel-management">
+                <div class="management-header">
+                    <div class="management-title">团队成员管理</div>
+                    <div class="management-actions">
+                        <button class="btn btn-secondary">
+                            <i class="fas fa-download"></i> 导出名单
+                        </button>
+                        <button class="btn btn-primary">
+                            <i class="fas fa-user-plus"></i> 添加成员
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- 搜索和筛选区域 -->
+                <div class="search-filter">
+                    <div class="search-box">
+                        <input type="text" placeholder="搜索成员姓名或工号...">
+                        <i class="fas fa-search search-icon"></i>
+                    </div>
+                    <select class="filter-select">
+                        <option value="">所有部门</option>
+                        <option value="tech">技术研发部</option>
+                        <option value="product">产品设计部</option>
+                        <option value="project">项目管理部</option>
+                        <option value="finance">财务部</option>
+                    </select>
+                    <select class="filter-select">
+                        <option value="">所有角色</option>
+                        <option value="manager">项目经理</option>
+                        <option value="leader">团队负责人</option>
+                        <option value="member">普通成员</option>
+                    </select>
+                    <select class="filter-select">
+                        <option value="">所有状态</option>
+                        <option value="active">在职</option>
+                        <option value="inactive">离职</option>
+                    </select>
+                </div>
+                
+                <!-- 团队成员列表 -->
+                <div class="team-members">
+                    <table class="members-table">
+                        <thead>
+                            <tr>
+                                <th>成员信息</th>
+                                <th>部门</th>
+                                <th>角色</th>
+                                <th>入职日期</th>
+                                <th>状态</th>
+                                <th>操作</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <div class="member-info">
+                                        <div class="member-avatar">王</div>
+                                        <div class="member-details">
+                                            <div class="member-name">王总监</div>
+                                            <div class="member-id">EMP001</div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>战略规划部</td>
+                                <td><span class="role-badge role-manager">项目经理</span></td>
+                                <td>2020-03-15</td>
+                                <td class="status-active">在职</td>
+                                <td>
+                                    <div class="action-buttons">
+                                        <button class="action-btn" title="编辑">
+                                            <i class="fas fa-edit"></i>
+                                        </button>
+                                        <button class="action-btn" title="调整角色">
+                                            <i class="fas fa-user-cog"></i>
+                                        </button>
+                                        <button class="action-btn" title="移除">
+                                            <i class="fas fa-user-minus"></i>
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="member-info">
+                                        <div class="member-avatar">李</div>
+                                        <div class="member-details">
+                                            <div class="member-name">李经理</div>
+                                            <div class="member-id">EMP002</div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>项目管理部</td>
+                                <td><span class="role-badge role-leader">团队负责人</span></td>
+                                <td>2021-06-20</td>
+                                <td class="status-active">在职</td>
+                                <td>
+                                    <div class="action-buttons">
+                                        <button class="action-btn" title="编辑">
+                                            <i class="fas fa-edit"></i>
+                                        </button>
+                                        <button class="action-btn" title="调整角色">
+                                            <i class="fas fa-user-cog"></i>
+                                        </button>
+                                        <button class="action-btn" title="移除">
+                                            <i class="fas fa-user-minus"></i>
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="member-info">
+                                        <div class="member-avatar">赵</div>
+                                        <div class="member-details">
+                                            <div class="member-name">赵主管</div>
+                                            <div class="member-id">EMP003</div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>财务部</td>
+                                <td><span class="role-badge role-member">普通成员</span></td>
+                                <td>2022-01-10</td>
+                                <td class="status-active">在职</td>
+                                <td>
+                                    <div class="action-buttons">
+                                        <button class="action-btn" title="编辑">
+                                            <i class="fas fa-edit"></i>
+                                        </button>
+                                        <button class="action-btn" title="调整角色">
+                                            <i class="fas fa-user-cog"></i>
+                                        </button>
+                                        <button class="action-btn" title="移除">
+                                            <i class="fas fa-user-minus"></i>
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="member-info">
+                                        <div class="member-avatar">周</div>
+                                        <div class="member-details">
+                                            <div class="member-name">周工程师</div>
+                                            <div class="member-id">EMP004</div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>技术研发部</td>
+                                <td><span class="role-badge role-member">普通成员</span></td>
+                                <td>2022-08-05</td>
+                                <td class="status-inactive">已离职</td>
+                                <td>
+                                    <div class="action-buttons">
+                                        <button class="action-btn" title="编辑">
+                                            <i class="fas fa-edit"></i>
+                                        </button>
+                                        <button class="action-btn" title="重新激活">
+                                            <i class="fas fa-user-check"></i>
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            
+            <!-- 角色分配区域 -->
+            <div class="role-assignment">
+                <div class="role-header">
+                    <div class="role-title">角色分配</div>
+                    <button class="btn btn-primary">
+                        <i class="fas fa-cog"></i> 管理角色
+                    </button>
+                </div>
+                
+                <div class="role-cards">
+                    <div class="role-card">
+                        <div class="role-card-header">
+                            <div class="role-card-title">项目经理</div>
+                            <div class="role-member-count">2人</div>
+                        </div>
+                        <div class="role-members">
+                            <div class="role-member-item">
+                                <div class="small-avatar">王</div>
+                                <div>王总监</div>
+                            </div>
+                            <div class="role-member-item">
+                                <div class="small-avatar">李</div>
+                                <div>李经理</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="role-card">
+                        <div class="role-card-header">
+                            <div class="role-card-title">团队负责人</div>
+                            <div class="role-member-count">3人</div>
+                        </div>
+                        <div class="role-members">
+                            <div class="role-member-item">
+                                <div class="small-avatar">吴</div>
+                                <div>吴主管</div>
+                            </div>
+                            <div class="role-member-item">
+                                <div class="small-avatar">郑</div>
+                                <div>郑组长</div>
+                            </div>
+                            <div class="role-member-item">
+                                <div class="small-avatar">孙</div>
+                                <div>孙主管</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="role-card">
+                        <div class="role-card-header">
+                            <div class="role-card-title">普通成员</div>
+                            <div class="role-member-count">15人</div>
+                        </div>
+                        <div class="role-members">
+                            <div class="role-member-item">
+                                <div class="small-avatar">赵</div>
+                                <div>赵主管</div>
+                            </div>
+                            <div class="role-member-item">
+                                <div class="small-avatar">钱</div>
+                                <div>钱工程师</div>
+                            </div>
+                            <div class="role-member-item">
+                                <div class="small-avatar">周</div>
+                                <div>周设计师</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 变更流程区域 -->
+            <div class="change-process">
+                <div class="process-header">
+                    <div class="process-title">人员变更流程</div>
+                    <button class="btn btn-secondary">
+                        <i class="fas fa-edit"></i> 编辑流程
+                    </button>
+                </div>
+                
+                <div class="process-steps">
+                    <div class="process-step">
+                        <div class="step-number">1</div>
+                        <div class="step-content">
+                            <div class="step-title">提交变更申请</div>
+                            <div class="step-description">由部门负责人或HR提交人员变动申请，包括入职、离职、转岗等信息。</div>
+                        </div>
+                    </div>
+                    
+                    <div class="process-step">
+                        <div class="step-number">2</div>
+                        <div class="step-content">
+                            <div class="step-title">部门审批</div>
+                            <div class="step-description">相关部门负责人审批变更申请，确认人员变动对项目的影响。</div>
+                        </div>
+                    </div>
+                    
+                    <div class="process-step">
+                        <div class="step-number">3</div>
+                        <div class="step-content">
+                            <div class="step-title">HR审核</div>
+                            <div class="step-description">人力资源部门审核变更申请的合规性，确认薪资、合同等事项。</div>
+                        </div>
+                    </div>
+                    
+                    <div class="process-step">
+                        <div class="step-number">4</div>
+                        <div class="step-content">
+                            <div class="step-title">系统更新</div>
+                            <div class="step-description">系统管理员根据审批结果更新人员信息，分配相应权限。</div>
+                        </div>
+                    </div>
+                    
+                    <div class="process-step">
+                        <div class="step-number">5</div>
+                        <div class="step-content">
+                            <div class="step-title">通知相关人员</div>
+                            <div class="step-description">系统自动通知项目团队成员及相关人员关于人员变动的信息。</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // 返回按钮功能
+            document.getElementById('backToSettings').addEventListener('click', function() {
+                // 这里可以添加返回系统设置主菜单的逻辑
+                alert('返回系统设置主菜单');
+            });
+            
+            // 搜索功能
+            const searchInput = document.querySelector('.search-box input');
+            searchInput.addEventListener('input', function() {
+                // 这里可以添加实时搜索逻辑
+                console.log('搜索关键词:', this.value);
+            });
+            
+            // 筛选功能
+            const filterSelects = document.querySelectorAll('.filter-select');
+            filterSelects.forEach(select => {
+                select.addEventListener('change', function() {
+                    // 这里可以添加筛选逻辑
+                    console.log('筛选条件:', this.value);
+                });
+            });
+            
+            // 操作按钮事件
+            const actionButtons = document.querySelectorAll('.action-btn');
+            actionButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    // 这里可以添加具体操作逻辑
+                    const action = this.title;
+                    console.log('执行操作:', action);
+                });
+            });
+        });
+    </script>
+</body>
+</html>

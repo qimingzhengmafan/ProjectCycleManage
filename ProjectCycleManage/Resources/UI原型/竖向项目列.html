@@ -1,0 +1,261 @@
+<!-- 二级项目菜单栏 - 扁平化设计 -->
+<div class="project-sidebar">
+    <div class="project-header">
+        <h3>所有项目</h3>
+        <button class="btn-add" title="新建项目">
+            <i class="fas fa-plus"></i>
+        </button>
+    </div>
+    <ul class="project-list">
+        <li class="project-item active">
+            <div class="project-details">
+                <div class="project-title">
+                    <span>智慧城市数据平台</span>
+                    <span class="project-status status-ongoing">进行中</span>
+                </div>
+                <div class="project-meta">
+                    <span>李四</span>
+                    <span class="meta-separator">|</span>
+                    <span>2023-12-31</span>
+                </div>
+            </div>
+        </li>
+        
+        <li class="project-item">
+            <div class="project-details">
+                <div class="project-title">
+                    <span>企业ERP系统升级</span>
+                    <span class="project-status status-pending">等待审批</span>
+                </div>
+                <div class="project-meta">
+                    <span>王五</span>
+                    <span class="meta-separator">|</span>
+                    <span>2023-11-15</span>
+                </div>
+            </div>
+        </li>
+        
+        <li class="project-item">
+            <div class="project-details">
+                <div class="project-title">
+                    <span>移动端应用开发</span>
+                    <span class="project-status status-completed">已完成</span>
+                </div>
+                <div class="project-meta">
+                    <span>赵六</span>
+                    <span class="meta-separator">|</span>
+                    <span>2023-09-30</span>
+                </div>
+            </div>
+        </li>
+        
+        <li class="project-item">
+            <div class="project-details">
+                <div class="project-title">
+                    <span>电商平台重构</span>
+                    <span class="project-status status-ongoing">进行中</span>
+                </div>
+                <div class="project-meta">
+                    <span>钱七</span>
+                    <span class="meta-separator">|</span>
+                    <span>2024-03-31</span>
+                </div>
+            </div>
+        </li>
+        
+        <li class="project-item">
+            <div class="project-details">
+                <div class="project-title">
+                    <span>数据分析平台</span>
+                    <span class="project-status status-pending">等待审批</span>
+                </div>
+                <div class="project-meta">
+                    <span>孙八</span>
+                    <span class="meta-separator">|</span>
+                    <span>2024-02-28</span>
+                </div>
+            </div>
+        </li>
+        
+        <li class="project-item">
+            <div class="project-details">
+                <div class="project-title">
+                    <span>客户关系管理系统</span>
+                    <span class="project-status status-ongoing">进行中</span>
+                </div>
+                <div class="project-meta">
+                    <span>周九</span>
+                    <span class="meta-separator">|</span>
+                    <span>2024-01-15</span>
+                </div>
+            </div>
+        </li>
+        
+        <li class="project-item">
+            <div class="project-details">
+                <div class="project-title">
+                    <span>内部培训平台</span>
+                    <span class="project-status status-completed">已完成</span>
+                </div>
+                <div class="project-meta">
+                    <span>吴十</span>
+                    <span class="meta-separator">|</span>
+                    <span>2023-10-20</span>
+                </div>
+            </div>
+        </li>
+    </ul>
+</div>
+
+<style>
+    /* 二级项目菜单栏 - 扁平化样式 */
+    .project-sidebar {
+        width: 280px;
+        background: white;
+        border-right: 1px solid #e0e0e0;
+        box-shadow: 2px 0 5px rgba(0, 0, 0, 0.05);
+        overflow-y: auto;
+    }
+    
+    .project-header {
+        padding: 20px;
+        border-bottom: 1px solid #e0e0e0;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background-color: #f9f9f9;
+    }
+    
+    .project-header h3 {
+        color: #2d5bd6;
+        font-weight: 600;
+        font-size: 16px;
+        margin: 0;
+    }
+    
+    .btn-add {
+        background-color: #2d5bd6;
+        color: white;
+        border: none;
+        width: 28px;
+        height: 28px;
+        border-radius: 4px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: all 0.3s;
+        font-size: 12px;
+    }
+    
+    .btn-add:hover {
+        background-color: #1a3a8f;
+    }
+    
+    .project-list {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+    
+    .project-item {
+        padding: 16px 20px;
+        border-bottom: 1px solid #f5f5f5;
+        transition: all 0.3s;
+        cursor: pointer;
+    }
+    
+    .project-item:hover {
+        background-color: #f9f9f9;
+    }
+    
+    .project-item.active {
+        background-color: #f0f7ff;
+        border-left: 3px solid #2d5bd6;
+    }
+    
+    .project-details {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+    }
+    
+    .project-title {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+    }
+    
+    .project-title span:first-child {
+        font-weight: 600;
+        font-size: 14px;
+        color: #333;
+        line-height: 1.4;
+        flex: 1;
+        padding-right: 10px;
+    }
+    
+    .project-status {
+        font-size: 11px;
+        padding: 3px 8px;
+        border-radius: 10px;
+        white-space: nowrap;
+        flex-shrink: 0;
+    }
+    
+    .status-ongoing {
+        background-color: #e8f5e9;
+        color: #4caf50;
+    }
+    
+    .status-pending {
+        background-color: #fff8e1;
+        color: #ff9800;
+    }
+    
+    .status-completed {
+        background-color: #e3f2fd;
+        color: #2196f3;
+    }
+    
+    .project-meta {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        color: #666;
+        font-size: 12px;
+    }
+    
+    .meta-separator {
+        color: #ccc;
+    }
+</style>
+
+<script>
+    // 项目点击事件
+    document.addEventListener('DOMContentLoaded', function() {
+        const projectItems = document.querySelectorAll('.project-item');
+        projectItems.forEach(item => {
+            item.addEventListener('click', function() {
+                // 移除所有active类
+                projectItems.forEach(i => i.classList.remove('active'));
+                // 添加active类到当前点击的项目
+                this.classList.add('active');
+                
+                // 更新主内容区的项目标题
+                const projectTitle = this.querySelector('.project-title span:first-child').textContent;
+                if (document.querySelector('.header h2')) {
+                    document.querySelector('.header h2').textContent = `项目总览 - ${projectTitle}`;
+                }
+            });
+        });
+        
+        // 新建项目按钮
+        const addBtn = document.querySelector('.btn-add');
+        if (addBtn) {
+            addBtn.addEventListener('click', function() {
+                alert('打开新建项目对话框');
+            });
+        }
+    });
+</script>

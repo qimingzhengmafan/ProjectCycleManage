@@ -1,0 +1,105 @@
+﻿<UserControl x:Class="ScrollControlProjectnetcore.SeamlessLoopingScroll"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:ScrollControlProjectnetcore"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <!-- 数据项样式 -->
+        <DataTemplate x:Key="ProjectItemTemplate">
+            <Border BorderBrush="Black"
+                    BorderThickness="0 0 0 1">
+                <Grid Margin="10,5" 
+                      Height="80">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="350"/>
+                        <ColumnDefinition Width="100"/>
+                    </Grid.ColumnDefinitions>
+
+                    <!-- 状态圆环 -->
+                    <Ellipse Grid.Column="0" 
+                             Margin=" 0 0 0 7"
+                             VerticalAlignment="Bottom"
+                             Width="16" 
+                             Height="16" 
+                             Stroke="{Binding StatusColor}" 
+                             StrokeThickness="2"/>
+
+                    <!-- 项目名称 -->
+                    <TextBlock Grid.Column="1" 
+                               Margin="20 0 0 0"
+                               Text="{Binding ProjectName}" 
+                               VerticalAlignment="Bottom" 
+                               FontSize="25"/>
+
+                    <!-- 进度与资料 -->
+                    <StackPanel Grid.Column="2" 
+                                Orientation="Horizontal">
+                        <ProgressBar Value="{Binding CountDown}"
+                                     VerticalAlignment="Bottom"
+                                     Height="8" 
+                                     Width="100"
+                                     Margin="5 0 0 15"/>
+                        <!--<TextBlock Text="{Binding Materials}"
+                                   Margin="50 0 0 0"
+                                   FontSize="25" 
+                                   Foreground="Gray"
+                                   VerticalAlignment="Bottom"/>-->
+                        <ProgressBar Value="{Binding FileProgress}"
+                                     VerticalAlignment="Bottom"
+                                     Height="8" 
+                                     Width="100"
+                                     Margin="50 0 0 15"/>
+                    </StackPanel>
+
+                    <!-- 负责人 -->
+                    <TextBlock Grid.Column="3" 
+                               FontSize="25" 
+                               Margin="0 0 0 0"
+                               Text="{Binding Owner}"
+                               VerticalAlignment="Bottom" 
+                               HorizontalAlignment="Right"/>
+                </Grid>
+            </Border>
+
+        </DataTemplate>
+    </UserControl.Resources>
+
+    <Grid>
+        <!-- 滚动容器 -->
+        <Border BorderBrush="#DDDDDD" BorderThickness="1" Margin="10">
+            <Grid>
+                <!-- 遮罩层，用于创建渐隐效果 -->
+                <Rectangle VerticalAlignment="Top" Height="20">
+                    <Rectangle.Fill>
+                        <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                            <GradientStop Color="#FFFFFFFF" Offset="0"/>
+                            <GradientStop Color="#00FFFFFF" Offset="1"/>
+                        </LinearGradientBrush>
+                    </Rectangle.Fill>
+                </Rectangle>
+                <Rectangle VerticalAlignment="Bottom" Height="20">
+                    <Rectangle.Fill>
+                        <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                            <GradientStop Color="#00FFFFFF" Offset="0"/>
+                            <GradientStop Color="#FFFFFFFF" Offset="1"/>
+                        </LinearGradientBrush>
+                    </Rectangle.Fill>
+                </Rectangle>
+
+                <!-- 数据展示区域 -->
+                <ScrollViewer x:Name="scroller" VerticalScrollBarVisibility="Hidden" 
+                              HorizontalScrollBarVisibility="Disabled" 
+                              IsHitTestVisible="False">
+                    <ItemsControl x:Name="itemsControl" ItemTemplate="{StaticResource ProjectItemTemplate}">
+                        <!-- 应用数据模板 -->
+                    </ItemsControl>
+                </ScrollViewer>
+            </Grid>
+        </Border>
+    </Grid>
+</UserControl>

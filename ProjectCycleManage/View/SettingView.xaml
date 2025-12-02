@@ -1,0 +1,361 @@
+<UserControl x:Class="ProjectCycleManage.View.SettingView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:ProjectCycleManage.View"
+             xmlns:vm="clr-namespace:ProjectCycleManage.ViewModel"
+             mc:Ignorable="d" 
+             d:DataContext="{d:DesignInstance Type=vm:SettingVM}"
+             d:DesignHeight="600"
+             d:DesignWidth="1664">
+    <UserControl.Resources>
+        <!-- 卡片样式 -->
+        <Style x:Key="SettingCardStyle" 
+               TargetType="Border">
+            <Setter Property="Background" 
+                    Value="White"/>
+            <Setter Property="CornerRadius" 
+                    Value="10"/>
+            <Setter Property="BorderThickness"
+                    Value="0"/>
+            <Setter Property="Padding" 
+                    Value="20"/>
+            <Setter Property="BorderBrush"
+                    Value="Transparent"/>
+            <Setter Property="Effect">
+                <Setter.Value>
+                    <DropShadowEffect BlurRadius="12" 
+                                      ShadowDepth="4" 
+                                      Opacity="0.05"/>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" 
+                         Value="True">
+                    <Setter Property="Effect">
+                        <Setter.Value>
+                            <DropShadowEffect BlurRadius="16" 
+                                              ShadowDepth="8" Opacity="0.1"/>
+                        </Setter.Value>
+                    </Setter>
+                    <Setter Property="RenderTransform">
+                        <Setter.Value>
+                            <TranslateTransform Y="-5"/>
+                        </Setter.Value>
+                    </Setter>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <!-- 按钮样式 -->
+        <Style x:Key="PrimaryButtonStyle" 
+               TargetType="Button">
+            <Setter Property="Background"
+                    Value="#2D5BD6"/>
+            <Setter Property="Foreground" 
+                    Value="White"/>
+            <Setter Property="BorderThickness" 
+                    Value="0"/>
+            <Setter Property="Padding" 
+                    Value="12,8"/>
+            <Setter Property="FontWeight" 
+                    Value="SemiBold"/>
+            <Setter Property="Cursor"
+                    Value="Hand"/>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" 
+                         Value="True">
+                    <Setter Property="Background"
+                            Value="#1A3A8F"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <!-- 标题样式 -->
+        <Style x:Key="SectionTitleStyle"
+               TargetType="TextBlock">
+            <Setter Property="FontSize"
+                    Value="20"/>
+            <Setter Property="FontWeight"
+                    Value="SemiBold"/>
+            <Setter Property="Foreground"
+                    Value="#2D5BD6"/>
+            <Setter Property="Margin"
+                    Value="0,0,0,20"/>
+        </Style>
+
+        <!-- 卡片标题样式 -->
+        <Style x:Key="CardTitleStyle"
+               TargetType="TextBlock">
+            <Setter Property="FontSize" 
+                    Value="18"/>
+            <Setter Property="FontWeight"
+                    Value="SemiBold"/>
+            <Setter Property="Foreground" 
+                    Value="#333333"/>
+        </Style>
+
+        <!-- 状态标签样式 -->
+        <Style x:Key="StatusLabelStyle"
+               TargetType="Border">
+            <Setter Property="Background" 
+                    Value="#E3F2FD"/>
+            <Setter Property="CornerRadius"
+                    Value="20"/>
+            <Setter Property="Padding" 
+                    Value="4,12"/>
+        </Style>
+
+        <!-- 状态标签文本样式 -->
+        <Style x:Key="StatusTextStyle"
+               TargetType="TextBlock">
+            <Setter Property="FontSize" 
+                    Value="12"/>
+            <Setter Property="FontWeight"
+                    Value="Medium"/>
+            <Setter Property="Foreground" 
+                    Value="#2196F3"/>
+        </Style>
+    </UserControl.Resources>
+    
+    <Grid Background="#F5F7FA">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="65"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        
+        <!-- 头部区域 -->
+        <Border Grid.Row="0" 
+                Background="White"
+                BorderBrush="#E0E0E0"
+                BorderThickness="0,0,0,1">
+            
+            <TextBlock Grid.Column="0" 
+                       Margin="20 0 0 0"
+                       VerticalAlignment="Center"
+                       FontSize="24"
+                       Text="系统设置" 
+                       Style="{StaticResource SectionTitleStyle}"/>
+        </Border>
+        
+        <!-- 主内容区域 -->
+        <ScrollViewer Grid.Row="1" 
+                      Visibility="{Binding Mainareavisilib}"
+                      VerticalScrollBarVisibility="Auto"
+                      Padding="20">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <!-- 设置卡片网格 -->
+                <WrapPanel Grid.Row="1" 
+                           Orientation="Horizontal"
+                           HorizontalAlignment="Stretch" 
+                           VerticalAlignment="Top" 
+                           Margin="0,20,0,0">
+
+                    <!-- 销售额/年度预算卡片 -->
+                    <Button Style="{StaticResource SettingCardStyle_Button}"
+                            Width="320" 
+                            Height="220" 
+                            Margin="0,0,100,20"
+                            BorderThickness="4,0,0,0" 
+                            Command="{Binding FinancialDataCardCommand}"
+                            BorderBrush="#2d5bd6">
+                        <Button.Content>
+                            <Grid Width="270"
+                                    Height="170">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="85"/>
+                                    <RowDefinition Height="37"/>
+                                    <RowDefinition/>
+                                </Grid.RowDefinitions>
+                                <Border Height="70"
+                                        VerticalAlignment="Top"
+                                        Width="70"
+                                        Background="#2044a4"
+                                        CornerRadius="35">
+                                    <Image Source="/Resources/Images/fa-chart-line.png"
+                                           Width="28"
+                                           Height="29"/>
+                                </Border>
+
+                                <TextBlock Grid.Row="1" 
+                                           Text="销售额/年度预算设置"
+                                           FontSize="18"
+                                           FontWeight="Bold"
+                                           HorizontalAlignment="Center"
+                                           VerticalAlignment="Top"
+                                           Foreground="#2D5BD6"/>
+                                <TextBlock Grid.Row="2"
+                                           TextWrapping="Wrap"
+                                           HorizontalAlignment="Center"
+                                           Text="配置项目销售额目标、年度预算及分配规则"
+                                           FontSize="14"
+                                           Foreground="#666666"/>
+                            </Grid>
+                        </Button.Content>
+                    </Button>
+
+                    <!-- 人员变动卡片 -->
+                    <Button Style="{StaticResource SettingCardStyle_Button}"
+                            Width="320" 
+                            Height="220" 
+                            Margin="0,0,100,20"
+                            BorderThickness="4,0,0,0" 
+                            Command="{Binding PersonalVMCardCommand}"
+                            BorderBrush="#2d5bd6">
+                        <Button.Content>
+                            <Grid Width="270"
+                                    Height="170">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="85"/>
+                                    <RowDefinition Height="37"/>
+                                    <RowDefinition/>
+                                </Grid.RowDefinitions>
+                                <Border Height="70"
+                                        VerticalAlignment="Top"
+                                        Width="70"
+                                        Background="#2044a4"
+                                        CornerRadius="35">
+                                    <Image Source="/Resources/Images/fas fa-users.png"
+                                           Width="28"
+                                           Height="29"/>
+                                </Border>
+
+                                <TextBlock Grid.Row="1" 
+                                           Text="人员变动设置"
+                                           FontSize="18"
+                                           FontWeight="Bold"
+                                           HorizontalAlignment="Center"
+                                           VerticalAlignment="Top"
+                                           Foreground="#2D5BD6"/>
+                                <TextBlock Grid.Row="2"
+                                           TextWrapping="Wrap"
+                                           HorizontalAlignment="Center"
+                                           Text="配置项目各阶段的审批人及审批流程"
+                                           FontSize="14"
+                                           Foreground="#666666"/>
+                            </Grid>
+                        </Button.Content>
+                    </Button>
+
+                    <!-- 审批权限修改卡片 -->
+                    <Button Style="{StaticResource SettingCardStyle_Button}"
+                            Width="320" 
+                            Height="220" 
+                            Margin="0,0,100,20"
+                            BorderThickness="4,0,0,0" 
+                            Command="{Binding AmountCardCommand}"
+                            BorderBrush="#2d5bd6">
+                        <Button.Content>
+                            <Grid Width="270"
+                                    Height="170">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="85"/>
+                                    <RowDefinition Height="37"/>
+                                    <RowDefinition/>
+                                </Grid.RowDefinitions>
+                                <Border Height="70"
+                                        VerticalAlignment="Top"
+                                        Width="70"
+                                        Background="#2044a4"
+                                        CornerRadius="35">
+                                    <Image Source="/Resources/Images/授权管理.png"
+                                           Width="28"
+                                           Height="29"/>
+                                </Border>
+
+                                <TextBlock Grid.Row="1" 
+                                           Text="审批权限修改"
+                                           FontSize="18"
+                                           FontWeight="Bold"
+                                           HorizontalAlignment="Center"
+                                           VerticalAlignment="Top"
+                                           Foreground="#2D5BD6"/>
+                                <TextBlock Grid.Row="2"
+                                           TextWrapping="Wrap"
+                                           HorizontalAlignment="Center"
+                                           Text="配置项目各阶段的审批人及审批流程"
+                                           FontSize="14"
+                                           Foreground="#666666"/>
+                            </Grid>
+                        </Button.Content>
+                    </Button>
+
+                    <!-- 阶段信息文档修改卡片 -->
+                    <Button Style="{StaticResource SettingCardStyle_Button}"
+                            Width="320" 
+                            Height="220" 
+                            Margin="0,0 , 0,20"
+                            BorderThickness="4,0,0,0" 
+                            Command="{Binding ProjectStageVMCardCommand}"
+                            BorderBrush="#2d5bd6">
+                        <Button.Content>
+                            <Grid Width="270"
+                                    Height="170">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="85"/>
+                                    <RowDefinition Height="37"/>
+                                    <RowDefinition/>
+                                </Grid.RowDefinitions>
+                                <Border Height="70"
+                                        VerticalAlignment="Top"
+                                        Width="70"
+                                        Background="#2044a4"
+                                        CornerRadius="35">
+                                    <Image Source="/Resources/Images/空订单.png"
+                                           Width="28"
+                                           Height="29"/>
+                                </Border>
+
+                                <TextBlock Grid.Row="1" 
+                                           Text="阶段信息文档修改"
+                                           FontSize="18"
+                                           FontWeight="Bold"
+                                           HorizontalAlignment="Center"
+                                           VerticalAlignment="Top"
+                                           Foreground="#2D5BD6"/>
+                                <TextBlock Grid.Row="2"
+                                           TextWrapping="Wrap"
+                                           HorizontalAlignment="Center"
+                                           Text="管理项目各阶段所需的文档模板和规范"
+                                           FontSize="14"
+                                           Foreground="#666666"/>
+                            </Grid>
+                        </Button.Content>
+                    </Button>
+                </WrapPanel>
+            </Grid>
+
+
+        </ScrollViewer>
+
+        
+        <Grid Grid.Row="1" 
+              Visibility="{Binding ApprovalVilib}">
+            <local:ApprovalAuthorityView DataContext="{Binding ApprovalauthorityVM}"/>
+        </Grid>
+
+
+        <Grid Grid.Row="1"
+              Visibility="{Binding Financialvisib}">
+            <local:FinancialData DataContext="{Binding FinancialDataVM}"/>
+        </Grid>
+
+        
+        <Grid Grid.Row="1"
+              Visibility="{Binding Personalvisib}">
+            <local:PersonManagView DataContext="{Binding PersonManagVM}"/>
+        </Grid>
+
+        
+        <Grid Grid.Row="1"
+              Visibility="{Binding Projectstagevisib}">
+            <local:ProjectStageView DataContext="{Binding ProjectstageviewVM}"/>
+        </Grid>
+    </Grid>
+</UserControl>

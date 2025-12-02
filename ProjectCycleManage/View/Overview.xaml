@@ -1,0 +1,1234 @@
+<UserControl x:Class="ProjectCycleManage.View.Overview"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:ProjectCycleManage.View"
+             xmlns:uc="clr-namespace:ProjectCycleManage.View.UserControls"
+             xmlns:vm="clr-namespace:ProjectCycleManage.ViewModel"
+             xmlns:utilities="clr-namespace:ProjectCycleManage.Utilities"
+             mc:Ignorable="d" 
+             d:DesignHeight="2080"
+             d:DataContext="{d:DesignInstance Type=vm:OverviewVM}"
+             d:DesignWidth="1664">
+    <UserControl.Resources>
+        <DropShadowEffect x:Key="ShadowEffect" 
+                          BlurRadius="10" 
+                          ShadowDepth="2" 
+                          Color="#1A000000" 
+                          Opacity="0.05"/>
+        
+        <!-- 布尔值到背景颜色转换器 -->
+        <utilities:BoolToBackgroundConverter x:Key="BoolToBackgroundConverter"/>
+        
+        <!-- 布尔值到边框厚度转换器 -->
+        <utilities:BoolToBorderThicknessConverter x:Key="BoolToBorderThicknessConverter"/>
+        
+        <!-- 布尔值到边框颜色转换器 -->
+        <utilities:BoolToBorderBrushConverter x:Key="BoolToBorderBrushConverter"/>
+        
+        <!-- 布尔值到可见性转换器 -->
+        <utilities:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
+    </UserControl.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="65"/>
+            <RowDefinition Height="136"/>
+            <RowDefinition Height="200"/>
+            <RowDefinition/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="279"/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+
+        <Border Grid.ColumnSpan="2">
+            <Label FontSize="25"
+                   Foreground="#2D5BD6"
+                   Margin="20 0 20 0"
+                   FontFamily="Microsoft YaHei"
+                   BorderThickness="0 0 0 1"
+                   BorderBrush="#BBBBBB"
+                   Content="项目总览"
+                   FontWeight="Bold"
+                   VerticalContentAlignment="Center"/>
+        </Border>
+
+        <Grid Grid.Row="1"
+              Grid.RowSpan="4">
+            <Border Background="White"
+                    BorderBrush="#E0E0E0"
+                    BorderThickness="0 0 1 0"
+                    Effect="{StaticResource ShadowEffect}">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    
+                    <!-- 项目侧边栏头部 -->
+                    <Border Grid.Row="0"
+                            Background="#F9F9F9"
+                            BorderBrush="#E0E0E0"
+                            BorderThickness="0 0 0 1"
+                            Padding="20">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            
+                            <TextBlock Grid.Column="0"
+                                       Text="所有项目"
+                                       Foreground="#2D5BD6"
+                                       FontWeight="SemiBold"
+                                       FontSize="16"
+                                       VerticalAlignment="Center"/>
+                            
+                            <Button Grid.Column="1"
+                                    Width="28"
+                                    Height="28"
+                                    Background="#2D5BD6"
+                                    BorderThickness="0"
+                                    ToolTip="新建项目">
+                                <TextBlock Text="+"
+                                           Foreground="White"
+                                           FontSize="12"
+                                           FontWeight="Bold"/>
+                            </Button>
+                        </Grid>
+                    </Border>
+                    
+                    <!-- 项目列表 -->
+                    <ScrollViewer Grid.Row="1"
+                                  VerticalScrollBarVisibility="Auto">
+                        <ItemsControl ItemsSource="{Binding ProjectList}">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <Border Padding="16 16 16 16"
+                                            BorderBrush="#F5F5F5"
+                                            Background="{Binding IsSelected, Converter={StaticResource BoolToBackgroundConverter}}"
+                                            Cursor="Hand">
+                                        <Border.Style>
+                                            <Style TargetType="Border">
+                                                <Setter Property="BorderThickness" Value="0 0 0 1"/>
+                                                <Setter Property="BorderBrush" Value="#F5F5F5"/>
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding IsSelected}" Value="True">
+                                                        <Setter Property="BorderThickness" Value="3 0 0 1"/>
+                                                        <Setter Property="BorderBrush" Value="{Binding IsSelected, Converter={StaticResource BoolToBorderBrushConverter}}"/>
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </Border.Style>
+                                        <Border.InputBindings>
+                                            <MouseBinding MouseAction="LeftClick" Command="{Binding SelectCommand}"/>
+                                        </Border.InputBindings>
+                                        <Grid>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="Auto"/>
+                                                <RowDefinition Height="Auto"/>
+                                            </Grid.RowDefinitions>
+                                            
+                                            <!-- 项目标题和状态 -->
+                                            <Grid Grid.Row="0"
+                                                  Margin="0 0 0 6">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition/>
+                                                    <ColumnDefinition Width="Auto"/>
+                                                    <ColumnDefinition Width="Auto"/>
+                                                </Grid.ColumnDefinitions>
+                                                
+                                                <TextBlock Grid.Column="0"
+                                                           Text="{Binding ProjectName}"
+                                                           FontWeight="SemiBold"
+                                                           FontSize="14"
+                                                           Foreground="#333333"
+                                                           TextWrapping="Wrap"
+                                                           Margin="0 0 10 0"/>
+                                                
+                                                <!-- 待审批标记 -->
+                                                <Border Grid.Column="1"
+                                                        Background="#FF6B35"
+                                                        CornerRadius="8"
+                                                        Padding="4 2 4 2"
+                                                        Margin="0 0 5 0"
+                                                        Visibility="{Binding NeedsApproval, Converter={StaticResource BoolToVisibilityConverter}}">
+                                                    <TextBlock Text="待审批"
+                                                               FontSize="9"
+                                                               Foreground="White"
+                                                               FontWeight="Bold"/>
+                                                </Border>
+                                                
+                                                <Border Grid.Column="2"
+                                                        Background="{Binding StatusBackground}"
+                                                        CornerRadius="10"
+                                                        Padding="3 3 8 3">
+                                                    <TextBlock Text="{Binding StatusText}"
+                                                               FontSize="11"
+                                                               Foreground="{Binding StatusForeground}"
+                                                               FontWeight="SemiBold"/>
+                                                </Border>
+                                            </Grid>
+                                            
+                                            <!-- 项目元信息 -->
+                                            <StackPanel Grid.Row="1"
+                                                        Orientation="Horizontal"
+                                                        VerticalAlignment="Center">
+                                                <TextBlock Text="{Binding ProjectLeader}"
+                                                           FontSize="12"
+                                                           Foreground="#666666"/>
+                                                <TextBlock Text=" | "
+                                                           FontSize="12"
+                                                           Foreground="#CCCCCC"
+                                                           Margin="8 0 8 0"/>
+                                                <TextBlock Text="{Binding StartTime, StringFormat='yyyy-MM-dd'}"
+                                                           FontSize="12"
+                                                           Foreground="#666666"/>
+                                            </StackPanel>
+                                        </Grid>
+                                    </Border>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </ScrollViewer>
+                </Grid>
+            </Border>
+        </Grid>
+        
+        
+
+        <Grid Grid.Row="1"
+              Grid.Column="1"
+              Margin="20 0 20 0">
+            
+            <!-- 项目概览卡片区域 -->
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                
+                <!-- 项目进度卡片 -->
+                <Border Grid.Column="0"
+                        Background="#9C27B0"
+                        CornerRadius="8"
+                        Margin="0 0 10 0"
+                        Height="116">
+                    <Border.Effect>
+                        <DropShadowEffect BlurRadius="10" 
+                                          ShadowDepth="0" 
+                                          Opacity="0.1" 
+                                          Color="Black"/>
+                    </Border.Effect>
+                    <Border Background="White"
+                            CornerRadius="8"
+                            Margin="0 5 0 0"
+                            Padding="20">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+
+                            <TextBlock Grid.Row="0"
+                                   Text="{Binding TotalProjects}"
+                                   FontSize="32"
+                                   FontWeight="Bold"
+                                   Foreground="#9C27B0"
+                                   HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"/>
+
+                            <TextBlock Grid.Row="1"
+                                   Text="项目总数"
+                                   FontSize="14"
+                                   Foreground="#666666"
+                                   HorizontalAlignment="Center"
+                                   Margin="0 5 0 0"/>
+                        </Grid>
+                    </Border>
+
+                </Border>
+                
+                <!-- 文件进度卡片 -->
+                <Border Grid.Column="1"
+                        Background="#2d5bd6"
+                        CornerRadius="8"
+                        Margin="10 0 10 0"
+                        Height="116">
+                    <Border.Effect>
+                        <DropShadowEffect BlurRadius="10" 
+                                          ShadowDepth="0" 
+                                          Opacity="0.1" 
+                                          Color="Black"/>
+                    </Border.Effect>
+                    <Border Padding="20"
+                            CornerRadius="8"
+                            Margin="0 5 0 0"
+                            Background="White">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+
+                            <TextBlock Grid.Row="0"
+                                   Text="{Binding CompletedProject}"
+                                   FontSize="32"
+                                   FontWeight="Bold"
+                                   Foreground="#2d5bd6"
+                                   HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"/>
+
+                            <TextBlock Grid.Row="1"
+                                   Text="已完成"
+                                   FontSize="14"
+                                   Foreground="#666666"
+                                   HorizontalAlignment="Center"
+                                   Margin="0 5 0 0"/>
+                        </Grid>
+                    </Border>
+
+                </Border>
+                
+                <!-- 剩余文档卡片 -->
+                <Border Grid.Column="2"
+                        Background="#4caf50"
+                        CornerRadius="8"
+                        Margin="10 0 10 0"
+                        Height="116">
+                    <Border.Effect>
+                        <DropShadowEffect BlurRadius="10" 
+                                          ShadowDepth="0" 
+                                          Opacity="0.1" 
+                                          Color="Black"/>
+                    </Border.Effect>
+                    <Border Padding="20"
+                            CornerRadius="8"
+                            Margin="0 5 0 0"
+                            Background="White">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+
+                            <TextBlock Grid.Row="0"
+                                   Text="{Binding InProgress}"
+                                   FontSize="32"
+                                   FontWeight="Bold"
+                                   Foreground="#4caf50"
+                                   HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"/>
+
+                            <TextBlock Grid.Row="1"
+                                   Text="进行中"
+                                   FontSize="14"
+                                   Foreground="#666666"
+                                   HorizontalAlignment="Center"
+                                   Margin="0 5 0 0"/>
+                        </Grid>
+                    </Border>
+
+                </Border>
+
+                <Border Grid.Column="3"
+                        Background="#FF9800"
+                        CornerRadius="8"
+                        Margin="10 0 10 0"
+                        Height="116">
+                    <Border.Effect>
+                        <DropShadowEffect BlurRadius="10" 
+                                          ShadowDepth="0" 
+                                          Opacity="0.1" 
+                                          Color="Black"/>
+                    </Border.Effect>
+                    <Border Padding="20"
+                            CornerRadius="8"
+                            Margin="0 5 0 0"
+                            Background="White">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+
+                            <TextBlock Grid.Row="0"
+                                   Text="{Binding UnderReview}"
+                                   FontSize="32"
+                                   FontWeight="Bold"
+                                   Foreground="#FF9800"
+                                   HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"/>
+
+                            <TextBlock Grid.Row="1"
+                                   Text="审核中"
+                                   FontSize="14"
+                                   Foreground="#666666"
+                                   HorizontalAlignment="Center"
+                                   Margin="0 5 0 0"/>
+                        </Grid>
+                    </Border>
+
+                </Border>
+
+                <!-- 当前阶段卡片 -->
+                <Border Grid.Column="4"
+                        Background="#f44336"
+                        CornerRadius="8"
+                        Margin="10 0 0 0"
+                        Height="116">
+                    <Border.Effect>
+                        <DropShadowEffect BlurRadius="10" 
+                                          ShadowDepth="0" 
+                                          Opacity="0.1" 
+                                          Color="Black"/>
+                    </Border.Effect>
+                    <Border Padding="20"
+                            CornerRadius="8"
+                            Margin="0 5 0 0"
+                            Background="White">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+
+                            <TextBlock Grid.Row="0"
+                                   Text="{Binding Pause}"
+                                   FontSize="24"
+                                   FontWeight="Bold"
+                                   Foreground="#f44336"
+                                   HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"/>
+
+                            <TextBlock Grid.Row="1"
+                                   Text="暂停"
+                                   FontSize="14"
+                                   Foreground="#666666"
+                                   HorizontalAlignment="Center"
+                                   Margin="0 5 0 0"/>
+                        </Grid>
+                    </Border>
+
+                </Border>
+
+                <Border Grid.Column="5"
+                        Background="#607d8b "
+                        CornerRadius="8"
+                        Margin="10 0 0 0"
+                        Height="116">
+                    <Border.Effect>
+                        <DropShadowEffect BlurRadius="10" 
+                                          ShadowDepth="0" 
+                                          Opacity="0.1" 
+                                          Color="Black"/>
+                    </Border.Effect>
+                    <Border Padding="20"
+                            CornerRadius="8"
+                            Margin="0 5 0 0"
+                            Background="White">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+
+                            <TextBlock Grid.Row="0"
+                                   Text="{Binding FailureNum}"
+                                   FontSize="24"
+                                   FontWeight="Bold"
+                                   Foreground="#607d8b"
+                                   HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"/>
+
+                            <TextBlock Grid.Row="1"
+                                   Text="失败"
+                                   FontSize="14"
+                                   Foreground="#666666"
+                                   HorizontalAlignment="Center"
+                                   Margin="0 5 0 0"/>
+                        </Grid>
+                    </Border>
+
+                </Border>
+
+                <Border Grid.Column="6"
+                        Background="#faf3e0"
+                        CornerRadius="8"
+                        Margin="10 0 0 0"
+                        Height="116">
+                    <Border.Effect>
+                        <DropShadowEffect BlurRadius="10" 
+                                          ShadowDepth="0" 
+                                          Opacity="0.1" 
+                                          Color="Black"/>
+                    </Border.Effect>
+                    <Border Padding="20"
+                            CornerRadius="8"
+                            Margin="0 5 0 0"
+                            Background="White">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+
+                            <TextBlock Grid.Row="0"
+                                   Text="{Binding CompletionRate}"
+                                   FontSize="24"
+                                   FontWeight="Bold"
+                                   Foreground="#607d8b"
+                                   HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"/>
+
+                            <TextBlock Grid.Row="1"
+                                   Text="完成率"
+                                   FontSize="14"
+                                   Foreground="#666666"
+                                   HorizontalAlignment="Center"
+                                   Margin="0 5 0 0"/>
+                        </Grid>
+                    </Border>
+
+                </Border>
+            </Grid>
+        </Grid>
+
+
+
+        <ScrollViewer Grid.Row="2"
+                      Grid.Column="1"
+                      Grid.RowSpan="3">
+
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+
+                <Grid>
+                    <Border Margin="20 0 20 0"
+                            Background="White"
+                            CornerRadius="15">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="55"/>
+                                <RowDefinition Height="110"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+
+                            <Grid>
+                                <StackPanel HorizontalAlignment="Left"
+                                            VerticalAlignment="Center"
+                                            Orientation="Horizontal"
+                                            Margin="20 0 0 0">
+                                    <Image Source="/Resources/Images/组织架构.png" 
+                                           Width="25"
+                                           Height="25"/>
+
+                                    <Label Margin="5 0 0 0"
+                                           Content="阶段管理 - "
+                                           Foreground="#2D5BD6"
+                                           FontSize="18"
+                                           FontWeight="Bold"/>
+                                    <TextBlock Text="{Binding Stageprojectname}"
+                                               VerticalAlignment="Center"
+                                               FontSize="18"
+                                               Foreground="#2D5BD6"
+                                               FontWeight="Bold"/>
+                                </StackPanel>
+                            </Grid>
+
+                            <Grid Grid.Row="1"
+                                  Margin="20 0 20 0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="2*"/>
+                                    <ColumnDefinition Width="2*"/>
+                                    <ColumnDefinition Width="2*"/>
+                                    <ColumnDefinition Width="2*"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+
+                                <ProgressBar Grid.ColumnSpan="6"
+                                             Value="{Binding Stageprogress}"
+                                             Height="5"
+                                             Margin="0"
+                                             BorderThickness="0"
+                                             Foreground="#1684FC"/>
+
+                                <Grid Grid.Column="0">
+                                    <Border Height="73"
+                                            Width="50"
+                                            Margin="0 27 0 0"
+                                            HorizontalAlignment="Right">
+                                        <StackPanel>
+                                            <Grid Width="50"
+                                                  Height="50">
+                                                <Ellipse Height="50"
+                                                         Width="50"
+                                                         Fill="{Binding Stage1Color}"/>
+                                                <Image Source="/Resources/Images/想法.png"
+                                                       Height="25"
+                                                       Width="25"/>
+                                                <Button Command="{Binding Stage1ClickedCommand}"
+                                                        Background="Transparent"
+                                                        BorderThickness="0"
+                                                        Width="50"
+                                                        Height="50">
+                                                    <Button.Style>
+                                                        <Style TargetType="Button">
+                                                            <Setter Property="Background" 
+                                                                    Value="Transparent"/>
+                                                            <Setter Property="BorderBrush" 
+                                                                    Value="Transparent"/>
+                                                            <Setter Property="BorderThickness" 
+                                                                    Value="0"/>
+                                                            <Setter Property="Template">
+                                                                <Setter.Value>
+                                                                    <ControlTemplate TargetType="Button">
+                                                                        <Border Background="{TemplateBinding Background}"
+                                                                                BorderBrush="{TemplateBinding BorderBrush}"
+                                                                                BorderThickness="{TemplateBinding BorderThickness}">
+                                                                            <ContentPresenter HorizontalAlignment="Center"
+                                                                                              VerticalAlignment="Center"/>
+                                                                        </Border>
+                                                                    </ControlTemplate>
+                                                                </Setter.Value>
+                                                            </Setter>
+                                                        </Style>
+                                                    </Button.Style>
+                                                </Button>
+                                            </Grid>
+                                            <TextBlock Text="{Binding Stage1Name}"
+                                                       HorizontalAlignment="Center"
+                                                       FontSize="12"/>
+                                        </StackPanel>
+                                    </Border>
+                                </Grid>
+
+                                <Grid Grid.Column="1">
+                                    <Border Height="73"
+                                            Width="50"
+                                            Margin="0 27 0 0"
+                                            HorizontalAlignment="Right">
+                                        <StackPanel>
+                                            <Grid Width="50"
+                                                  Height="50">
+                                                <Ellipse Height="50"
+                                                         Width="50"
+                                                         Fill="{Binding Stage2Color}"/>
+                                                <Image Source="/Resources/Images/采购2.png"
+                                                       Height="25"
+                                                       Width="25"/>
+                                                <Button Command="{Binding Stage2ClickedCommand}"
+                                                        Background="Transparent"
+                                                        BorderThickness="0"
+                                                        Width="50"
+                                                        Height="50">
+                                                    <Button.Style>
+                                                        <Style TargetType="Button">
+                                                            <Setter Property="Background" 
+                                                                    Value="Transparent"/>
+                                                            <Setter Property="BorderBrush" 
+                                                                    Value="Transparent"/>
+                                                            <Setter Property="BorderThickness" 
+                                                                    Value="0"/>
+                                                            <Setter Property="Template">
+                                                                <Setter.Value>
+                                                                    <ControlTemplate TargetType="Button">
+                                                                        <Border Background="{TemplateBinding Background}"
+                                                                                BorderBrush="{TemplateBinding BorderBrush}"
+                                                                                BorderThickness="{TemplateBinding BorderThickness}">
+                                                                            <ContentPresenter HorizontalAlignment="Center"
+                                                                          VerticalAlignment="Center"/>
+                                                                        </Border>
+                                                                    </ControlTemplate>
+                                                                </Setter.Value>
+                                                            </Setter>
+                                                        </Style>
+                                                    </Button.Style>
+                                                </Button>
+                                            </Grid>
+                                            <TextBlock Text="{Binding Stage2Name}"
+                                   HorizontalAlignment="Center"
+                                   FontSize="12"/>
+                                        </StackPanel>
+                                    </Border>
+                                </Grid>
+
+                                <Grid Grid.Column="2">
+                                    <Border Height="73"
+                        Width="50"
+                        Margin="0 27 0 0"
+                        HorizontalAlignment="Right">
+                                        <StackPanel>
+                                            <Grid Width="50"
+                              Height="50">
+                                                <Ellipse Height="50"
+                                     Width="50"
+                                     Fill="{Binding Stage3Color}"/>
+                                                <Image Source="/Resources/Images/预验收.png"
+                                   Height="25"
+                                   Width="25"/>
+                                                <Button Command="{Binding Stage3ClickedCommand}"
+                                    Background="Transparent"
+                                    BorderThickness="0"
+                                    Width="50"
+                                    Height="50">
+                                                    <Button.Style>
+                                                        <Style TargetType="Button">
+                                                            <Setter Property="Background" 
+                                                Value="Transparent"/>
+                                                            <Setter Property="BorderBrush" 
+                                                Value="Transparent"/>
+                                                            <Setter Property="BorderThickness" 
+                                                Value="0"/>
+                                                            <Setter Property="Template">
+                                                                <Setter.Value>
+                                                                    <ControlTemplate TargetType="Button">
+                                                                        <Border Background="{TemplateBinding Background}"
+                                                            BorderBrush="{TemplateBinding BorderBrush}"
+                                                            BorderThickness="{TemplateBinding BorderThickness}">
+                                                                            <ContentPresenter HorizontalAlignment="Center"
+                                                                          VerticalAlignment="Center"/>
+                                                                        </Border>
+                                                                    </ControlTemplate>
+                                                                </Setter.Value>
+                                                            </Setter>
+                                                        </Style>
+                                                    </Button.Style>
+                                                </Button>
+                                            </Grid>
+                                            <TextBlock Text="{Binding Stage3Name}"
+                                   HorizontalAlignment="Center"
+                                   FontSize="12"/>
+                                        </StackPanel>
+                                    </Border>
+                                </Grid>
+
+                                <Grid Grid.Column="3">
+                                    <Border Height="73"
+                        Width="50"
+                        Margin="0 27 0 0"
+                        HorizontalAlignment="Right">
+                                        <StackPanel>
+                                            <Grid Width="50"
+                              Height="50">
+                                                <Ellipse Height="50"
+                                     Width="50"
+                                     Fill="{Binding Stage4Color}"/>
+                                                <Image Source="/Resources/Images/验收.png"
+                                   Height="25"
+                                   Width="25"/>
+                                                <Button Command="{Binding Stage4ClickedCommand}"
+                                    Background="Transparent"
+                                    BorderThickness="0"
+                                    Width="50"
+                                    Height="50">
+                                                    <Button.Style>
+                                                        <Style TargetType="Button">
+                                                            <Setter Property="Background" 
+                                                Value="Transparent"/>
+                                                            <Setter Property="BorderBrush" 
+                                                Value="Transparent"/>
+                                                            <Setter Property="BorderThickness" 
+                                                Value="0"/>
+                                                            <Setter Property="Template">
+                                                                <Setter.Value>
+                                                                    <ControlTemplate TargetType="Button">
+                                                                        <Border Background="{TemplateBinding Background}"
+                                                            BorderBrush="{TemplateBinding BorderBrush}"
+                                                            BorderThickness="{TemplateBinding BorderThickness}">
+                                                                            <ContentPresenter HorizontalAlignment="Center"
+                                                                          VerticalAlignment="Center"/>
+                                                                        </Border>
+                                                                    </ControlTemplate>
+                                                                </Setter.Value>
+                                                            </Setter>
+                                                        </Style>
+                                                    </Button.Style>
+                                                </Button>
+                                            </Grid>
+                                            <TextBlock Text="{Binding Stage4Name}"
+                                   HorizontalAlignment="Center"
+                                   FontSize="12"/>
+                                        </StackPanel>
+                                    </Border>
+                                </Grid>
+
+                                <Grid Grid.Column="4">
+                                    <Border Height="73"
+                        Width="50"
+                        Margin="0 27 0 0"
+                        HorizontalAlignment="Right">
+                                        <StackPanel>
+                                            <Grid Width="50"
+                              Height="50">
+                                                <Ellipse Height="50"
+                                     Width="50"
+                                     Fill="{Binding Stage5Color}"/>
+                                                <Image Source="/Resources/Images/完成.png"
+                                   Height="25"
+                                   Width="25"/>
+                                                <Button Command="{Binding Stage5ClickedCommand}"
+                                    Background="Transparent"
+                                    BorderThickness="0"
+                                    Width="50"
+                                    Height="50">
+                                                    <Button.Style>
+                                                        <Style TargetType="Button">
+                                                            <Setter Property="Background" 
+                                                Value="Transparent"/>
+                                                            <Setter Property="BorderBrush" 
+                                                Value="Transparent"/>
+                                                            <Setter Property="BorderThickness" 
+                                                Value="0"/>
+                                                            <Setter Property="Template">
+                                                                <Setter.Value>
+                                                                    <ControlTemplate TargetType="Button">
+                                                                        <Border Background="{TemplateBinding Background}"
+                                                            BorderBrush="{TemplateBinding BorderBrush}"
+                                                            BorderThickness="{TemplateBinding BorderThickness}">
+                                                                            <ContentPresenter HorizontalAlignment="Center"
+                                                                          VerticalAlignment="Center"/>
+                                                                        </Border>
+                                                                    </ControlTemplate>
+                                                                </Setter.Value>
+                                                            </Setter>
+                                                        </Style>
+                                                    </Button.Style>
+                                                </Button>
+                                            </Grid>
+                                            <TextBlock Text="{Binding Stage5Name}"
+                                   HorizontalAlignment="Center"
+                                   FontSize="12"/>
+                                        </StackPanel>
+                                    </Border>
+                                </Grid>
+
+                            </Grid>
+
+                            <Grid Grid.Row="2">
+                                <Border Margin="20 0 20 20"
+                    Background="#F9F9F9"
+                    CornerRadius="15">
+                                    <Grid>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="48"/>
+                                            <RowDefinition Height="Auto"/>
+                                            <RowDefinition Height="Auto"/>
+                                        </Grid.RowDefinitions>
+
+                                        <StackPanel Margin="30 0 0 5"
+                                Orientation="Horizontal"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Bottom">
+                                            <TextBlock Text="{Binding Projectstage}"
+                                   FontSize="16"
+                                   FontWeight="Bold"
+                                   Foreground="#101010"/>
+                                            <TextBlock Text=" - "
+                                   FontSize="16"
+                                   FontWeight="Bold"
+                                   Foreground="#101010"/>
+                                            <TextBlock Text="所需信息"
+                                   FontSize="16"
+                                   FontWeight="Bold"
+                                   Foreground="#101010"/>
+                                        </StackPanel>
+
+                                        <Border Grid.Row="1"
+                                                BorderThickness=" 0 0 0 1"
+                                                BorderBrush="#BBBBBB"
+                                                Margin="30 0 30 0">
+
+                                            <ItemsControl ItemsSource="{Binding InformationCardArea}"
+                                                            HorizontalAlignment="Stretch"
+                                                            VerticalAlignment="Top">
+                                                <ItemsControl.ItemsPanel>
+                                                    <ItemsPanelTemplate>
+                                                        <WrapPanel Orientation="Horizontal" 
+                                                                    HorizontalAlignment="Left"
+                                                                    VerticalAlignment="Top"
+                                                                    Width="{Binding RelativeSource={RelativeSource AncestorType=ScrollViewer}, Path=ActualWidth}"/>
+                                                    </ItemsPanelTemplate>
+                                                </ItemsControl.ItemsPanel>
+
+                                                <ItemsControl.ItemTemplate>
+                                                    <DataTemplate>
+                                                        <uc:InformationCard Margin="20 20 30 20"
+                                                                            Loginpersonnamegrade="{Binding Loginpersonnamegrade}"
+                                                                            InformationTag="{Binding Taginfor}"
+                                                                            InformationTypes="{Binding Infortype,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                                                                            FileIsExist="{Binding Fileisexist,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                                                                            FileName="{Binding Filename}"
+                                                                            CheckCommand="{Binding checkcommandCommand}"
+                                                                            File_OA_InData="{Binding File_oa_indata}"
+                                                                            File_OA_WriteData="{Binding File_oa_writedata,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                                                                            File_OA_BtnCommand="{Binding File_OA_BtnFunCommand}"
+                                                            
+                                                                            Infor_Prople="{Binding Infor_people,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                                                                            Infor_People_Ob="{Binding Infor_people_ob}"
+                                                                            Infor_Sele_People="{Binding Infor_sele_people,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                                                                            Infor_People_BtnCom="{Binding Infor_People_BtnFunCommand}"
+                                                            
+                                                                            Infor_Text_In="{Binding Infor_text_in}"
+                                                                            Infor_Text_Write="{Binding Infor_text_write,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                                                                            Infor_Text_BtnCom="{Binding Infor_text_btnFunCommand}"
+                                                                            Infor_Data_Text_In="{Binding Infor_date_in}"
+                                                                            Infor_Date_SelectTime="{Binding Infor_date_selecttime,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                                                                            Infor_Date_Btn_Com="{Binding Infor_Data_BtnFunCommand}"
+                                                            
+                                                                            Infor_Equipmenttype="{Binding Infor_equipmenttype,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                                                                            Infor_Equipments_Ob="{Binding Infor_EquipmentTypes}"
+                                                                            Infor_Sele_Equipment="{Binding SelectedEquipmentType,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                                                                            Inofor_Equipment_BtnCom="{Binding Infor_Equipment_BtnFunCommand}"
+                                                            
+                                                                            Infor_Types="{Binding Infor_type,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                                                                            Infor_Types_Ob="{Binding Types}"
+                                                                            Infor_Sele_Types="{Binding SelectedType,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                                                                            Infor_Types_Btncom="{Binding Infor_Type_BtnFunCommand}"
+                                                            
+                                                                            Infor_ProjectsStage="{Binding Infor_projectstage}"
+                                                                            Infor_ProjectStage_Ob="{Binding Projectstage}"
+                                                                            Infor_Sele_ProjectStage="{Binding Selectedprojectstage,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                                                                            Infor_ProjectStage_Btncom="{Binding Infor_ProjectStage_BtnFunCommand}"
+                                                            
+                                                                            Infor_ProjectPha="{Binding Infor_projectphasestatus}"
+                                                                            Infor_ProjectPha_Ob="{Binding Projectphasestatus}"
+                                                                            Infor_Sele_ProjectPha="{Binding Selectedprojectphasestatus,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                                                                            Infor_Project_BtnCom="{Binding Infor_projectphase_BtnFunCommand}"
+                                                            
+                                                                            />
+                                                    </DataTemplate>
+                                                </ItemsControl.ItemTemplate>
+                                            </ItemsControl>
+
+                                        </Border>
+
+                                        <Grid Grid.Row="2"
+                                              Margin="0 0 30 0">
+                                            <StackPanel Orientation="Horizontal"
+                                                        HorizontalAlignment="Right"
+                                                        VerticalAlignment="Center">
+
+                                                <Button Width="96"
+                                                        Height="36"
+                                                        Margin="0 20 47 20"
+                                                        Content="标记为失败"
+                                                        Foreground="White"
+                                                        BorderThickness="0"
+                                                        FontSize="14"
+                                                        Background="#9E9E9E"
+                                                        IsEnabled="{Binding Failurebutton}"
+                                                        Command="{Binding FailureCommand}"/>
+
+                                                <Grid Width="96"
+                                                      Height="36"
+                                                      Margin="0 20 47 20">
+                                                    <Button Width="96"
+                                                            Height="36"
+                                                            Content="暂停"
+                                                            Foreground="White"
+                                                            BorderThickness="0"
+                                                            FontSize="14"
+                                                            Background="#FF9800"
+                                                            IsEnabled="{Binding Pausebutton}"
+                                                            Visibility="{Binding Pausebuttonvisib}"
+                                                            Command="{Binding PauseProjectCommand}"/>
+
+                                                    <Button Width="96"
+                                                            Height="36"
+                                                            Content="恢复"
+                                                            Foreground="White"
+                                                            BorderThickness="0"
+                                                            FontSize="14"
+                                                            Background="#4CAF50 "
+                                                            IsEnabled="{Binding Restartbutton}"
+                                                            Visibility="{Binding Restartbuttonvisib}"
+                                                            Command="{Binding RestartCommand}"/>
+
+                                                </Grid>
+
+
+                                                <Button Width="96"
+                                                        Height="36"
+                                                        Margin="0 20 47 20"
+                                                        Content="提交审批"
+                                                        BorderBrush="Transparent"
+                                                        BorderThickness="0"
+                                                        Foreground="White"
+                                                        FontSize="14"
+                                                        Background="#2D5BD6"
+                                                        IsEnabled="{Binding SubmitApprovalbutton}"
+                                                        Command="{Binding SubmitApprovalCommand}"/>
+
+                                                <Button Width="96"
+                                                        Height="36"
+                                                        Margin="0 20 5 20"
+                                                        Content="驳回"
+                                                        Foreground="White"
+                                                        BorderThickness="0"
+                                                        FontSize="14"
+                                                        Background="#F44336"
+                                                        IsEnabled="{Binding RejectApprovalbutton}"
+                                                        Command="{Binding RejectApprovalCommand}"/>
+
+                                                <!--<Button Width="161"
+                                    Height="36"
+                                    Content="允许进行下一阶段"
+                                    Foreground="White"
+                                    Background="#4CAF50"
+                                    FontSize="14"
+                                    BorderThickness="0"/>-->
+
+                                            </StackPanel>
+                                        </Grid>
+
+                                    </Grid>
+                                </Border>
+                            </Grid>
+                        </Grid>
+                    </Border>
+                </Grid>
+
+                <!--审批历史-->
+                <Grid Grid.Row="1">
+
+                    <Border Background="White"
+                            CornerRadius="15"
+                            Margin="20 10 20 0">
+
+                        <Grid Margin="20">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="55"/>
+                                <RowDefinition Height="136"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+
+                            <Grid>
+                                <StackPanel HorizontalAlignment="Left"
+                                            VerticalAlignment="Center"
+                                            Orientation="Horizontal"
+                                            Margin="0 0 0 0">
+                                    <Image Source="/Resources/Images/history.png" 
+                                           Width="25"
+                                           Height="25"/>
+
+                                    <Label Margin="5 0 0 0"
+                                           Content="审批历史 - "
+                                           Foreground="#2D5BD6"
+                                           FontSize="18"
+                                           FontWeight="Bold"/>
+                                    <TextBlock Text="{Binding Stageprojectname}"
+                                               VerticalAlignment="Center"
+                                               FontSize="18"
+                                               Foreground="#2D5BD6"
+                                               FontWeight="Bold"/>
+                                </StackPanel>
+                            </Grid>
+
+                            <Grid Grid.Row="1">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="22"/>
+                                    <RowDefinition Height="80"/>
+                                    <RowDefinition Height="20"/>
+                                </Grid.RowDefinitions>
+
+                                <Grid Grid.Row="0"
+                                      VerticalAlignment="Center">
+                                    <TextBlock Text="当前审批人"
+                                               FontSize="14"
+                                               Foreground="#666666"
+                                               HorizontalAlignment="Left"/>
+
+                                    <Grid Width="100"
+                                          HorizontalAlignment="Right">
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock Text="审批进度"
+                                                       FontSize="14"
+                                                       Foreground="#666666"/>
+                                            <TextBlock Text="("
+                                                       FontSize="14"
+                                                       Foreground="#666666"/>
+                                            <TextBlock Text="{Binding ApprovalProgress}"
+                                                       FontSize="14"
+                                                       Foreground="#666666"/>
+                                            <TextBlock Text=")"
+                                                       FontSize="14"
+                                                       Foreground="#666666"/>
+                                        </StackPanel>
+                                    </Grid>
+                                </Grid>
+
+                                <Border Grid.Row="1"
+                                        BorderThickness="0 0 0 1"
+                                        BorderBrush="#e0e0e0">
+                                    <Grid Grid.Row="1">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="Auto"/>
+                                        </Grid.ColumnDefinitions>
+
+                                        <!-- 当前审批人信息 -->
+                                        <Border Grid.Column="0"
+                                            VerticalAlignment="Center">
+                                            <StackPanel Orientation="Horizontal"
+                                                    VerticalAlignment="Center">
+                                                <Border Width="40"
+                                                    Height="40"
+                                                    Background="#2D5BD6"
+                                                    CornerRadius="20"
+                                                    VerticalAlignment="Center">
+                                                    <TextBlock Text="{Binding CurrentApproverName, StringFormat={}{0:0}}"
+                                                           Foreground="White"
+                                                           FontWeight="Bold"
+                                                           FontSize="16"
+                                                           HorizontalAlignment="Center"
+                                                           VerticalAlignment="Center"/>
+                                                </Border>
+                                                <StackPanel Margin="10 0 0 0"
+                                                        VerticalAlignment="Center">
+                                                    <TextBlock Text="{Binding CurrentApproverName}"
+                                                           FontWeight="Bold"
+                                                           FontSize="14"/>
+                                                </StackPanel>
+                                            </StackPanel>
+                                        </Border>
+
+                                        <!-- 审批进度 -->
+                                        <Border Grid.Column="1"
+                                            VerticalAlignment="Center"
+                                            HorizontalAlignment="Right"
+                                            Height="40">
+                                            <StackPanel Orientation="Horizontal"
+                                                    VerticalAlignment="Center">
+                                                <ProgressBar Width="100"
+                                                         Height="8"
+                                                         Value="{Binding ApprovalProgressPercentage}"
+                                                         Maximum="100"
+                                                         Background="#E0E0E0"
+                                                         Foreground="#2D5BD6"
+                                                         Margin="0 0 10 0"/>
+                                                <TextBlock Text="{Binding ApprovalProgressPercentage, StringFormat={}{0}%}"
+                                                       FontSize="14"
+                                                       Foreground="#666666"/>
+                                            </StackPanel>
+                                        </Border>
+                                    </Grid>
+                                </Border>
+
+                            </Grid>
+                            
+                            <!-- 审批时间线 -->
+                            <Grid Grid.Row="2">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="*"/>
+                                </Grid.RowDefinitions>
+                                
+                                <!-- 时间线标题和筛选 -->
+                                <Grid Grid.Row="0"
+                                      Margin="0 0 0 15">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                    </Grid.ColumnDefinitions>
+
+                                    <TextBlock Grid.Column="0"
+                                               Text="审批流程"
+                                               FontSize="16"
+                                               FontWeight="Bold"
+                                               Foreground="#2D5BD6"/>
+                                </Grid>
+
+                                <!-- 时间线内容 -->
+                                <ItemsControl Grid.Row="1"
+                                              ItemsSource="{Binding ApprovalHistoryItems}"
+                                              Margin="0 10 0 0">
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate>
+                                            <Grid Margin="0 0 0 15">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="30"/>
+                                                    <ColumnDefinition Width="*"/>
+                                                </Grid.ColumnDefinitions>
+
+                                                <!-- 时间线标记 -->
+                                                <Border Grid.Column="0"
+                                                        Width="20"
+                                                        Height="20"
+                                                        Background="{Binding StatusColor}"
+                                                        CornerRadius="10"
+                                                        HorizontalAlignment="Center"
+                                                        VerticalAlignment="Top">
+                                                    <TextBlock Text="{Binding StatusIcon}"
+                                                               Foreground="White"
+                                                               FontSize="10"
+                                                               HorizontalAlignment="Center"
+                                                               VerticalAlignment="Center"/>
+                                                </Border>
+
+                                                <!-- 时间线内容 -->
+                                                <Border Grid.Column="1"
+                                                        Background="#F9F9F9"
+                                                        CornerRadius="8"
+                                                        Padding="15">
+                                                    <Grid>
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="*"/>
+                                                            <ColumnDefinition Width="Auto"/>
+                                                        </Grid.ColumnDefinitions>
+
+                                                        <StackPanel Grid.Column="0">
+                                                            <StackPanel Orientation="Horizontal"
+                                                                        Margin="0 0 0 8">
+                                                                <TextBlock Text="{Binding ApproverName}"
+                                                                           FontWeight="Bold"
+                                                                           FontSize="14"/>
+                                                                <Border Background="{Binding StatusBackground}"
+                                                                        CornerRadius="4"
+                                                                        Padding="3 1"
+                                                                        Margin="10 0 0 0">
+                                                                    <TextBlock Text="{Binding StatusText}"
+                                                                               FontSize="12"
+                                                                               Foreground="{Binding StatusForeground}"/>
+                                                                </Border>
+                                                            </StackPanel>
+                                                            <TextBlock Text="{Binding Comments}"
+                                                                       FontSize="14"
+                                                                       Foreground="#666666"/>
+                                                        </StackPanel>
+
+                                                        <TextBlock Grid.Column="1"
+                                                                   Text="{Binding ApprovalTime, StringFormat='yyyy-MM-dd HH:mm'}"
+                                                                   FontSize="12"
+                                                                   Foreground="#666666"/>
+                                                    </Grid>
+                                                </Border>
+                                            </Grid>
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
+                            </Grid>
+
+
+                        </Grid>
+
+                    </Border>
+                </Grid>
+                
+            </Grid>
+        </ScrollViewer>
+        
+    </Grid>
+</UserControl>
