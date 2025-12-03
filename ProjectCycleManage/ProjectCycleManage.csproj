@@ -29,13 +29,17 @@
     <None Remove="Resources\Images\卡片数量.png" />
     <None Remove="Resources\Images\图标.ico" />
     <None Remove="Resources\Images\基本信息.png" />
+    <None Remove="Resources\Images\备注01.png" />
     <None Remove="Resources\Images\完成.png" />
     <None Remove="Resources\Images\审批人.png" />
+    <None Remove="Resources\Images\导入.png" />
     <None Remove="Resources\Images\年份.png" />
+    <None Remove="Resources\Images\总览.png" />
     <None Remove="Resources\Images\想法.png" />
     <None Remove="Resources\Images\折线图.png" />
     <None Remove="Resources\Images\授权管理.png" />
     <None Remove="Resources\Images\授权管理蓝.png" />
+    <None Remove="Resources\Images\搜索.png" />
     <None Remove="Resources\Images\数据分析.png" />
     <None Remove="Resources\Images\文档.png" />
     <None Remove="Resources\Images\用户管理.png" />
@@ -90,7 +94,16 @@
     <Resource Include="Resources\Images\卡片数量.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
+    <Resource Include="Resources\Images\备注01.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="Resources\Images\审批人.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\导入.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\总览.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Resources\Images\折线图.png">
@@ -100,6 +113,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Resources\Images\授权管理蓝.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\搜索.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Resources\Images\数据分析.png">
