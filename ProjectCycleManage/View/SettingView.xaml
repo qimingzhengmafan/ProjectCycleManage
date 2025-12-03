@@ -328,6 +328,49 @@
                             </Grid>
                         </Button.Content>
                     </Button>
+
+                    <!-- 导入历史记录卡片 -->
+                    <Button Style="{StaticResource SettingCardStyle_Button}"
+                            Width="320" 
+                            Height="220" 
+                            Margin="0,0 , 0,20"
+                            BorderThickness="4,0,0,0" 
+                            Command="{Binding ImportHisViewCommand}"
+                            BorderBrush="#2d5bd6">
+                        <Button.Content>
+                            <Grid Width="270"
+                                    Height="170">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="85"/>
+                                    <RowDefinition Height="37"/>
+                                    <RowDefinition/>
+                                </Grid.RowDefinitions>
+                                <Border Height="70"
+                                        VerticalAlignment="Top"
+                                        Width="70"
+                                        Background="#2044a4"
+                                        CornerRadius="35">
+                                    <Image Source="/Resources/Images/导入.png"
+                                           Width="28"
+                                           Height="29"/>
+                                </Border>
+
+                                <TextBlock Grid.Row="1" 
+                                           Text="历史导入"
+                                           FontSize="18"
+                                           FontWeight="Bold"
+                                           HorizontalAlignment="Center"
+                                           VerticalAlignment="Top"
+                                           Foreground="#2D5BD6"/>
+                                <TextBlock Grid.Row="2"
+                                           TextWrapping="Wrap"
+                                           HorizontalAlignment="Center"
+                                           Text="导入历史项目记录"
+                                           FontSize="14"
+                                           Foreground="#666666"/>
+                            </Grid>
+                        </Button.Content>
+                    </Button>
                 </WrapPanel>
             </Grid>
 
@@ -356,6 +399,11 @@
         <Grid Grid.Row="1"
               Visibility="{Binding Projectstagevisib}">
             <local:ProjectStageView DataContext="{Binding ProjectstageviewVM}"/>
+        </Grid>
+
+        <Grid Grid.Row="1"
+              Visibility="{Binding Vis_importhisvisib}">
+            <local:ImportHistoryView DataContext="{Binding ImportHistoryInforVM}"/>
         </Grid>
     </Grid>
 </UserControl>

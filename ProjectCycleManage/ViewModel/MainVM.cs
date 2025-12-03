@@ -43,7 +43,11 @@ namespace ProjectCycleManage.ViewModel
         public NewProjectVM NewProject
         {
             get => _newprojectvm;
-            set => _newprojectvm = value;
+            set
+            {
+                _newprojectvm = value;
+                OnPropertyChanged();
+            }
         }
 
         private DataChartVM _datachartvm;
@@ -68,6 +72,8 @@ namespace ProjectCycleManage.ViewModel
             }
         }
 
+
+
         private Timer _monitoringTimer;
         private readonly HashSet<int> _alertedProjects;
         private readonly Dictionary<int, DateTime> _alertTimes;
@@ -81,7 +87,7 @@ namespace ProjectCycleManage.ViewModel
 
 
             _overviewvm = new OverviewVM(Loginpersonnamegrade , Loginpersonname);
-            _newprojectvm= new NewProjectVM(Loginpersonnamegrade, Loginpersonname);
+            
 
 
             _alertedProjects = new HashSet<int>();
@@ -341,9 +347,12 @@ namespace ProjectCycleManage.ViewModel
                 if (project == null)
                     return false;
 
-                // 2. 检查审批权限 - 查询 typeapprflowpersseqtable 表
+                // 2. 检查审批权限 - 查询 typeapprflowpersseqtable 表(必须同时匹配阶段和未删除)
                 var hasPermission = await _context.TypeApprFlowPersSeqTable
-                    .AnyAsync(x => x.equipmenttypeId == project.equipmenttypeId && x.ReviewerPeopleId == currentUserId);
+                    .AnyAsync(x => x.equipmenttypeId == project.equipmenttypeId && 
+                                  x.projectflowId == project.ProjInforId && 
+                                  x.Mark != "Dele" && 
+                                  x.ReviewerPeopleId == currentUserId);
 
                 if (!hasPermission)
                 {
@@ -375,9 +384,11 @@ namespace ProjectCycleManage.ViewModel
 
                 if (inspectionRecord == null)
                 {
-                    // 不存在审批记录，检查是否为第一顺位审批人
+                    // 不存在审批记录，检查是否为第一顺位审批人(必须同时匹配阶段和未删除)
                     var firstApprover = await _context.TypeApprFlowPersSeqTable
-                        .Where(x => x.equipmenttypeId == project.equipmenttypeId)
+                        .Where(x => x.equipmenttypeId == project.equipmenttypeId && 
+                                   x.projectflowId == currentProjectStatus && 
+                                   x.Mark != "Dele")
                         .OrderBy(x => x.Sequence)
                         .Select(x => x.ReviewerPeopleId)
                         .FirstOrDefaultAsync();
@@ -386,9 +397,12 @@ namespace ProjectCycleManage.ViewModel
                 }
                 else
                 {
-                    // 存在审批记录，检查前一顺位是否通过
+                    // 存在审批记录,检查前一顺位是否通过(必须同时匹配阶段和未删除)
                     var currentUserSeq = await _context.TypeApprFlowPersSeqTable
-                        .Where(x => x.equipmenttypeId == project.equipmenttypeId && x.ReviewerPeopleId == currentUserId)
+                        .Where(x => x.equipmenttypeId == project.equipmenttypeId && 
+                                   x.projectflowId == currentProjectStatus && 
+                                   x.Mark != "Dele" && 
+                                   x.ReviewerPeopleId == currentUserId)
                         .Select(x => x.Sequence)
                         .FirstOrDefaultAsync();
 
@@ -436,10 +450,13 @@ namespace ProjectCycleManage.ViewModel
                         return true;
                     }
 
-                    // 查找前一顺位审批人的审批结果
+                    // 查找前一顺位审批人的审批结果(必须同时匹配阶段和未删除)
                     var previousSeq = currentUserSeq - 1;
                     var previousApproverId = await _context.TypeApprFlowPersSeqTable
-                        .Where(x => x.equipmenttypeId == project.equipmenttypeId && x.Sequence == previousSeq)
+                        .Where(x => x.equipmenttypeId == project.equipmenttypeId && 
+                                   x.projectflowId == currentProjectStatus && 
+                                   x.Mark != "Dele" && 
+                                   x.Sequence == previousSeq)
                         .Select(x => x.ReviewerPeopleId)
                         .FirstOrDefaultAsync();
 
@@ -586,7 +603,7 @@ namespace ProjectCycleManage.ViewModel
             }
             catch (Exception ex)
             {
-                MessageBox.Show("$\"项目监控出错: {ex.Message}\"");
+                MessageBox.Show($"项目监控出错: {ex.Message}");
                 Console.WriteLine($"项目监控出错: {ex.Message}");
             }
         }
@@ -662,6 +679,8 @@ namespace ProjectCycleManage.ViewModel
         [ObservableProperty]
         private Visibility _vis_settingvisib;
 
+
+
         [RelayCommand]
         private async void OverViewFun()
         {
@@ -685,8 +704,10 @@ namespace ProjectCycleManage.ViewModel
         [RelayCommand]
         private void NewProjectFun()
         {
-            Vis_overview = Visibility.Collapsed;
             Vis_newproject = Visibility.Visible;
+            NewProject = new NewProjectVM(Loginpersonnamegrade, Loginpersonname);
+
+            Vis_overview = Visibility.Collapsed;
             Vis_dataanalysis = Visibility.Collapsed;
             Vis_settingvisib = Visibility.Collapsed;
         }
@@ -712,9 +733,10 @@ namespace ProjectCycleManage.ViewModel
             Vis_overview = Visibility.Collapsed;
             Vis_newproject = Visibility.Collapsed;
 
-
-            SettingVM = new SettingVM();
+            SettingVM = new SettingVM(Loginpersonnamegrade, Loginpersonname);
         }
+
+
 
         #endregion
 

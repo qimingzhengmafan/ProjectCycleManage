@@ -315,7 +315,7 @@ namespace ProjectCycleManage.ViewModel
             }
 
             await ExecuteApprovalProcessAsync();
-            GetProjectsOverviewList();
+            await GetProjectsOverviewList();
         }
 
         [RelayCommand]
@@ -397,7 +397,7 @@ namespace ProjectCycleManage.ViewModel
             await WriteRejectionResultAsync(context);
             
             MessageBox.Show("项目已驳回！");
-            GetProjectsOverviewList();
+            await GetProjectsOverviewList();
         }
 
         [RelayCommand]
@@ -432,7 +432,7 @@ namespace ProjectCycleManage.ViewModel
             {
                 MessageBox.Show("无需暂停");
             }
-            GetProjectsOverviewList();
+            await GetProjectsOverviewList();
         }
 
         [RelayCommand]
@@ -450,7 +450,6 @@ namespace ProjectCycleManage.ViewModel
 
             // 获取当前项目信息
             var project = await context.Projects
-                .Include(p => p.ProjInforId)
                 .Include(p => p.ProjectPhaseStatus)
                 .FirstOrDefaultAsync(p => p.ProjectsId == projectId);
 
@@ -478,7 +477,7 @@ namespace ProjectCycleManage.ViewModel
             {
                 MessageBox.Show("无需恢复");
             }
-            GetProjectsOverviewList();
+            await GetProjectsOverviewList();
         }
 
         [RelayCommand]
@@ -522,7 +521,7 @@ namespace ProjectCycleManage.ViewModel
             {
                 MessageBox.Show("已取消");
             }
-            GetProjectsOverviewList();
+            await GetProjectsOverviewList();
         }
 
         [RelayCommand]
@@ -545,7 +544,7 @@ namespace ProjectCycleManage.ViewModel
                 MessageBox.Show($"测试审批记录写入失败：{ex.Message}");
             }
         }
-        private async void GetProjectsOverviewList()
+        private async Task GetProjectsOverviewList()
         {
             await Task.Run(async () =>
             {
@@ -1702,9 +1701,10 @@ namespace ProjectCycleManage.ViewModel
             // 获取当前登录人ID
             var currentUserId = await GetCurrentUserIdAsync(context);
             
-            // 查询typeappflowpersseqtable表，确认当前登录人是否具有审批资格
+            // 查询typeappflowpersseqtable表，确认当前登录人是否具有审批资格(必须同时匹配阶段和未删除)
             var hasApprovalPermission = await context.TypeApprFlowPersSeqTable
                 .AnyAsync(t => t.equipmenttypeId == project.equipmenttypeId 
+                             && t.projectflowId == project.ProjInforId 
                              && t.ReviewerPeopleId == currentUserId 
                              && t.Mark != "Dele");
             
@@ -1791,9 +1791,10 @@ namespace ProjectCycleManage.ViewModel
             // 获取当前登录人ID
             var currentUserId = await GetCurrentUserIdAsync(context);
             
-            // 查询第一顺位审批人
+            // 查询第一顺位审批人(必须同时匹配阶段和未删除)
             var firstApprover = await context.TypeApprFlowPersSeqTable
                 .Where(t => t.equipmenttypeId == project.equipmenttypeId 
+                         && t.projectflowId == project.ProjInforId 
                          && t.Sequence == 1 
                          && t.Mark != "Dele")
                 .FirstOrDefaultAsync();
@@ -1818,9 +1819,13 @@ namespace ProjectCycleManage.ViewModel
             // 获取当前登录人ID
             var currentUserId = await GetCurrentUserIdAsync(context);
             
-            // 查询当前登录人的审批顺序
+            // 获取当前用户审批顺序(传入projectflowId以匹配阶段)
+            var sequence = await GetCurrentUserSequenceAsync(context, project.equipmenttypeId, currentUserId, project.ProjInforId);
+            
+            // 查询当前登录人的审批顺序(必须同时匹配阶段和未删除)
             var currentApprover = await context.TypeApprFlowPersSeqTable
                 .Where(t => t.equipmenttypeId == project.equipmenttypeId 
+                         && t.projectflowId == project.ProjInforId 
                          && t.ReviewerPeopleId == currentUserId 
                          && t.Mark != "Dele")
                 .FirstOrDefaultAsync();
@@ -1830,10 +1835,11 @@ namespace ProjectCycleManage.ViewModel
                 return "PASS"; // 第一顺位没有前序审批
             }
             
-            // 查询前一顺位审批人
+            // 查询前一顺位审批人(必须同时匹配阶段和未删除)
             var previousSequence = currentApprover.Sequence - 1;
             var previousApprover = await context.TypeApprFlowPersSeqTable
                 .Where(t => t.equipmenttypeId == project.equipmenttypeId 
+                         && t.projectflowId == project.ProjInforId 
                          && t.Sequence == previousSequence 
                          && t.Mark != "Dele")
                 .FirstOrDefaultAsync();
@@ -1871,8 +1877,8 @@ namespace ProjectCycleManage.ViewModel
             // 获取当前登录人ID
             var currentUserId = await GetCurrentUserIdAsync(context);
             
-            // 获取当前用户审批顺序
-            var sequence = await GetCurrentUserSequenceAsync(context, project.equipmenttypeId, currentUserId);
+            // 获取当前用户审批顺序(传入projectflowId以匹配阶段)
+            var sequence = await GetCurrentUserSequenceAsync(context, project.equipmenttypeId, currentUserId, project.ProjInforId);
             
             // 获取数据库总条数+1作为InspectionRecordId
             var totalRecords = await context.InspectionRecord.CountAsync();
@@ -1893,8 +1899,8 @@ namespace ProjectCycleManage.ViewModel
             
             context.InspectionRecord.Add(inspectionRecord);
             
-            // 检查当前登录人员是否为最后一位审批人
-            var isLastApprover = await IsLastApproverAsync(context, project.equipmenttypeId, currentUserId);
+            // 检查当前登录人员是否为最后一位审批人(传入projectflowId以匹配阶段)
+            var isLastApprover = await IsLastApproverAsync(context, project.equipmenttypeId, currentUserId, project.ProjInforId);
             
             // 如果是最后一位审批人且ProjInforId不等于111，则将ProjInforId加1
             if (isLastApprover && project.ProjInforId.HasValue && project.ProjInforId.Value != 111)
@@ -1980,13 +1986,21 @@ namespace ProjectCycleManage.ViewModel
             await context.SaveChangesAsync();
         }
 
-        private async Task<int> GetCurrentUserSequenceAsync(ProjectContext context, int? equipmentTypeId, int userId)
+        private async Task<int> GetCurrentUserSequenceAsync(ProjectContext context, int? equipmentTypeId, int userId, int? projectflowId = null)
         {
-            var approver = await context.TypeApprFlowPersSeqTable
+            // 如果没有传入projectflowId,则只按设备类型查询(兼容旧调用)
+            var query = context.TypeApprFlowPersSeqTable
                 .Where(t => t.equipmenttypeId == equipmentTypeId 
                          && t.ReviewerPeopleId == userId 
-                         && t.Mark != "Dele")
-                .FirstOrDefaultAsync();
+                         && t.Mark != "Dele");
+            
+            // 如果传入了projectflowId,则同时过滤阶段
+            if (projectflowId.HasValue)
+            {
+                query = query.Where(t => t.projectflowId == projectflowId);
+            }
+            
+            var approver = await query.FirstOrDefaultAsync();
             
             return approver?.Sequence ?? 0;
         }
@@ -1994,20 +2008,27 @@ namespace ProjectCycleManage.ViewModel
         /// <summary>
         /// 检查当前登录人员是否为最后一位审批人
         /// </summary>
-        private async Task<bool> IsLastApproverAsync(ProjectContext context, int? equipmentTypeId, int userId)
+        private async Task<bool> IsLastApproverAsync(ProjectContext context, int? equipmentTypeId, int userId, int? projectflowId = null)
         {
-            // 获取当前用户的审批顺序
-            var currentUserSequence = await GetCurrentUserSequenceAsync(context, equipmentTypeId, userId);
+            // 获取当前用户的审批顺序(传入projectflowId以匹配阶段)
+            var currentUserSequence = await GetCurrentUserSequenceAsync(context, equipmentTypeId, userId, projectflowId);
             
             if (currentUserSequence == 0)
             {
                 return false; // 当前用户不是审批人
             }
             
-            // 获取该设备类型的最大审批顺序
-            var maxSequence = await context.TypeApprFlowPersSeqTable
-                .Where(t => t.equipmenttypeId == equipmentTypeId && t.Mark != "Dele")
-                .MaxAsync(t => (int?)t.Sequence);
+            // 获取该设备类型和阶段的最大审批顺序(必须同时匹配阶段和未删除)
+            var query = context.TypeApprFlowPersSeqTable
+                .Where(t => t.equipmenttypeId == equipmentTypeId && t.Mark != "Dele");
+            
+            // 如果传入了projectflowId,则同时过滤阶段
+            if (projectflowId.HasValue)
+            {
+                query = query.Where(t => t.projectflowId == projectflowId);
+            }
+            
+            var maxSequence = await query.MaxAsync(t => (int?)t.Sequence);
             
             return maxSequence.HasValue && currentUserSequence == maxSequence.Value;
         }
@@ -2055,7 +2076,9 @@ namespace ProjectCycleManage.ViewModel
             {
                 _pendingApprovalProjects.Add(projectId);
             }
-            GetProjectsOverviewList();
+            
+            // 在后台异步更新项目列表(不等待完成,使用 _ 丢弃返回值)
+            _ = GetProjectsOverviewList();
             //// 更新UI中的项目标记
             //Application.Current.Dispatcher.BeginInvoke(new Action(() =>
             //{
@@ -2075,7 +2098,7 @@ namespace ProjectCycleManage.ViewModel
         /// </summary>
         public async Task RefreshProjectsListAsync()
         {
-            GetProjectsOverviewList();
+            await GetProjectsOverviewList();
         }
 
 

@@ -12,6 +12,17 @@ namespace ProjectCycleManage.ViewModel
 {
     public partial class SettingVM: ObservableObject
     {
+        /// <summary>
+        /// 登陆人
+        /// </summary>
+        private string _loginpersonname;
+
+        /// <summary>
+        /// 登陆者级别
+        /// </summary>
+        private int _loginpersonnamegrade;
+
+
         #region UIVisibility
 
         [ObservableProperty]
@@ -28,6 +39,9 @@ namespace ProjectCycleManage.ViewModel
 
         [ObservableProperty]
         private Visibility _projectstagevisib = Visibility.Collapsed;
+
+        [ObservableProperty]
+        private Visibility _vis_importhisvisib = Visibility.Collapsed;
 
         #endregion
 
@@ -81,8 +95,22 @@ namespace ProjectCycleManage.ViewModel
             }
         }
 
-        public SettingVM()
+        private ImportHistoryVM _importhistoryvm;
+        public ImportHistoryVM ImportHistoryInforVM
         {
+            get => _importhistoryvm;
+            set
+            {
+                _importhistoryvm = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public SettingVM(int loginpeoplegrade, string loginpeoplename)
+        {
+            _loginpersonname = loginpeoplename;
+            _loginpersonnamegrade = loginpeoplegrade;
+
             Mainareavisilib = Visibility.Visible;
 
             ApprovalVilib = Visibility.Collapsed;
@@ -101,6 +129,7 @@ namespace ProjectCycleManage.ViewModel
             Personalvisib = Visibility.Collapsed;
             Projectstagevisib = Visibility.Collapsed;
             Financialvisib = Visibility.Collapsed;
+            Vis_importhisvisib = Visibility.Collapsed;
             //MessageBox.Show("Amount Click!");
         }
 
@@ -114,6 +143,7 @@ namespace ProjectCycleManage.ViewModel
             Personalvisib = Visibility.Collapsed;
             Projectstagevisib = Visibility.Collapsed;
             ApprovalVilib = Visibility.Collapsed;
+            Vis_importhisvisib = Visibility.Collapsed;
         }
 
 
@@ -127,6 +157,7 @@ namespace ProjectCycleManage.ViewModel
             Financialvisib = Visibility.Collapsed;
             Projectstagevisib = Visibility.Collapsed;
             Mainareavisilib = Visibility.Collapsed;
+            Vis_importhisvisib = Visibility.Collapsed;
         }
 
         [RelayCommand]
@@ -139,9 +170,23 @@ namespace ProjectCycleManage.ViewModel
             Financialvisib = Visibility.Collapsed;
             Personalvisib = Visibility.Collapsed;
             Mainareavisilib = Visibility.Collapsed;
+            Vis_importhisvisib = Visibility.Collapsed;
         }
 
+        [RelayCommand]
+        private void ImportHisView()
+        {
+            Vis_importhisvisib = Visibility.Visible;
+            ImportHistoryInforVM = new ImportHistoryVM(_loginpersonnamegrade, _loginpersonname);
 
+            Projectstagevisib = Visibility.Collapsed;
+            ApprovalVilib = Visibility.Collapsed;
+            Financialvisib = Visibility.Collapsed;
+            Personalvisib = Visibility.Collapsed;
+            Mainareavisilib = Visibility.Collapsed;
+
+            
+        }
 
         #endregion
 

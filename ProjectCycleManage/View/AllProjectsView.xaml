@@ -1,0 +1,385 @@
+﻿<UserControl x:Class="ProjectCycleManage.View.AllProjectsView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:vm="clr-namespace:ProjectCycleManage.ViewModel"
+             xmlns:utilities="clr-namespace:ProjectCycleManage.Utilities"
+             xmlns:local="clr-namespace:ProjectCycleManage.View"
+             d:DataContext="{d:DesignInstance Type=vm:AllProjectsVM}"
+             mc:Ignorable="d" 
+             d:DesignHeight="900" 
+             d:DesignWidth="1625">
+    <UserControl.Resources>
+        <!-- 转换器 -->
+        <utilities:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
+        <utilities:NumericFormatConverter x:Key="NumericFormatConverter"/>
+        <utilities:ProgressColorConverter x:Key="ProgressColorConverter"/>
+        <utilities:StatusBackgroundConverter x:Key="StatusBackgroundConverter"/>
+        <utilities:StatusForegroundConverter x:Key="StatusForegroundConverter"/>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+
+        <!-- 搜索框样式 -->
+        <Style x:Key="SearchBoxStyle" TargetType="TextBox">
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="BorderBrush" Value="#E0E0E0"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Padding" Value="35,10,10,10"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="Foreground" Value="#333333"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="TextBox">
+                        <Border x:Name="border"
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="6">
+                            <Grid>
+                                <ScrollViewer x:Name="PART_ContentHost" 
+                                              Padding="{TemplateBinding Padding}"
+                                              VerticalAlignment="Center"/>
+                                <TextBlock Text="搜索项目名称、编号..."
+                                           Foreground="#AAAAAA"
+                                           Margin="35,0,0,0"
+                                           VerticalAlignment="Center"
+                                           IsHitTestVisible="False">
+                                    <TextBlock.Style>
+                                        <Style TargetType="TextBlock">
+                                            <Setter Property="Visibility" Value="Collapsed"/>
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding Text, RelativeSource={RelativeSource TemplatedParent}}" Value="">
+                                                    <Setter Property="Visibility" Value="Visible"/>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </TextBlock.Style>
+                                </TextBlock>
+                            </Grid>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="border" Property="BorderBrush" Value="#2D5BD5"/>
+                            </Trigger>
+                            <Trigger Property="IsFocused" Value="True">
+                                <Setter TargetName="border" Property="BorderBrush" Value="#2D5BD5"/>
+                                <Setter TargetName="border" Property="BorderThickness" Value="2"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- 状态标签样式 -->
+        <Style x:Key="StatusBadgeStyle" TargetType="Border">
+            <Setter Property="CornerRadius" Value="10"/>
+            <Setter Property="Padding" Value="8,4"/>
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+        </Style>
+
+        <!-- DataGrid样式 -->
+        <Style x:Key="ProjectDataGridStyle" TargetType="DataGrid">
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="GridLinesVisibility" Value="None"/>
+            <Setter Property="HeadersVisibility" Value="Column"/>
+            <Setter Property="AutoGenerateColumns" Value="False"/>
+            <Setter Property="CanUserAddRows" Value="False"/>
+            <Setter Property="CanUserDeleteRows" Value="False"/>
+            <Setter Property="CanUserReorderColumns" Value="False"/>
+            <Setter Property="CanUserResizeRows" Value="False"/>
+            <Setter Property="SelectionMode" Value="Single"/>
+            <Setter Property="IsReadOnly" Value="True"/>
+            <Setter Property="RowHeight" Value="50"/>
+            <Setter Property="FontSize" Value="14"/>
+        </Style>
+
+        <!-- DataGrid列头样式 -->
+        <Style x:Key="ColumnHeaderStyle" TargetType="DataGridColumnHeader">
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="Foreground" Value="#666666"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="Padding" Value="15,12"/>
+            <Setter Property="BorderThickness" Value="0,0,0,1"/>
+            <Setter Property="BorderBrush" Value="#E0E0E0"/>
+            <Setter Property="HorizontalContentAlignment" Value="Left"/>
+        </Style>
+
+        <!-- DataGrid行样式 -->
+        <Style x:Key="RowStyle" TargetType="DataGridRow">
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="BorderThickness" Value="0,0,0,1"/>
+            <Setter Property="BorderBrush" Value="#F0F0F0"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#F9F9F9"/>
+                </Trigger>
+                <Trigger Property="IsSelected" Value="True">
+                    <Setter Property="Background" Value="#F0F7FF"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <!-- DataGrid单元格样式 -->
+        <Style x:Key="CellStyle" TargetType="DataGridCell">
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Padding" Value="15,0"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="DataGridCell">
+                        <Border Background="{TemplateBinding Background}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                Padding="{TemplateBinding Padding}">
+                            <ContentPresenter VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- 进度条样式 -->
+        <Style x:Key="ProgressBarStyle" TargetType="ProgressBar">
+            <Setter Property="Height" Value="6"/>
+            <Setter Property="Background" Value="#E0E0E0"/>
+            <Setter Property="Foreground" Value="#4CAF50"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ProgressBar">
+                        <Border Background="{TemplateBinding Background}"
+                                CornerRadius="3">
+                            <Grid>
+                                <Border x:Name="PART_Track"/>
+                                <Border x:Name="PART_Indicator"
+                                        Background="{TemplateBinding Foreground}"
+                                        HorizontalAlignment="Left"
+                                        CornerRadius="3"/>
+                            </Grid>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </UserControl.Resources>
+
+    <Grid Background="#F5F7FA">
+        <Grid Margin="20">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="65"/>
+                <RowDefinition Height="80"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <!-- 页面标题 -->
+            <Border BorderThickness="0,0,0,1"
+                    BorderBrush="#BBBBBB">
+                <StackPanel Orientation="Horizontal">
+                    <Image Source="/Resources/Images/总览.png" 
+                           Height="25"/>
+                    <TextBlock Text=" 项目详细数据"
+                               VerticalAlignment="Center"
+                               FontSize="25"
+                               FontWeight="Bold"
+                               Foreground="#2D5BD5"/>
+                </StackPanel>
+            </Border>
+
+            <!-- 搜索和筛选区域 -->
+            <Grid Grid.Row="1" Margin="0,15,0,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="400"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <!-- 搜索框 -->
+                <Grid>
+                    <TextBox Style="{StaticResource SearchBoxStyle}"
+                             Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}"
+                             Height="40"/>
+                    <Image Source="/Resources/Images/搜索.png"
+                           Width="18"
+                           Height="18"
+                           Margin="10,0,0,0"
+                           HorizontalAlignment="Left"
+                           VerticalAlignment="Center"
+                           IsHitTestVisible="False"/>
+                </Grid>
+
+                <!-- 筛选按钮组 -->
+                <StackPanel Grid.Column="2" 
+                            Orientation="Horizontal" 
+                            HorizontalAlignment="Right">
+                    <ComboBox Width="150" 
+                              Height="40"
+                              VerticalContentAlignment="Center"
+                              ItemsSource="{Binding YearList}"
+                              SelectedItem="{Binding SelectedYear}"
+                              FontSize="14">
+                        <ComboBox.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding}"/>
+                            </DataTemplate>
+                        </ComboBox.ItemTemplate>
+                    </ComboBox>
+
+                    <ComboBox Width="150" 
+                              Height="40"
+                              VerticalContentAlignment="Center"
+                              ItemsSource="{Binding PersonList}"
+                              DisplayMemberPath="Name"
+                              SelectedItem="{Binding SelectedPerson}"
+                              FontSize="14"/>
+
+                    <Button Content="导出数据"
+                            Width="100"
+                            Height="40"
+                            Background="#2D5BD5"
+                            Foreground="White"
+                            BorderThickness="0"
+                            FontSize="14"
+                            FontWeight="Medium"
+                            Cursor="Hand"
+                            Command="{Binding ExportDataCommand}">
+                        <Button.Template>
+                            <ControlTemplate TargetType="Button">
+                                <Border Background="{TemplateBinding Background}"
+                                        CornerRadius="6"
+                                        Padding="15,0">
+                                    <ContentPresenter HorizontalAlignment="Center"
+                                                      VerticalAlignment="Center"/>
+                                </Border>
+                            </ControlTemplate>
+                        </Button.Template>
+                    </Button>
+                </StackPanel>
+            </Grid>
+
+            <!-- 项目数据表格 -->
+            <Border Grid.Row="2"
+                    Background="White"
+                    CornerRadius="10"
+                    Padding="0"
+                    Margin="0,10,0,0">
+                <Border.Effect>
+                    <DropShadowEffect BlurRadius="10" 
+                                      ShadowDepth="2" 
+                                      Opacity="0.05"/>
+                </Border.Effect>
+
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <!-- 表格标题 -->
+                    <Border BorderThickness="0,0,0,1"
+                            BorderBrush="#E0E0E0"
+                            Padding="25,15">
+                        <TextBlock Text="项目详细数据"
+                                   FontSize="18"
+                                   FontWeight="SemiBold"
+                                   Foreground="#2D5BD5"/>
+                    </Border>
+
+                    <!-- 数据表格 -->
+                    <DataGrid Grid.Row="1"
+                              Style="{StaticResource ProjectDataGridStyle}"
+                              ColumnHeaderStyle="{StaticResource ColumnHeaderStyle}"
+                              RowStyle="{StaticResource RowStyle}"
+                              CellStyle="{StaticResource CellStyle}"
+                              ItemsSource="{Binding ProjectList}"
+                              SelectedItem="{Binding SelectedProject}"
+                              MouseDoubleClick="DataGrid_MouseDoubleClick">
+                        
+                        <!-- 项目名称 -->
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="项目名称" 
+                                                Width="2*"
+                                                Binding="{Binding Projectname}"/>
+
+                            <!-- 负责人 -->
+                            <DataGridTextColumn Header="负责人" 
+                                                Width="1*"
+                                                Binding="{Binding ManagerName}"/>
+
+                            <!-- 年份 -->
+                            <DataGridTextColumn Header="年份" 
+                                                Width="0.8*"
+                                                Binding="{Binding Projectyear}"/>
+
+                            <!-- 预算金额 -->
+                            <DataGridTemplateColumn Header="预算金额" Width="1.2*">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding Annualbudget, StringFormat=¥{0:N0}万}"
+                                                   Foreground="#2196F3"
+                                                   FontWeight="Medium"/>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+
+                            <!-- 实际支出 -->
+                            <DataGridTemplateColumn Header="实际支出" Width="1.2*">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding ActualExpense, StringFormat=¥{0:N0}万}"
+                                                   Foreground="#4CAF50"
+                                                   FontWeight="Medium"/>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+
+                            <!-- 进度 -->
+                            <DataGridTemplateColumn Header="进度" Width="1.5*">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="40"/>
+                                                <ColumnDefinition Width="*"/>
+                                            </Grid.ColumnDefinitions>
+                                            
+                                            <TextBlock Text="{Binding Progress, StringFormat={}{0}%}"
+                                                       VerticalAlignment="Center"
+                                                       Margin="0,0,10,0"/>
+                                            
+                                            <ProgressBar Grid.Column="1"
+                                                         Style="{StaticResource ProgressBarStyle}"
+                                                         Value="{Binding Progress}"
+                                                         Maximum="100"
+                                                         VerticalAlignment="Center">
+                                                <ProgressBar.Foreground>
+                                                    <SolidColorBrush Color="{Binding Progress, Converter={StaticResource ProgressColorConverter}}"/>
+                                                </ProgressBar.Foreground>
+                                            </ProgressBar>
+                                        </Grid>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+
+                            <!-- 健康状况 -->
+                            <DataGridTemplateColumn Header="健康状况" Width="1*">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Border Style="{StaticResource StatusBadgeStyle}"
+                                                Background="{Binding HealthStatus, Converter={StaticResource StatusBackgroundConverter}}">
+                                            <TextBlock Text="{Binding HealthStatus}"
+                                                       Foreground="{Binding HealthStatus, Converter={StaticResource StatusForegroundConverter}}"
+                                                       FontSize="12"
+                                                       FontWeight="Medium"/>
+                                        </Border>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </Grid>
+            </Border>
+        </Grid>
+    </Grid>
+</UserControl>
